@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Patrick Perez - Dev Portfolio</title>
+<meta content="" name="description">
+<meta content="" name="keywords">
+
+<!-- Favicons -->
+<link href="assets/img/favicon.png" rel="icon">
+<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+<!-- Vendor CSS Files -->
+<link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+<link href="assets/vendor/aos/aos.css" rel="stylesheet">
+<link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+<!-- Main CSS File -->
+<link href="assets/css/main.css" rel="stylesheet">
+
+<style>
+  /* ===== HEADER STYLES ===== */
+  .profile-img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    margin-bottom: 30px;
+  }
+
+  .profile-img {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+  }
+
+  .profile-img .static-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .profile-img .gif-overlay {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .profile-img:hover .static-img { opacity: 0; }
+  .profile-img:hover .gif-overlay { opacity: 1; }
+
+  .profile-img::after {
+    content: "";
+    position: absolute;
+    top: 63%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(0, 183, 255, 0.8);
+    animation: neonGlow 1.5s infinite linear;
+    pointer-events: none;
+  }
+
+  @keyframes neonGlow {
+    0%   { box-shadow: 0 0 5px rgba(0, 183, 255, 0.5); }
+    50%  { box-shadow: 0 0 20px rgba(0, 183, 255, 1); }
+    100% { box-shadow: 0 0 5px rgba(0, 183, 255, 0.5); }
+  }
+
+  .navmenu { text-align: left; width: 100%; padding-left: 0; }
+  .navmenu ul { list-style: none; padding-left: 0; }
+  .navmenu li { text-align: left; margin-bottom: 0; }
+
+  /* ===== NOT FOUND STATE ===== */
+  .project-not-found {
+    text-align: center;
+    padding: 80px 20px;
+    color: #6c757d;
+  }
+  .project-not-found h2 { margin-bottom: 15px; }
+</style>
+</head>
+
+<body class="index-page">
+
+<header id="header" class="header dark-background d-flex flex-column align-items-center text-center">
+  <i class="header-toggle d-xl-none bi bi-list"></i>
+
+  <div class="profile-img-container">
+    <div class="profile-img">
+      <img src="assets/img/my-profile-img.jpg" alt="" class="img-fluid rounded-circle static-img">
+      <img src="assets/img/ez.gif" alt="" class="img-fluid rounded-circle gif-overlay">
+    </div>
+  </div>
+
+  <a href="index.html" class="logo d-flex align-items-center justify-content-center">
+    <h1 class="sitename">Patrick Perez</h1>
+  </a>
+
+  <div class="social-links text-center">
+    <a href="https://www.facebook.com/pat.flores.339" class="facebook"><i class="bi bi-facebook"></i></a>
+    <a href="https://github.com/pat1322" class="github"><i class="bi bi-github"></i></a>
+    <a href="https://www.linkedin.com/in/patrickp2025/" class="linkedin"><i class="bi bi-linkedin"></i></a>
+  </div>
+
+  <nav id="navmenu" class="navmenu">
+    <ul>
+      <li><a href="index.html#hero"><i class="bi bi-house navicon"></i>Home</a></li>
+      <li><a href="index.html#about"><i class="bi bi-person navicon"></i> About</a></li>
+      <li><a href="index.html#services"><i class="bi bi-hdd-stack navicon"></i> Summary of Work</a></li>
+      <li><a href="index.html#resume"><i class="bi bi-file-earmark-text navicon"></i> Professional Journey</a></li>
+      <li><a href="index.html#portfolio"><i class="bi bi-images navicon"></i> Portfolio Showcase</a></li>
+      <li><a href="index.html#contact"><i class="bi bi-envelope navicon"></i> Get In Touch</a></li>
+    </ul>
+  </nav>
+</header>
+
+<main class="main" id="main-content">
+
+  <!-- Page Title -->
+  <div class="page-title dark-background">
+    <div class="container d-lg-flex justify-content-between align-items-center">
+      <h1 id="project-title" class="mb-2 mb-lg-0"></h1>
+      <nav class="breadcrumbs">
+        <ol>
+          <li><a href="index.html">Home</a></li>
+          <li class="current">Portfolio Details</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Portfolio Details Section -->
+  <section id="portfolio-details" class="portfolio-details section">
+    <div class="container" data-aos="fade-up" data-aos-delay="100">
+      <div class="row gy-4" id="project-content">
+        <!-- Populated by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="footer" class="footer position-relative light-background">
+  <div class="container">
+    <div class="credits">
+      Designed by <a href="https://www.linkedin.com/in/patrickp2025/">Patrick Perez</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Scroll Top -->
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Preloader -->
+<div id="preloader"></div>
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+
+<!-- Main JS File -->
+<script src="assets/js/main.js"></script>
+
+<script>
+(function () {
+  const projects = {
+    'bcn-mtp': {
+      title: 'BCN Montjuic Tourist Point Mobile',
+      images: ['app-1.png'],
+      info: [
+        { label: 'Category',     value: 'Mobile App' },
+        { label: 'Client',       value: 'BCN Montjuic Tourist Point' },
+        { label: 'Project date', value: 'September, 2021' },
+        { label: 'Project URL',  value: '<a href="https://drive.google.com/file/d/1UoxvqTrGcKv2HlgPxDfiz-xcVizF1288/view?usp=drive_link">Google Drive</a>' },
+        { label: 'App Preview',  value: '<a href="https://youtu.be/sCn9oxtT-mw">Youtube</a>' }
+      ],
+      description: 'A mobile application designed for BCN Montjuic Tourist Point Inc., helping tourists navigate and access essential services. It enhances the travel experience with an intuitive and user-friendly interface.'
+    },
+    'ecoeye-ai': {
+      title: 'EcoEye AI',
+      images: ['product-1.png', 'ecoeye2.png', 'ecoeye3.png'],
+      info: [
+        { label: 'Category',     value: 'Web App' },
+        { label: 'Project date', value: 'November, 2024' },
+        { label: 'Project URL',  value: '<a href="https://v0-eco-eye-qmp1ffik4pi-uewuwm.vercel.app/">Vercel</a>' }
+      ],
+      description: 'An AI-powered web app that identifies plants and animals using image recognition. Perfect for nature enthusiasts, researchers, and students who want quick and accurate identification.'
+    },
+    'djared-web-design': {
+      title: 'Djared Web Design',
+      images: ['product-3.png', 'jared2.png', 'jared3.png'],
+      info: [
+        { label: 'Category',     value: 'Web design' },
+        { label: 'Client',       value: "D'jared View Construction Corp." },
+        { label: 'Project date', value: 'March, 2021' },
+        { label: 'Project URL',  value: '<a href="https://drive.google.com/drive/folders/1IC_zhnMOyJ_mSy1g6uA_JO_jZ_17UfOu?usp=sharing">Google Drive</a>' }
+      ],
+      description: 'A collaborative community web design project that showcases modern UI/UX trends. It serves as an example of responsive and visually appealing web development.'
+    },
+    'functions-in-python': {
+      title: 'Functions in Python',
+      images: ['branding-3.png'],
+      info: [
+        { label: 'Category',     value: 'Python Programming, Windows Console' },
+        { label: 'Purpose',      value: 'Capstone Project' },
+        { label: 'Project date', value: 'November, 2019' },
+        { label: 'Project URL',  value: '<a href="https://drive.google.com/drive/folders/1cZqQAI4ZKlmZlwM1BvInSyER2uwX5JCX?usp=sharing">Google Drive</a>' }
+      ],
+      description: 'A powerful Python-based calculator designed to compute areas, volumes, and centroids. Ideal for students, engineers, and anyone needing precise mathematical calculations in an easy-to-use program.'
+    },
+    'lotto-ai': {
+      title: 'Lotto AI',
+      images: ['app-3.png', 'lotto2.png'],
+      info: [
+        { label: 'Category',     value: 'Web App, Mobile App, Logic and Algorithms' },
+        { label: 'Project date', value: 'September, 2024' },
+        { label: 'Project URL',  value: '<a href="https://ihn10tvi5hmppp36ailtwpcokwxeqcvu.vercel.app/">Vercel</a>' }
+      ],
+      description: 'A lottery number generator that uses AI-based randomization techniques. Designed to help users generate unique number combinations for various lottery games.'
+    },
+    'olfactory-machine': {
+      title: 'Olfactory Machine for UTI Detection',
+      images: ['branding-1.png', 'gas2.jpg', 'gas3.png', 'gas4.jpg', 'gas5.jpg'],
+      info: [
+        { label: 'Category',        value: 'Micro-Controller, Python Programming, Data Analytics' },
+        { label: 'Purpose',         value: 'Case Study' },
+        { label: 'Project date',    value: 'April, 2022' },
+        { label: 'Project Preview', value: '<a href="https://youtu.be/aTzg8ltQU7M">Youtube</a>' }
+      ],
+      description: 'A smart device that detects urinary tract infections (UTIs) using gas sensors and a Raspberry Pi. Designed to provide an early warning system for better health monitoring.'
+    },
+    'smart-dustbin': {
+      title: 'Smart Dustbin',
+      images: ['branding-2.png'],
+      info: [
+        { label: 'Category',        value: 'Micro-controller, Arduino' },
+        { label: 'Purpose',         value: 'Project for Feedback and Controls' },
+        { label: 'Project date',    value: 'March, 2020' },
+        { label: 'Project Preview', value: '<a href="https://youtu.be/1AseMnCCzK0">Youtube</a>' }
+      ],
+      description: 'An Arduino-powered smart dustbin that opens automatically when detecting movement. Helps promote hygiene and reduces contact with waste.'
+    },
+    'super-mega-scatter': {
+      title: 'Super Mega Scatter',
+      images: ['app-2.png'],
+      info: [
+        { label: 'Category',     value: 'Web App, Mobile App' },
+        { label: 'Project date', value: 'October, 2024' },
+        { label: 'Project URL',  value: '<a href="https://v0-super-mega-scatter-3bozojlggdy-yqryu7.vercel.app/">Vercel</a>' }
+      ],
+      description: 'A fun and engaging mobile game designed for casual entertainment. It features dynamic gameplay and vibrant visuals to keep players entertained.'
+    },
+    'titan-trade': {
+      title: 'Titan Trade',
+      images: ['product-2.png', 'drop2.png', 'drop3.png'],
+      info: [
+        { label: 'Category',     value: 'Web Design, Web App' },
+        { label: 'Client',       value: 'Personal Use' },
+        { label: 'Project date', value: 'December, 2024' },
+        { label: 'Project URL',  value: '<a href="https://fwjs9ubxpkzkbbnym770vi0tzyvssc8o.vercel.app/">Vercel</a>' }
+      ],
+      description: 'A personal dropshipping website that automates product listing and order management. Ideal for entrepreneurs looking to start an online business with minimal hassle.'
+    }
+  };
+
+  function getProjectId() {
+    return new URLSearchParams(window.location.search).get('project');
+  }
+
+  function buildSlides(images) {
+    return images.map(function (img) {
+      return '<div class="swiper-slide"><img src="assets/img/portfolio/' + img + '" alt=""></div>';
+    }).join('\n');
+  }
+
+  function buildInfoList(info) {
+    return info.map(function (item) {
+      return '<li><strong>' + item.label + '</strong>: ' + item.value + '</li>';
+    }).join('\n');
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var id = getProjectId();
+    var project = id ? projects[id] : null;
+
+    if (!project) {
+      document.getElementById('project-title').textContent = 'Project Not Found';
+      document.getElementById('project-content').innerHTML =
+        '<div class="project-not-found col-12">' +
+        '<h2>Project not found</h2>' +
+        '<p><a href="index.html#portfolio">Back to Portfolio</a></p>' +
+        '</div>';
+      return;
+    }
+
+    document.title = project.title + ' - Patrick Perez';
+    document.getElementById('project-title').textContent = project.title;
+
+    document.getElementById('project-content').innerHTML =
+      '<div class="col-lg-8">' +
+        '<div class="portfolio-details-slider swiper init-swiper">' +
+          '<script type="application/json" class="swiper-config">' +
+            '{"loop":true,"speed":600,"autoplay":{"delay":5000},"slidesPerView":"auto","pagination":{"el":".swiper-pagination","type":"bullets","clickable":true}}' +
+          '<\/script>' +
+          '<div class="swiper-wrapper align-items-center">' +
+            buildSlides(project.images) +
+          '</div>' +
+          '<div class="swiper-pagination"></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="col-lg-4">' +
+        '<div class="portfolio-info" data-aos="fade-up" data-aos-delay="200">' +
+          '<h3>Project information</h3>' +
+          '<ul>' + buildInfoList(project.info) + '</ul>' +
+        '</div>' +
+        '<div class="portfolio-description" data-aos="fade-up" data-aos-delay="300">' +
+          '<h2>' + project.title + '</h2>' +
+          '<p>' + project.description + '</p>' +
+        '</div>' +
+      '</div>';
+  });
+})();
+</script>
+
+</body>
+</html>
