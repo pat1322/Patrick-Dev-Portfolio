@@ -4,3 +4,16 @@
 
 # Claude Code
 .claude/
+
+# Node.js
+node_modules/
+
+# Runtime data (seeded from portfolio.json, not source controlled)
+data/
+
+# Uploads (user-generated content)
+public/uploads/
+
+# Environment variables
+.env
+.env.local

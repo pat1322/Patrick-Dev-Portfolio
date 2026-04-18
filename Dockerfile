@@ -1,19 +1,18 @@
-FROM nginx:alpine
+FROM node:20-alpine
 
-# Remove default nginx config
-RUN rm /etc/nginx/conf.d/default.conf
+WORKDIR /app
 
-# Copy custom nginx config (uses PORT_PLACEHOLDER, swapped at runtime)
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Install dependencies first (better layer caching)
+COPY package*.json ./
+RUN npm ci --omit=dev
 
-# Copy site files into nginx web root
-COPY . /usr/share/nginx/html
+# Copy application files
+COPY . .
 
-# Copy and permission the entrypoint script
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-RUN chmod +x /docker-entrypoint.sh
+# Ensure data directory exists
+RUN mkdir -p data
 
-# Railway injects $PORT at runtime; default fallback is 8080
-EXPOSE 8080
+# Railway injects $PORT at runtime
+EXPOSE 3000
 
-ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["node", "server.js"]

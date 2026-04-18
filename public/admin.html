@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Patrick Perez Portfolio</title>
+  <link rel="icon" href="/assets/img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+
+  <!-- ── LOGIN SCREEN ─────────────────────────────────── -->
+  <div id="login-screen">
+    <div class="login-card">
+      <div class="login-logo">PP<span class="dot">.</span></div>
+      <h1 class="login-title">Admin Panel</h1>
+      <p class="login-sub">Enter your password to continue</p>
+      <form id="login-form">
+        <div class="field-group">
+          <label for="login-password">Password</label>
+          <div class="input-wrap">
+            <input type="password" id="login-password" placeholder="Enter password" required autocomplete="current-password">
+            <button type="button" id="toggle-pw" tabindex="-1"><i class="bi bi-eye"></i></button>
+          </div>
+        </div>
+        <div id="login-error" class="form-error hidden"></div>
+        <button type="submit" class="btn-primary w-full" id="login-btn">
+          <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+        </button>
+      </form>
+      <a href="/" class="login-back"><i class="bi bi-arrow-left me-1"></i>Back to portfolio</a>
+    </div>
+  </div>
+
+  <!-- ── DASHBOARD ─────────────────────────────────────── -->
+  <div id="dashboard" class="hidden">
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-logo">PP<span class="dot">.</span></span>
+        <span class="sidebar-title">Admin</span>
+        <button class="sidebar-close" id="sidebar-close"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="#" class="nav-item active" data-tab="profile"><i class="bi bi-person-circle"></i><span>Profile</span></a>
+        <a href="#" class="nav-item" data-tab="skills"><i class="bi bi-code-square"></i><span>Skills</span></a>
+        <a href="#" class="nav-item" data-tab="experience"><i class="bi bi-briefcase"></i><span>Experience</span></a>
+        <a href="#" class="nav-item" data-tab="education"><i class="bi bi-mortarboard"></i><span>Education</span></a>
+        <a href="#" class="nav-item" data-tab="projects"><i class="bi bi-grid"></i><span>Projects</span></a>
+        <a href="#" class="nav-item" data-tab="services"><i class="bi bi-stars"></i><span>Services</span></a>
+      </nav>
+      <div class="sidebar-footer">
+        <a href="/" target="_blank" class="nav-item"><i class="bi bi-eye"></i><span>View Site</span></a>
+        <button class="nav-item logout-btn" id="logout-btn"><i class="bi bi-box-arrow-right"></i><span>Logout</span></button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <header class="top-bar">
+        <button class="menu-toggle" id="menu-toggle"><i class="bi bi-list"></i></button>
+        <h2 class="tab-heading" id="tab-heading">Profile</h2>
+        <div class="top-bar-actions">
+          <span class="save-indicator hidden" id="save-indicator"><i class="bi bi-check-circle-fill"></i> Saved</span>
+        </div>
+      </header>
+
+      <div class="content-area">
+
+        <!-- ── PROFILE TAB ────────────────────────── -->
+        <section class="tab-panel active" id="tab-profile">
+          <div class="panel-grid">
+            <div class="card">
+              <h3 class="card-title">Basic Info</h3>
+              <div class="form-row">
+                <div class="field-group"><label>Full Name</label><input type="text" id="p-name" placeholder="Your name"></div>
+                <div class="field-group"><label>Title</label><input type="text" id="p-title" placeholder="Software Engineer"></div>
+              </div>
+              <div class="field-group"><label>Tagline</label><input type="text" id="p-tagline" placeholder="Building efficient, scalable apps"></div>
+              <div class="field-group"><label>Bio</label><textarea id="p-bio" rows="4" placeholder="Write a short bio..."></textarea></div>
+              <div class="form-row">
+                <div class="field-group"><label>Location</label><input type="text" id="p-location" placeholder="City, Country"></div>
+                <div class="field-group"><label>Email</label><input type="email" id="p-email" placeholder="you@example.com"></div>
+              </div>
+              <div class="form-row">
+                <div class="field-group"><label>Website</label><input type="text" id="p-website" placeholder="yoursite.com"></div>
+                <div class="field-group"><label>Resume URL</label><input type="url" id="p-resume" placeholder="https://..."></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3 class="card-title">Social Links</h3>
+              <div class="field-group"><label><i class="bi bi-github me-1"></i>GitHub</label><input type="url" id="p-github" placeholder="https://github.com/..."></div>
+              <div class="field-group"><label><i class="bi bi-linkedin me-1"></i>LinkedIn</label><input type="url" id="p-linkedin" placeholder="https://linkedin.com/in/..."></div>
+              <div class="field-group"><label><i class="bi bi-facebook me-1"></i>Facebook</label><input type="url" id="p-facebook" placeholder="https://facebook.com/..."></div>
+              <div class="field-group"><label><i class="bi bi-twitter-x me-1"></i>Twitter / X</label><input type="url" id="p-twitter" placeholder="https://twitter.com/..."></div>
+              <div class="field-group"><label><i class="bi bi-instagram me-1"></i>Instagram</label><input type="url" id="p-instagram" placeholder="https://instagram.com/..."></div>
+            </div>
+
+            <div class="card">
+              <h3 class="card-title">Profile Images</h3>
+              <div class="image-upload-row">
+                <div class="image-upload-block">
+                  <p class="upload-label">Static Photo</p>
+                  <div class="image-preview-wrap">
+                    <img id="preview-static" src="/assets/img/my-profile-img.jpg" alt="Static" class="image-preview">
+                  </div>
+                  <input type="file" id="upload-static" accept="image/*" class="hidden">
+                  <button class="btn-outline" onclick="document.getElementById('upload-static').click()">
+                    <i class="bi bi-upload me-1"></i>Upload Photo
+                  </button>
+                  <div class="field-group mt-2"><label>Or paste URL</label><input type="text" id="p-profile-image" placeholder="/assets/img/my-profile-img.jpg"></div>
+                </div>
+                <div class="image-upload-block">
+                  <p class="upload-label">GIF / Animated</p>
+                  <div class="image-preview-wrap">
+                    <img id="preview-gif" src="/assets/img/ez.gif" alt="GIF" class="image-preview">
+                  </div>
+                  <input type="file" id="upload-gif" accept="image/*" class="hidden">
+                  <button class="btn-outline" onclick="document.getElementById('upload-gif').click()">
+                    <i class="bi bi-upload me-1"></i>Upload GIF
+                  </button>
+                  <div class="field-group mt-2"><label>Or paste URL</label><input type="text" id="p-profile-gif" placeholder="/assets/img/ez.gif"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <h3 class="card-title">Typed Roles</h3>
+              <p class="card-hint">Comma-separated roles displayed in the hero typing animation.</p>
+              <div class="field-group"><input type="text" id="p-typed-roles" placeholder="Software Engineer, Full Stack Developer, Backend Developer"></div>
+            </div>
+          </div>
+          <div class="sticky-save">
+            <button class="btn-primary" id="save-profile"><i class="bi bi-floppy me-2"></i>Save Profile</button>
+          </div>
+        </section>
+
+        <!-- ── SKILLS TAB ─────────────────────────── -->
+        <section class="tab-panel hidden" id="tab-skills">
+          <div class="card">
+            <div class="card-top">
+              <h3 class="card-title">Skills & Tools</h3>
+              <button class="btn-primary btn-sm" id="add-skill"><i class="bi bi-plus-lg me-1"></i>Add Skill</button>
+            </div>
+            <p class="card-hint">Icons use devicon CDN URLs. Example: <code>https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg</code></p>
+            <div class="items-list" id="skills-list"></div>
+          </div>
+          <div class="sticky-save">
+            <button class="btn-primary" id="save-skills"><i class="bi bi-floppy me-2"></i>Save Skills</button>
+          </div>
+        </section>
+
+        <!-- ── EXPERIENCE TAB ─────────────────────── -->
+        <section class="tab-panel hidden" id="tab-experience">
+          <div class="card">
+            <div class="card-top">
+              <h3 class="card-title">Work Experience</h3>
+              <button class="btn-primary btn-sm" id="add-exp"><i class="bi bi-plus-lg me-1"></i>Add Entry</button>
+            </div>
+            <div class="items-list" id="experience-list"></div>
+          </div>
+          <div class="sticky-save">
+            <button class="btn-primary" id="save-experience"><i class="bi bi-floppy me-2"></i>Save Experience</button>
+          </div>
+        </section>
+
+        <!-- ── EDUCATION TAB ──────────────────────── -->
+        <section class="tab-panel hidden" id="tab-education">
+          <div class="card">
+            <div class="card-top">
+              <h3 class="card-title">Education</h3>
+              <button class="btn-primary btn-sm" id="add-edu"><i class="bi bi-plus-lg me-1"></i>Add Entry</button>
+            </div>
+            <div class="items-list" id="education-list"></div>
+          </div>
+          <div class="sticky-save">
+            <button class="btn-primary" id="save-education"><i class="bi bi-floppy me-2"></i>Save Education</button>
+          </div>
+        </section>
+
+        <!-- ── PROJECTS TAB ───────────────────────── -->
+        <section class="tab-panel hidden" id="tab-projects">
+          <div class="card">
+            <div class="card-top">
+              <h3 class="card-title">Projects</h3>
+              <button class="btn-primary btn-sm" id="add-project"><i class="bi bi-plus-lg me-1"></i>Add Project</button>
+            </div>
+            <div class="items-list" id="projects-list"></div>
+          </div>
+          <div class="sticky-save">
+            <button class="btn-primary" id="save-projects"><i class="bi bi-floppy me-2"></i>Save Projects</button>
+          </div>
+        </section>
+
+        <!-- ── SERVICES TAB ───────────────────────── -->
+        <section class="tab-panel hidden" id="tab-services">
+          <div class="card">
+            <div class="card-top">
+              <h3 class="card-title">Services</h3>
+              <button class="btn-primary btn-sm" id="add-service"><i class="bi bi-plus-lg me-1"></i>Add Service</button>
+            </div>
+            <p class="card-hint">Icons use Bootstrap Icons class names. Example: <code>bi-code-slash</code></p>
+            <div class="items-list" id="services-list"></div>
+          </div>
+          <div class="sticky-save">
+            <button class="btn-primary" id="save-services"><i class="bi bi-floppy me-2"></i>Save Services</button>
+          </div>
+        </section>
+
+      </div><!-- /content-area -->
+    </main>
+  </div><!-- /dashboard -->
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>

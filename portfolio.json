@@ -1,0 +1,213 @@
+{
+  "name": "Patrick Perez",
+  "title": "Software Engineer",
+  "tagline": "Building efficient, scalable applications",
+  "typedRoles": ["Software Engineer", "Full Stack Developer", "Backend Developer", "Problem Solver"],
+  "bio": "I am a results-driven Software Engineer with expertise in backend development and a strong foundation in C, C++, Python, and Java, as well as frontend technologies like JavaScript, HTML, and CSS. I specialize in building efficient, scalable, and high-performance applications, with experience in databases, system optimization, and problem-solving. I am currently focused on mastering C# to expand my skill set and take on new challenges in software development.",
+  "location": "Baliuag, Bulacan, Philippines",
+  "email": "patrickperez1322@gmail.com",
+  "phone": "",
+  "website": "patrickdev.work",
+  "resumeUrl": "https://drive.google.com/file/d/1tG2S8zHvNl2QLNmngB1pAGla9icp8hxh/view?usp=sharing",
+  "profileImage": "/assets/img/my-profile-img.jpg",
+  "profileGif": "/assets/img/ez.gif",
+  "social": {
+    "facebook": "https://www.facebook.com/pat.flores.339",
+    "github": "https://github.com/pat1322",
+    "linkedin": "https://www.linkedin.com/in/patrickp2025/"
+  },
+  "skills": [
+    { "id": 1, "name": "C",          "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg",                     "category": "Backend" },
+    { "id": 2, "name": "C++",        "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg",     "category": "Backend" },
+    { "id": 3, "name": "Python",     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",           "category": "Backend" },
+    { "id": 4, "name": "Java",       "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg",               "category": "Backend" },
+    { "id": 5, "name": "C#",         "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg",           "category": "Backend" },
+    { "id": 6, "name": "Node.js",    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg",           "category": "Backend" },
+    { "id": 7, "name": "Express.js", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg",         "category": "Backend" },
+    { "id": 8, "name": "JavaScript", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",   "category": "Frontend" },
+    { "id": 9, "name": "HTML5",      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",             "category": "Frontend" },
+    { "id": 10, "name": "CSS3",      "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",               "category": "Frontend" },
+    { "id": 11, "name": "React",     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",             "category": "Frontend" },
+    { "id": 12, "name": "Bootstrap", "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg",     "category": "Frontend" },
+    { "id": 13, "name": "MySQL",     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg",             "category": "Database" },
+    { "id": 14, "name": "MongoDB",   "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg",         "category": "Database" },
+    { "id": 15, "name": "PostgreSQL","icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg",   "category": "Database" },
+    { "id": 16, "name": "Docker",    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg",           "category": "DevOps" },
+    { "id": 17, "name": "Nginx",     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg",             "category": "DevOps" },
+    { "id": 18, "name": "Git",       "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg",                 "category": "DevOps" },
+    { "id": 19, "name": "GitHub",    "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg",           "category": "DevOps" },
+    { "id": 20, "name": "Linux",     "icon": "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg",             "category": "DevOps" }
+  ],
+  "services": [
+    { "icon": "bi-code-slash",  "title": "Backend Development",                  "description": "Building efficient, scalable backend systems using C, C++, Python, Node.js, and SQL databases." },
+    { "icon": "bi-database",    "title": "Database Optimization",                 "description": "Designing and optimizing database structures, improving query performance using Informix SQL, MySQL, and PostgreSQL." },
+    { "icon": "bi-globe",       "title": "Web Development",                       "description": "Creating responsive and dynamic websites using HTML, CSS, JavaScript, and backend integrations." },
+    { "icon": "bi-file-code",   "title": "Software Debugging & Optimization",     "description": "Identifying and fixing bugs, memory leaks, and performance bottlenecks to enhance application stability." },
+    { "icon": "bi-diagram-3",   "title": "System Integration",                    "description": "Integrating APIs, third-party services, and legacy systems into modern applications." },
+    { "icon": "bi-graph-up",    "title": "Algorithm & Data Structure Consulting", "description": "Providing optimized solutions using efficient algorithms and data structures." }
+  ],
+  "experience": [
+    {
+      "id": 1,
+      "title": "Software Engineer | Fullstack Developer",
+      "company": "Asia United Bank",
+      "location": "Manila, Philippines",
+      "period": "Dec 2022 – Present",
+      "description": "Working on critical banking applications and systems to ensure smooth financial operations.",
+      "highlights": [
+        "Developed and maintained backend applications using C and C++ for banking operations and Java for frontend applications.",
+        "Worked on web and batch processing applications.",
+        "Performed database operations using Informix SQL, ensuring efficient data retrieval and updates.",
+        "Debugged and optimized existing applications to improve performance and resolve overflow issues.",
+        "Collaborated with teams to ensure smooth integration of financial systems."
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Mobile App Developer (Internship)",
+      "company": "BCN Montjuic Tourist Point",
+      "location": "Barcelona, Spain",
+      "period": "Aug 2021 – Oct 2021",
+      "description": "Gained international experience developing mobile applications for tourism.",
+      "highlights": [
+        "Developed and maintained internal tools using Java.",
+        "Worked on small-scale web development projects involving JavaScript, HTML, and CSS.",
+        "Led the team on frontend and backend development tasks.",
+        "Collaborated with team on debugging and optimizing the mobile app."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "id": 1,
+      "degree": "Bachelor's Degree in Computer Engineering",
+      "school": "Bulacan State University",
+      "location": "Malolos, Bulacan",
+      "period": "2018 – 2022",
+      "description": "Focused on software development, algorithms, and database management.",
+      "highlights": ["Software Development", "Algorithms", "Database Management", "Computer Networks"]
+    },
+    {
+      "id": 2,
+      "degree": "STEM Graduate",
+      "school": "Baliuag University",
+      "location": "Baliuag, Bulacan",
+      "period": "2016 – 2018",
+      "description": "Emphasized on engineering subjects to pave way for future endeavors.",
+      "highlights": ["Mathematics", "Physics", "Computer Science", "Engineering"]
+    }
+  ],
+  "projects": [
+    {
+      "id": "bcn-mtp",
+      "title": "BCN Montjuic Tourist Point Mobile",
+      "category": "mobapp",
+      "thumbnail": "/assets/img/portfolio/app-1.png",
+      "images": ["app-1.png"],
+      "tags": ["Java", "Android", "Tourism"],
+      "url": "https://drive.google.com/file/d/1UoxvqTrGcKv2HlgPxDfiz-xcVizF1288/view?usp=drive_link",
+      "urlLabel": "Google Drive",
+      "client": "BCN Montjuic Tourist Point",
+      "date": "September, 2021",
+      "description": "A mobile application designed for BCN Montjuic Tourist Point Inc., helping tourists navigate and access essential services. It enhances the travel experience with an intuitive and user-friendly interface."
+    },
+    {
+      "id": "ecoeye-ai",
+      "title": "EcoEye AI",
+      "category": "webapp",
+      "thumbnail": "/assets/img/portfolio/product-1.png",
+      "images": ["product-1.png", "ecoeye2.png", "ecoeye3.png"],
+      "tags": ["Python", "AI", "Web App"],
+      "url": "https://v0-eco-eye-qmp1ffik4pi-uewuwm.vercel.app/",
+      "urlLabel": "Vercel",
+      "date": "November, 2024",
+      "description": "An AI-powered web app that identifies plants and animals using image recognition. Perfect for nature enthusiasts, researchers, and students who want quick and accurate identification."
+    },
+    {
+      "id": "olfactory-machine",
+      "title": "Olfactory Machine for UTI Detection",
+      "category": "iot",
+      "thumbnail": "/assets/img/portfolio/branding-1.png",
+      "images": ["branding-1.png", "gas2.jpg", "gas3.png", "gas4.jpg", "gas5.jpg"],
+      "tags": ["Python", "Raspberry Pi", "IoT"],
+      "url": "https://youtu.be/aTzg8ltQU7M",
+      "urlLabel": "YouTube",
+      "date": "April, 2022",
+      "description": "A smart device that detects urinary tract infections (UTIs) using gas sensors and a Raspberry Pi. Designed to provide an early warning system for better health monitoring."
+    },
+    {
+      "id": "super-mega-scatter",
+      "title": "Super Mega Scatter",
+      "category": "webapp",
+      "thumbnail": "/assets/img/portfolio/app-2.png",
+      "images": ["app-2.png"],
+      "tags": ["Web App", "Mobile App", "Game"],
+      "url": "https://v0-super-mega-scatter-3bozojlggdy-yqryu7.vercel.app/",
+      "urlLabel": "Vercel",
+      "date": "October, 2024",
+      "description": "A fun and engaging mobile game designed for casual entertainment. It features dynamic gameplay and vibrant visuals to keep players entertained."
+    },
+    {
+      "id": "titan-trade",
+      "title": "Titan Trade",
+      "category": "webapp",
+      "thumbnail": "/assets/img/portfolio/product-2.png",
+      "images": ["product-2.png", "drop2.png", "drop3.png"],
+      "tags": ["Web Design", "Web App", "E-commerce"],
+      "url": "https://fwjs9ubxpkzkbbnym770vi0tzyvssc8o.vercel.app/",
+      "urlLabel": "Vercel",
+      "client": "Personal Use",
+      "date": "December, 2024",
+      "description": "A personal dropshipping website that automates product listing and order management. Ideal for entrepreneurs looking to start an online business with minimal hassle."
+    },
+    {
+      "id": "smart-dustbin",
+      "title": "Smart Dustbin",
+      "category": "iot",
+      "thumbnail": "/assets/img/portfolio/branding-2.png",
+      "images": ["branding-2.png"],
+      "tags": ["Arduino", "IoT", "Hardware"],
+      "url": "https://youtu.be/1AseMnCCzK0",
+      "urlLabel": "YouTube",
+      "date": "March, 2020",
+      "description": "An Arduino-powered smart dustbin that opens automatically when detecting movement. Helps promote hygiene and reduces contact with waste."
+    },
+    {
+      "id": "lotto-ai",
+      "title": "Lotto AI",
+      "category": "webapp",
+      "thumbnail": "/assets/img/portfolio/app-3.png",
+      "images": ["app-3.png", "lotto2.png"],
+      "tags": ["AI", "Web App", "Algorithms"],
+      "url": "https://ihn10tvi5hmppp36ailtwpcokwxeqcvu.vercel.app/",
+      "urlLabel": "Vercel",
+      "date": "September, 2024",
+      "description": "A lottery number generator that uses AI-based randomization techniques. Designed to help users generate unique number combinations for various lottery games."
+    },
+    {
+      "id": "djared-web-design",
+      "title": "Djared Web Design",
+      "category": "webapp",
+      "thumbnail": "/assets/img/portfolio/product-3.png",
+      "images": ["product-3.png", "jared2.png", "jared3.png"],
+      "tags": ["Web Design", "UI/UX"],
+      "url": "https://drive.google.com/drive/folders/1IC_zhnMOyJ_mSy1g6uA_JO_jZ_17UfOu?usp=sharing",
+      "urlLabel": "Google Drive",
+      "client": "D'jared View Construction Corp.",
+      "date": "March, 2021",
+      "description": "A collaborative community web design project that showcases modern UI/UX trends. It serves as an example of responsive and visually appealing web development."
+    },
+    {
+      "id": "functions-in-python",
+      "title": "Functions in Python",
+      "category": "iot",
+      "thumbnail": "/assets/img/portfolio/branding-3.png",
+      "images": ["branding-3.png"],
+      "tags": ["Python", "Console App", "Algorithms"],
+      "url": "https://drive.google.com/drive/folders/1cZqQAI4ZKlmZlwM1BvInSyER2uwX5JCX?usp=sharing",
+      "urlLabel": "Google Drive",
+      "date": "November, 2019",
+      "description": "A powerful Python-based calculator designed to compute areas, volumes, and centroids. Ideal for students, engineers, and anyone needing precise mathematical calculations."
+    }
+  ]
+}
