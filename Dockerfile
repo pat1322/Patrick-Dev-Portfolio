@@ -1,16 +1,19 @@
-# Stage 1: build image (copy files)
 FROM nginx:alpine
 
 # Remove default nginx config
 RUN rm /etc/nginx/conf.d/default.conf
 
-# Copy custom nginx config
+# Copy custom nginx config (uses PORT_PLACEHOLDER, swapped at runtime)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# Copy all site files into nginx's web root
+# Copy site files into nginx web root
 COPY . /usr/share/nginx/html
 
-# Railway uses port 8080 by default
+# Copy and permission the entrypoint script
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+# Railway injects $PORT at runtime; default fallback is 8080
 EXPOSE 8080
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["/docker-entrypoint.sh"]
