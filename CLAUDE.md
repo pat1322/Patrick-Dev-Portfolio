@@ -37,7 +37,14 @@ These were deleted from disk and references cleaned up:
 
 ## Deployment
 
-Push to `main` on `pat1322/Patrick-Dev-Portfolio` — GitHub Pages serves directly from the root.
+Hosted on **Railway** at **patrickdev.work**. Push to `main` on `pat1322/Patrick-Dev-Portfolio` — Railway auto-redeploys via the Dockerfile.
+
+- `Dockerfile` — nginx:alpine image, copies site files, listens on `$PORT`
+- `nginx.conf` — uses `PORT_PLACEHOLDER`, swapped at runtime by `docker-entrypoint.sh`
+- `docker-entrypoint.sh` — runs `sed` to replace `PORT_PLACEHOLDER` with `$PORT`, then starts nginx
+- `railway.json` — tells Railway to use the Dockerfile builder
+
+SSL is handled automatically by Railway (Let's Encrypt). Do not configure SSL inside nginx.
 
 ## Coding Conventions
 

@@ -37,6 +37,7 @@ Please **do not** open PRs that change personal content (project descriptions, r
 ## Reporting Issues
 
 Open a [GitHub Issue](https://github.com/pat1322/Patrick-Dev-Portfolio/issues) and include:
+
 - What you expected to happen
 - What actually happened
 - Browser and OS version

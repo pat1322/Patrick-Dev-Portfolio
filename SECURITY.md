@@ -8,6 +8,7 @@ This is a static personal portfolio website. There is no backend, no database, a
 |-----------|--------|
 | Static HTML/CSS/JS | Maintained |
 | EmailJS contact form | Maintained |
+| Railway / nginx deployment | Maintained |
 
 ## Reporting a Vulnerability
 
@@ -28,8 +29,10 @@ The following are in scope:
 - Exposed secrets or API keys in the codebase
 - Cross-site scripting (XSS) vulnerabilities
 - Malicious or compromised third-party vendor scripts in `assets/vendor/`
+- Misconfigured nginx security headers
 
 The following are out of scope:
-- Issues with GitHub Pages infrastructure
+- Issues with Railway infrastructure
+- Issues with the `patrickdev.work` registrar or DNS provider
 - Social engineering attacks
 - Denial-of-service against the hosting provider

@@ -2,7 +2,7 @@
 
 A personal developer portfolio built with Bootstrap 5, vanilla JavaScript, and custom CSS. Features a cyberpunk/gaming aesthetic with a GTA-mode hero toggle, animated skill rows, timeline resume, filterable portfolio grid, and a contact form powered by EmailJS.
 
-Live site: [pat1322.github.io/Patrick-Dev-Portfolio](https://pat1322.github.io/Patrick-Dev-Portfolio) *(or your current deployment URL)*
+**Live site: [patrickdev.work](https://patrickdev.work)**
 
 ---
 
@@ -25,6 +25,10 @@ Live site: [pat1322.github.io/Patrick-Dev-Portfolio](https://pat1322.github.io/P
 pat-portfolio/
 ├── index.html                  # Main single-page portfolio
 ├── portfolio-details.html      # Shared project detail template (data-driven)
+├── Dockerfile                  # nginx:alpine image for Railway deployment
+├── nginx.conf                  # nginx server config (reads $PORT at runtime)
+├── docker-entrypoint.sh        # Substitutes $PORT before nginx starts
+├── railway.json                # Railway build/deploy config
 ├── assets/
 │   ├── css/
 │   │   └── main.css            # Main stylesheet
@@ -37,6 +41,7 @@ pat-portfolio/
 │   │   └── gta-theme.mp3       # GTA mode audio
 │   └── vendor/                 # Third-party libraries (Bootstrap, AOS, Swiper, etc.)
 ├── .gitignore
+├── .dockerignore
 ├── CLAUDE.md
 ├── LICENSE
 ├── CONTRIBUTING.md
@@ -98,13 +103,32 @@ Available filter classes: `filter-mobapp`, `filter-webapp`, `filter-windows`
 | Fonts       | Google Fonts (Roboto, Poppins, Raleway, Orbitron, Chakra Petch, Press Start 2P) |
 | Email       | EmailJS                                         |
 | Animation   | GSAP, AOS                                       |
-| Hosting     | GitHub Pages                                    |
+| Hosting     | Railway (Docker + nginx)                        |
+| Domain      | patrickdev.work                                 |
 
 ---
 
-## Local Development
+## Deployment
 
-No build step required — open `index.html` directly in a browser, or serve it with any static file server:
+The site is deployed on **Railway** using Docker + nginx. Every push to `main` triggers an automatic redeploy.
+
+### How it works
+
+1. Railway detects the `Dockerfile` and builds an `nginx:alpine` image
+2. `docker-entrypoint.sh` substitutes Railway's injected `$PORT` into `nginx.conf` at startup
+3. nginx serves the static files with 1-year asset caching and security headers
+
+### Local Docker testing
+
+```bash
+docker build -t portfolio .
+docker run -p 8080:8080 portfolio
+# open http://localhost:8080
+```
+
+### Local dev (no Docker)
+
+No build step required — open `index.html` directly in a browser, or:
 
 ```bash
 # Python
