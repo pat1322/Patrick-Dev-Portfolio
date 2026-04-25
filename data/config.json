@@ -1,11 +1,232 @@
 {
-  "name": "Patrick Perez",
+  "name": "Jose Rizal",
   "title": "Full Stack Developer",
+  "rolelabel": "Full-Stack Engineer",
+  "glitchPhrases": "Backends That Scale,Data-Driven Solutions,Full-Stack Applications,High-Performance Systems",
+  "quote": "Building systems that last — solving problems that matter.",
+  "bio": "I am a results-driven Software Engineer with expertise in backend development and a strong foundation in C, C++, Python, and Java, as well as frontend technologies including JavaScript, HTML, and CSS. I specialize in building efficient, scalable, and high-performance applications, with experience in databases, system optimization, and problem-solving. I am currently focused on mastering C# to expand my skill set and take on new challenges in software development.",
+  "fullname": "Patrick Flores Perez",
+  "birthday": "January 13, 2000",
+  "address": "97B Purok Masagana, Pinagbarilan, Baliuag, Bulacan, Philippines",
+  "nationality": "Filipino",
+  "religion": "Catholic",
+  "languages": "English & Filipino",
+  "hobbies": "Reading · Playing Guitar · Coding",
   "phone": "+63 966 9931 667",
   "email": "patrickperez1322@gmail.com",
   "location": "Baliuag, Bulacan, PH",
   "linkedin": "https://www.linkedin.com/in/patrickp2025/",
   "github": "https://github.com/pat1322",
+  "facebook": "https://www.facebook.com/pat.flores.339",
   "resumeUrl": "https://drive.google.com/file/d/1tG2S8zHvNl2QLNmngB1pAGla9icp8hxh/view?usp=sharing",
-  "recruiterCode": "2025"
+  "youtubeId": "",
+  "profileImg": "assets/img/my-profile-img.jpg",
+  "heroBg": "assets/img/hero-bg.jpg",
+  "gifPath": "assets/img/ez.gif",
+  "highlights": [
+    "Backend Engineering — C · C++ · Python · Java",
+    "Frontend Development — JavaScript · HTML · CSS",
+    "Database Management — Informix SQL · MySQL · PostgreSQL",
+    "Currently Expanding — C# & .NET Ecosystem"
+  ],
+  "services": [
+    {
+      "icon": "bi-code-slash",
+      "title": "Backend Development",
+      "desc": "Building efficient, scalable, and high-performance backend systems using C, C++, Python, and SQL databases.",
+      "tags": "C,C++,Python,SQL"
+    },
+    {
+      "icon": "bi-database",
+      "title": "Database Optimization",
+      "desc": "Designing and optimizing database structures, improving query performance, and ensuring data integrity across platforms.",
+      "tags": "Informix SQL,MySQL,PostgreSQL"
+    },
+    {
+      "icon": "bi-globe",
+      "title": "Web Development",
+      "desc": "Creating responsive and dynamic websites with modern frontend technologies and robust backend integrations.",
+      "tags": "HTML,CSS,JavaScript,Bootstrap"
+    },
+    {
+      "icon": "bi-file-code",
+      "title": "Debugging & Optimization",
+      "desc": "Identifying and resolving software bugs, memory leaks, and performance bottlenecks to enhance stability and speed.",
+      "tags": "C,C++,Java,Profiling"
+    },
+    {
+      "icon": "bi-diagram-3",
+      "title": "System Integration",
+      "desc": "Integrating APIs, third-party services, and legacy systems into modern applications to improve functionality and data flow.",
+      "tags": "REST APIs,Legacy Systems,Middleware"
+    },
+    {
+      "icon": "bi-graph-up",
+      "title": "Algorithms & Data Structures",
+      "desc": "Providing optimized solutions for complex problems using efficient algorithms to enhance software performance.",
+      "tags": "Algorithms,DSA,Performance"
+    }
+  ],
+  "experience": [
+    {
+      "period": "2022 – Present",
+      "role": "Software Engineer · Full-Stack Developer",
+      "company": "Asia United Bank — Manila, Philippines",
+      "bullets": "Developed and maintained backend applications in C and C++ for banking operations; Java for frontend systems\nWeb and batch processing applications with Informix SQL database operations\nDebugged and optimized existing applications — improving performance and resolving overflow issues\nCollaborated cross-functionally to ensure smooth integration of financial systems",
+      "tags": "C,C++,Java,Informix SQL,Web Apps"
+    },
+    {
+      "period": "Aug 2021",
+      "role": "Mobile App Developer · Internship",
+      "company": "BCN Montjuic Tourist Point — Barcelona, Spain",
+      "bullets": "Developed and maintained internal tools using Java\nSmall-scale web development with JavaScript, HTML, and CSS\nLed frontend and backend development tasks within the team",
+      "tags": "Java,JavaScript,HTML,CSS"
+    }
+  ],
+  "education": [
+    {
+      "period": "2018 – 2022",
+      "role": "B.S. Computer Engineering",
+      "school": "Bulacan State University — Malolos, Bulacan",
+      "desc": "Focused on software development, algorithms, and database management. Developed projects involving C, C++, Java, and Python.",
+      "tags": "Software Dev,Algorithms,Databases,Networks"
+    },
+    {
+      "period": "2016 – 2018",
+      "role": "STEM Graduate",
+      "school": "Baliuag University — Baliuag, Bulacan",
+      "desc": "Emphasized engineering subjects to pave way for future endeavors in computer engineering.",
+      "tags": "Mathematics,Physics,Computer Science,Engineering"
+    }
+  ],
+  "projects": [
+    {
+      "id": "bcn-mtp",
+      "num": "01",
+      "cat": "Mobile App",
+      "filter": "filter-mobapp",
+      "title": "BCN MTP Mobile",
+      "desc": "App made for BCN Montjuic Tourist Point Inc",
+      "img": "assets/img/portfolio/app-1.png",
+      "tags": "Java,Android,Tourism"
+    },
+    {
+      "id": "ecoeye-ai",
+      "num": "02",
+      "cat": "Web App",
+      "filter": "filter-webapp",
+      "title": "EcoEye AI",
+      "desc": "AI-powered ecological identifier",
+      "img": "assets/img/portfolio/product-1.png",
+      "tags": "Python,AI,Web"
+    },
+    {
+      "id": "olfactory-machine",
+      "num": "03",
+      "cat": "Hardware",
+      "filter": "filter-windows",
+      "title": "Olfactory UTI Detector",
+      "desc": "IoT health device using Raspberry Pi and gas sensors",
+      "img": "assets/img/portfolio/branding-1.png",
+      "tags": "Raspberry Pi,Python,IoT"
+    },
+    {
+      "id": "super-mega-scatter",
+      "num": "04",
+      "cat": "Mobile App",
+      "filter": "filter-mobapp",
+      "title": "Super Mega Scatter",
+      "desc": "Mobile gaming application",
+      "img": "assets/img/portfolio/app-2.png",
+      "tags": "Java,Android"
+    },
+    {
+      "id": "titan-trade",
+      "num": "05",
+      "cat": "Web App",
+      "filter": "filter-webapp",
+      "title": "Titan Trade",
+      "desc": "Trading web application",
+      "img": "assets/img/portfolio/product-2.png",
+      "tags": "JavaScript,Web"
+    },
+    {
+      "id": "smart-dustbin",
+      "num": "06",
+      "cat": "Hardware",
+      "filter": "filter-windows",
+      "title": "Smart Dustbin",
+      "desc": "IoT smart waste management system",
+      "img": "assets/img/portfolio/branding-2.png",
+      "tags": "Arduino,IoT,C++"
+    },
+    {
+      "id": "lotto-ai",
+      "num": "07",
+      "cat": "Mobile App",
+      "filter": "filter-mobapp",
+      "title": "Lotto AI",
+      "desc": "AI-powered lottery prediction system",
+      "img": "assets/img/portfolio/app-3.png",
+      "tags": "Python,AI,Android"
+    },
+    {
+      "id": "djared-web-design",
+      "num": "08",
+      "cat": "Web App",
+      "filter": "filter-webapp",
+      "title": "Djared Web Design",
+      "desc": "Professional web design project",
+      "img": "assets/img/portfolio/product-3.png",
+      "tags": "HTML,CSS,JavaScript"
+    },
+    {
+      "id": "functions-in-python",
+      "num": "09",
+      "cat": "Hardware",
+      "filter": "filter-windows",
+      "title": "Functions in Python",
+      "desc": "Python utilities and functions library",
+      "img": "assets/img/portfolio/branding-3.png",
+      "tags": "Python,Algorithms"
+    }
+  ],
+  "skills": [
+    {
+      "name": "Java",
+      "pct": 85
+    },
+    {
+      "name": "Python",
+      "pct": 80
+    },
+    {
+      "name": "JavaScript",
+      "pct": 78
+    },
+    {
+      "name": "Android",
+      "pct": 82
+    },
+    {
+      "name": "HTML/CSS",
+      "pct": 88
+    },
+    {
+      "name": "SQL",
+      "pct": 75
+    },
+    {
+      "name": "Raspberry Pi",
+      "pct": 70
+    },
+    {
+      "name": "Arduino",
+      "pct": 65
+    },
+    {
+      "name": "Git",
+      "pct": 80
+    }
+  ]
 }
