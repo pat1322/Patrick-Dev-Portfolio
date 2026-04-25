@@ -19,9 +19,10 @@ Steps to reproduce the behavior:
 What you expected to happen.
 
 **Screenshots**
-If applicable, add screenshots to help explain your problem.
+If applicable, add screenshots.
 
 **Environment**
 - OS: [e.g. Windows 11, macOS 14]
 - Browser: [e.g. Chrome 124, Firefox 125]
 - Device: [e.g. Desktop, iPhone 15]
+- Role at gate: [e.g. Guest, Recruiter, not reached gate]

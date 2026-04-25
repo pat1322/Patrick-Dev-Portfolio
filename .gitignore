@@ -1,6 +1,26 @@
-# macOS metadata
+# macOS
 .DS_Store
 **/.DS_Store
 
+# Windows
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
 # Claude Code
 .claude/
+
+# Local dev server artifacts
+node_modules/
+.cache/
+
+# Secrets (never commit these)
+*.env
+.env.*
+secrets.json

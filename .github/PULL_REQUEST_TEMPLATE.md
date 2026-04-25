@@ -10,13 +10,15 @@
 - [ ] Typo / copy fix
 - [ ] Other (describe below)
 
-## Testing
+## Checklist
 
-- [ ] Tested in Chrome
-- [ ] Tested in Firefox
-- [ ] Tested on mobile (or used DevTools responsive mode)
+- [ ] Tested in Chrome or Firefox
+- [ ] Tested on mobile (or DevTools responsive mode)
 - [ ] No console errors
+- [ ] Does not modify personal content (bio, resume, contact info)
+- [ ] Does not commit `data/config.json` changes
+- [ ] Does not touch `RECRUITER_CODE_PLACEHOLDER` or `ADMIN_PASS_PLACEHOLDER` in `gate.js`
 
 ## Screenshots (if visual change)
 
-<!-- Before / After screenshots -->
+<!-- Before / After -->
