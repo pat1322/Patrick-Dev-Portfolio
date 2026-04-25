@@ -2718,9 +2718,16 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
-<!-- Config loader: reads data/config.json and re-renders all dynamic content -->
+<!-- Config loader: reads pfConfig from localStorage (instant preview) then data/config.json -->
 <script>
 (function () {
+  /* Admin preview: if pfConfig was saved by the admin panel in this browser, apply it immediately */
+  try {
+    var local = JSON.parse(localStorage.getItem('pfConfig') || 'null');
+    if (local) { applyConfig(local); return; }
+  } catch (e) {}
+
+  /* Production: fetch config.json committed to the repo */
   fetch('data/config.json?v=' + Date.now())
     .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
     .then(applyConfig)

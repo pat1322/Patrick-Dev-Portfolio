@@ -178,7 +178,8 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
       <div class="adm-nav-item" data-sec="visibility"><i class="bi bi-eye-slash"></i>Guest Blurring</div>
       <div class="adm-nav-item" data-sec="security"><i class="bi bi-shield-lock"></i>Security</div>
       <div class="adm-nav-group">Deploy</div>
-      <div class="adm-nav-item" data-sec="export"><i class="bi bi-box-arrow-up"></i>Export & Deploy</div>
+      <div class="adm-nav-item" data-sec="publish"><i class="bi bi-cloud-upload"></i>Publish</div>
+      <div class="adm-nav-item" data-sec="export"><i class="bi bi-download"></i>Export JSON</div>
     </nav>
     <div class="adm-sidebar-footer">
       <button class="adm-logout" id="adm-logout"><i class="bi bi-door-open"></i> Log Out</button>
@@ -496,19 +497,53 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
       </div>
     </section>
 
+    <!-- ══ PUBLISH ══ -->
+    <section class="adm-section" id="sec-publish">
+      <div class="adm-section-header">
+        <div class="adm-section-title">Publish</div>
+        <div class="adm-section-desc">Push config directly to GitHub — Railway redeploys automatically in ~30 seconds</div>
+      </div>
+      <div class="adm-note">
+        <strong>How it works:</strong> Clicking "Save &amp; Publish" commits <code>data/config.json</code> to your GitHub repo. Railway detects the push and redeploys automatically.<br><br>
+        <strong>Instant preview:</strong> "Save Changes" (top-right) also updates your local browser preview immediately — no deploy needed to see changes in this browser.
+      </div>
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-key"></i> GitHub Token</div>
+        <div class="adm-field">
+          <label class="adm-label">Personal Access Token</label>
+          <input class="adm-input" id="f-ghtoken" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="max-width:380px">
+          <div class="adm-hint">
+            Generate at <strong style="color:#C9A227">github.com → Settings → Developer settings → Personal access tokens → Fine-grained tokens</strong>.<br>
+            Required permission: <strong style="color:#C9A227">Contents: Read and write</strong> on the <code>pat1322/Patrick-Dev-Portfolio</code> repo.<br>
+            Token is stored only in your browser's localStorage and never sent anywhere except GitHub's API.
+          </div>
+        </div>
+      </div>
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-cloud-upload"></i> Publish to GitHub</div>
+        <div style="display:flex;gap:.8rem;align-items:center;flex-wrap:wrap">
+          <button class="adm-save-btn" id="publish-btn" style="padding:.5rem 1.4rem;font-size:.52rem">
+            <i class="bi bi-cloud-upload"></i> Save &amp; Publish to GitHub
+          </button>
+          <span id="publish-status" style="font-size:.54rem;letter-spacing:.08em;color:#9a8a6e"></span>
+        </div>
+        <div class="adm-hint" style="margin-top:.8rem">
+          Saves all current changes and commits <code>data/config.json</code> to <code>pat1322/Patrick-Dev-Portfolio</code> on <code>main</code>. Railway auto-redeploys.
+        </div>
+      </div>
+    </section>
+
     <!-- ══ EXPORT ══ -->
     <section class="adm-section" id="sec-export">
       <div class="adm-section-header">
-        <div class="adm-section-title">Export & Deploy</div>
-        <div class="adm-section-desc">Download your config and push to GitHub to go live</div>
+        <div class="adm-section-title">Export JSON</div>
+        <div class="adm-section-desc">Manually download config.json for local deployment</div>
       </div>
       <div class="adm-note">
-        <strong>How publishing works:</strong><br>
-        1. Edit content above and click <strong>Save Changes</strong>.<br>
-        2. Click <strong>Download config.json</strong> below.<br>
-        3. Place the file at <code>data/config.json</code> in your local repo.<br>
-        4. <code>git add data/config.json &amp;&amp; git commit -m "Update site config" &amp;&amp; git push</code><br>
-        5. Railway redeploys in ~30 seconds.
+        Use this if you prefer to deploy manually via git:<br>
+        1. Click <strong>Download config.json</strong> below.<br>
+        2. Place the file at <code>data/config.json</code> in your local repo.<br>
+        3. <code>git add data/config.json &amp;&amp; git commit -m "Update config" &amp;&amp; git push</code>
       </div>
       <div class="adm-card">
         <div class="adm-card-title"><i class="bi bi-code-slash"></i> Config Preview</div>
@@ -1011,7 +1046,9 @@ document.getElementById('adm-save-all').addEventListener('click', function() {
     state: state, highlights: highlights, services: services,
     experience: experience, education: education, projects: projects, skills: skills
   }));
-  toast('All changes saved');
+  /* Write pfConfig so index.html reflects changes instantly in this browser */
+  localStorage.setItem('pfConfig', JSON.stringify(buildConfig()));
+  toast('Saved — open index.html to preview changes');
 });
 
 /* ═══════════════════════════════════════════
@@ -1084,6 +1121,71 @@ function toast(msg) {
   t.classList.add('show');
   setTimeout(function(){ t.classList.remove('show'); }, 2800);
 }
+
+/* ═══════════════════════════════════════════
+   GITHUB PUBLISH
+   ═══════════════════════════════════════════ */
+var GH_REPO   = 'pat1322/Patrick-Dev-Portfolio';
+var GH_BRANCH = 'main';
+var GH_FILE   = 'data/config.json';
+
+/* Restore saved token */
+(function() {
+  var tok = localStorage.getItem('pfGithubToken');
+  if (tok) document.getElementById('f-ghtoken').value = tok;
+})();
+
+document.getElementById('publish-btn').addEventListener('click', function() {
+  var token  = document.getElementById('f-ghtoken').value.trim();
+  var status = document.getElementById('publish-status');
+
+  if (!token) {
+    status.style.color = '#c04a4a';
+    status.textContent = 'Enter a GitHub token first.';
+    return;
+  }
+  localStorage.setItem('pfGithubToken', token);
+
+  readForms();
+  var cfg     = buildConfig();
+  var json    = JSON.stringify(cfg, null, 2);
+  var content = btoa(unescape(encodeURIComponent(json)));
+  var apiUrl  = 'https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE;
+  var headers = { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' };
+
+  status.style.color = '#9a8a6e';
+  status.textContent = 'Connecting to GitHub...';
+
+  /* Get current file SHA (required for updates; null for new file) */
+  fetch(apiUrl, { headers: headers })
+    .then(function(r) { return r.status === 404 ? null : r.json(); })
+    .then(function(existing) {
+      status.textContent = 'Committing...';
+      var body = {
+        message: 'Update site config via admin panel',
+        content: content,
+        branch:  GH_BRANCH
+      };
+      if (existing && existing.sha) body.sha = existing.sha;
+      return fetch(apiUrl, { method: 'PUT', headers: headers, body: JSON.stringify(body) });
+    })
+    .then(function(r) {
+      if (!r.ok) return r.json().then(function(e) { throw new Error(e.message || 'GitHub error ' + r.status); });
+      /* Also update localStorage so index.html preview is instant */
+      localStorage.setItem('pfConfig', json);
+      localStorage.setItem('pfAdminState', JSON.stringify({
+        state: state, highlights: highlights, services: services,
+        experience: experience, education: education, projects: projects, skills: skills
+      }));
+      status.style.color = '#C9A227';
+      status.textContent = '✓ Published — Railway is deploying (~30s)';
+      toast('Published to GitHub — Railway deploying');
+    })
+    .catch(function(err) {
+      status.style.color = '#c04a4a';
+      status.textContent = 'Error: ' + err.message;
+    });
+});
 
 /* ── Init ── */
 loadState();
