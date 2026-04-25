@@ -1378,12 +1378,12 @@
       <text x="30" y="45" font-family="Arial,sans-serif" font-size="5.5"
             fill="#C9A227" text-anchor="middle" letter-spacing="2.5" opacity="0.85">DEV</text>
     </svg>
-    <h1 class="sitename">Patrick Perez</h1>
+    <h1 class="sitename" data-cfg="name">Patrick Perez</h1>
   </a>
 
   <div class="social-links text-center">
-    <a href="https://www.facebook.com/pat.flores.339" class="facebook sensitive" data-sensitive="facebook"><i class="bi bi-facebook"></i></a>
-    <a href="https://github.com/pat1322" class="github" data-sensitive="github"><i class="bi bi-github"></i></a>
+    <a href="https://www.facebook.com/pat.flores.339" class="facebook sensitive" data-sensitive="facebook" data-cfg-href="facebook"><i class="bi bi-facebook"></i></a>
+    <a href="https://github.com/pat1322" class="github" data-sensitive="github" data-cfg-href="github"><i class="bi bi-github"></i></a>
     <a href="https://www.linkedin.com/in/patrickp2025/" class="linkedin sensitive" data-sensitive="linkedin" data-cfg-href="linkedin"><i class="bi bi-linkedin"></i></a>
   </div>
 
@@ -1403,7 +1403,7 @@
   <!-- Sidebar hero panel — shown when body.hero-active -->
   <div class="sidebar-hero-panel">
     <div class="shp-divider"></div>
-    <div class="shp-role">Full-Stack Engineer</div>
+    <div class="shp-role" data-cfg="rolelabel">Full-Stack Engineer</div>
     <div class="shp-name">
       <span class="shp-first">Patrick</span>
       <span class="shp-last">Perez</span>
@@ -1412,9 +1412,9 @@
       <span id="shp-glitch"></span>
     </div>
     <div class="shp-social">
-      <a href="https://www.facebook.com/pat.flores.339" target="_blank" title="Facebook" class="sensitive"><i class="bi bi-facebook"></i></a>
-      <a href="https://github.com/pat1322" target="_blank" title="GitHub"><i class="bi bi-github"></i></a>
-      <a href="https://www.linkedin.com/in/patrickp2025/" target="_blank" title="LinkedIn" class="sensitive"><i class="bi bi-linkedin"></i></a>
+      <a href="https://www.facebook.com/pat.flores.339" target="_blank" title="Facebook" class="sensitive" data-cfg-href="facebook"><i class="bi bi-facebook"></i></a>
+      <a href="https://github.com/pat1322" target="_blank" title="GitHub" data-cfg-href="github"><i class="bi bi-github"></i></a>
+      <a href="https://www.linkedin.com/in/patrickp2025/" target="_blank" title="LinkedIn" class="sensitive" data-cfg-href="linkedin"><i class="bi bi-linkedin"></i></a>
     </div>
   </div>
 
@@ -1452,7 +1452,7 @@
       <div class="about-wrapper">
 
         <!-- Italic signature quote -->
-        <p class="about-quote" data-aos="fade-up" data-aos-delay="100">
+        <p class="about-quote" data-cfg="quote" data-aos="fade-up" data-aos-delay="100">
           "Building systems that last — solving problems that matter."
         </p>
 
@@ -1460,7 +1460,7 @@
         <div class="about-rule" data-aos="zoom-in" data-aos-delay="200"></div>
 
         <!-- Bio -->
-        <p class="about-bio" data-aos="fade-up" data-aos-delay="300">
+        <p class="about-bio" data-cfg="bio" data-aos="fade-up" data-aos-delay="300">
           I am a results-driven Software Engineer with expertise in backend development
           and a strong foundation in C, C++, Python, and Java, as well as frontend
           technologies including JavaScript, HTML, and CSS. I specialize in building
@@ -1471,7 +1471,7 @@
         </p>
 
         <!-- Competency list -->
-        <div class="about-highlights">
+        <div class="about-highlights" id="about-highlights">
           <div class="about-highlight" data-aos="fade-right" data-aos-delay="100">
             <span class="about-highlight-dot"></span>
             <span class="about-highlight-text">Backend Engineering &mdash; C &middot; C++ &middot; Python &middot; Java</span>
@@ -1496,7 +1496,7 @@
             <i class="bi bi-person-vcard"></i>
             <span>Personal Information</span>
           </div>
-          <div class="about-info-grid">
+          <div class="about-info-grid" id="about-info-grid">
             <div class="about-info-row">
               <div class="about-info-item">
                 <span class="about-info-label">Full Name</span>
@@ -1660,7 +1660,7 @@
         <p>High-quality software development and technical solutions — specializing in backend engineering, database management, and scalable web systems.</p>
       </div>
 
-      <div class="row gy-4 mt-2">
+      <div class="row gy-4 mt-2" id="services-container">
 
         <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
           <div class="sow-card">
@@ -1747,7 +1747,7 @@
 
       <!-- Experience panel -->
       <div class="pj-panel active" id="pj-exp">
-        <div class="pj-line-wrap">
+        <div class="pj-line-wrap" id="exp-container">
 
           <div class="pj-entry" data-aos="fade-up" data-aos-delay="100">
             <div class="pj-badge">2022<br><span>Now</span></div>
@@ -1794,7 +1794,7 @@
 
       <!-- Education panel -->
       <div class="pj-panel" id="pj-edu">
-        <div class="pj-line-wrap">
+        <div class="pj-line-wrap" id="edu-container">
 
           <div class="pj-entry" data-aos="fade-up" data-aos-delay="100">
             <div class="pj-badge">2018<br><span>2022</span></div>
@@ -1863,7 +1863,7 @@
       </div>
 
       <!-- Grid -->
-      <div class="pf-grid">
+      <div class="pf-grid" id="portfolio-grid">
 
         <div class="pf-wrap filter-mobapp" data-aos="fade-up" data-aos-delay="0">
           <a href="portfolio-details.html?project=bcn-mtp" class="pf-card">
@@ -2228,9 +2228,9 @@
 
         <!-- Social Links -->
         <div class="contact-social-v2">
-          <a href="https://www.facebook.com/pat.flores.339" target="_blank" class="sensitive"><i class="bi bi-facebook"></i> Facebook</a>
-          <a href="https://github.com/pat1322" target="_blank"><i class="bi bi-github"></i> GitHub</a>
-          <a href="https://www.linkedin.com/in/patrickp2025/" target="_blank" class="sensitive"><i class="bi bi-linkedin"></i> LinkedIn</a>
+          <a href="https://www.facebook.com/pat.flores.339" target="_blank" class="sensitive" data-cfg-href="facebook"><i class="bi bi-facebook"></i> Facebook</a>
+          <a href="https://github.com/pat1322" target="_blank" data-cfg-href="github"><i class="bi bi-github"></i> GitHub</a>
+          <a href="https://www.linkedin.com/in/patrickp2025/" target="_blank" class="sensitive" data-cfg-href="linkedin"><i class="bi bi-linkedin"></i> LinkedIn</a>
         </div>
       </div>
 
@@ -2641,7 +2641,6 @@ document.addEventListener("DOMContentLoaded", function() {
 // Portfolio: filter + 3D tilt + spotlight
 document.addEventListener("DOMContentLoaded", function() {
   const pfBtns = document.querySelectorAll('.pf-filter-btn');
-  const pfWraps = document.querySelectorAll('.pf-wrap');
   const pfLine = document.querySelector('.pf-filter-line');
 
   function moveLine(btn) {
@@ -2658,9 +2657,9 @@ document.addEventListener("DOMContentLoaded", function() {
       pfBtns.forEach(b => b.classList.remove('pf-active'));
       this.classList.add('pf-active');
       moveLine(this);
-
       const f = this.dataset.filter;
-      pfWraps.forEach(w => {
+      // Live query — works for both hardcoded and dynamically rendered cards
+      document.querySelectorAll('.pf-wrap').forEach(w => {
         const show = f === '*' || w.classList.contains(f);
         if (show) {
           w.style.display = '';
@@ -2677,22 +2676,24 @@ document.addEventListener("DOMContentLoaded", function() {
   requestAnimationFrame(() => moveLine(document.querySelector('.pf-filter-btn.pf-active')));
 
   // 3D tilt + spotlight
-  document.querySelectorAll('.pf-card').forEach(card => {
-    const spot = card.querySelector('.pf-spot');
-    card.addEventListener('mousemove', e => {
+  // Delegated tilt — works for both hardcoded and dynamically rendered cards
+  const pfGrid = document.getElementById('portfolio-grid');
+  if (pfGrid) {
+    pfGrid.addEventListener('mousemove', e => {
+      const card = e.target.closest('.pf-card');
+      if (!card) return;
+      const spot = card.querySelector('.pf-spot');
       const r = card.getBoundingClientRect();
       const x = (e.clientX - r.left) / r.width;
       const y = (e.clientY - r.top)  / r.height;
-      const rx = (y - 0.5) * -12;
-      const ry = (x - 0.5) *  12;
-      card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(6px)`;
-      if (spot) {
-        spot.style.setProperty('--mx', (x * 100) + '%');
-        spot.style.setProperty('--my', (y * 100) + '%');
-      }
+      card.style.transform = `perspective(800px) rotateX(${((y-0.5)*-12).toFixed(2)}deg) rotateY(${((x-0.5)*12).toFixed(2)}deg) translateZ(6px)`;
+      if (spot) { spot.style.setProperty('--mx', (x*100)+'%'); spot.style.setProperty('--my', (y*100)+'%'); }
     });
-    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
-  });
+    pfGrid.addEventListener('mouseleave', e => {
+      const card = e.target.closest('.pf-card');
+      if (card) card.style.transform = '';
+    }, true);
+  }
 
   // Professional Journey tab switcher
   document.querySelectorAll('.pj-tab-btn').forEach(function(btn) {
@@ -2717,44 +2718,171 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
-<!-- Config loader: reads data/config.json and overrides dynamic content -->
+<!-- Config loader: reads data/config.json and re-renders all dynamic content -->
 <script>
 (function () {
   fetch('data/config.json?v=' + Date.now())
     .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(function (cfg) {
-      // Text overrides
-      function setText(sel, val) {
-        if (!val) return;
-        document.querySelectorAll(sel).forEach(function (el) { el.textContent = val; });
-      }
-      function setHref(sel, val) {
-        if (!val) return;
-        document.querySelectorAll(sel).forEach(function (el) { el.href = val; });
-      }
-      function setAttr(sel, attr, val) {
-        if (!val) return;
-        document.querySelectorAll(sel).forEach(function (el) { el.setAttribute(attr, val); });
-      }
+    .then(applyConfig)
+    .catch(function () { /* No config.json — hardcoded defaults remain */ });
 
-      setText('[data-cfg="phone"]',    cfg.phone);
-      setText('[data-cfg="email"]',    cfg.email);
-      setText('[data-cfg="location"]', cfg.location);
-      setHref('[data-cfg-href="linkedin"]',  cfg.linkedin);
-      setHref('[data-cfg-href="resumeUrl"]', cfg.resumeUrl);
+  function applyConfig(cfg) {
+    function setText(sel, val) {
+      if (!val) return;
+      document.querySelectorAll(sel).forEach(function (el) { el.textContent = val; });
+    }
+    function setHref(sel, val) {
+      if (!val) return;
+      document.querySelectorAll(sel).forEach(function (el) { el.href = val; });
+    }
+    function esc(s) {
+      return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    function tags(str) {
+      return (str || '').split(',').filter(Boolean)
+        .map(function(t){ return '<span>' + esc(t.trim()) + '</span>'; }).join('');
+    }
 
-      // Profile image
-      if (cfg.profileImg) {
-        document.querySelectorAll('.profile-img img, img[alt="Profile"]')
-          .forEach(function (el) { el.src = cfg.profileImg; });
+    /* ── Hero / Sidebar ── */
+    setText('[data-cfg="name"]',      cfg.name);
+    setText('[data-cfg="rolelabel"]', cfg.rolelabel);
+    if (cfg.glitchPhrases) window.pfGlitchPhrases = cfg.glitchPhrases.split(',').map(function(s){ return s.trim(); });
+
+    /* ── About ── */
+    setText('[data-cfg="quote"]', cfg.quote);
+    setText('[data-cfg="bio"]',   cfg.bio);
+
+    if (cfg.highlights && cfg.highlights.length) {
+      var hl = document.getElementById('about-highlights');
+      if (hl) hl.innerHTML = cfg.highlights.map(function(h, i) {
+        return '<div class="about-highlight" data-aos="fade-right" data-aos-delay="' + ((i+1)*100) + '">' +
+               '<span class="about-highlight-dot"></span>' +
+               '<span class="about-highlight-text">' + esc(h) + '</span></div>';
+      }).join('');
+    }
+
+    if (cfg.fullname || cfg.birthday || cfg.address || cfg.nationality) {
+      var grid = document.getElementById('about-info-grid');
+      if (grid) {
+        var rows = [];
+        if (cfg.fullname || cfg.birthday) rows.push(
+          '<div class="about-info-row">' +
+          (cfg.fullname ? '<div class="about-info-item"><span class="about-info-label">Full Name</span><span class="about-info-value">' + esc(cfg.fullname) + '</span></div>' : '') +
+          (cfg.birthday ? '<div class="about-info-item"><span class="about-info-label">Birthday</span><span class="about-info-value">'  + esc(cfg.birthday) + '</span></div>' : '') +
+          '</div>');
+        if (cfg.address) rows.push(
+          '<div class="about-info-row"><div class="about-info-item about-info-item--wide">' +
+          '<span class="about-info-label">Address</span><span class="about-info-value">' + esc(cfg.address) + '</span></div></div>');
+        if (cfg.nationality || cfg.religion) rows.push(
+          '<div class="about-info-row">' +
+          (cfg.nationality ? '<div class="about-info-item"><span class="about-info-label">Nationality</span><span class="about-info-value">' + esc(cfg.nationality) + '</span></div>' : '') +
+          (cfg.religion    ? '<div class="about-info-item"><span class="about-info-label">Religion</span><span class="about-info-value">'    + esc(cfg.religion)    + '</span></div>' : '') +
+          '</div>');
+        if (cfg.languages || cfg.hobbies) rows.push(
+          '<div class="about-info-row">' +
+          (cfg.languages ? '<div class="about-info-item"><span class="about-info-label">Languages</span><span class="about-info-value">' + esc(cfg.languages) + '</span></div>' : '') +
+          (cfg.hobbies   ? '<div class="about-info-item"><span class="about-info-label">Hobbies</span><span class="about-info-value">'   + esc(cfg.hobbies)   + '</span></div>' : '') +
+          '</div>');
+        grid.innerHTML = rows.join('');
       }
-      // Hero bg
-      if (cfg.heroBg) {
-        var hero = document.querySelector('.hero');
-        if (hero) hero.style.backgroundImage = "url('" + cfg.heroBg + "')";
+    }
+
+    /* ── Contact ── */
+    setText('[data-cfg="phone"]',    cfg.phone);
+    setText('[data-cfg="email"]',    cfg.email);
+    setText('[data-cfg="location"]', cfg.location);
+    setHref('[data-cfg-href="linkedin"]',  cfg.linkedin);
+    setHref('[data-cfg-href="github"]',    cfg.github);
+    setHref('[data-cfg-href="facebook"]',  cfg.facebook);
+    setHref('[data-cfg-href="resumeUrl"]', cfg.resumeUrl);
+
+    /* ── Images ── */
+    if (cfg.profileImg) document.querySelectorAll('.static-img').forEach(function(el){ el.src = cfg.profileImg; });
+    if (cfg.heroBg)     { var bi = document.querySelector('#hero .hero-bg'); if (bi) bi.src = cfg.heroBg; }
+    if (cfg.gifPath)    { var gi = document.querySelector('.gif-overlay');   if (gi) gi.src = cfg.gifPath; }
+
+    /* ── Summary of Work ── */
+    if (cfg.services && cfg.services.length) {
+      var sc = document.getElementById('services-container');
+      if (sc) sc.innerHTML = cfg.services.map(function(s, i) {
+        return '<div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="' + ((i+1)*100) + '">' +
+               '<div class="sow-card">' +
+               '<span class="sow-num">' + String(i+1).padStart(2,'0') + '</span>' +
+               '<div class="sow-icon"><i class="bi ' + esc(s.icon||'bi-star') + '"></i></div>' +
+               '<h4 class="sow-title">' + esc(s.title) + '</h4>' +
+               '<p class="sow-desc">' + esc(s.desc) + '</p>' +
+               '<div class="sow-tags">' + tags(s.tags) + '</div>' +
+               '</div></div>';
+      }).join('');
+    }
+
+    /* ── Professional Journey ── */
+    function buildEntry(e, i, total, isEdu) {
+      var parts = (e.period || '').split(/\s*[–—-]\s*/);
+      var badge = parts.length > 1
+        ? esc(parts[0]) + '<br><span>' + esc(parts[1]) + '</span>'
+        : esc(e.period || '');
+      var bullets = isEdu ? '' :
+        '<ul class="pj-bullets">' +
+        (e.bullets || '').split('\n').filter(Boolean)
+          .map(function(b){ return '<li>' + esc(b.trim()) + '</li>'; }).join('') +
+        '</ul>';
+      var desc = isEdu && e.desc ? '<p class="pj-text">' + esc(e.desc) + '</p>' : '';
+      var company = isEdu ? e.school : e.company;
+      return '<div class="pj-entry" data-aos="fade-up" data-aos-delay="' + ((i+1)*100) + '">' +
+             '<div class="pj-badge">' + badge + '</div>' +
+             '<div class="pj-dot-col"><div class="pj-dot-ring"><div class="pj-dot-inner"></div></div>' +
+             (i < total-1 ? '<div class="pj-connector"></div>' : '') + '</div>' +
+             '<div class="pj-card"><div class="pj-card-header">' +
+             '<h4 class="pj-role">' + esc(e.role) + '</h4>' +
+             '<div class="pj-company"><i class="bi bi-building"></i> ' + esc(company||'') + '</div>' +
+             '</div>' + bullets + desc +
+             '<div class="pj-tags">' + tags(e.tags) + '</div>' +
+             '</div></div>';
+    }
+
+    if (cfg.experience && cfg.experience.length) {
+      var ec = document.getElementById('exp-container');
+      if (ec) ec.innerHTML = cfg.experience.map(function(e,i){ return buildEntry(e,i,cfg.experience.length,false); }).join('');
+    }
+    if (cfg.education && cfg.education.length) {
+      var dc = document.getElementById('edu-container');
+      if (dc) dc.innerHTML = cfg.education.map(function(e,i){ return buildEntry(e,i,cfg.education.length,true); }).join('');
+    }
+
+    /* ── Portfolio ── */
+    if (cfg.projects && cfg.projects.length) {
+      var pg = document.getElementById('portfolio-grid');
+      if (pg) {
+        var delays = [0,60,120,60,120,180,120,180,240];
+        pg.innerHTML = cfg.projects.map(function(p, i) {
+          return '<div class="pf-wrap ' + esc(p.filter) + '" data-aos="fade-up" data-aos-delay="' + (delays[i]||0) + '">' +
+                 '<a href="portfolio-details.html?project=' + esc(p.id) + '" class="pf-card">' +
+                 '<div class="pf-spot"></div>' +
+                 '<div class="pf-img"><img src="' + esc(p.img) + '" alt="' + esc(p.title) + '"><div class="pf-img-fade"></div></div>' +
+                 '<div class="pf-body">' +
+                 '<span class="pf-num">' + esc(p.num||String(i+1).padStart(2,'0')) + '</span>' +
+                 '<div class="pf-cat">' + esc(p.cat) + '</div>' +
+                 '<h4 class="pf-title">' + esc(p.title) + '</h4>' +
+                 '<p class="pf-desc">' + esc(p.desc) + '</p>' +
+                 '<div class="pf-tags">' + tags(p.tags) + '</div>' +
+                 '<span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>' +
+                 '</div></a></div>';
+        }).join('');
+        /* Update filter button counts */
+        var allCount = cfg.projects.length;
+        document.querySelectorAll('.pf-filter-btn').forEach(function(btn) {
+          var f = btn.dataset.filter;
+          var sup = btn.querySelector('sup');
+          if (!sup) return;
+          if (f === '*') { sup.textContent = allCount; return; }
+          sup.textContent = cfg.projects.filter(function(p){ return p.filter === f; }).length;
+        });
+        /* Re-trigger AOS on newly inserted elements */
+        if (window.AOS) AOS.refreshHard();
       }
-    })
-    .catch(function () { /* No config.json — use hardcoded defaults */ });
+    }
+  }
 })();
 </script>
 </body>

@@ -102,12 +102,10 @@
   function initGlitch() {
     var el = document.getElementById('shp-glitch');
     if (!el) return;
-    var phrases = [
-      'Backends That Scale',
-      'Data-Driven Solutions',
-      'Full-Stack Applications',
-      'High-Performance Systems'
-    ];
+    /* Use config-driven phrases if the loader set them, otherwise fall back */
+    var phrases = window.pfGlitchPhrases && window.pfGlitchPhrases.length
+      ? window.pfGlitchPhrases
+      : ['Backends That Scale', 'Data-Driven Solutions', 'Full-Stack Applications', 'High-Performance Systems'];
     var glitchChars = '!<>-_\\/[]{}=+*^?#@$%&~|';
     var idx = 0;
     var raf;
