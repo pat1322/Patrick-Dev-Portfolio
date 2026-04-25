@@ -8,11 +8,11 @@ sed -i "s/PORT_PLACEHOLDER/${PORT:-8080}/g" /etc/nginx/conf.d/default.conf
 # If a variable is not set, the placeholder stays — nobody can type the
 # literal placeholder string as a PIN/password, so the gate fails safely.
 if [ -n "${RECRUITER_CODE}" ]; then
-  sed -i "s/RECRUITER_CODE_PLACEHOLDER/${RECRUITER_CODE}/g" \
+  sed -i "s|RECRUITER_CODE_PLACEHOLDER|${RECRUITER_CODE}|g" \
       /usr/share/nginx/html/assets/js/gate.js
 fi
 if [ -n "${ADMIN_PASS}" ]; then
-  sed -i "s/ADMIN_PASS_PLACEHOLDER/${ADMIN_PASS}/g" \
+  sed -i "s|ADMIN_PASS_PLACEHOLDER|${ADMIN_PASS}|g" \
       /usr/share/nginx/html/assets/js/gate.js
 fi
 

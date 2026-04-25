@@ -63,7 +63,7 @@
       'font-family:"Raleway",sans-serif;border-radius:0}',
 
     /* Card */
-    '#gx-ov .gx-card{background:#141210;border:1px solid rgba(201,162,39,.22);',
+    '#gx-ov .gx-card{background:#1a1713;border:1px solid rgba(201,162,39,.32);',
       'max-width:450px;width:90%;position:relative;overflow:hidden;',
       'box-shadow:0 40px 100px rgba(0,0,0,.85);',
       'animation:gxIn .55s cubic-bezier(.16,1,.3,1) forwards}',
@@ -82,7 +82,7 @@
       'font-size:1.85rem;font-weight:300;color:#F0E6CC;',
       'letter-spacing:.06em;margin-bottom:.15rem}',
     '#gx-ov .gx-sub{display:block;font-size:.5rem;letter-spacing:.28em;',
-      'text-transform:uppercase;color:#3e3427}',
+      'text-transform:uppercase;color:#9a8a6e}',
     '#gx-ov .gx-hr{display:block;width:34px;height:1px;',
       'background:linear-gradient(90deg,transparent,#C9A227,transparent);',
       'margin:.95rem auto 0}',
@@ -90,18 +90,18 @@
     /* Body */
     '#gx-ov .gx-body{padding:1.8rem 2.5rem 2.3rem}',
     '#gx-ov .gx-q{display:block;font-size:.55rem;letter-spacing:.2em;',
-      'text-transform:uppercase;color:#5a4e3a;text-align:center;margin-bottom:1.6rem}',
+      'text-transform:uppercase;color:#b0a080;text-align:center;margin-bottom:1.6rem}',
     '#gx-ov .gx-step{display:block}',
     '#gx-ov .gx-step.gx-h{display:none!important}',
 
     /* Role buttons row */
     '#gx-ov .gx-row{display:flex;gap:.75rem;margin-bottom:.7rem}',
     '#gx-ov .gx-btn{flex:1;background:transparent;',
-      'border:1px solid rgba(201,162,39,.14);padding:1.2rem .35rem;cursor:pointer;',
-      'color:#4a4030;font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;',
+      'border:1px solid rgba(201,162,39,.28);padding:1.2rem .35rem;cursor:pointer;',
+      'color:#a09070;font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;',
       'transition:all .3s;display:flex;flex-direction:column;',
       'align-items:center;gap:.48rem;outline:none}',
-    '#gx-ov .gx-btn i{font-size:.95rem;opacity:.4;transition:opacity .3s;display:block}',
+    '#gx-ov .gx-btn i{font-size:.95rem;opacity:.65;transition:opacity .3s;display:block}',
     '#gx-ov .gx-btn:hover{border-color:rgba(201,162,39,.5);',
       'color:#C9A227;background:rgba(201,162,39,.05)}',
     '#gx-ov .gx-btn:hover i{opacity:1}',
@@ -111,14 +111,14 @@
     '#gx-ov .gx-or::before,#gx-ov .gx-or::after{content:"";flex:1;height:1px;',
       'background:rgba(201,162,39,.07)}',
     '#gx-ov .gx-or span{font-size:.42rem;letter-spacing:.18em;',
-      'color:#282018;text-transform:uppercase}',
+      'color:#7a6a52;text-transform:uppercase}',
 
     /* Admin row */
     '#gx-ov .gx-btn-full{flex-direction:row;padding:.78rem 1rem;',
       'justify-content:center;gap:.5rem;width:100%}',
 
     /* Back button */
-    '#gx-ov .gx-back{background:none;border:none;color:#3e3427;font-size:.49rem;',
+    '#gx-ov .gx-back{background:none;border:none;color:#8a7a60;font-size:.49rem;',
       'letter-spacing:.18em;text-transform:uppercase;cursor:pointer;',
       'display:inline-flex;align-items:center;gap:.33rem;',
       'margin-bottom:1.2rem;padding:0;transition:color .3s}',
@@ -126,7 +126,7 @@
 
     /* Step sub-label */
     '#gx-ov .gx-slbl{display:block;font-size:.52rem;letter-spacing:.26em;',
-      'text-transform:uppercase;color:#5a4e3a;text-align:center;margin-bottom:1.35rem}',
+      'text-transform:uppercase;color:#b0a080;text-align:center;margin-bottom:1.35rem}',
 
     /* PIN inputs */
     '#gx-ov .gx-pins{display:flex;gap:.65rem;justify-content:center;margin-bottom:1.1rem}',
@@ -178,9 +178,9 @@
 
     /* Guest re-auth badge */
     '#gx-badge{display:none;position:fixed;bottom:1.4rem;right:1.4rem;',
-      'z-index:9990;background:#141210;border:1px solid rgba(201,162,39,.25);',
+      'z-index:9990;background:#1a1713;border:1px solid rgba(201,162,39,.3);',
       'padding:.5rem 1rem;font-family:"Raleway",sans-serif;font-size:.48rem;',
-      'letter-spacing:.22em;text-transform:uppercase;color:#5a4e3a;',
+      'letter-spacing:.22em;text-transform:uppercase;color:#9a8a6e;',
       'cursor:pointer;transition:all .3s;align-items:center;gap:.45rem}',
     '#gx-badge:hover{border-color:rgba(201,162,39,.5);color:#C9A227}',
     'body.role-guest #gx-badge{display:flex!important}',
