@@ -97,25 +97,77 @@
   }
 
   /**
-   * Init typed.js — deferred until after gate + splash so it starts fresh
+   * Glitch text cycling — replaces typed.js in the sidebar hero panel
    */
-  function initTyped() {
-    const selectTyped = document.querySelector('.typed');
-    if (!selectTyped) return;
-    let typed_strings = selectTyped.getAttribute('data-typed-items');
-    typed_strings = typed_strings.split(',');
-    new Typed('.typed', {
-      strings: typed_strings,
-      loop: true,
-      typeSpeed: 100,
-      backSpeed: 50,
-      backDelay: 2000
-    });
+  function initGlitch() {
+    var el = document.getElementById('shp-glitch');
+    if (!el) return;
+    var phrases = [
+      'Backends That Scale',
+      'Data-Driven Solutions',
+      'Full-Stack Applications',
+      'High-Performance Systems'
+    ];
+    var glitchChars = '!<>-_\\/[]{}=+*^?#@$%&~|';
+    var idx = 0;
+    var raf;
+
+    function rndCh() { return glitchChars[Math.floor(Math.random() * glitchChars.length)]; }
+
+    function revealText(text, done) {
+      var t0 = Date.now(), dur = 680;
+      function frame() {
+        var p = Math.min((Date.now() - t0) / dur, 1);
+        var out = '';
+        for (var i = 0; i < text.length; i++) {
+          var thresh = i / text.length;
+          if (p >= thresh + 0.18)      out += text[i];
+          else if (p >= thresh)        out += Math.random() > 0.45 ? rndCh() : text[i];
+          else                         out += Math.random() > 0.75 ? rndCh() : ' ';
+        }
+        el.textContent = out;
+        if (p < 1) { raf = requestAnimationFrame(frame); } else { el.textContent = text; done(); }
+      }
+      raf = requestAnimationFrame(frame);
+    }
+
+    function dissolveText(text, done) {
+      var t0 = Date.now(), dur = 480;
+      function frame() {
+        var p = Math.min((Date.now() - t0) / dur, 1);
+        var out = '';
+        for (var i = 0; i < text.length; i++) {
+          var alive = 1 - (i / text.length * 0.5 + p * 0.7);
+          if (alive > 0.35)      out += text[i];
+          else if (alive > 0)    out += rndCh();
+          else                   out += ' ';
+        }
+        el.textContent = out;
+        if (p < 1) { raf = requestAnimationFrame(frame); } else { el.textContent = ''; done(); }
+      }
+      raf = requestAnimationFrame(frame);
+    }
+
+    function cycle() {
+      var phrase = phrases[idx];
+      idx = (idx + 1) % phrases.length;
+      el.classList.add('shp-glitch-on');
+      revealText(phrase, function() {
+        setTimeout(function() {
+          el.classList.remove('shp-glitch-on');
+          dissolveText(phrase, function() {
+            setTimeout(cycle, 800 + Math.random() * 700);
+          });
+        }, 2000 + Math.random() * 900);
+      });
+    }
+
+    setTimeout(cycle, 1000);
   }
   if (window.pfGateActive) {
-    document.addEventListener('gateDismissed', initTyped);
+    document.addEventListener('gateDismissed', initGlitch);
   } else {
-    window.addEventListener('load', initTyped);
+    window.addEventListener('load', initGlitch);
   }
 
   /**

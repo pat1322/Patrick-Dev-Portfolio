@@ -535,16 +535,35 @@ body.hero-active .sidebar-hero-panel {
 }
 
 /* Typed line */
-.shp-typed-wrap {
-  font-family: 'Raleway', sans-serif;
-  font-size: 0.85rem;
-  color: #7a6a50;
-  letter-spacing: 0.04em;
-  line-height: 1.6;
-  min-height: 2.4rem;
+.shp-glitch-wrap {
+  min-height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.15rem;
 }
-.shp-typed-wrap .typed        { color: var(--gn-gold) !important; font-style: italic; }
-.shp-typed-wrap .typed-cursor { color: var(--gn-gold) !important; }
+#shp-glitch {
+  display: block;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gn-gold);
+  min-height: 1em;
+  text-align: center;
+  transition: opacity 0.05s;
+}
+#shp-glitch.shp-glitch-on {
+  text-shadow: -1px 0 rgba(255,50,50,.65), 1px 0 rgba(50,210,255,.65);
+  animation: shpGlitchJitter 0.11s steps(1) infinite;
+}
+@keyframes shpGlitchJitter {
+  0%   { transform: translate(0,0); }
+  25%  { transform: translate(-1px, 0.5px); }
+  50%  { transform: translate(1px, -0.5px); }
+  75%  { transform: translate(-0.5px, 1px); }
+  100% { transform: translate(0,0); }
+}
 
 /* Social links inside hero panel */
 .shp-social {
