@@ -1382,9 +1382,9 @@
   </a>
 
   <div class="social-links text-center">
-    <a href="https://www.facebook.com/pat.flores.339" class="facebook"><i class="bi bi-facebook"></i></a>
-    <a href="https://github.com/pat1322" class="github"><i class="bi bi-github"></i></a>
-    <a href="https://www.linkedin.com/in/patrickp2025/" class="linkedin sensitive" data-cfg-href="linkedin"><i class="bi bi-linkedin"></i></a>
+    <a href="https://www.facebook.com/pat.flores.339" class="facebook sensitive" data-sensitive="facebook"><i class="bi bi-facebook"></i></a>
+    <a href="https://github.com/pat1322" class="github" data-sensitive="github"><i class="bi bi-github"></i></a>
+    <a href="https://www.linkedin.com/in/patrickp2025/" class="linkedin sensitive" data-sensitive="linkedin" data-cfg-href="linkedin"><i class="bi bi-linkedin"></i></a>
   </div>
 
   <nav id="navmenu" class="navmenu">
@@ -2166,7 +2166,7 @@
           <div class="contact-chip-icon"><i class="bi bi-geo-alt-fill"></i></div>
           <div>
             <div class="contact-chip-label">Location</div>
-            <div class="contact-chip-value">Baliuag, Bulacan, PH</div>
+            <div class="contact-chip-value" data-sensitive="location" data-cfg="location">Baliuag, Bulacan, PH</div>
           </div>
         </div>
         <div class="contact-chip">
@@ -2281,7 +2281,10 @@
     }, 950);
   }
   window.addEventListener('load', function () {
-    setTimeout(dismissSplash, 3200);
+    /* If gate is still showing, splash will be triggered by gate.js on dismiss */
+    if (!window.pfGateActive) {
+      setTimeout(dismissSplash, 3200);
+    }
   });
 </script>
 
@@ -2700,13 +2703,15 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
   
-  // Animate on scroll initialization
-  AOS.init({
-    duration: 800,
-    easing: 'ease-in-out',
-    once: true,
-    mirror: false
-  });
+  // Animate on scroll — deferred until gate is dismissed
+  function initAos() {
+    AOS.init({ duration: 800, easing: 'ease-in-out', once: true, mirror: false });
+  }
+  if (window.pfGateActive) {
+    document.addEventListener('gateDismissed', function () { setTimeout(initAos, 750); });
+  } else {
+    initAos();
+  }
 });
 </script>
 

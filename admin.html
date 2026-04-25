@@ -126,6 +126,9 @@ textarea.adm-input{resize:vertical;min-height:80px;line-height:1.6}
 
 /* ── Divider ── */
 .adm-divider{height:1px;background:rgba(201,162,39,.07);margin:1.5rem 0}
+
+/* ── Visibility toggle rows ── */
+#vis-toggles label:hover > div > div:first-child{color:#C9A227}
 </style>
 </head>
 <body>
@@ -155,6 +158,7 @@ textarea.adm-input{resize:vertical;min-height:80px;line-height:1.6}
       <div class="adm-nav-item" data-sec="links"><i class="bi bi-link-45deg"></i>Links</div>
       <div class="adm-nav-item" data-sec="skills"><i class="bi bi-bar-chart"></i>Skills</div>
       <div class="adm-nav-item" data-sec="images"><i class="bi bi-image"></i>Images</div>
+      <div class="adm-nav-item" data-sec="visibility"><i class="bi bi-eye-slash"></i>Guest Blurring</div>
       <div class="adm-nav-item" data-sec="security"><i class="bi bi-shield-lock"></i>Security</div>
       <div class="adm-nav-item" data-sec="export"><i class="bi bi-box-arrow-up"></i>Export & Deploy</div>
     </nav>
@@ -341,6 +345,29 @@ textarea.adm-input{resize:vertical;min-height:80px;line-height:1.6}
         2. Update the path above and click "Save Changes".<br>
         3. Export config → place <code>config.json</code> in <code>data/</code> → git push.<br>
         Railway redeploys automatically.
+      </div>
+    </section>
+
+    <!-- ══ GUEST BLURRING ══ -->
+    <section class="adm-section" id="sec-visibility">
+      <div class="adm-section-header">
+        <div class="adm-section-title">Guest Blurring</div>
+        <div class="adm-section-desc">Control which elements are blurred for Guest visitors</div>
+      </div>
+
+      <div class="adm-security-note">
+        <strong>Always blurred for guests:</strong> Phone, Email, LinkedIn, Resume button.<br>
+        Toggle the items below to additionally blur them for guests. Changes apply next time a guest visits.
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-toggles"></i> Additional Blurred Elements</div>
+        <div id="vis-toggles" style="display:flex;flex-direction:column;gap:.9rem;padding:.2rem 0"></div>
+        <div style="margin-top:1.2rem">
+          <button class="adm-save-btn" id="vis-save" style="width:auto;padding:.5rem 1.2rem">
+            <i class="bi bi-floppy"></i> Save Visibility Settings
+          </button>
+        </div>
       </div>
     </section>
 
@@ -634,9 +661,49 @@ function esc(str) {
   return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
 }
 
+/* ── Guest Visibility Toggles ── */
+var VIS_ITEMS = [
+  { key: 'github',   label: 'GitHub link (sidebar)',          note: 'GitHub is a public profile — blur if you prefer privacy' },
+  { key: 'location', label: 'Location (contact section)',     note: 'City/country shown in the contact chips' },
+  { key: 'facebook', label: 'Facebook link (already blurred by default)', note: 'Facebook social link in sidebar' },
+  { key: 'contact',  label: 'Entire contact form',           note: 'Hides the send-message form for guests' },
+];
+
+function renderVisToggles() {
+  var saved = JSON.parse(localStorage.getItem('pfAdminState') || '{}');
+  var vis   = (saved.state && saved.state.guestVis) || {};
+  var container = document.getElementById('vis-toggles');
+  container.innerHTML = '';
+  VIS_ITEMS.forEach(function(item) {
+    var checked = vis[item.key] ? 'checked' : '';
+    var row = document.createElement('label');
+    row.style.cssText = 'display:flex;align-items:flex-start;gap:.8rem;cursor:pointer;';
+    row.innerHTML =
+      '<input type="checkbox" data-vis="' + item.key + '" ' + checked +
+        ' style="margin-top:.15rem;accent-color:#C9A227;width:14px;height:14px;flex-shrink:0">' +
+      '<div>' +
+        '<div style="font-size:.6rem;letter-spacing:.1em;color:#e8dcc8;margin-bottom:.18rem">' + item.label + '</div>' +
+        '<div style="font-size:.52rem;color:#4a4030;letter-spacing:.05em">' + item.note + '</div>' +
+      '</div>';
+    container.appendChild(row);
+  });
+}
+
+document.getElementById('vis-save').addEventListener('click', function() {
+  var saved = JSON.parse(localStorage.getItem('pfAdminState') || '{}');
+  if (!saved.state) saved.state = {};
+  saved.state.guestVis = {};
+  document.querySelectorAll('[data-vis]').forEach(function(cb) {
+    saved.state.guestVis[cb.dataset.vis] = cb.checked;
+  });
+  localStorage.setItem('pfAdminState', JSON.stringify(saved));
+  toast('Visibility settings saved');
+});
+
 /* ── Init ── */
 loadState();
 populateForms();
+renderVisToggles();
 </script>
 </body>
 </html>

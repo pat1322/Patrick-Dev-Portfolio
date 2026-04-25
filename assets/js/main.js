@@ -87,7 +87,14 @@
       mirror: false
     });
   }
-  window.addEventListener('load', aosInit);
+  /* Defer AOS until after the security gate is dismissed */
+  if (window.pfGateActive) {
+    document.addEventListener('gateDismissed', function () {
+      setTimeout(aosInit, 750); // let gate fade out first
+    });
+  } else {
+    window.addEventListener('load', aosInit);
+  }
 
   /**
    * Init typed.js
