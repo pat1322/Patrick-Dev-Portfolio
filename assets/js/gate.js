@@ -148,11 +148,11 @@
     '#gx-ov .gx-pw:focus{border-color:rgba(201,162,39,.55)}',
 
     /* Submit */
-    '#gx-ov .gx-sub{display:block;width:100%;background:rgba(201,162,39,.07);',
+    '#gx-ov .gx-sbtn{display:block;width:100%;background:rgba(201,162,39,.07);',
       'border:1px solid rgba(201,162,39,.3);color:#C9A227;padding:.8rem;',
       'font-size:.55rem;letter-spacing:.25em;text-transform:uppercase;',
       'cursor:pointer;transition:all .3s}',
-    '#gx-ov .gx-sub:hover{background:rgba(201,162,39,.15);',
+    '#gx-ov .gx-sbtn:hover{background:rgba(201,162,39,.15);',
       'border-color:rgba(201,162,39,.6)}',
 
     /* Error text */
@@ -226,7 +226,7 @@
           '<span class="gx-slbl">Admin credentials</span>' +
           '<input type="password" class="gx-pw" id="gx-pw" ' +
             'placeholder="••••••••" autocomplete="off" />' +
-          '<button class="gx-sub" id="gx-asub">Enter Admin Panel</button>' +
+          '<button class="gx-sbtn" id="gx-asub">Enter Admin Panel</button>' +
           '<span class="gx-err" id="gx-ae"></span>' +
         '</div>' +
 
