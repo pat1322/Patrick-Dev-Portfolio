@@ -1412,9 +1412,9 @@
       <span class="typed" data-typed-items="Backends That Scale,Data-Driven Solutions,Full-Stack Applications,High-Performance Systems"></span>
     </p>
     <div class="shp-social">
-      <a href="https://www.facebook.com/pat.flores.339" target="_blank" title="Facebook"><i class="bi bi-facebook"></i></a>
+      <a href="https://www.facebook.com/pat.flores.339" target="_blank" title="Facebook" class="sensitive"><i class="bi bi-facebook"></i></a>
       <a href="https://github.com/pat1322" target="_blank" title="GitHub"><i class="bi bi-github"></i></a>
-      <a href="https://www.linkedin.com/in/patrickp2025/" target="_blank" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+      <a href="https://www.linkedin.com/in/patrickp2025/" target="_blank" title="LinkedIn" class="sensitive"><i class="bi bi-linkedin"></i></a>
     </div>
   </div>
 
@@ -1491,7 +1491,7 @@
         </div>
 
         <!-- Personal Information Card -->
-        <div class="about-info-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="about-info-card sensitive" data-aos="fade-up" data-aos-delay="200">
           <div class="about-info-card-header">
             <i class="bi bi-person-vcard"></i>
             <span>Personal Information</span>
@@ -2166,7 +2166,7 @@
           <div class="contact-chip-icon"><i class="bi bi-geo-alt-fill"></i></div>
           <div>
             <div class="contact-chip-label">Location</div>
-            <div class="contact-chip-value" data-sensitive="location" data-cfg="location">Baliuag, Bulacan, PH</div>
+            <div class="contact-chip-value sensitive" data-cfg="location">Baliuag, Bulacan, PH</div>
           </div>
         </div>
         <div class="contact-chip">
@@ -2228,9 +2228,9 @@
 
         <!-- Social Links -->
         <div class="contact-social-v2">
-          <a href="https://www.facebook.com/pat.flores.339" target="_blank"><i class="bi bi-facebook"></i> Facebook</a>
+          <a href="https://www.facebook.com/pat.flores.339" target="_blank" class="sensitive"><i class="bi bi-facebook"></i> Facebook</a>
           <a href="https://github.com/pat1322" target="_blank"><i class="bi bi-github"></i> GitHub</a>
-          <a href="https://www.linkedin.com/in/patrickp2025/" target="_blank"><i class="bi bi-linkedin"></i> LinkedIn</a>
+          <a href="https://www.linkedin.com/in/patrickp2025/" target="_blank" class="sensitive"><i class="bi bi-linkedin"></i> LinkedIn</a>
         </div>
       </div>
 
@@ -2407,6 +2407,9 @@ function startPuzzleReveal() {
   var puzzle = document.getElementById('hero-puzzle');
   if (!puzzle || puzzle.dataset.built) return;
   puzzle.dataset.built = '1';
+
+  /* Release frozen one-shot animations now that splash is done */
+  document.body.classList.remove('pre-reveal');
 
   var hero = document.getElementById('hero');
   var img  = document.querySelector('#hero .hero-bg');

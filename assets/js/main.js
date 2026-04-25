@@ -97,10 +97,11 @@
   }
 
   /**
-   * Init typed.js
+   * Init typed.js — deferred until after gate + splash so it starts fresh
    */
-  const selectTyped = document.querySelector('.typed');
-  if (selectTyped) {
+  function initTyped() {
+    const selectTyped = document.querySelector('.typed');
+    if (!selectTyped) return;
     let typed_strings = selectTyped.getAttribute('data-typed-items');
     typed_strings = typed_strings.split(',');
     new Typed('.typed', {
@@ -110,6 +111,11 @@
       backSpeed: 50,
       backDelay: 2000
     });
+  }
+  if (window.pfGateActive) {
+    document.addEventListener('gateDismissed', initTyped);
+  } else {
+    window.addEventListener('load', initTyped);
   }
 
   /**

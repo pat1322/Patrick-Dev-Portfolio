@@ -16,6 +16,9 @@
   window.pfGateActive = true;
   document.documentElement.classList.add('gate-active');
 
+  /* ── Freeze one-shot CSS animations until puzzle reveal fires ── */
+  document.body.classList.add('pre-reveal');
+
   /* ── Anti-scraping ──────────────────────────────────────────── */
   document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
   document.addEventListener('copy',        function (e) { e.preventDefault(); });
@@ -164,6 +167,9 @@
     'html.gate-active [data-aos]{opacity:0!important;',
       'transform:translateY(20px)!important;transition:none!important}',
     'html.gate-active .typed-cursor{display:none!important}',
+
+    /* ── Freeze one-shot hero animations until splash ends ── */
+    'body.pre-reveal .hero-scanner::after{animation:none!important}',
 
     /* ── Role-based blurring ── */
     'body.role-guest .sensitive{filter:blur(6px);-webkit-filter:blur(6px);',
@@ -356,29 +362,35 @@
   }
 
   /* ── Apply role + admin-configurable sensitivity ─────────────── */
+  function applyGuestVis() {
+    try {
+      var saved = JSON.parse(localStorage.getItem('pfAdminState') || '{}');
+      var vis   = (saved.state && saved.state.guestVis) || {};
+      var map   = {
+        github:   '[data-sensitive="github"]',
+        location: '[data-sensitive="location"]',
+        facebook: '[data-sensitive="facebook"]',
+        contact:  '[data-sensitive="contact"]',
+      };
+      Object.keys(map).forEach(function (key) {
+        if (vis[key]) {
+          document.querySelectorAll(map[key]).forEach(function (el) {
+            el.classList.add('sensitive');
+          });
+        }
+      });
+    } catch (e) {}
+  }
+
   function applyRole(role) {
     document.body.classList.add('role-' + role);
     if (role === 'guest') {
-      /* Apply any extra blurring configured via the admin panel */
-      document.addEventListener('DOMContentLoaded', function () {
-        try {
-          var saved = JSON.parse(localStorage.getItem('pfAdminState') || '{}');
-          var vis   = (saved.state && saved.state.guestVis) || {};
-          var map   = {
-            github:   '[data-sensitive="github"]',
-            location: '[data-sensitive="location"]',
-            facebook: '[data-sensitive="facebook"]',
-            contact:  '[data-sensitive="contact"]',
-          };
-          Object.keys(map).forEach(function (key) {
-            if (vis[key]) {
-              document.querySelectorAll(map[key]).forEach(function (el) {
-                el.classList.add('sensitive');
-              });
-            }
-          });
-        } catch (e) {}
-      });
+      /* DOM may not be ready yet when called from the session-bypass path */
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', applyGuestVis);
+      } else {
+        applyGuestVis();
+      }
     }
   }
 
