@@ -749,7 +749,17 @@
     transition: width 0.38s cubic-bezier(0.16,1,0.3,1);
   }
   .pf-card:hover .pf-cta-line { width: 36px; }
-  
+
+  /* ===== ROLE-BASED ACCESS — guest blurring ===== */
+  body.role-guest .sensitive {
+    filter: blur(6px);
+    -webkit-filter: blur(6px);
+    user-select: none;
+    pointer-events: none;
+    transition: filter 0.4s ease;
+  }
+  body.role-guest .sensitive-hide { display: none !important; }
+
   /* ===== CONTACT SECTION STYLES ===== */
   .contact {
     padding: 60px 0; /* Increased padding from 40px to 60px */
@@ -1259,6 +1269,8 @@
 </head>
 
 <body class="index-page">
+<!-- Security gate — must be first, runs synchronously before content renders -->
+<script src="assets/js/gate.js"></script>
 
 <!-- ══════════════ SPLASH SCREEN ══════════════ -->
 <div id="splash-screen" onclick="dismissSplash()">
@@ -1372,7 +1384,7 @@
   <div class="social-links text-center">
     <a href="https://www.facebook.com/pat.flores.339" class="facebook"><i class="bi bi-facebook"></i></a>
     <a href="https://github.com/pat1322" class="github"><i class="bi bi-github"></i></a>
-    <a href="https://www.linkedin.com/in/patrickp2025/" class="linkedin"><i class="bi bi-linkedin"></i></a>
+    <a href="https://www.linkedin.com/in/patrickp2025/" class="linkedin sensitive" data-cfg-href="linkedin"><i class="bi bi-linkedin"></i></a>
   </div>
 
   <nav id="navmenu" class="navmenu">
@@ -1820,7 +1832,7 @@
 
       <!-- Download Resume -->
       <div class="text-center mt-5" data-aos="zoom-in">
-        <a href="https://drive.google.com/file/d/1tG2S8zHvNl2QLNmngB1pAGla9icp8hxh/view?usp=sharing" class="btn btn-primary resume-download-btn">
+        <a href="https://drive.google.com/file/d/1tG2S8zHvNl2QLNmngB1pAGla9icp8hxh/view?usp=sharing" class="btn btn-primary resume-download-btn sensitive" data-cfg-href="resumeUrl">
           <i class="bi bi-download me-2"></i> Download Full Resume
         </a>
       </div>
@@ -2161,14 +2173,14 @@
           <div class="contact-chip-icon"><i class="bi bi-telephone-fill"></i></div>
           <div>
             <div class="contact-chip-label">Phone</div>
-            <div class="contact-chip-value">+63 966 9931 667</div>
+            <div class="contact-chip-value sensitive" data-cfg="phone">+63 966 9931 667</div>
           </div>
         </div>
         <div class="contact-chip">
           <div class="contact-chip-icon"><i class="bi bi-envelope-fill"></i></div>
           <div>
             <div class="contact-chip-label">Email</div>
-            <div class="contact-chip-value">patrickperez1322@gmail.com</div>
+            <div class="contact-chip-value sensitive" data-cfg="email">patrickperez1322@gmail.com</div>
           </div>
         </div>
       </div>
@@ -2696,6 +2708,47 @@ document.addEventListener("DOMContentLoaded", function() {
     mirror: false
   });
 });
+</script>
+
+<!-- Config loader: reads data/config.json and overrides dynamic content -->
+<script>
+(function () {
+  fetch('data/config.json?v=' + Date.now())
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function (cfg) {
+      // Text overrides
+      function setText(sel, val) {
+        if (!val) return;
+        document.querySelectorAll(sel).forEach(function (el) { el.textContent = val; });
+      }
+      function setHref(sel, val) {
+        if (!val) return;
+        document.querySelectorAll(sel).forEach(function (el) { el.href = val; });
+      }
+      function setAttr(sel, attr, val) {
+        if (!val) return;
+        document.querySelectorAll(sel).forEach(function (el) { el.setAttribute(attr, val); });
+      }
+
+      setText('[data-cfg="phone"]',    cfg.phone);
+      setText('[data-cfg="email"]',    cfg.email);
+      setText('[data-cfg="location"]', cfg.location);
+      setHref('[data-cfg-href="linkedin"]',  cfg.linkedin);
+      setHref('[data-cfg-href="resumeUrl"]', cfg.resumeUrl);
+
+      // Profile image
+      if (cfg.profileImg) {
+        document.querySelectorAll('.profile-img img, img[alt="Profile"]')
+          .forEach(function (el) { el.src = cfg.profileImg; });
+      }
+      // Hero bg
+      if (cfg.heroBg) {
+        var hero = document.querySelector('.hero');
+        if (hero) hero.style.backgroundImage = "url('" + cfg.heroBg + "')";
+      }
+    })
+    .catch(function () { /* No config.json — use hardcoded defaults */ });
+})();
 </script>
 </body>
 </html>

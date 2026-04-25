@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel — Patrick Perez Portfolio</title>
+<meta name="robots" content="noindex,nofollow">
+<link href="assets/img/favicon.svg" rel="icon" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+<style>
+/* ── Reset & Base ── */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Raleway',sans-serif;background:#070605;color:#e8dcc8}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;font-family:inherit}
+input,textarea,select{font-family:inherit}
+
+/* ── Layout ── */
+.adm-layout{display:flex;height:100vh;overflow:hidden}
+
+/* ── Sidebar ── */
+.adm-sidebar{width:220px;flex-shrink:0;background:#0f0d0b;border-right:1px solid rgba(201,162,39,.1);
+  display:flex;flex-direction:column;overflow-y:auto}
+.adm-logo{padding:1.6rem 1.4rem 1.2rem;border-bottom:1px solid rgba(201,162,39,.08)}
+.adm-logo-eye{font-size:.42rem;letter-spacing:.38em;text-transform:uppercase;color:#C9A227;margin-bottom:.3rem}
+.adm-logo-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:300;color:#F0E6CC;letter-spacing:.04em}
+.adm-logo-sub{font-size:.44rem;letter-spacing:.2em;text-transform:uppercase;color:#3e3427;margin-top:.15rem}
+.adm-nav{flex:1;padding:.8rem 0}
+.adm-nav-item{display:flex;align-items:center;gap:.6rem;padding:.65rem 1.4rem;
+  font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:#4a4030;
+  transition:all .25s;cursor:pointer;border-left:2px solid transparent}
+.adm-nav-item i{font-size:.9rem;width:1rem;text-align:center;flex-shrink:0}
+.adm-nav-item:hover{color:#C9A227;background:rgba(201,162,39,.04)}
+.adm-nav-item.active{color:#C9A227;border-left-color:#C9A227;background:rgba(201,162,39,.06)}
+.adm-sidebar-footer{padding:1rem 1.4rem;border-top:1px solid rgba(201,162,39,.08)}
+.adm-logout{width:100%;background:transparent;border:1px solid rgba(201,162,39,.18);
+  color:#4a4030;padding:.55rem;font-size:.5rem;letter-spacing:.22em;text-transform:uppercase;
+  transition:all .3s}
+.adm-logout:hover{border-color:rgba(201,162,39,.4);color:#C9A227}
+
+/* ── Main ── */
+.adm-main{flex:1;overflow-y:auto;background:#080705}
+.adm-topbar{position:sticky;top:0;z-index:10;background:rgba(8,7,5,.92);
+  backdrop-filter:blur(8px);border-bottom:1px solid rgba(201,162,39,.08);
+  padding:.9rem 2rem;display:flex;align-items:center;justify-content:space-between}
+.adm-topbar-title{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:#C9A227}
+.adm-topbar-actions{display:flex;gap:.7rem;align-items:center}
+.adm-preview-btn{background:transparent;border:1px solid rgba(201,162,39,.25);
+  color:#7a6a50;padding:.45rem 1rem;font-size:.5rem;letter-spacing:.18em;
+  text-transform:uppercase;transition:all .3s;display:flex;align-items:center;gap:.4rem}
+.adm-preview-btn:hover{border-color:rgba(201,162,39,.5);color:#C9A227}
+.adm-save-btn{background:rgba(201,162,39,.12);border:1px solid rgba(201,162,39,.4);
+  color:#C9A227;padding:.45rem 1.2rem;font-size:.5rem;letter-spacing:.18em;
+  text-transform:uppercase;transition:all .3s;display:flex;align-items:center;gap:.4rem}
+.adm-save-btn:hover{background:rgba(201,162,39,.2);border-color:#C9A227}
+
+/* ── Sections ── */
+.adm-section{display:none;padding:2rem}
+.adm-section.active{display:block}
+.adm-section-header{margin-bottom:1.8rem}
+.adm-section-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:300;
+  color:#F0E6CC;margin-bottom:.3rem}
+.adm-section-desc{font-size:.65rem;color:#4a4030;letter-spacing:.08em}
+
+/* ── Cards ── */
+.adm-card{background:#0f0d0b;border:1px solid rgba(201,162,39,.1);padding:1.6rem;
+  margin-bottom:1.2rem}
+.adm-card-title{font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;
+  color:#C9A227;margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
+.adm-card-title i{opacity:.7}
+
+/* ── Form fields ── */
+.adm-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.adm-grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+.adm-field{margin-bottom:.1rem}
+.adm-label{display:block;font-size:.48rem;letter-spacing:.22em;text-transform:uppercase;
+  color:#5a4e3a;margin-bottom:.45rem}
+.adm-input{width:100%;background:#0c0b09;border:1px solid rgba(201,162,39,.15);
+  color:#e8dcc8;padding:.65rem .8rem;font-size:.78rem;outline:none;
+  transition:border-color .3s;border-radius:0;-webkit-appearance:none}
+.adm-input:focus{border-color:rgba(201,162,39,.5)}
+.adm-input::placeholder{color:#2e2820}
+textarea.adm-input{resize:vertical;min-height:80px;line-height:1.6}
+.adm-hint{font-size:.46rem;color:#3a3028;margin-top:.35rem;letter-spacing:.06em}
+
+/* ── Skills editor ── */
+.adm-skill-list{display:flex;flex-direction:column;gap:.6rem;margin-bottom:1rem}
+.adm-skill-row{display:flex;align-items:center;gap:.6rem;background:#0c0b09;
+  border:1px solid rgba(201,162,39,.1);padding:.6rem .8rem}
+.adm-skill-name{flex:1;background:transparent;border:none;color:#e8dcc8;
+  font-size:.78rem;outline:none;font-family:'Raleway',sans-serif}
+.adm-skill-pct{width:52px;background:transparent;border:none;color:#C9A227;
+  font-size:.78rem;outline:none;text-align:right;font-family:'Raleway',sans-serif}
+.adm-skill-del{background:none;border:none;color:#3e3427;font-size:.85rem;
+  transition:color .3s;padding:0 .2rem;line-height:1}
+.adm-skill-del:hover{color:#c04a4a}
+.adm-add-btn{background:transparent;border:1px dashed rgba(201,162,39,.2);
+  color:#4a4030;padding:.55rem;width:100%;font-size:.5rem;letter-spacing:.2em;
+  text-transform:uppercase;transition:all .3s;display:flex;align-items:center;
+  justify-content:center;gap:.4rem}
+.adm-add-btn:hover{border-color:rgba(201,162,39,.4);color:#C9A227}
+
+/* ── Export panel ── */
+.adm-export-box{background:#0c0b09;border:1px solid rgba(201,162,39,.15);
+  padding:1.2rem;font-size:.72rem;color:#7a6a50;line-height:1.8;
+  white-space:pre-wrap;word-break:break-all;max-height:280px;overflow-y:auto;
+  font-family:'Courier New',monospace;margin-bottom:1rem}
+.adm-dl-btn{background:rgba(201,162,39,.1);border:1px solid rgba(201,162,39,.35);
+  color:#C9A227;padding:.7rem 1.4rem;font-size:.52rem;letter-spacing:.22em;
+  text-transform:uppercase;transition:all .3s;display:inline-flex;align-items:center;gap:.5rem}
+.adm-dl-btn:hover{background:rgba(201,162,39,.18);border-color:#C9A227}
+
+/* ── Security ── */
+.adm-security-note{font-size:.6rem;color:#5a4e3a;background:rgba(201,162,39,.04);
+  border:1px solid rgba(201,162,39,.1);padding:.9rem 1rem;line-height:1.7;margin-bottom:1.2rem}
+.adm-security-note strong{color:#C9A227}
+
+/* ── Toast ── */
+.adm-toast{position:fixed;bottom:1.5rem;right:1.5rem;background:#141210;
+  border:1px solid rgba(201,162,39,.3);color:#C9A227;padding:.7rem 1.2rem;
+  font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;
+  z-index:99999;opacity:0;transform:translateY(8px);
+  transition:all .3s;pointer-events:none;display:flex;align-items:center;gap:.5rem}
+.adm-toast.show{opacity:1;transform:translateY(0)}
+
+/* ── Divider ── */
+.adm-divider{height:1px;background:rgba(201,162,39,.07);margin:1.5rem 0}
+</style>
+</head>
+<body>
+
+<!-- Auth guard — redirect if not admin -->
+<script>
+(function(){
+  var role = sessionStorage.getItem('pf_role');
+  if (role !== 'admin') {
+    window.location.replace('index.html');
+  }
+})();
+</script>
+
+<div class="adm-layout">
+
+  <!-- ── Sidebar ── -->
+  <aside class="adm-sidebar">
+    <div class="adm-logo">
+      <div class="adm-logo-eye">Admin Panel</div>
+      <div class="adm-logo-name">Patrick Perez</div>
+      <div class="adm-logo-sub">Portfolio CMS</div>
+    </div>
+    <nav class="adm-nav">
+      <div class="adm-nav-item active" data-sec="profile"><i class="bi bi-person-circle"></i>Profile</div>
+      <div class="adm-nav-item" data-sec="contact"><i class="bi bi-envelope"></i>Contact</div>
+      <div class="adm-nav-item" data-sec="links"><i class="bi bi-link-45deg"></i>Links</div>
+      <div class="adm-nav-item" data-sec="skills"><i class="bi bi-bar-chart"></i>Skills</div>
+      <div class="adm-nav-item" data-sec="images"><i class="bi bi-image"></i>Images</div>
+      <div class="adm-nav-item" data-sec="security"><i class="bi bi-shield-lock"></i>Security</div>
+      <div class="adm-nav-item" data-sec="export"><i class="bi bi-box-arrow-up"></i>Export & Deploy</div>
+    </nav>
+    <div class="adm-sidebar-footer">
+      <button class="adm-logout" id="adm-logout"><i class="bi bi-door-open"></i> Log Out</button>
+    </div>
+  </aside>
+
+  <!-- ── Main content ── -->
+  <main class="adm-main">
+    <div class="adm-topbar">
+      <div class="adm-topbar-title"><i class="bi bi-pencil-square"></i> &nbsp;Edit Portfolio Content</div>
+      <div class="adm-topbar-actions">
+        <button class="adm-preview-btn" onclick="window.open('index.html','_blank')">
+          <i class="bi bi-eye"></i> Preview Site
+        </button>
+        <button class="adm-save-btn" id="adm-save-all">
+          <i class="bi bi-floppy"></i> Save Changes
+        </button>
+      </div>
+    </div>
+
+    <!-- ══ PROFILE ══ -->
+    <section class="adm-section active" id="sec-profile">
+      <div class="adm-section-header">
+        <div class="adm-section-title">Profile</div>
+        <div class="adm-section-desc">Your name, title, and about text shown on the site</div>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-person"></i> Identity</div>
+        <div class="adm-grid">
+          <div class="adm-field">
+            <label class="adm-label">Full Name</label>
+            <input class="adm-input" id="f-name" type="text" placeholder="Patrick Perez" />
+          </div>
+          <div class="adm-field">
+            <label class="adm-label">Professional Title</label>
+            <input class="adm-input" id="f-title" type="text" placeholder="Full Stack Developer" />
+          </div>
+        </div>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-chat-left-text"></i> About Text</div>
+        <div class="adm-field">
+          <label class="adm-label">Short Bio (Hero section tagline)</label>
+          <input class="adm-input" id="f-bio" type="text" placeholder="Passionate developer building..." />
+        </div>
+        <div class="adm-divider"></div>
+        <div class="adm-field">
+          <label class="adm-label">About Paragraph 1</label>
+          <textarea class="adm-input" id="f-about1" rows="4" placeholder="First paragraph of your about section..."></textarea>
+        </div>
+        <div class="adm-field" style="margin-top:.9rem">
+          <label class="adm-label">About Paragraph 2</label>
+          <textarea class="adm-input" id="f-about2" rows="4" placeholder="Second paragraph of your about section..."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ CONTACT ══ -->
+    <section class="adm-section" id="sec-contact">
+      <div class="adm-section-header">
+        <div class="adm-section-title">Contact Details</div>
+        <div class="adm-section-desc">Shown in the contact section. Phone and email are blurred for guest visitors.</div>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-telephone"></i> Contact Info</div>
+        <div class="adm-grid">
+          <div class="adm-field">
+            <label class="adm-label">Phone</label>
+            <input class="adm-input" id="f-phone" type="text" placeholder="+63 966 9931 667" />
+          </div>
+          <div class="adm-field">
+            <label class="adm-label">Email</label>
+            <input class="adm-input" id="f-email" type="email" placeholder="patrickperez1322@gmail.com" />
+          </div>
+          <div class="adm-field">
+            <label class="adm-label">Location</label>
+            <input class="adm-input" id="f-location" type="text" placeholder="Baliuag, Bulacan, PH" />
+          </div>
+        </div>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-globe"></i> Social Profiles</div>
+        <div class="adm-grid">
+          <div class="adm-field">
+            <label class="adm-label">LinkedIn URL</label>
+            <input class="adm-input" id="f-linkedin" type="url" placeholder="https://linkedin.com/in/..." />
+          </div>
+          <div class="adm-field">
+            <label class="adm-label">GitHub URL</label>
+            <input class="adm-input" id="f-github" type="url" placeholder="https://github.com/..." />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ LINKS ══ -->
+    <section class="adm-section" id="sec-links">
+      <div class="adm-section-header">
+        <div class="adm-section-title">Links</div>
+        <div class="adm-section-desc">Resume download URL and hero YouTube video</div>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-file-earmark-pdf"></i> Resume</div>
+        <div class="adm-field">
+          <label class="adm-label">Google Drive / Direct Download URL</label>
+          <input class="adm-input" id="f-resume" type="url" placeholder="https://drive.google.com/file/d/.../view" />
+          <div class="adm-hint">This is the link behind the "Download Full Resume" button. Guests cannot click it.</div>
+        </div>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-youtube"></i> Hero Video</div>
+        <div class="adm-field">
+          <label class="adm-label">YouTube Video ID</label>
+          <input class="adm-input" id="f-ytid" type="text" placeholder="dQw4w9WgXcQ" />
+          <div class="adm-hint">Just the video ID from the URL: youtube.com/watch?v=<strong style="color:#C9A227">THIS_PART</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══ SKILLS ══ -->
+    <section class="adm-section" id="sec-skills">
+      <div class="adm-section-header">
+        <div class="adm-section-title">Skills</div>
+        <div class="adm-section-desc">Edit, reorder, or add skills with proficiency percentage</div>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-bar-chart-steps"></i> Skills List</div>
+        <div class="adm-skill-list" id="skill-list"></div>
+        <button class="adm-add-btn" id="add-skill"><i class="bi bi-plus-lg"></i> Add Skill</button>
+        <div class="adm-hint" style="margin-top:.7rem">Percentage 0–100. Changes are saved when you click "Save Changes".</div>
+      </div>
+    </section>
+
+    <!-- ══ IMAGES ══ -->
+    <section class="adm-section" id="sec-images">
+      <div class="adm-section-header">
+        <div class="adm-section-title">Images & Media</div>
+        <div class="adm-section-desc">Update image paths or URLs. Files must be committed to the repo.</div>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-person-bounding-box"></i> Profile Image</div>
+        <div class="adm-field">
+          <label class="adm-label">Profile Photo Path</label>
+          <input class="adm-input" id="f-profileimg" type="text" placeholder="assets/img/my-profile-img.jpg" />
+          <div class="adm-hint">Relative path from site root, or a full URL. Commit new images to assets/img/ first.</div>
+        </div>
+        <div style="margin-top:1rem">
+          <label class="adm-label">Current Preview</label>
+          <img id="profile-preview" src="assets/img/my-profile-img.jpg"
+               style="width:80px;height:80px;object-fit:cover;border:1px solid rgba(201,162,39,.2)" alt="Profile">
+        </div>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-image"></i> Hero Background</div>
+        <div class="adm-field">
+          <label class="adm-label">Hero BG Image Path</label>
+          <input class="adm-input" id="f-herobg" type="text" placeholder="assets/img/hero-bg.jpg" />
+        </div>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-film"></i> Animated GIF (About section)</div>
+        <div class="adm-field">
+          <label class="adm-label">GIF Path</label>
+          <input class="adm-input" id="f-gif" type="text" placeholder="assets/img/ez.gif" />
+          <div class="adm-hint">Replace assets/img/ez.gif in the repository with your new GIF, then update the path here.</div>
+        </div>
+      </div>
+
+      <div class="adm-security-note">
+        <strong>How to update images:</strong><br>
+        1. Add your new image file to <code>assets/img/</code> locally.<br>
+        2. Update the path above and click "Save Changes".<br>
+        3. Export config → place <code>config.json</code> in <code>data/</code> → git push.<br>
+        Railway redeploys automatically.
+      </div>
+    </section>
+
+    <!-- ══ SECURITY ══ -->
+    <section class="adm-section" id="sec-security">
+      <div class="adm-section-header">
+        <div class="adm-section-title">Security</div>
+        <div class="adm-section-desc">Recruiter access code and admin password</div>
+      </div>
+
+      <div class="adm-security-note">
+        <strong>Note:</strong> The recruiter code and admin password are stored in
+        <code>assets/js/gate.js</code>. To permanently change them, edit that file and push to GitHub.
+        The values below let you preview what the exported config will contain.
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-briefcase"></i> Recruiter Access Code</div>
+        <div class="adm-field">
+          <label class="adm-label">4-Digit PIN</label>
+          <input class="adm-input" id="f-rcode" type="text" maxlength="4"
+                 inputmode="numeric" pattern="[0-9]{4}" placeholder="2025" style="width:120px;letter-spacing:.3em;font-size:1.1rem" />
+          <div class="adm-hint">Print this code at the bottom of your resume PDF so only real recruiters have it.</div>
+        </div>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-shield-lock"></i> Admin Password</div>
+        <div class="adm-field">
+          <label class="adm-label">Current Password</label>
+          <input class="adm-input" id="f-admpw-cur" type="password" placeholder="Current password" style="max-width:280px" />
+        </div>
+        <div class="adm-field" style="margin-top:.8rem">
+          <label class="adm-label">New Password</label>
+          <input class="adm-input" id="f-admpw-new" type="password" placeholder="New password" style="max-width:280px" />
+        </div>
+        <div style="margin-top:1rem">
+          <button class="adm-dl-btn" id="adm-pw-change" style="font-size:.48rem">
+            <i class="bi bi-check-circle"></i> Update Password in gate.js Instructions
+          </button>
+        </div>
+        <div class="adm-err" id="pw-change-msg" style="margin-top:.7rem;font-size:.55rem;color:#5a4e3a"></div>
+      </div>
+    </section>
+
+    <!-- ══ EXPORT ══ -->
+    <section class="adm-section" id="sec-export">
+      <div class="adm-section-header">
+        <div class="adm-section-title">Export & Deploy</div>
+        <div class="adm-section-desc">Download your config and push to GitHub to go live</div>
+      </div>
+
+      <div class="adm-security-note">
+        <strong>How publishing works:</strong><br>
+        1. Edit your content above and click <strong>Save Changes</strong>.<br>
+        2. Click <strong>Download config.json</strong> below.<br>
+        3. Place the file at <code>data/config.json</code> in your local repo.<br>
+        4. <code>git add data/config.json &amp;&amp; git commit -m "Update site config" &amp;&amp; git push</code><br>
+        5. Railway redeploys in ~30 seconds. All visitors will see your changes.
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-code-slash"></i> Config Preview</div>
+        <div class="adm-export-box" id="export-preview">Click "Generate" to preview your config.json</div>
+        <div style="display:flex;gap:.8rem;flex-wrap:wrap">
+          <button class="adm-dl-btn" id="gen-btn"><i class="bi bi-arrow-clockwise"></i> Generate</button>
+          <button class="adm-dl-btn" id="dl-btn"><i class="bi bi-download"></i> Download config.json</button>
+          <button class="adm-dl-btn" id="copy-btn"><i class="bi bi-clipboard"></i> Copy to Clipboard</button>
+        </div>
+      </div>
+
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-terminal"></i> Quick Deploy Command</div>
+        <div class="adm-export-box" style="font-size:.68rem;padding:.9rem">cd /path/to/pat-portfolio
+git add data/config.json
+git commit -m "Update site config"
+git push origin main</div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Toast notification -->
+<div class="adm-toast" id="adm-toast">
+  <i class="bi bi-check-circle"></i>
+  <span id="adm-toast-msg">Saved</span>
+</div>
+
+<script>
+/* ── Auth guard double-check ── */
+if (sessionStorage.getItem('pf_role') !== 'admin') {
+  window.location.replace('index.html');
+}
+
+/* ── Default skill data ── */
+var DEFAULT_SKILLS = [
+  {name:'Java',       pct:85},
+  {name:'Python',     pct:80},
+  {name:'JavaScript', pct:78},
+  {name:'Android',    pct:82},
+  {name:'HTML/CSS',   pct:88},
+  {name:'SQL',        pct:75},
+  {name:'Raspberry Pi', pct:70},
+  {name:'Arduino',    pct:65},
+  {name:'Git',        pct:80},
+];
+
+/* ── State ── */
+var state = {};
+var skills = [];
+
+/* ── Load saved state from localStorage ── */
+function loadState() {
+  try {
+    var saved = localStorage.getItem('pfAdminState');
+    if (saved) {
+      var parsed = JSON.parse(saved);
+      state  = parsed.state  || {};
+      skills = parsed.skills || DEFAULT_SKILLS.slice();
+    } else {
+      state  = {};
+      skills = DEFAULT_SKILLS.slice();
+    }
+  } catch(e) {
+    state  = {};
+    skills = DEFAULT_SKILLS.slice();
+  }
+}
+
+/* ── Populate form fields ── */
+function populateForms() {
+  var fields = ['name','title','bio','about1','about2','phone','email','location',
+                'linkedin','github','resume','ytid','rcode','profileimg','herobg','gif'];
+  fields.forEach(function(id) {
+    var el = document.getElementById('f-' + id);
+    if (el && state[id] !== undefined) el.value = state[id];
+  });
+  renderSkills();
+}
+
+/* ── Read form values into state ── */
+function readForms() {
+  ['name','title','bio','about1','about2','phone','email','location',
+   'linkedin','github','resume','ytid','rcode','profileimg','herobg','gif'
+  ].forEach(function(id) {
+    var el = document.getElementById('f-' + id);
+    if (el) state[id] = el.value.trim();
+  });
+  readSkills();
+}
+
+/* ── Skills ── */
+function renderSkills() {
+  var list = document.getElementById('skill-list');
+  list.innerHTML = '';
+  skills.forEach(function(sk, i) {
+    var row = document.createElement('div');
+    row.className = 'adm-skill-row';
+    row.innerHTML =
+      '<input class="adm-skill-name" type="text" placeholder="Skill name" value="' + esc(sk.name) + '" data-i="' + i + '" />' +
+      '<input class="adm-skill-pct" type="number" min="0" max="100" placeholder="%" value="' + sk.pct + '" data-i="' + i + '" />' +
+      '<button class="adm-skill-del" data-i="' + i + '"><i class="bi bi-x-lg"></i></button>';
+    list.appendChild(row);
+  });
+  list.querySelectorAll('.adm-skill-del').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      skills.splice(parseInt(this.dataset.i), 1);
+      renderSkills();
+    });
+  });
+}
+
+function readSkills() {
+  skills = [];
+  document.querySelectorAll('.adm-skill-row').forEach(function(row) {
+    var name = row.querySelector('.adm-skill-name').value.trim();
+    var pct  = parseInt(row.querySelector('.adm-skill-pct').value) || 0;
+    if (name) skills.push({name:name, pct:pct});
+  });
+}
+
+document.getElementById('add-skill').addEventListener('click', function() {
+  skills.push({name:'', pct:80});
+  renderSkills();
+  var inputs = document.querySelectorAll('.adm-skill-name');
+  if (inputs.length) inputs[inputs.length-1].focus();
+});
+
+/* ── Profile image preview ── */
+document.getElementById('f-profileimg').addEventListener('input', function() {
+  document.getElementById('profile-preview').src = this.value || 'assets/img/my-profile-img.jpg';
+});
+
+/* ── Navigation ── */
+document.querySelectorAll('.adm-nav-item').forEach(function(item) {
+  item.addEventListener('click', function() {
+    document.querySelectorAll('.adm-nav-item').forEach(function(n){ n.classList.remove('active'); });
+    document.querySelectorAll('.adm-section').forEach(function(s){ s.classList.remove('active'); });
+    this.classList.add('active');
+    var sec = document.getElementById('sec-' + this.dataset.sec);
+    if (sec) sec.classList.add('active');
+  });
+});
+
+/* ── Save ── */
+document.getElementById('adm-save-all').addEventListener('click', function() {
+  readForms();
+  localStorage.setItem('pfAdminState', JSON.stringify({state:state, skills:skills}));
+  toast('Changes saved to browser storage');
+});
+
+/* ── Logout ── */
+document.getElementById('adm-logout').addEventListener('click', function() {
+  sessionStorage.removeItem('pf_role');
+  window.location.href = 'index.html';
+});
+
+/* ── Export / Download ── */
+function buildConfig() {
+  readForms();
+  return {
+    name:       state.name       || '',
+    title:      state.title      || '',
+    bio:        state.bio        || '',
+    about1:     state.about1     || '',
+    about2:     state.about2     || '',
+    phone:      state.phone      || '',
+    email:      state.email      || '',
+    location:   state.location   || '',
+    linkedin:   state.linkedin   || '',
+    github:     state.github     || '',
+    resumeUrl:  state.resume     || '',
+    youtubeId:  state.ytid       || '',
+    profileImg: state.profileimg || '',
+    heroBg:     state.herobg     || '',
+    gifPath:    state.gif        || '',
+    recruiterCode: state.rcode   || '',
+    skills:     skills
+  };
+}
+
+document.getElementById('gen-btn').addEventListener('click', function() {
+  document.getElementById('export-preview').textContent =
+    JSON.stringify(buildConfig(), null, 2);
+});
+
+document.getElementById('dl-btn').addEventListener('click', function() {
+  var json = JSON.stringify(buildConfig(), null, 2);
+  var blob = new Blob([json], {type:'application/json'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'config.json';
+  a.click();
+  toast('config.json downloaded — place it in data/ and push');
+});
+
+document.getElementById('copy-btn').addEventListener('click', function() {
+  var text = JSON.stringify(buildConfig(), null, 2);
+  navigator.clipboard.writeText(text).then(function() {
+    toast('Config copied to clipboard');
+  }).catch(function() {
+    document.getElementById('export-preview').textContent = text;
+    toast('Generated above — select and copy manually');
+  });
+});
+
+/* ── Password change instructions ── */
+document.getElementById('adm-pw-change').addEventListener('click', function() {
+  var cur = document.getElementById('f-admpw-cur').value;
+  var nw  = document.getElementById('f-admpw-new').value;
+  var msg = document.getElementById('pw-change-msg');
+  if (!cur || !nw) { msg.textContent = 'Fill in both fields.'; return; }
+  msg.style.color = '#C9A227';
+  msg.textContent =
+    'Open assets/js/gate.js and change ADMIN_PASS to: "' + nw + '"  then git push.';
+  document.getElementById('f-admpw-cur').value = '';
+  document.getElementById('f-admpw-new').value = '';
+});
+
+/* ── Toast ── */
+function toast(msg) {
+  var t = document.getElementById('adm-toast');
+  document.getElementById('adm-toast-msg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2800);
+}
+
+/* ── Escape HTML ── */
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+}
+
+/* ── Init ── */
+loadState();
+populateForms();
+</script>
+</body>
+</html>
