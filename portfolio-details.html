@@ -9,13 +9,13 @@
 <meta content="" name="keywords">
 
 <!-- Favicons -->
-<link href="assets/img/favicon.png" rel="icon">
-<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+<link href="assets/img/favicon.svg" rel="icon" type="image/svg+xml">
+<link href="assets/img/favicon.svg" rel="apple-touch-icon">
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 
 <!-- Vendor CSS Files -->
@@ -26,6 +26,9 @@
 
 <!-- Main CSS File -->
 <link href="assets/css/main.css" rel="stylesheet">
+
+<!-- Golden Noir Theme -->
+<link href="assets/css/golden-noir.css" rel="stylesheet">
 
 <style>
   /* ===== HEADER STYLES ===== */
@@ -117,6 +120,23 @@
   </div>
 
   <a href="index.html" class="logo d-flex align-items-center justify-content-center">
+    <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="34" height="34"
+         style="flex-shrink:0;margin-right:8px" aria-hidden="true">
+      <defs>
+        <linearGradient id="hgd" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   style="stop-color:#E8C547"/>
+          <stop offset="100%" style="stop-color:#8B6914"/>
+        </linearGradient>
+      </defs>
+      <polygon points="30,3 49,13 56,32 49,50 30,57 11,50 4,32 11,13"
+               fill="none" stroke="url(#hgd)" stroke-width="1.8"/>
+      <line x1="30" y1="3"  x2="30" y2="11" stroke="#C9A227" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="30" y1="49" x2="30" y2="57" stroke="#C9A227" stroke-width="1.8" stroke-linecap="round"/>
+      <text x="30" y="35" font-family="'Courier New',monospace" font-size="14"
+            font-weight="bold" fill="url(#hgd)" text-anchor="middle">&lt;/&gt;</text>
+      <text x="30" y="45" font-family="Arial,sans-serif" font-size="5.5"
+            fill="#C9A227" text-anchor="middle" letter-spacing="2.5" opacity="0.85">DEV</text>
+    </svg>
     <h1 class="sitename">Patrick Perez</h1>
   </a>
 

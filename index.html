@@ -10,17 +10,13 @@
 <meta content="" name="keywords">
 
 <!-- Favicons -->
-<link href="assets/img/favicon.png" rel="icon">
-<link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+<link href="assets/img/favicon.svg" rel="icon" type="image/svg+xml">
+<link href="assets/img/favicon.svg" rel="apple-touch-icon">
 
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com" rel="preconnect">
 <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-<!-- Added cyberpunk and gaming fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
 
 <!-- Vendor CSS Files -->
 <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -30,6 +26,9 @@
 
 <!-- Main CSS File -->
 <link href="assets/css/main.css" rel="stylesheet">
+
+<!-- Golden Noir Theme -->
+<link href="assets/css/golden-noir.css" rel="stylesheet">
 
 <!-- Grouped CSS Styles - Same as original but removing the floating-stats-container display in gaming mode -->
 <style>
@@ -125,262 +124,6 @@
   .navmenu li {
     text-align: left;
     margin-bottom: 0px;
-  }
-
-  /* ===== HERO SECTION STYLES ===== */
-  /* Scope all styles to the hero section or its direct children */
-  #hero.hero {
-    position: relative;
-    overflow: hidden;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.5s ease-in-out;
-  }
-  
-  #hero .hero-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: all 0.8s ease-in-out;
-    z-index: 1; /* Increased from -1 to ensure it's above the base layer */
-    opacity: 1; /* Ensure it's visible by default */
-  }
-  
-  #hero .container {
-    position: relative;
-    z-index: 10;
-    text-align: center;
-    padding: 20px;
-    transition: all 0.5s ease;
-    margin-top: 40vh; /* Add back the margin to lower the text position */
-  }
-  
-  #hero .container h2 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    transition: all 0.5s ease-in-out;
-    color: white; /* Added for better readability in normal mode */
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7); /* Added shadow for readability */
-  }
-  
-  #hero .container p {
-    font-size: 1.5rem;
-    transition: all 0.5s ease-in-out;
-    color: white; /* Added for better readability in normal mode */
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7); /* Added shadow for readability */
-  }
-
-  /* Improved typed text readability */
-  #hero .typed {
-    color: white;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
-    font-weight: 500;
-  }
-
-  /* GTA Mode Toggle Switch - Fixed position in upper left */
-  #hero .gta-mode-toggle {
-    position: absolute; /* Changed from fixed to absolute to scope to hero section */
-    top: 20px;
-    left: 20px;
-    display: flex;
-    align-items: center;
-    z-index: 100;
-    padding: 10px;
-    border-radius: 20px;
-    background-color: rgba(0, 0, 0, 0.5);
-    transition: all 0.3s ease;
-  }
-  
-  #hero .gta-mode-toggle:hover {
-    background-color: rgba(0, 0, 0, 0.7);
-    transform: scale(1.05);
-  }
-
-  #hero .switch {
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 24px;
-  }
-
-  #hero .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  #hero .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #ccc;
-    transition: .4s;
-    border-radius: 34px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  }
-
-  #hero .slider:before {
-    position: absolute;
-    content: "";
-    height: 18px;
-    width: 18px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    transition: .4s;
-    border-radius: 50%;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  }
-
-  #hero input:checked + .slider {
-    background-color: #27ae60;
-  }
-
-  #hero input:checked + .slider:before {
-    transform: translateX(26px);
-  }
-  
-  #hero input:focus + .slider {
-    box-shadow: 0 0 5px #27ae60;
-  }
-
-  #hero .mode-text {
-    margin-left: 10px;
-    font-size: 16px;
-    color: white;
-    text-shadow: 0 0 2px black;
-    font-weight: bold;
-    letter-spacing: 1px;
-  }
-
-  /* GTA Mode Effects - San Andreas Style */
-  #hero.gta-dark-mode {
-    background: linear-gradient(to bottom, #000000, #1a1a1a) !important;
-  }
-  
-  #hero.gta-dark-mode .container {
-    color: #ffffff !important; /* White text instead of neon green */
-  }
-  
-  #hero.gta-dark-mode h2 {
-    /* GTA San Andreas style - white text with black outline */
-    color: #ffffff;
-    text-shadow: 
-      -3px -3px 0 #000,
-      3px -3px 0 #000,
-      -3px 3px 0 #000,
-      3px 3px 0 #000,
-      0 0 8px rgba(0, 0, 0, 0.7);
-    font-family: 'Press Start 2P', cursive;
-    font-weight: 800;
-    letter-spacing: 1px;
-    transform: scale(1.1);
-  }
-  
-  #hero.gta-dark-mode .typed {
-    /* GTA San Andreas style for typed text */
-    color: #ffffff;
-    text-shadow: 
-      -2px -2px 0 #000,
-      2px -2px 0 #000,
-      -2px 2px 0 #000,
-      2px 2px 0 #000,
-      0 0 6px rgba(0, 0, 0, 0.7);
-    font-weight: bold;
-    /* Replace pulsing with subtle scaling animation */
-    animation: gtaTextPulse 2s infinite alternate;
-  }
-  
-  /* Replace pulse animation with GTA-style scaling */
-  @keyframes gtaTextPulse {
-    0% { transform: scale(1); }
-    100% { transform: scale(1.05); }
-  }
-  
-  /* Add a subtle orange-yellow gradient highlight for San Andreas feel */
-  #hero.gta-dark-mode .container p {
-    background: linear-gradient(to bottom, #ffffff, #f5d76e);
-    -webkit-background-clip: text;
-    background-clip: text;
-    /* Only apply gradient to the paragraph, not the typed text */
-    color: #ffffff;
-  }
-  
-  /* Darker filter for the background in GTA mode */
-  #hero.gta-dark-mode .hero-bg {
-    opacity: 0.8;
-    filter: brightness(0.6) contrast(1.3) sepia(0.3); /* More GTA-like filter */
-    transform: scale(1.30);
-  }
-  
-  /* Hide overlay in GTA mode */
-  #hero.gta-dark-mode::before {
-    opacity: 0;
-  }
-
-  /* Money Animation - Scope to hero */
-  #hero .money-rain {
-    position: absolute;
-    top: -100px;
-    width: 40px;
-    height: auto;
-    animation: moneyFall 3s linear infinite;
-    z-index: 50;
-    filter: drop-shadow(0 0 5px rgba(0, 255, 0, 0.7));
-  }
-
-  @keyframes moneyFall {
-    0% { 
-      transform: translateY(-100px) rotate(0deg) scale(1); 
-      opacity: 0; 
-    }
-    10% {
-      opacity: 1;
-    }
-    100% { 
-      transform: translateY(100vh) rotate(360deg) scale(0.5); 
-      opacity: 0; 
-    }
-  }
-  
-  /* Star Animation - Scoped to hero */
-  #hero .star {
-    position: absolute;
-    background-color: white;
-    border-radius: 50%;
-    animation: twinkle 2s infinite alternate;
-    z-index: 5;
-  }
-  
-  @keyframes twinkle {
-    0% { opacity: 0.2; }
-    100% { opacity: 1; box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.8); }
-  }
-
-  /* Accessories Container - Scoped to hero */
-  #hero #accessoriesContainer {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-    z-index: 100;
-  }
-
-  /* UPDATED: Active States with Animations - Using viewport-relative positioning */
-  @keyframes bounce {
-    0% { transform: translateX(-50%) scale(0.5); }
-    50% { transform: translateX(-50%) scale(1.2); }
-    100% { transform: translateX(-50%) scale(1); }
   }
 
   /* ===== ABOUT SECTION STYLES ===== */
@@ -758,108 +501,254 @@
     box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
   }
   
-  /* ===== PORTFOLIO SECTION STYLES ===== */
-  .portfolio {
-    padding: 60px 0; /* Increased padding from 40px to 60px */
-    background-color: #fff;
-    margin-top: 20px; /* Added space between resume and portfolio */
+  /* ===== PORTFOLIO SHOWCASE — CINEMATIC DARK GRID ===== */
+  section#portfolio {
+    background: #0A0907 !important;
+    padding: 90px 0 110px;
+    position: relative;
   }
-  
-  .filters-list {
+  section#portfolio::before {
+    content: '';
+    position: absolute;
+    top: -180px; left: 50%;
+    width: 900px; height: 900px;
+    background: radial-gradient(circle, rgba(201,162,39,0.05) 0%, transparent 65%);
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  /* --- Filter bar --- */
+  .pf-filters {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3.2rem;
+  }
+  .pf-filters-inner {
     display: inline-flex;
-    list-style: none;
-    padding: 5px;
-    margin: 0 0 30px 0;
-    background-color: #e9ecef;
-    border-radius: 50px;
-  }
-  
-  .filters-list li {
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 50px;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    color: #495057;
-  }
-  
-  .filters-list li.filter-active {
-    background-color: #3498db;
-    color: white;
-    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
-  }
-  
-  .portfolio-card {
     position: relative;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s ease; /* Increased transition duration */
-    height: 100%;
-    background-color: white;
+    border-bottom: 1px solid rgba(201,162,39,0.14);
+  }
+  .pf-filter-btn {
+    background: none;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: #3e3427;
     cursor: pointer;
-    transform: translateY(0); /* Initial state for animation */
+    transition: color 0.3s ease;
+    white-space: nowrap;
   }
-  
-  .portfolio-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+  .pf-filter-btn.pf-active { color: #C9A227; }
+  .pf-filter-btn sup {
+    font-size: 0.44rem;
+    margin-left: 2px;
+    opacity: 0.5;
   }
-  
-  .portfolio-item {
-    transition: all 0.5s ease; /* Transition for portfolio items */
-    backface-visibility: hidden; /* Prevents flickering */
+  .pf-filter-line {
+    position: absolute;
+    bottom: -1px; left: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, #C9A227 25%, #C9A227 75%, transparent 100%);
+    box-shadow: 0 0 10px rgba(201,162,39,0.5);
+    transition: left 0.42s cubic-bezier(0.16,1,0.3,1), width 0.42s cubic-bezier(0.16,1,0.3,1);
+    pointer-events: none;
   }
-  
-  .portfolio-img {
+
+  /* --- Grid --- */
+  .pf-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.35rem;
+  }
+  @media (max-width: 991px) { .pf-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 575px) { .pf-grid { grid-template-columns: 1fr; } }
+
+  /* Card wrapper for filter transitions */
+  .pf-wrap {
+    transition: opacity 0.32s ease, transform 0.36s cubic-bezier(0.34,1.2,0.64,1);
+  }
+  .pf-wrap.pf-exit {
+    opacity: 0;
+    transform: scale(0.88) translateY(14px);
+    pointer-events: none;
+  }
+
+  /* --- Card --- */
+  .pf-card {
     position: relative;
+    display: block;
+    text-decoration: none;
+    background: #0f0d0b;
+    border: 1px solid rgba(201,162,39,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.38s ease, box-shadow 0.38s ease, transform 0.18s ease;
+    will-change: transform;
+  }
+  .pf-card:hover {
+    text-decoration: none;
+    border-color: rgba(201,162,39,0.35);
+    box-shadow: 0 22px 60px rgba(0,0,0,0.58), 0 0 0 1px rgba(201,162,39,0.07), inset 0 0 50px rgba(201,162,39,0.025);
+  }
+  .pf-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -80%;
+    width: 50%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(201,162,39,0.07), transparent);
+    transform: skewX(-18deg);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .pf-card:hover::after {
+    animation: pfShimmer 0.7s ease forwards;
+  }
+  @keyframes pfShimmer {
+    0%   { opacity:0; left:-80%; }
+    30%  { opacity:1; }
+    100% { opacity:0; left:130%; }
+  }
+
+  /* Image */
+  .pf-img {
+    position: relative;
+    height: 195px;
     overflow: hidden;
   }
-  
-  .portfolio-img img {
-    transition: transform 0.8s ease; /* Increased transition duration */
+  .pf-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.52) saturate(0.72);
+    transition: transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.5s ease;
+    display: block;
   }
-  
-  .portfolio-card:hover .portfolio-img img {
-    transform: scale(1.1);
+  .pf-card:hover .pf-img img {
+    transform: scale(1.09);
+    filter: brightness(0.28) saturate(0.52);
   }
-  
-  .portfolio-info {
-    padding: 20px;
-    transition: all 0.3s ease; /* Added transition */
+  .pf-img-fade {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 55%;
+    background: linear-gradient(to bottom, transparent, #0f0d0b);
+    pointer-events: none;
   }
-  
-  .portfolio-info h4 {
-    margin-bottom: 5px;
-    font-weight: 600;
-    color: #333;
-    transition: color 0.3s ease; /* Added transition */
+
+  /* Mouse spotlight */
+  .pf-spot {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(201,162,39,0.11) 0%, transparent 58%);
+    opacity: 0;
+    transition: opacity 0.28s;
+    pointer-events: none;
+    z-index: 2;
   }
-  
-  .portfolio-info p {
-    color: #6c757d;
-    margin-bottom: 10px;
-    transition: color 0.3s ease; /* Added transition */
+  .pf-card:hover .pf-spot { opacity: 1; }
+
+  /* Body */
+  .pf-body {
+    position: relative;
+    padding: 1.25rem 1.5rem 1.55rem;
+    z-index: 1;
   }
-  
-  .portfolio-tags {
+  .pf-num {
+    position: absolute;
+    top: 0.2rem; right: 1rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4.8rem;
+    font-weight: 700;
+    color: rgba(201,162,39,0.055);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    transition: color 0.4s;
+  }
+  .pf-card:hover .pf-num { color: rgba(201,162,39,0.12); }
+
+  .pf-cat {
+    font-size: 0.52rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #C9A227;
+    margin-bottom: 0.48rem;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+  .pf-cat::before {
+    content: '';
+    width: 16px; height: 1px;
+    background: #C9A227;
+    flex-shrink: 0;
+  }
+
+  .pf-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.38rem;
+    font-weight: 400;
+    color: #F0E6CC;
+    line-height: 1.22;
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.02em;
+    transition: color 0.3s;
+  }
+  .pf-card:hover .pf-title { color: #fff; }
+
+  .pf-desc {
+    font-size: 0.75rem;
+    color: #3e3427;
+    line-height: 1.6;
+    margin-bottom: 0.85rem;
+    transition: color 0.3s;
+  }
+  .pf-card:hover .pf-desc { color: #5e5040; }
+
+  .pf-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 0.27rem;
+    margin-bottom: 1.05rem;
   }
-  
-  .portfolio-tags .tag {
-    padding: 3px 10px;
-    background-color: #e9ecef;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    color: #495057;
-    transition: all 0.3s ease; /* Added transition */
+  .pf-tags span {
+    font-size: 0.51rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    padding: 0.14rem 0.48rem;
+    border: 1px solid rgba(201,162,39,0.16);
+    color: rgba(201,162,39,0.48);
+    background: rgba(201,162,39,0.04);
+    border-radius: 1px;
+    transition: border-color 0.3s, color 0.3s, background 0.3s;
   }
-  
-  .portfolio-card:hover .portfolio-tags .tag {
-    background-color: #e0e0e0; /* Subtle change on hover */
+  .pf-card:hover .pf-tags span {
+    border-color: rgba(201,162,39,0.36);
+    color: #C9A227;
+    background: rgba(201,162,39,0.07);
   }
+
+  .pf-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-size: 0.57rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #3e3427;
+    transition: color 0.3s, gap 0.38s cubic-bezier(0.16,1,0.3,1);
+  }
+  .pf-card:hover .pf-cta { color: #F0E6CC; gap: 0.9rem; }
+  .pf-cta-line {
+    width: 20px; height: 1px;
+    background: currentColor;
+    flex-shrink: 0;
+    transition: width 0.38s cubic-bezier(0.16,1,0.3,1);
+  }
+  .pf-card:hover .pf-cta-line { width: 36px; }
   
   /* ===== CONTACT SECTION STYLES ===== */
   .contact {
@@ -1050,726 +939,406 @@
     transform: translateX(-50%);
   }
 
-  /* ===== GAMING MODE STYLES ===== */
-  body.gaming-mode {
-    background-color: #0a0a0a;
-    color: #e0e0e0;
-    font-family: 'Orbitron', sans-serif;
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23000000" /><path d="M0 50 L100 50" stroke="%23111111" stroke-width="1" /><path d="M50 0 L50 100" stroke="%23111111" stroke-width="1" /></svg>');
-    background-size: 50px 50px;
-    position: relative;
-  }
-
-  body.gaming-mode::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, rgba(0,50,100,0.15) 0%, rgba(0,0,0,0) 70%);
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  body.gaming-mode .section {
-    background-color: rgba(15, 15, 20, 0.8);
-    border: 1px solid #333;
-    box-shadow: 0 0 20px rgba(0, 150, 255, 0.2);
-    position: relative;
+  /* ===== ABOUT — PERSONAL INFO CARD ===== */
+  .about-info-card {
+    margin-top: 2.8rem;
+    border: 1px solid rgba(201,162,39,0.18);
+    background: rgba(201,162,39,0.03);
     overflow: hidden;
-  }
-
-  body.gaming-mode .section::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
+    text-align: left;
     width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #00c6ff, transparent);
-    animation: scanline 3s linear infinite;
   }
-
-  @keyframes scanline {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
-
-  body.gaming-mode .section-title h2 {
-    color: #00c6ff;
-    text-shadow: 0 0 10px rgba(0, 198, 255, 0.7);
-    font-family: 'Orbitron', sans-serif;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-
-  body.gaming-mode .section-title h2::after {
-    background: linear-gradient(90deg, #0047ab, #00c6ff);
-    box-shadow: 0 0 10px rgba(0, 198, 255, 0.7);
-    height: 2px;
-    width: 100px;
-  }
-
-  /* About section gaming mode */
-  body.gaming-mode #about {
-    background-color: rgba(10, 10, 15, 0.9);
-    border: 1px solid #333;
-    position: relative;
-  }
-
-  body.gaming-mode #about-text {
-    color: #b8b8b8;
-    font-family: 'Chakra Petch', sans-serif;
-    line-height: 1.6;
-  }
-
-  body.gaming-mode .tech-stack {
-    background: rgba(0, 20, 40, 0.6);
-    border: 1px solid #0066cc;
-    border-radius: 4px;
-    padding: 3px 8px;
-    color: #00c6ff;
-    transition: all 0.3s ease;
-    text-shadow: 0 0 5px rgba(0, 198, 255, 0.5);
-  }
-
-  body.gaming-mode .tech-stack:hover {
-    background: rgba(0, 30, 60, 0.8);
-    box-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
-    transform: translateY(-2px);
-  }
-
-  body.gaming-mode .tech-icon {
-    filter: drop-shadow(0 0 2px rgba(0, 198, 255, 0.7));
-  }
-
-  /* Skills section gaming mode */
-  body.gaming-mode .skills-section {
-    background-color: rgba(10, 10, 15, 0.9);
-    position: relative;
-  }
-
-  body.gaming-mode .skills-header h2 {
-    color: #00c6ff;
-    text-shadow: 0 0 10px rgba(0, 198, 255, 0.7);
-    font-family: 'Orbitron', sans-serif;
-  }
-
-  body.gaming-mode .skills-header p {
-    color: #b8b8b8;
-    font-family: 'Chakra Petch', sans-serif;
-  }
-
-  body.gaming-mode .skill-item {
-    background: linear-gradient(135deg, rgba(0, 20, 40, 0.8), rgba(0, 40, 80, 0.8));
-    border: 1px solid rgba(0, 198, 255, 0.3);
-    box-shadow: 0 0 10px rgba(0, 198, 255, 0.2);
-  }
-
-  body.gaming-mode .skill-item:hover {
-    box-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
-    transform: scale(1.05) translateY(-2px);
-  }
-
-  body.gaming-mode .skill-item img {
-    filter: drop-shadow(0 0 2px rgba(0, 198, 255, 0.7));
-  }
-
-  /* Services section gaming mode */
-  body.gaming-mode #services {
-    background-color: rgba(10, 10, 15, 0.9);
-    position: relative;
-  }
-
-  body.gaming-mode .service-item {
-    background: rgba(15, 15, 25, 0.7);
-    border: 1px solid #333;
-    border-radius: 8px;
-    padding: 20px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-
-  body.gaming-mode .service-item::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 3px;
-    height: 100%;
-    background: linear-gradient(to bottom, #0047ab, #00c6ff);
-  }
-
-  body.gaming-mode .service-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 198, 255, 0.2);
-  }
-
-  body.gaming-mode .service-item .icon {
-    color: #00c6ff;
-    font-size: 28px;
-    text-shadow: 0 0 10px rgba(0, 198, 255, 0.7);
-  }
-
-  body.gaming-mode .service-item h4 {
-    color: #00c6ff;
-    font-family: 'Orbitron', sans-serif;
-  }
-
-  body.gaming-mode .service-item p {
-    color: #b8b8b8;
-    font-family: 'Chakra Petch', sans-serif;
-  }
-
-  /* Resume section gaming mode */
-  body.gaming-mode .resume {
-    background-color: rgba(10, 10, 15, 0.9);
-    position: relative;
-  }
-
-  body.gaming-mode .resume .section-title p {
-    color: #ffffff;
-  }
-
-  body.gaming-mode .timeline-header {
-    background-color: rgba(20, 20, 30, 0.7);
-    border: 1px solid #333;
-  }
-
-  body.gaming-mode .timeline-header-item {
-    color: #b8b8b8;
-    font-family: 'Chakra Petch', sans-serif;
-  }
-
-  body.gaming-mode .timeline-header-item.active {
-    background: linear-gradient(135deg, #0047ab, #00c6ff);
-    box-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
-  }
-
-  body.gaming-mode .timeline-section::before {
-    background-color: #333;
-  }
-
-  body.gaming-mode .timeline-marker {
-    background: linear-gradient(135deg, #0047ab, #00c6ff);
-    box-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
-  }
-
-  body.gaming-mode .timeline-content {
-    background-color: rgba(15, 15, 25, 0.7);
-    border: 1px solid #333;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  }
-
-  body.gaming-mode .timeline-date {
-    background-color: rgba(20, 20, 30, 0.7);
-    color: #b8b8b8;
-    border: 1px solid #333;
-  }
-
-  body.gaming-mode .timeline-title {
-    color: #00c6ff;
-    font-family: 'Orbitron', sans-serif;
-  }
-
-  body.gaming-mode .timeline-company {
-    color: #4cc9f0;
-  }
-
-  body.gaming-mode .timeline-description {
-    color: #b8b8b8;
-    font-family: 'Chakra Petch', sans-serif;
-  }
-
-  body.gaming-mode .education-highlights .badge {
-    background-color: rgba(20, 20, 30, 0.7);
-    color: #b8b8b8;
-    border: 1px solid #333;
-  }
-
-  body.gaming-mode .resume-download-btn {
-    background: linear-gradient(135deg, #0047ab, #00c6ff);
-    box-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
-    font-family: 'Orbitron', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  body.gaming-mode .resume-download-btn:hover {
-    box-shadow: 0 0 20px rgba(0, 198, 255, 0.7);
-  }
-
-  /* Portfolio section gaming mode */
-  body.gaming-mode .portfolio {
-    background-color: rgba(10, 10, 15, 0.9);
-    position: relative;
-  }
-
-  body.gaming-mode .filters-list {
-    background-color: rgba(20, 20, 30, 0.7);
-    border: 1px solid #333;
-  }
-
-  body.gaming-mode .filters-list li {
-    color: #b8b8b8;
-    font-family: 'Chakra Petch', sans-serif;
-  }
-
-  body.gaming-mode .filters-list li.filter-active {
-    background: linear-gradient(135deg, #0047ab, #00c6ff);
-    box-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
-  }
-
-  body.gaming-mode .portfolio-card {
-    background-color: rgba(15, 15, 25, 0.7);
-    border: 1px solid #333;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    position: relative;
-    overflow: hidden;
-  }
-
-  body.gaming-mode .portfolio-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: linear-gradient(90deg, #0047ab, #00c6ff);
-    z-index: 1;
-  }
-
-  body.gaming-mode .portfolio-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 198, 255, 0.3);
-  }
-
-  body.gaming-mode .portfolio-info h4 {
-    color: #00c6ff;
-    font-family: 'Orbitron', sans-serif;
-  }
-
-  body.gaming-mode .portfolio-info p {
-    color: #b8b8b8;
-    font-family: 'Chakra Petch', sans-serif;
-  }
-
-  body.gaming-mode .portfolio-tags .tag {
-    background-color: rgba(20, 20, 30, 0.7);
-    color: #b8b8b8;
-    border: 1px solid #333;
-  }
-
-  body.gaming-mode .portfolio-card:hover .portfolio-tags .tag {
-    background-color: rgba(30, 30, 40, 0.7);
-    box-shadow: 0 0 5px rgba(0, 198, 255, 0.3);
-  }
-
-  /* Contact section gaming mode */
-  body.gaming-mode .contact {
-    background-color: rgba(10, 10, 15, 0.9);
-    position: relative;
-  }
-
-  body.gaming-mode .contact-info-card,
-  body.gaming-mode .contact-form-card {
-    background-color: rgba(15, 15, 25, 0.7);
-    border: 1px solid #333;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  }
-
-  body.gaming-mode .contact-info-header,
-  body.gaming-mode .contact-form-header {
-    background: linear-gradient(135deg, #0047ab, #00c6ff);
-  }
-
-  body.gaming-mode .contact-info-header h3,
-  body.gaming-mode .contact-form-header h3 {
-    font-family: 'Orbitron', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  body.gaming-mode .contact-info-item {
-    border-bottom: 1px solid #333;
-  }
-
-  body.gaming-mode .icon-box {
-    background-color: rgba(0, 20, 40, 0.6);
-    color: #00c6ff;
-  }
-
-  body.gaming-mode .contact-info-item .content h5 {
-    color: #00c6ff;
-    font-family: 'Orbitron', sans-serif;
-  }
-
-  body.gaming-mode .contact-info-item .content p {
-    color: #b8b8b8;
-    font-family: 'Chakra Petch', sans-serif;
-  }
-
-  body.gaming-mode .social-links a {
-    background-color: rgba(20, 20, 30, 0.7);
-    color: #b8b8b8;
-    border: 1px solid #333;
-  }
-
-  body.gaming-mode .social-links a:hover {
-    background: linear-gradient(135deg, #0047ab, #00c6ff);
-    color: white;
-    box-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
-  }
-
-  body.gaming-mode .form-group label {
-    color: #00c6ff;
-    font-family: 'Orbitron', sans-serif;
-  }
-
-  body.gaming-mode .input-group-text {
-    background-color: rgba(20, 20, 30, 0.7);
-    border: 1px solid #333;
-    color: #b8b8b8;
-  }
-
-  body.gaming-mode .form-control {
-    background-color: rgba(30, 30, 40, 0.7);
-    border: 1px solid #333;
-    color: #e0e0e0;
-  }
-
-  body.gaming-mode .form-control:focus {
-    border-color: #00c6ff;
-    box-shadow: 0 0 0 0.25rem rgba(0, 198, 255, 0.25);
-  }
-
-  body.gaming-mode .submit-btn {
-    background: linear-gradient(135deg, #0047ab, #00c6ff);
-    box-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
-    font-family: 'Orbitron', sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  body.gaming-mode .submit-btn:hover {
-    box-shadow: 0 0 20px rgba(0, 198, 255, 0.7);
-  }
-
-  /* Cursor - Enhanced */
-  body.gaming-mode {
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%2300c6ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>'), auto;
-  }
-
-  /* New Gaming Mode Elements */
-  /* Glitch effect for section titles */
-  body.gaming-mode .section-title h2 {
-    position: relative;
-    animation: glitch 3s infinite;
-  }
-
-  @keyframes glitch {
-    0% { transform: translate(0); }
-    1% { transform: translate(-2px, 2px); }
-    2% { transform: translate(2px, -2px); }
-    3% { transform: translate(0); }
-    10% { transform: translate(0); }
-    11% { transform: translate(-1px, 1px); }
-    12% { transform: translate(1px, -1px); }
-    13% { transform: translate(0); }
-    100% { transform: translate(0); }
-  }
-
-  /* Holographic elements */
-  body.gaming-mode .holographic {
-    position: relative;
-    overflow: hidden;
-  }
-
-  body.gaming-mode .holographic::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, 
-      rgba(0, 198, 255, 0) 0%, 
-      rgba(0, 198, 255, 0.1) 25%, 
-      rgba(0, 198, 255, 0.2) 50%, 
-      rgba(0, 198, 255, 0.1) 75%, 
-      rgba(0, 198, 255, 0) 100%);
-    animation: holographic 3s linear infinite;
-    pointer-events: none;
-  }
-
-  @keyframes holographic {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
-
-  /* Achievement system */
-  .achievement {
-    position: fixed;
-    top: 80px;
-    right: -300px;
-    background-color: rgba(10, 15, 25, 0.85);
-    border: 2px solid #ffaa00;
-    border-radius: 10px;
-    padding: 15px;
-    color: #fff;
-    font-family: 'Orbitron', sans-serif;
-    z-index: 1000;
-    box-shadow: 0 0 20px rgba(255, 170, 0, 0.5);
-    width: 280px;
-    backdrop-filter: blur(5px);
+  .about-info-card-header {
     display: flex;
     align-items: center;
-    transition: right 0.5s ease-out;
+    gap: 0.65rem;
+    padding: 0.85rem 1.4rem;
+    border-bottom: 1px solid rgba(201,162,39,0.15);
+    background: rgba(201,162,39,0.06);
+  }
+  .about-info-card-header i {
+    color: #C9A227;
+    font-size: 1rem;
+  }
+  .about-info-card-header span {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #C9A227;
+  }
+  .about-info-grid {
+    padding: 1.2rem 1.4rem 1.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .about-info-row {
+    display: flex;
+    flex-wrap: wrap;
+    border-bottom: 1px solid rgba(201,162,39,0.07);
+  }
+  .about-info-row:last-child { border-bottom: none; }
+  .about-info-item {
+    flex: 1 1 45%;
+    padding: 0.7rem 0.6rem;
+    min-width: 0;
+  }
+  .about-info-item--wide { flex: 1 1 100%; }
+  .about-info-label {
+    display: block;
+    font-size: 0.56rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #8a7a60;
+    margin-bottom: 0.28rem;
+    font-family: 'Raleway', sans-serif;
+  }
+  .about-info-value {
+    display: block;
+    font-size: 0.86rem;
+    color: #F0E6CC;
+    line-height: 1.5;
+    font-family: 'Raleway', sans-serif;
   }
 
-  .achievement.show {
-    right: 20px;
-    animation: achievementPulse 2s infinite;
-  }
+  /* port-card styles replaced by pf-* system above */
 
-  @keyframes achievementPulse {
-    0% { box-shadow: 0 0 10px rgba(255, 170, 0, 0.5); }
-    50% { box-shadow: 0 0 20px rgba(255, 170, 0, 0.8); }
-    100% { box-shadow: 0 0 10px rgba(255, 170, 0, 0.5); }
+  /* ===== ACHIEVEMENTS SECTION ===== */
+  .achievements.section {
+    padding: 80px 0;
   }
-
-  .achievement-icon {
-    width: 40px;
-    height: 40px;
-    background-color: #ffaa00;
-    border-radius: 50%;
+  .stat-card {
+    text-align: center;
+    padding: 2rem 1.2rem;
+    border: 1px solid rgba(201,162,39,0.12);
+    background: #2A2720;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.35s ease, transform 0.35s ease;
+  }
+  .stat-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 50%;
+    width: 60%; height: 1px;
+    background: linear-gradient(90deg, transparent, #C9A227, transparent);
+    box-shadow: 0 0 8px rgba(201,162,39,0.4);
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+  .stat-card:hover { border-color: rgba(201,162,39,0.42); transform: translateY(-6px); }
+  .stat-card:hover::after { transform: translateX(-50%) scaleX(1); }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem;
+    font-weight: 300;
+    color: #C9A227;
+    line-height: 1;
+    margin-bottom: 0.6rem;
+  }
+  .stat-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #8a7a60;
+  }
+  .ach-divider {
     display: flex;
     align-items: center;
+    gap: 1.5rem;
+    margin: 4rem 0 2.5rem;
+  }
+  .ach-divider-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(201,162,39,0.3));
+  }
+  .ach-divider-line.ach-divider-line-left {
+    background: linear-gradient(90deg, rgba(201,162,39,0.3), transparent);
+  }
+  .ach-divider-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: #C9A227;
+    flex-shrink: 0;
+    padding: 0 0.5rem;
+  }
+  .milestone-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    padding: 1.4rem 1.5rem;
+    background: #2A2720;
+    border: 1px solid rgba(201,162,39,0.1);
+    transition: all 0.4s ease;
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+  }
+  .milestone-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #E8C547, #8B6914);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  }
+  .milestone-card:hover { border-color: rgba(201,162,39,0.38); transform: translateX(5px); box-shadow: 0 10px 35px rgba(0,0,0,0.3); }
+  .milestone-card:hover::before { transform: scaleY(1); }
+  .milestone-icon {
+    width: 46px; height: 46px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(201,162,39,0.14), rgba(201,162,39,0.05));
+    border: 1px solid rgba(201,162,39,0.28);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.15rem;
+    color: #C9A227;
+    transition: all 0.4s ease;
+  }
+  .milestone-card:hover .milestone-icon { background: #C9A227; color: #0e0c0a; box-shadow: 0 4px 18px rgba(201,162,39,0.45); border-color: #C9A227; }
+  .milestone-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.08rem;
+    font-weight: 400;
+    color: #F0E6CC;
+    margin: 0 0 0.2rem 0;
+    letter-spacing: 0.01em;
+  }
+  .milestone-sub {
+    font-size: 0.72rem;
+    color: #C9A227;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+  }
+  .milestone-desc {
+    font-size: 0.82rem;
+    color: #8a7a60;
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* ===== CONTACT V2 ===== */
+  .contact-v2-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.2rem;
     justify-content: center;
-    margin-right: 15px;
+    margin-bottom: 4rem;
+  }
+  .contact-chip {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.8rem;
+    background: #2A2720;
+    border: 1px solid rgba(201,162,39,0.15);
+    transition: all 0.35s ease;
+  }
+  .contact-chip:hover { border-color: rgba(201,162,39,0.52); transform: translateY(-5px); box-shadow: 0 14px 36px rgba(0,0,0,0.3); }
+  .contact-chip-icon {
+    width: 42px; height: 42px;
+    background: linear-gradient(135deg, rgba(201,162,39,0.14), rgba(201,162,39,0.05));
+    border: 1px solid rgba(201,162,39,0.3);
+    display: flex; align-items: center; justify-content: center;
+    color: #C9A227;
+    font-size: 1.05rem;
     flex-shrink: 0;
   }
-
-  .achievement-content h4 {
-    margin: 0 0 5px 0;
-    color: #ffaa00;
-    font-size: 14px;
+  .contact-chip-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
+    color: #8a7a60;
+    margin-bottom: 0.2rem;
   }
-
-  .achievement-content p {
-    margin: 0;
-    font-size: 12px;
-    opacity: 0.9;
+  .contact-chip-value {
+    font-size: 0.88rem;
+    color: #F0E6CC;
   }
-
-  /* Terminal effect for code sections */
-  body.gaming-mode .terminal-section {
-    background-color: rgba(10, 15, 20, 0.95);
-    border: 1px solid #00c6ff;
-    border-radius: 8px;
-    padding: 20px;
-    font-family: 'Chakra Petch', monospace;
-    color: #00c6ff;
+  .contact-form-v2 {
+    max-width: 740px;
+    margin: 0 auto;
+  }
+  .form-field-v2 {
     position: relative;
-    margin: 20px 0;
+    margin-bottom: 2.2rem;
   }
-
-  body.gaming-mode .terminal-header {
-    position: absolute;
-    top: -10px;
-    left: 20px;
-    background-color: #0a0f14;
-    padding: 0 10px;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  body.gaming-mode .terminal-content {
-    padding-top: 10px;
-  }
-
-  body.gaming-mode .terminal-content::before {
-    content: "> ";
-    color: #00c6ff;
-  }
-
-  /* Cyberpunk grid overlay */
-  body.gaming-mode .grid-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
+  .form-field-v2 .field-input {
     width: 100%;
-    height: 100%;
-    background-image: linear-gradient(0deg, transparent 24%, rgba(0, 198, 255, 0.05) 25%, rgba(0, 198, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 198, 255, 0.05) 75%, rgba(0, 198, 255, 0.05) 76%, transparent 77%, transparent),
-                      linear-gradient(90deg, transparent 24%, rgba(0, 198, 255, 0.05) 25%, rgba(0, 198, 255, 0.05) 26%, transparent 27%, transparent 74%, rgba(0, 198, 255, 0.05) 75%, rgba(0, 198, 255, 0.05) 76%, transparent 77%, transparent);
-    background-size: 50px 50px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(201,162,39,0.18);
+    color: #F0E6CC;
+    padding: 0.9rem 0 0.65rem;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+    resize: none;
+    font-family: 'Raleway', sans-serif;
+  }
+  .form-field-v2 .field-input:focus { border-bottom-color: transparent; }
+  .form-field-v2 .field-label {
+    position: absolute;
+    left: 0; top: 0.9rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #8a7a60;
+    transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
     pointer-events: none;
-    z-index: 1;
+    font-family: 'Raleway', sans-serif;
   }
-
-  /* Energy particles */
-  .energy-particle {
+  .form-field-v2 .field-input:focus + .field-label,
+  .form-field-v2 .field-input:not(:placeholder-shown) + .field-label {
+    top: -0.8rem;
+    font-size: 0.58rem;
+    color: #C9A227;
+    letter-spacing: 0.18em;
+  }
+  .form-field-v2 .field-line {
     position: absolute;
-    width: 3px;
-    height: 3px;
-    background-color: #00c6ff;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 2;
-    box-shadow: 0 0 5px rgba(0, 198, 255, 0.7);
-    opacity: 0;
+    bottom: 0; left: 0;
+    width: 0; height: 1px;
+    background: linear-gradient(90deg, #C9A227, #8B6914);
+    box-shadow: 0 0 8px rgba(201,162,39,0.45);
+    transition: width 0.45s cubic-bezier(0.16,1,0.3,1);
   }
-
-  /* Section-specific quest notifications */
-  .section-quest {
-    display: none;
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(10, 15, 25, 0.85);
-    border: 2px solid #ffaa00;
-    border-radius: 10px;
-    padding: 10px 15px;
-    color: #fff;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 12px;
-    z-index: 100;
-    box-shadow: 0 0 20px rgba(255, 170, 0, 0.5);
-    max-width: 80%;
-    text-align: center;
-    backdrop-filter: blur(5px);
+  .form-field-v2 .field-input:focus ~ .field-line { width: 100%; }
+  .contact-submit-v2 {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.9rem 2.4rem;
+    background: linear-gradient(135deg, #C9A227, #8B6914);
+    color: #0e0c0a;
+    border: none;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.35s ease;
+    box-shadow: 0 5px 20px rgba(201,162,39,0.32);
   }
-
-  body.gaming-mode .section:hover .section-quest {
-    display: block;
-    animation: questAppear 0.5s forwards;
+  .contact-submit-v2:hover { box-shadow: 0 8px 30px rgba(201,162,39,0.55); transform: translateY(-3px); }
+  .contact-social-v2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(201,162,39,0.12);
+    justify-content: center;
   }
-
-  @keyframes questAppear {
-    from {
-      opacity: 0;
-      transform: translate(-50%, 20px);
-    }
-    to {
-      opacity: 1;
-      transform: translate(-50%, 0);
-    }
-  }
-
-  /* Floating money counters and graphs for hero section */
-  .floating-stats-container {
-    display: none; /* Changed from block to none to hide by default */
-    position: absolute;
-    top: 80px;
-    right: 20px;
-    z-index: 100;
-  }
-
-  .floating-stat {
-    background-color: rgba(10, 15, 25, 0.85);
-    border: 2px solid #00c6ff;
-    border-radius: 10px;
-    padding: 10px 15px;
-    color: #fff;
-    font-family: 'Orbitron', sans-serif;
-    margin-bottom: 15px;
-    box-shadow: 0 0 15px rgba(0, 198, 255, 0.5);
-    backdrop-filter: blur(5px);
-    animation: floatUpDown 3s ease-in-out infinite alternate;
-  }
-
-  @keyframes floatUpDown {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-10px); }
-  }
-
-  .money-counter {
+  .contact-social-v2 a {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    gap: 0.6rem;
+    padding: 0.75rem 1.5rem;
+    background: #2A2720;
+    border: 1px solid rgba(201,162,39,0.15);
+    color: #8a7a60;
+    text-decoration: none;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.35s ease;
   }
+  .contact-social-v2 a:hover { background: rgba(201,162,39,0.1); border-color: rgba(201,162,39,0.52); color: #C9A227; transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,0.25); }
+  .contact-social-v2 a i { font-size: 1rem; }
 
-  .money-counter i {
-    color: #00ff00;
-    margin-right: 10px;
-    font-size: 18px;
-    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
-  }
-
-  .money-counter .value {
-    font-size: 16px;
-    font-weight: bold;
-    color: #00ff00;
-    text-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
-  }
-
-  .money-counter .label {
-    font-size: 12px;
-    color: #b8b8b8;
-    margin-left: 5px;
-  }
-
-  .mini-graph {
-    width: 100%;
-    height: 40px;
-    margin-top: 10px;
-    position: relative;
-  }
-
-  .mini-graph .graph-line {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .mini-graph .graph-line::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to right, transparent, #00ff00);
-    clip-path: polygon(0 100%, 10% 70%, 20% 85%, 30% 60%, 40% 50%, 50% 30%, 60% 40%, 70% 20%, 80% 30%, 90% 10%, 100% 20%, 100% 100%);
-    animation: graphPulse 2s infinite alternate;
-  }
-
-  @keyframes graphPulse {
-    0% { opacity: 0.5; }
-    100% { opacity: 1; }
-  }
-
-  .mini-graph .graph-dots {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  .mini-graph .graph-dot {
-    width: 4px;
-    height: 4px;
-    background-color: #00ff00;
-    border-radius: 50%;
-    box-shadow: 0 0 5px rgba(0, 255, 0, 0.7);
-  }
 </style>
 </head>
 
 <body class="index-page">
 
-<header id="header" class="header dark-background d-flex flex-column align-items-center text-center">  
+<!-- ══════════════ SPLASH SCREEN ══════════════ -->
+<div id="splash-screen" onclick="dismissSplash()">
+  <div class="splash-corner splash-corner-tl"></div>
+  <div class="splash-corner splash-corner-tr"></div>
+  <div class="splash-corner splash-corner-bl"></div>
+  <div class="splash-corner splash-corner-br"></div>
+
+  <div class="splash-content">
+    <!-- Art Deco Developer Logo -->
+    <div class="splash-logo">
+      <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg" width="130" height="130" aria-hidden="true">
+        <defs>
+          <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%"   style="stop-color:#F0D060"/>
+            <stop offset="45%"  style="stop-color:#C9A227"/>
+            <stop offset="100%" style="stop-color:#7A5A10"/>
+          </linearGradient>
+          <filter id="sf">
+            <feGaussianBlur stdDeviation="2.5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- Outer ring -->
+        <circle cx="65" cy="65" r="58" fill="none" stroke="url(#sg)" stroke-width="1.8" opacity="0.35"/>
+        <!-- Outer octagon -->
+        <polygon points="65,7 103,28 118,68 103,105 65,123 27,105 12,68 27,28"
+                 fill="none" stroke="url(#sg)" stroke-width="2.5" filter="url(#sf)"/>
+        <!-- Inner octagon -->
+        <polygon points="65,22 94,38 105,67 94,95 65,108 36,95 25,67 36,38"
+                 fill="none" stroke="#C9A227" stroke-width="0.8" opacity="0.38"/>
+        <!-- Cardinal tick marks -->
+        <line x1="65" y1="7"   x2="65" y2="21"  stroke="#C9A227" stroke-width="3" stroke-linecap="round"/>
+        <line x1="65" y1="109" x2="65" y2="123" stroke="#C9A227" stroke-width="3" stroke-linecap="round"/>
+        <line x1="12" y1="65"  x2="26" y2="65"  stroke="#C9A227" stroke-width="3" stroke-linecap="round"/>
+        <line x1="104" y1="65" x2="118" y2="65" stroke="#C9A227" stroke-width="3" stroke-linecap="round"/>
+        <!-- Diagonal tick marks -->
+        <line x1="23"  y1="23"  x2="33"  y2="33"  stroke="#C9A227" stroke-width="1.2" opacity="0.45"/>
+        <line x1="107" y1="23"  x2="97"  y2="33"  stroke="#C9A227" stroke-width="1.2" opacity="0.45"/>
+        <line x1="23"  y1="107" x2="33"  y2="97"  stroke="#C9A227" stroke-width="1.2" opacity="0.45"/>
+        <line x1="107" y1="107" x2="97"  y2="97"  stroke="#C9A227" stroke-width="1.2" opacity="0.45"/>
+        <!-- Code symbol -->
+        <text x="65" y="68" font-family="'Courier New',Courier,monospace" font-size="28"
+              font-weight="bold" fill="url(#sg)" text-anchor="middle"
+              filter="url(#sf)">&lt;/&gt;</text>
+        <!-- DEV label -->
+        <text x="65" y="87" font-family="'Raleway',Arial,sans-serif" font-size="11"
+              fill="#C9A227" text-anchor="middle" letter-spacing="5" opacity="0.9">DEV</text>
+        <!-- Diamond accents top/bottom -->
+        <polygon points="65,2  69,9  65,16 61,9"  fill="#C9A227" opacity="0.9"/>
+        <polygon points="65,114 69,121 65,128 61,121" fill="#C9A227" opacity="0.9"/>
+      </svg>
+    </div>
+
+    <h1 class="splash-name">Patrick Perez</h1>
+    <div class="splash-divider"></div>
+    <p class="splash-tagline">Software Engineer &amp; Developer</p>
+
+    <div class="splash-loader-track">
+      <div class="splash-loader-fill"></div>
+    </div>
+  </div>
+</div>
+<!-- ══════════════ END SPLASH ══════════════ -->
+
+<!-- Custom Cursor -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<header id="header" class="header dark-background d-flex flex-column align-items-center text-center">
+
+  <!-- Floating background shapes -->
+  <div class="header-shapes" aria-hidden="true">
+    <div class="hshape hshape-1"></div>
+    <div class="hshape hshape-2"></div>
+    <div class="hshape hshape-3"></div>
+    <div class="hshape hshape-4"></div>
+    <div class="hshape hshape-5"></div>
+  </div>
+
   <i class="header-toggle d-xl-none bi bi-list"></i>
 
   <div class="profile-img-container">
@@ -1780,6 +1349,23 @@
   </div>
 
   <a href="index.html" class="logo d-flex align-items-center justify-content-center">
+    <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" width="34" height="34"
+         style="flex-shrink:0;margin-right:8px" aria-hidden="true">
+      <defs>
+        <linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   style="stop-color:#E8C547"/>
+          <stop offset="100%" style="stop-color:#8B6914"/>
+        </linearGradient>
+      </defs>
+      <polygon points="30,3 49,13 56,32 49,50 30,57 11,50 4,32 11,13"
+               fill="none" stroke="url(#hg)" stroke-width="1.8"/>
+      <line x1="30" y1="3"  x2="30" y2="11" stroke="#C9A227" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="30" y1="49" x2="30" y2="57" stroke="#C9A227" stroke-width="1.8" stroke-linecap="round"/>
+      <text x="30" y="35" font-family="'Courier New',monospace" font-size="14"
+            font-weight="bold" fill="url(#hg)" text-anchor="middle">&lt;/&gt;</text>
+      <text x="30" y="45" font-family="Arial,sans-serif" font-size="5.5"
+            fill="#C9A227" text-anchor="middle" letter-spacing="2.5" opacity="0.85">DEV</text>
+    </svg>
     <h1 class="sitename">Patrick Perez</h1>
   </a>
 
@@ -1793,202 +1379,167 @@
     <ul>
       <li><a href="#hero" class="active"><i class="bi bi-house navicon"></i>Home</a></li>
       <li><a href="#about"><i class="bi bi-person navicon"></i> About</a></li>
+      <li><a href="#skills"><i class="bi bi-stars navicon"></i> Skills</a></li>
       <li><a href="#services"><i class="bi bi-hdd-stack navicon"></i> Summary of Work</a></li>
       <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i> Professional Journey</a></li>
       <li><a href="#portfolio"><i class="bi bi-images navicon"></i> Portfolio Showcase</a></li>
+      <li><a href="#achievements"><i class="bi bi-trophy navicon"></i> Achievements</a></li>
       <li><a href="#contact"><i class="bi bi-envelope navicon"></i> Get In Touch</a></li>
     </ul>
   </nav>
+
+  <!-- Sidebar hero panel — shown when body.hero-active -->
+  <div class="sidebar-hero-panel">
+    <div class="shp-divider"></div>
+    <div class="shp-role">Full-Stack Engineer</div>
+    <div class="shp-name">
+      <span class="shp-first">Patrick</span>
+      <span class="shp-last">Perez</span>
+    </div>
+    <p class="shp-typed-wrap">
+      <span class="typed" data-typed-items="Backends That Scale,Data-Driven Solutions,Full-Stack Applications,High-Performance Systems"></span>
+    </p>
+    <div class="shp-social">
+      <a href="https://www.facebook.com/pat.flores.339" target="_blank" title="Facebook"><i class="bi bi-facebook"></i></a>
+      <a href="https://github.com/pat1322" target="_blank" title="GitHub"><i class="bi bi-github"></i></a>
+      <a href="https://www.linkedin.com/in/patrickp2025/" target="_blank" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+    </div>
+  </div>
+
 </header>
 
-<!-- Achievement Notification -->
-<div class="achievement">
-  <div class="achievement-icon">
-    <i class="bi bi-trophy"></i>
-  </div>
-  <div class="achievement-content">
-    <h4>Achievement Unlocked!</h4>
-    <p>Code Explorer: Discovered the developer's secret skills</p>
-  </div>
-</div>
-
-<!-- Cyberpunk Grid Overlay -->
-<div class="grid-overlay"></div>
 
 <main class="main">
 
-  <!-- Hero Section -->
+  <!-- Hero Section — background assembled as a puzzle by JS -->
   <section id="hero" class="hero section dark-background">
-    <img src="assets/img/hero-bg.jpg" alt="Background" data-aos="fade-in" class="hero-bg">
-
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
-      <h2>Patrick Perez</h2>
-      <p>
-        I'm a 
-        <span id="typed-text" class="typed"></span>
-      </p>
-    </div>
-
-    <!-- GTA Mode Switch - Positioned in upper left -->
-    <div class="gta-mode-toggle">
-      <label class="switch">
-        <input type="checkbox" id="gtaToggle">
-        <span class="slider"></span>
-      </label>
-      <span class="mode-text">Dev Mode</span>
-    </div>
-
-    <!-- Accessories Container -->
-    <div id="accessoriesContainer">
-      <!-- Removed thug life glasses -->
-    </div>
-    
-    <!-- Floating Stats Container (Money counters and graphs) - Now hidden in gaming mode -->
-    <div class="floating-stats-container">
-      <div class="floating-stat">
-        <div class="money-counter">
-          <i class="bi bi-currency-dollar"></i>
-          <span class="value" id="money-value">1,000,000</span>
-          <span class="label">CREDITS</span>
-        </div>
-        <div class="mini-graph">
-          <div class="graph-line"></div>
-          <div class="graph-dots">
-            <div class="graph-dot"></div>
-            <div class="graph-dot"></div>
-            <div class="graph-dot"></div>
-            <div class="graph-dot"></div>
-            <div class="graph-dot"></div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="floating-stat">
-        <div class="money-counter">
-          <i class="bi bi-graph-up-arrow"></i>
-          <span class="value" id="stock-value">+487%</span>
-          <span class="label">STOCKS</span>
-        </div>
-        <div class="mini-graph">
-          <div class="graph-line"></div>
-          <div class="graph-dots">
-            <div class="graph-dot"></div>
-            <div class="graph-dot"></div>
-            <div class="graph-dot"></div>
-            <div class="graph-dot"></div>
-            <div class="graph-dot"></div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="floating-stat">
-        <div class="money-counter">
-          <i class="bi bi-coin"></i>
-          <span class="value" id="crypto-value">2,345</span>
-          <span class="label">CRYPTO</span>
-        </div>
-        <div class="mini-graph">
-          <div class="graph-line"></div>
-          <div class="graph-dots">
-            <div class="graph-dot"></div>
-            <div class="graph-dot"></div>
-            <div class="graph-dot"></div>
-            <div class="graph-dot"></div>
-            <div class="graph-dot"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Section-specific quest notification -->
-    <div class="section-quest">
-      NEW QUEST: "Digital Overlord" - Master all coding languages to unlock unlimited wealth!
-    </div>
-    
-    <!-- Sound Effects -->
-    <audio id="gtaThemeMusic" src="assets/sounds/gta-theme.mp3" preload="auto"></audio>
-    <audio id="toggleSound" src="assets/sounds/toggle.mp3" preload="auto"></audio>
-    <audio id="achievementSound" src="assets/sounds/achievement.mp3" preload="auto"></audio>
+    <img src="assets/img/hero-bg.jpg" alt="" class="hero-bg">
+    <!-- Coding/matrix canvas sits behind puzzle tiles -->
+    <canvas id="hero-code-canvas" class="hero-code-canvas"></canvas>
+    <!-- JS populates this with puzzle tiles -->
+    <div class="hero-puzzle" id="hero-puzzle"></div>
+    <!-- Gold scan line sweeps before tiles appear -->
+    <div class="hero-scanner"></div>
   </section>
 
   <!-- About Section -->
   <section id="about" class="about section">
-    <div class="section-title text-center" data-aos="fade-up">
-      <h2>About</h2>
+    <!-- Floating background shapes (mirrors sidebar style) -->
+    <div class="about-shapes" aria-hidden="true">
+      <div class="as as-1"></div>
+      <div class="as as-2"></div>
+      <div class="as as-3"></div>
+      <div class="as as-4"></div>
+    </div>
+    <div class="container">
 
-      <p id="about-text">
-        I am a results-driven Software Engineer with expertise in 
-        <a href="#backend" class="tech-stack backend-development" data-icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg">
-          <span>backend development</span>
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" class="tech-icon" alt="Backend">
-        </a> and a strong foundation in
-        <a href="https://en.wikipedia.org/wiki/C_(programming_language)" target="_blank" class="tech-stack" data-icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" class="tech-icon" alt="C">
-        </a>,
-        <a href="https://en.wikipedia.org/wiki/C%2B%2B" target="_blank" class="tech-stack" data-icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" class="tech-icon" alt="C++">
-        </a>,
-        <a href="https://en.wikipedia.org/wiki/Python_(programming_language)" target="_blank" class="tech-stack" data-icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" class="tech-icon" alt="Python">
-        </a>, and
-        <a href="https://en.wikipedia.org/wiki/Java_(programming_language)" target="_blank" class="tech-stack" data-icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" class="tech-icon" alt="Java">
-        </a>, as well as 
-        <a href="#frontend" class="tech-stack frontend-technologies" data-icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg">
-          <span>frontend technologies</span>
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" class="tech-icon" alt="Frontend">
-        </a> like
-        <a href="https://en.wikipedia.org/wiki/JavaScript" target="_blank" class="tech-stack" data-icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" class="tech-icon" alt="JavaScript">
-        </a>,
-        <a href="https://en.wikipedia.org/wiki/HTML" target="_blank" class="tech-stack" data-icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" class="tech-icon" alt="HTML">
-        </a>, and
-        <a href="https://en.wikipedia.org/wiki/CSS" target="_blank" class="tech-stack" data-icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" class="tech-icon" alt="CSS">
-        </a>.
-        I specialize in building efficient, scalable, and high-performance applications, with experience in databases, 
-        system optimization, and problem-solving. I am currently focused on mastering
-        <a href="https://en.wikipedia.org/wiki/C_Sharp_(programming_language)" target="_blank" class="tech-stack" data-icon="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg">
-          <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" class="tech-icon" alt="C#">
-        </a> to expand my skill set and take on new challenges in software development.
-      </p>
-    </div>
-    
-    <!-- Section-specific quest notification -->
-    <div class="section-quest">
-      SIDE QUEST: "Tech Collector" - Hover over all tech stacks to reveal hidden knowledge!
-    </div>
+      <div class="section-title text-center" data-aos="fade-up">
+        <h2>About</h2>
+      </div>
+
+      <div class="about-wrapper">
+
+        <!-- Italic signature quote -->
+        <p class="about-quote" data-aos="fade-up" data-aos-delay="100">
+          "Building systems that last — solving problems that matter."
+        </p>
+
+        <!-- Gold rule -->
+        <div class="about-rule" data-aos="zoom-in" data-aos-delay="200"></div>
+
+        <!-- Bio -->
+        <p class="about-bio" data-aos="fade-up" data-aos-delay="300">
+          I am a results-driven Software Engineer with expertise in backend development
+          and a strong foundation in C, C++, Python, and Java, as well as frontend
+          technologies including JavaScript, HTML, and CSS. I specialize in building
+          efficient, scalable, and high-performance applications, with experience in
+          databases, system optimization, and problem-solving. I am currently focused
+          on mastering C# to expand my skill set and take on new challenges in
+          software development.
+        </p>
+
+        <!-- Competency list -->
+        <div class="about-highlights">
+          <div class="about-highlight" data-aos="fade-right" data-aos-delay="100">
+            <span class="about-highlight-dot"></span>
+            <span class="about-highlight-text">Backend Engineering &mdash; C &middot; C++ &middot; Python &middot; Java</span>
+          </div>
+          <div class="about-highlight" data-aos="fade-right" data-aos-delay="200">
+            <span class="about-highlight-dot"></span>
+            <span class="about-highlight-text">Frontend Development &mdash; JavaScript &middot; HTML &middot; CSS</span>
+          </div>
+          <div class="about-highlight" data-aos="fade-right" data-aos-delay="300">
+            <span class="about-highlight-dot"></span>
+            <span class="about-highlight-text">Database Management &mdash; Informix SQL &middot; MySQL &middot; PostgreSQL</span>
+          </div>
+          <div class="about-highlight" data-aos="fade-right" data-aos-delay="400">
+            <span class="about-highlight-dot"></span>
+            <span class="about-highlight-text">Currently Expanding &mdash; C# &amp; .NET Ecosystem</span>
+          </div>
+        </div>
+
+        <!-- Personal Information Card -->
+        <div class="about-info-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="about-info-card-header">
+            <i class="bi bi-person-vcard"></i>
+            <span>Personal Information</span>
+          </div>
+          <div class="about-info-grid">
+            <div class="about-info-row">
+              <div class="about-info-item">
+                <span class="about-info-label">Full Name</span>
+                <span class="about-info-value">Patrick Flores Perez</span>
+              </div>
+              <div class="about-info-item">
+                <span class="about-info-label">Birthday</span>
+                <span class="about-info-value">January 13, 2000</span>
+              </div>
+            </div>
+            <div class="about-info-row">
+              <div class="about-info-item about-info-item--wide">
+                <span class="about-info-label">Address</span>
+                <span class="about-info-value">97B Purok Masagana, Pinagbarilan, Baliuag, Bulacan, Philippines</span>
+              </div>
+            </div>
+            <div class="about-info-row">
+              <div class="about-info-item">
+                <span class="about-info-label">Nationality</span>
+                <span class="about-info-value">Filipino</span>
+              </div>
+              <div class="about-info-item">
+                <span class="about-info-label">Religion</span>
+                <span class="about-info-value">Catholic</span>
+              </div>
+            </div>
+            <div class="about-info-row">
+              <div class="about-info-item">
+                <span class="about-info-label">Languages</span>
+                <span class="about-info-value">English &amp; Filipino</span>
+              </div>
+              <div class="about-info-item">
+                <span class="about-info-label">Hobbies</span>
+                <span class="about-info-value">Reading &middot; Playing Guitar &middot; Coding</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- .about-wrapper -->
+    </div><!-- .container -->
+
   </section>
 
-  <!-- Floating Bubbles Container -->
-  <div id="bubble-container"></div>
-
-  <!-- Hidden containers for additional icons -->
-  <div class="backend-bubble-icons">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" alt="Express">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg" alt="Nginx">
-  </div>
-
-  <div class="frontend-bubble-icons">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" alt="Angular">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg" alt="Vue.js">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sass/sass-original.svg" alt="Sass">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="Bootstrap">
-    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg" alt="Tailwind">
-  </div>
-
   <!-- Skills Section -->
-  <section class="skills-section">
+  <section id="skills" class="skills-section">
     <div class="skills-container">
-      <div class="skills-header">
+      <div class="section-title text-center" data-aos="fade-up">
         <h2>Skills</h2>
         <p>A showcase of my professional and technical expertise.</p>
+      </div>
+      <div class="skills-categories" data-aos="fade-up" data-aos-delay="100">
+        <span class="skills-cat-label">Backend &amp; Systems</span>
+        <span class="skills-cat-sep">·</span>
+        <span class="skills-cat-label">Frontend &amp; Frameworks</span>
       </div>
       
       <div class="skills-rows-container">
@@ -2090,488 +1641,587 @@
 
   <!-- Services Section -->
   <section id="services" class="services section">
-    <!-- Section Title -->
-    <div class="section-title text-center" data-aos="fade-up">
-      <h2>Summary of Work</h2>
-      <p>Providing high-quality software development and technical solutions, specializing in backend development, database management, and web technologies.</p>
-    </div><!-- End Section Title -->
-
     <div class="container">
-      <div class="row gy-4">
-        <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="100">
-          <div class="icon flex-shrink-0"><i class="bi bi-code-slash"></i></div>
-          <div>
-            <h4 class="title"><a class="stretched-link">Backend Development</a></h4>
-            <p class="description">Building efficient, scalable, and high-performance backend systems using C, C++, Python, and SQL databases.</p>
-          </div>
-        </div><!-- End Service Item -->
 
-        <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="200">
-          <div class="icon flex-shrink-0"><i class="bi bi-database"></i></div>
-          <div>
-            <h4 class="title"><a class="stretched-link">Database Optimization</a></h4>
-            <p class="description">Designing and optimizing database structures, improving query performance, and ensuring data integrity using Informix SQL, MySQL, and PostgreSQL.</p>
-          </div>
-        </div><!-- End Service Item -->
+      <div class="section-title text-center" data-aos="fade-up">
+        <h2>Summary of Work</h2>
+        <p>High-quality software development and technical solutions — specializing in backend engineering, database management, and scalable web systems.</p>
+      </div>
 
-        <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="300">
-          <div class="icon flex-shrink-0"><i class="bi bi-globe"></i></div>
-          <div>
-            <h4 class="title"><a class="stretched-link">Web Development</a></h4>
-            <p class="description">Creating responsive and dynamic websites using HTML, CSS, JavaScript, and backend integrations with Python or C#.</p>
-          </div>
-        </div><!-- End Service Item -->
+      <div class="row gy-4 mt-2">
 
-        <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="400">
-          <div class="icon flex-shrink-0"><i class="bi bi-file-code"></i></div>
-          <div>
-            <h4 class="title"><a class="stretched-link">Software Debugging & Optimization</a></h4>
-            <p class="description">Identifying and fixing software bugs, memory leaks, and performance bottlenecks to enhance application stability and speed.</p>
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+          <div class="sow-card">
+            <span class="sow-num">01</span>
+            <div class="sow-icon"><i class="bi bi-code-slash"></i></div>
+            <h4 class="sow-title">Backend Development</h4>
+            <p class="sow-desc">Building efficient, scalable, and high-performance backend systems using C, C++, Python, and SQL databases.</p>
+            <div class="sow-tags"><span>C</span><span>C++</span><span>Python</span><span>SQL</span></div>
           </div>
-        </div><!-- End Service Item -->
+        </div>
 
-        <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="500">
-          <div class="icon flex-shrink-0"><i class="bi bi-diagram-3"></i></div>
-          <div>
-            <h4 class="title"><a class="stretched-link">System Integration</a></h4>
-            <p class="description">Integrating APIs, third-party services, and legacy systems into modern applications to improve functionality and data flow.</p>
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+          <div class="sow-card">
+            <span class="sow-num">02</span>
+            <div class="sow-icon"><i class="bi bi-database"></i></div>
+            <h4 class="sow-title">Database Optimization</h4>
+            <p class="sow-desc">Designing and optimizing database structures, improving query performance, and ensuring data integrity across platforms.</p>
+            <div class="sow-tags"><span>Informix SQL</span><span>MySQL</span><span>PostgreSQL</span></div>
           </div>
-        </div><!-- End Service Item -->
+        </div>
 
-        <div class="col-lg-4 col-md-6 service-item d-flex" data-aos="fade-up" data-aos-delay="600">
-          <div class="icon flex-shrink-0"><i class="bi bi-graph-up"></i></div>
-          <div>
-            <h4 class="title"><a class="stretched-link">Algorithm & Data Structure Consulting</a></h4>
-            <p class="description">Providing optimized solutions for complex problems using efficient algorithms and data structures to enhance software performance.</p>
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+          <div class="sow-card">
+            <span class="sow-num">03</span>
+            <div class="sow-icon"><i class="bi bi-globe"></i></div>
+            <h4 class="sow-title">Web Development</h4>
+            <p class="sow-desc">Creating responsive and dynamic websites with modern frontend technologies and robust backend integrations.</p>
+            <div class="sow-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Bootstrap</span></div>
           </div>
-        </div><!-- End Service Item -->
+        </div>
+
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+          <div class="sow-card">
+            <span class="sow-num">04</span>
+            <div class="sow-icon"><i class="bi bi-file-code"></i></div>
+            <h4 class="sow-title">Debugging &amp; Optimization</h4>
+            <p class="sow-desc">Identifying and resolving software bugs, memory leaks, and performance bottlenecks to enhance stability and speed.</p>
+            <div class="sow-tags"><span>C</span><span>C++</span><span>Java</span><span>Profiling</span></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+          <div class="sow-card">
+            <span class="sow-num">05</span>
+            <div class="sow-icon"><i class="bi bi-diagram-3"></i></div>
+            <h4 class="sow-title">System Integration</h4>
+            <p class="sow-desc">Integrating APIs, third-party services, and legacy systems into modern applications to improve functionality and data flow.</p>
+            <div class="sow-tags"><span>REST APIs</span><span>Legacy Systems</span><span>Middleware</span></div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+          <div class="sow-card">
+            <span class="sow-num">06</span>
+            <div class="sow-icon"><i class="bi bi-graph-up"></i></div>
+            <h4 class="sow-title">Algorithms &amp; Data Structures</h4>
+            <p class="sow-desc">Providing optimized solutions for complex problems using efficient algorithms to enhance software performance.</p>
+            <div class="sow-tags"><span>Algorithms</span><span>DSA</span><span>Performance</span></div>
+          </div>
+        </div>
+
       </div>
     </div>
   </section><!-- /Services Section -->
 
-  <!-- Resume Section - Enhanced with timeline design -->
+  <!-- Resume Section -->
   <section id="resume" class="resume section">
     <div class="container">
+
       <div class="section-title text-center" data-aos="fade-up">
         <h2>Professional Journey</h2>
         <p>A timeline of my education and professional experience in software engineering</p>
       </div>
 
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="resume-timeline" data-aos="fade-up">
-            <!-- Timeline Header -->
-            <div class="timeline-header">
-              <div class="timeline-header-item active" data-target="experience">
-                <i class="bi bi-briefcase"></i>
-                <span>Experience</span>
-              </div>
-              <div class="timeline-header-item" data-target="education">
-                <i class="bi bi-mortarboard"></i>
-                <span>Education</span>
-              </div>
+      <!-- Tab switcher -->
+      <div class="pj-tabs" data-aos="fade-up" data-aos-delay="100">
+        <button class="pj-tab-btn active" data-panel="pj-exp">
+          <i class="bi bi-briefcase-fill"></i><span>Experience</span>
+        </button>
+        <button class="pj-tab-btn" data-panel="pj-edu">
+          <i class="bi bi-mortarboard-fill"></i><span>Education</span>
+        </button>
+      </div>
+
+      <!-- Experience panel -->
+      <div class="pj-panel active" id="pj-exp">
+        <div class="pj-line-wrap">
+
+          <div class="pj-entry" data-aos="fade-up" data-aos-delay="100">
+            <div class="pj-badge">2022<br><span>Now</span></div>
+            <div class="pj-dot-col">
+              <div class="pj-dot-ring"><div class="pj-dot-inner"></div></div>
+              <div class="pj-connector"></div>
             </div>
-            
-            <!-- Timeline Content -->
-            <div class="timeline-content">
-              <!-- Experience Timeline -->
-              <div class="timeline-section active" id="experience-timeline">
-                <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
-                  <div class="timeline-marker">
-                    <i class="bi bi-briefcase"></i>
-                  </div>
-                  <div class="timeline-content">
-                    <div class="timeline-date">Dec 2022 - Present</div>
-                    <h4 class="timeline-title">Software Engineer | Fullstack Developer</h4>
-                    <div class="timeline-company">Asia United Bank, Manila, Philippines</div>
-                    <div class="timeline-description">
-                      <p>Working on critical banking applications and systems to ensure smooth financial operations.</p>
-                      <ul>
-                        <li>Developed and maintained backend applications using C and C++ for banking operations and Java for frontend applications.</li>
-                        <li>Worked on web and batch processing applications.</li>
-                        <li>Performed database operations using Informix SQL, ensuring efficient data retrieval and updates.</li>
-                        <li>Debugged and optimized existing applications to improve performance and resolve overflow issues.</li>
-                        <li>Collaborated with teams to ensure smooth integration of financial systems.</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
-                  <div class="timeline-marker">
-                    <i class="bi bi-briefcase"></i>
-                  </div>
-                  <div class="timeline-content">
-                    <div class="timeline-date">August 2021 - October 2021</div>
-                    <h4 class="timeline-title">Mobile App Developer (Internship)</h4>
-                    <div class="timeline-company">BCN Montjuic Tourist Point, Barcelona, Spain</div>
-                    <div class="timeline-description">
-                      <p>Gained international experience developing mobile applications for tourism.</p>
-                      <ul>
-                        <li>Developed and maintained internal tools using Java.</li>
-                        <li>Worked on small-scale web development projects involving JavaScript, HTML, and CSS.</li>
-                        <li>Led the team on frontend and backend development tasks.</li>
-                        <li>Collaborated with team on debugging and optimizing the mobile app.</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
+            <div class="pj-card">
+              <div class="pj-card-header">
+                <h4 class="pj-role">Software Engineer · Full-Stack Developer</h4>
+                <div class="pj-company"><i class="bi bi-building"></i> Asia United Bank — Manila, Philippines</div>
               </div>
-              
-              <!-- Education Timeline -->
-              <div class="timeline-section" id="education-timeline">
-                <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
-                  <div class="timeline-marker">
-                    <i class="bi bi-mortarboard"></i>
-                  </div>
-                  <div class="timeline-content">
-                    <div class="timeline-date">2018 - 2022</div>
-                    <h4 class="timeline-title">Bachelor's Degree in Computer Engineering</h4>
-                    <div class="timeline-company">Bulacan State University | Malolos, Bulacan</div>
-                    <div class="timeline-description">
-                      <p>Focused on software development, algorithms, and database management. Developed projects involving C, C++, Java, and Python.</p>
-                      <div class="education-highlights">
-                        <span class="badge">Software Development</span>
-                        <span class="badge">Algorithms</span>
-                        <span class="badge">Database Management</span>
-                        <span class="badge">Computer Networks</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
-                  <div class="timeline-marker">
-                    <i class="bi bi-mortarboard"></i>
-                  </div>
-                  <div class="timeline-content">
-                    <div class="timeline-date">2016 - 2018</div>
-                    <h4 class="timeline-title">STEM Graduate</h4>
-                    <div class="timeline-company">Baliuag University | Baliuag, Bulacan</div>
-                    <div class="timeline-description">
-                      <p>Emphasized on engineering subjects to pave way for future endeavors.</p>
-                      <div class="education-highlights">
-                        <span class="badge">Mathematics</span>
-                        <span class="badge">Physics</span>
-                        <span class="badge">Computer Science</span>
-                        <span class="badge">Engineering</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ul class="pj-bullets">
+                <li>Developed and maintained backend applications in C and C++ for banking operations; Java for frontend systems</li>
+                <li>Web and batch processing applications with Informix SQL database operations</li>
+                <li>Debugged and optimized existing applications — improving performance and resolving overflow issues</li>
+                <li>Collaborated cross-functionally to ensure smooth integration of financial systems</li>
+              </ul>
+              <div class="pj-tags"><span>C</span><span>C++</span><span>Java</span><span>Informix SQL</span><span>Web Apps</span></div>
             </div>
           </div>
-          
-          <!-- Download Resume Button -->
-          <div class="text-center mt-5" data-aos="zoom-in">
-            <a href="https://drive.google.com/file/d/1tG2S8zHvNl2QLNmngB1pAGla9icp8hxh/view?usp=sharing" download class="btn btn-primary resume-download-btn">
-              <i class="bi bi-download me-2"></i> Download Full Resume
-            </a>
+
+          <div class="pj-entry" data-aos="fade-up" data-aos-delay="200">
+            <div class="pj-badge">Aug<br><span>2021</span></div>
+            <div class="pj-dot-col">
+              <div class="pj-dot-ring"><div class="pj-dot-inner"></div></div>
+            </div>
+            <div class="pj-card">
+              <div class="pj-card-header">
+                <h4 class="pj-role">Mobile App Developer · Internship</h4>
+                <div class="pj-company"><i class="bi bi-geo-alt"></i> BCN Montjuic Tourist Point — Barcelona, Spain</div>
+              </div>
+              <ul class="pj-bullets">
+                <li>Developed and maintained internal tools using Java</li>
+                <li>Small-scale web development with JavaScript, HTML, and CSS</li>
+                <li>Led frontend and backend development tasks within the team</li>
+              </ul>
+              <div class="pj-tags"><span>Java</span><span>JavaScript</span><span>HTML</span><span>CSS</span></div>
+            </div>
           </div>
+
         </div>
+      </div><!-- /pj-exp -->
+
+      <!-- Education panel -->
+      <div class="pj-panel" id="pj-edu">
+        <div class="pj-line-wrap">
+
+          <div class="pj-entry" data-aos="fade-up" data-aos-delay="100">
+            <div class="pj-badge">2018<br><span>2022</span></div>
+            <div class="pj-dot-col">
+              <div class="pj-dot-ring"><div class="pj-dot-inner"></div></div>
+              <div class="pj-connector"></div>
+            </div>
+            <div class="pj-card">
+              <div class="pj-card-header">
+                <h4 class="pj-role">B.S. Computer Engineering</h4>
+                <div class="pj-company"><i class="bi bi-building"></i> Bulacan State University — Malolos, Bulacan</div>
+              </div>
+              <p class="pj-text">Focused on software development, algorithms, and database management. Developed projects involving C, C++, Java, and Python.</p>
+              <div class="pj-tags"><span>Software Dev</span><span>Algorithms</span><span>Databases</span><span>Networks</span></div>
+            </div>
+          </div>
+
+          <div class="pj-entry" data-aos="fade-up" data-aos-delay="200">
+            <div class="pj-badge">2016<br><span>2018</span></div>
+            <div class="pj-dot-col">
+              <div class="pj-dot-ring"><div class="pj-dot-inner"></div></div>
+            </div>
+            <div class="pj-card">
+              <div class="pj-card-header">
+                <h4 class="pj-role">STEM Graduate</h4>
+                <div class="pj-company"><i class="bi bi-building"></i> Baliuag University — Baliuag, Bulacan</div>
+              </div>
+              <p class="pj-text">Emphasized engineering subjects to pave way for future endeavors in computer engineering.</p>
+              <div class="pj-tags"><span>Mathematics</span><span>Physics</span><span>Computer Science</span><span>Engineering</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /pj-edu -->
+
+      <!-- Download Resume -->
+      <div class="text-center mt-5" data-aos="zoom-in">
+        <a href="https://drive.google.com/file/d/1tG2S8zHvNl2QLNmngB1pAGla9icp8hxh/view?usp=sharing" class="btn btn-primary resume-download-btn">
+          <i class="bi bi-download me-2"></i> Download Full Resume
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Portfolio Section -->
+  <section id="portfolio" class="portfolio section">
+    <div class="container" data-aos="fade-up">
+
+      <!-- Section header -->
+      <div class="text-center mb-2" data-aos="fade-up">
+        <p style="font-size:0.58rem;letter-spacing:0.35em;text-transform:uppercase;color:#C9A227;margin-bottom:0.8rem;">Selected Work</p>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;color:#F0E6CC;letter-spacing:0.04em;margin-bottom:0.5rem;">Portfolio Showcase</h2>
+        <p style="font-size:0.8rem;color:#4a4030;max-width:480px;margin:0 auto 0;">A collection of my best work across mobile, web, and embedded systems</p>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="pf-filters" data-aos="fade-up" data-aos-delay="80">
+        <div class="pf-filters-inner">
+          <button class="pf-filter-btn pf-active" data-filter="*">All<sup>9</sup></button>
+          <button class="pf-filter-btn" data-filter="filter-mobapp">Mobile<sup>3</sup></button>
+          <button class="pf-filter-btn" data-filter="filter-webapp">Web<sup>3</sup></button>
+          <button class="pf-filter-btn" data-filter="filter-windows">Hardware<sup>3</sup></button>
+          <div class="pf-filter-line"></div>
+        </div>
+      </div>
+
+      <!-- Grid -->
+      <div class="pf-grid">
+
+        <div class="pf-wrap filter-mobapp" data-aos="fade-up" data-aos-delay="0">
+          <a href="portfolio-details.html?project=bcn-mtp" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/app-1.png" alt="BCN MTP Mobile">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">01</span>
+              <div class="pf-cat">Mobile App</div>
+              <h4 class="pf-title">BCN MTP Mobile</h4>
+              <p class="pf-desc">App made for BCN Montjuic Tourist Point Inc</p>
+              <div class="pf-tags"><span>Java</span><span>Android</span><span>Tourism</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-webapp" data-aos="fade-up" data-aos-delay="60">
+          <a href="portfolio-details.html?project=ecoeye-ai" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/product-1.png" alt="EcoEye AI">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">02</span>
+              <div class="pf-cat">Web App</div>
+              <h4 class="pf-title">EcoEye AI</h4>
+              <p class="pf-desc">Identify plants and animals with AI</p>
+              <div class="pf-tags"><span>Python</span><span>AI</span><span>Web App</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-windows" data-aos="fade-up" data-aos-delay="120">
+          <a href="portfolio-details.html?project=olfactory-machine" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/branding-1.png" alt="Olfactory UTI Detector">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">03</span>
+              <div class="pf-cat">IoT &middot; Microcontroller</div>
+              <h4 class="pf-title">Olfactory UTI Detector</h4>
+              <p class="pf-desc">Gas sensors &amp; Raspberry Pi health device</p>
+              <div class="pf-tags"><span>Python</span><span>Raspberry Pi</span><span>IoT</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-mobapp" data-aos="fade-up" data-aos-delay="60">
+          <a href="portfolio-details.html?project=super-mega-scatter" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/app-2.png" alt="Super Mega Scatter">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">04</span>
+              <div class="pf-cat">Mobile App</div>
+              <h4 class="pf-title">Super Mega Scatter</h4>
+              <p class="pf-desc">A fun Android game built from scratch</p>
+              <div class="pf-tags"><span>Java</span><span>Android</span><span>Game</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-webapp" data-aos="fade-up" data-aos-delay="120">
+          <a href="portfolio-details.html?project=titan-trade" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/product-2.png" alt="Titan Trade">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">05</span>
+              <div class="pf-cat">Web App</div>
+              <h4 class="pf-title">Titan Trade</h4>
+              <p class="pf-desc">Personal dropshipping e-commerce website</p>
+              <div class="pf-tags"><span>HTML/CSS</span><span>JavaScript</span><span>E-commerce</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-windows" data-aos="fade-up" data-aos-delay="180">
+          <a href="portfolio-details.html?project=smart-dustbin" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/branding-2.png" alt="Smart Dustbin">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">06</span>
+              <div class="pf-cat">IoT &middot; Arduino</div>
+              <h4 class="pf-title">Smart Dustbin</h4>
+              <p class="pf-desc">Automated bin system powered by Arduino</p>
+              <div class="pf-tags"><span>Arduino</span><span>C++</span><span>IoT</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-mobapp" data-aos="fade-up" data-aos-delay="120">
+          <a href="portfolio-details.html?project=lotto-ai" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/app-3.png" alt="Lotto AI">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">07</span>
+              <div class="pf-cat">Mobile App</div>
+              <h4 class="pf-title">Lotto AI</h4>
+              <p class="pf-desc">AI-powered lottery number generator</p>
+              <div class="pf-tags"><span>Python</span><span>AI</span><span>Mobile</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-webapp" data-aos="fade-up" data-aos-delay="180">
+          <a href="portfolio-details.html?project=djared-web-design" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/product-3.png" alt="Djared Web Design">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">08</span>
+              <div class="pf-cat">Web App</div>
+              <h4 class="pf-title">Djared Web Design</h4>
+              <p class="pf-desc">A collaborative community project</p>
+              <div class="pf-tags"><span>HTML/CSS</span><span>JavaScript</span><span>Community</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-windows" data-aos="fade-up" data-aos-delay="240">
+          <a href="portfolio-details.html?project=functions-in-python" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/branding-3.png" alt="Functions in Python">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">09</span>
+              <div class="pf-cat">Console &middot; Algorithms</div>
+              <h4 class="pf-title">Functions in Python</h4>
+              <p class="pf-desc">Algorithm-focused console program in Python</p>
+              <div class="pf-tags"><span>Python</span><span>Console</span><span>Algorithms</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
       </div>
     </div>
   </section>
 
-  <!-- Portfolio Section - Enhanced with modern grid and filtering -->
-  <section id="portfolio" class="portfolio section light-background">
+  <!-- Achievements & Milestones Section -->
+  <section id="achievements" class="achievements section">
     <div class="container">
+
       <div class="section-title text-center" data-aos="fade-up">
-        <h2>Portfolio Showcase</h2>
-        <p>A collection of my best work demonstrating my skills and expertise in software development</p>
+        <h2>Achievements &amp; Milestones</h2>
+        <p>A record of growth, recognition, and meaningful work across my journey in software engineering</p>
       </div>
 
-      <div class="row">
-        <div class="col-lg-12">
-          <!-- Portfolio Filters -->
-          <div class="portfolio-filters text-center" data-aos="fade-up" data-aos-delay="100">
-            <ul class="filters-list">
-              <li data-filter="*" class="filter-active">All Projects</li>
-              <li data-filter=".filter-mobapp">Mobile Apps</li>
-              <li data-filter=".filter-webapp">Web Apps</li>
-              <li data-filter=".filter-windows">Microcontroller & Console</li>
-            </ul>
+      <!-- Stats Row -->
+      <div class="row gy-4 mt-2" data-aos="fade-up" data-aos-delay="100">
+        <div class="col-6 col-lg-3">
+          <div class="stat-card">
+            <div class="stat-num">3+</div>
+            <div class="stat-label">Years Experience</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card">
+            <div class="stat-num">9+</div>
+            <div class="stat-label">Projects Built</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card">
+            <div class="stat-num">2</div>
+            <div class="stat-label">Companies Worked</div>
+          </div>
+        </div>
+        <div class="col-6 col-lg-3">
+          <div class="stat-card">
+            <div class="stat-num">1</div>
+            <div class="stat-label">International Internship</div>
           </div>
         </div>
       </div>
 
-      <div class="row g-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
-        <!-- Mobile App Projects -->
-        <div class="col-lg-4 col-md-6 portfolio-item filter-mobapp">
-          <a href="portfolio-details.html?project=bcn-mtp" class="portfolio-card">
-            <div class="portfolio-img">
-              <img src="assets/img/portfolio/app-1.png" class="img-fluid" alt="BCN MTP mobile">
-            </div>
-            <div class="portfolio-info">
-              <h4>BCN MTP Mobile</h4>
-              <p>App made for BCN Montjuic Tourist Point Inc</p>
-              <div class="portfolio-tags">
-                <span class="tag">Java</span>
-                <span class="tag">Android</span>
-                <span class="tag">Tourism</span>
-              </div>
-            </div>
-          </a>
-        </div>
+      <!-- Certifications divider -->
+      <div class="ach-divider" data-aos="fade-up" data-aos-delay="150">
+        <div class="ach-divider-line ach-divider-line-left"></div>
+        <div class="ach-divider-label"><i class="bi bi-award me-2"></i>Education &amp; Certifications</div>
+        <div class="ach-divider-line"></div>
+      </div>
 
-        <div class="col-lg-4 col-md-6 portfolio-item filter-webapp">
-          <a href="portfolio-details.html?project=ecoeye-ai" class="portfolio-card">
-            <div class="portfolio-img">
-              <img src="assets/img/portfolio/product-1.png" class="img-fluid" alt="EcoEye AI">
+      <div class="row gy-4" data-aos="fade-up" data-aos-delay="200">
+        <div class="col-lg-4 col-md-6">
+          <div class="milestone-card">
+            <div class="milestone-icon"><i class="bi bi-mortarboard-fill"></i></div>
+            <div>
+              <div class="milestone-title">B.S. Computer Engineering</div>
+              <div class="milestone-sub">Bulacan State University &middot; 2022</div>
+              <p class="milestone-desc">Graduated with focus on software development, algorithms, databases, and embedded systems engineering.</p>
             </div>
-            <div class="portfolio-info">
-              <h4>EcoEye AI</h4>
-              <p>Use to identify plants and animals</p>
-              <div class="portfolio-tags">
-                <span class="tag">Python</span>
-                <span class="tag">AI</span>
-                <span class="tag">Web App</span>
-              </div>
-            </div>
-          </a>
+          </div>
         </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-windows">
-          <a href="portfolio-details.html?project=olfactory-machine" class="portfolio-card">
-            <div class="portfolio-img">
-              <img src="assets/img/portfolio/branding-1.png" class="img-fluid" alt="Olfactory Machine UTI Detector">
+        <div class="col-lg-4 col-md-6">
+          <div class="milestone-card">
+            <div class="milestone-icon"><i class="bi bi-globe2"></i></div>
+            <div>
+              <div class="milestone-title">International Tech Internship</div>
+              <div class="milestone-sub">BCN Montjuic, Barcelona &middot; Aug 2021</div>
+              <p class="milestone-desc">Selected for an international internship in Barcelona, Spain, building mobile and web applications.</p>
             </div>
-            <div class="portfolio-info">
-              <h4>Olfactory Machine UTI Detector</h4>
-              <p>Made from Gas Sensors and Raspberry Pi</p>
-              <div class="portfolio-tags">
-                <span class="tag">Python</span>
-                <span class="tag">Raspberry Pi</span>
-                <span class="tag">IoT</span>
-              </div>
-            </div>
-          </a>
+          </div>
         </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-mobapp">
-          <a href="portfolio-details.html?project=super-mega-scatter" class="portfolio-card">
-            <div class="portfolio-img">
-              <img src="assets/img/portfolio/app-2.png" class="img-fluid" alt="Super Mega Scatter">
+        <div class="col-lg-4 col-md-6">
+          <div class="milestone-card">
+            <div class="milestone-icon"><i class="bi bi-bank2"></i></div>
+            <div>
+              <div class="milestone-title">Software Engineer — Banking</div>
+              <div class="milestone-sub">Asia United Bank &middot; 2022 – Present</div>
+              <p class="milestone-desc">Joined as a Software Engineer building and maintaining mission-critical financial banking systems in C/C++.</p>
             </div>
-            <div class="portfolio-info">
-              <h4>Super Mega Scatter</h4>
-              <p>App made for fun</p>
-              <div class="portfolio-tags">
-                <span class="tag">Java</span>
-                <span class="tag">Android</span>
-                <span class="tag">Game</span>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-webapp">
-          <a href="portfolio-details.html?project=titan-trade" class="portfolio-card">
-            <div class="portfolio-img">
-              <img src="assets/img/portfolio/product-2.png" class="img-fluid" alt="Titan Trade">
-            </div>
-            <div class="portfolio-info">
-              <h4>Titan Trade</h4>
-              <p>Personal dropshipping website</p>
-              <div class="portfolio-tags">
-                <span class="tag">HTML/CSS</span>
-                <span class="tag">JavaScript</span>
-                <span class="tag">E-commerce</span>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-windows">
-          <a href="portfolio-details.html?project=smart-dustbin" class="portfolio-card">
-            <div class="portfolio-img">
-              <img src="assets/img/portfolio/branding-2.png" class="img-fluid" alt="Smart Dustbin">
-            </div>
-            <div class="portfolio-info">
-              <h4>Smart Dustbin</h4>
-              <p>Smart Dustbin using Arduino</p>
-              <div class="portfolio-tags">
-                <span class="tag">Arduino</span>
-                <span class="tag">C++</span>
-                <span class="tag">IoT</span>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-mobapp">
-          <a href="portfolio-details.html?project=lotto-ai" class="portfolio-card">
-            <div class="portfolio-img">
-              <img src="assets/img/portfolio/app-3.png" class="img-fluid" alt="Lotto AI">
-            </div>
-            <div class="portfolio-info">
-              <h4>Lotto AI</h4>
-              <p>Use to generate lottery numbers</p>
-              <div class="portfolio-tags">
-                <span class="tag">Python</span>
-                <span class="tag">AI</span>
-                <span class="tag">Mobile App</span>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-webapp">
-          <a href="portfolio-details.html?project=djared-web-design" class="portfolio-card">
-            <div class="portfolio-img">
-              <img src="assets/img/portfolio/product-3.png" class="img-fluid" alt="Djared Web Design">
-            </div>
-            <div class="portfolio-info">
-              <h4>Djared Web Design</h4>
-              <p>A community project</p>
-              <div class="portfolio-tags">
-                <span class="tag">HTML/CSS</span>
-                <span class="tag">JavaScript</span>
-                <span class="tag">Community</span>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <div class="col-lg-4 col-md-6 portfolio-item filter-windows">
-          <a href="portfolio-details.html?project=functions-in-python" class="portfolio-card">
-            <div class="portfolio-img">
-              <img src="assets/img/portfolio/branding-3.png" class="img-fluid" alt="Functions in Python">
-            </div>
-            <div class="portfolio-info">
-              <h4>Functions in Python</h4>
-              <p>Program made using Python</p>
-              <div class="portfolio-tags">
-                <span class="tag">Python</span>
-                <span class="tag">Console</span>
-                <span class="tag">Algorithms</span>
-              </div>
-            </div>
-          </a>
+          </div>
         </div>
       </div>
+
+      <!-- Key Milestones divider -->
+      <div class="ach-divider" data-aos="fade-up" data-aos-delay="250">
+        <div class="ach-divider-line ach-divider-line-left"></div>
+        <div class="ach-divider-label"><i class="bi bi-trophy me-2"></i>Key Milestones</div>
+        <div class="ach-divider-line"></div>
+      </div>
+
+      <div class="row gy-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="col-lg-4 col-md-6">
+          <div class="milestone-card">
+            <div class="milestone-icon"><i class="bi bi-cpu"></i></div>
+            <div>
+              <div class="milestone-title">IoT Capstone Project</div>
+              <div class="milestone-sub">Olfactory UTI Detector &middot; 2022</div>
+              <p class="milestone-desc">Developed a real-world IoT health device using Raspberry Pi and gas sensors as a university capstone project.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="milestone-card">
+            <div class="milestone-icon"><i class="bi bi-robot"></i></div>
+            <div>
+              <div class="milestone-title">AI-Powered Applications</div>
+              <div class="milestone-sub">EcoEye AI &amp; Lotto AI &middot; 2023</div>
+              <p class="milestone-desc">Built two independent AI-driven applications — an ecological identifier and a predictive lottery system.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="milestone-card">
+            <div class="milestone-icon"><i class="bi bi-graph-up-arrow"></i></div>
+            <div>
+              <div class="milestone-title">Banking System Optimization</div>
+              <div class="milestone-sub">Asia United Bank &middot; 2023</div>
+              <p class="milestone-desc">Resolved critical performance bottlenecks and overflow issues in production C/C++ financial applications.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
-  <!-- Contact Section - Enhanced with modern design -->
+  <!-- Contact Section -->
   <section id="contact" class="contact section">
     <div class="container">
+
       <div class="section-title text-center" data-aos="fade-up">
         <h2>Get In Touch</h2>
-        <p>Feel free to contact me with any questions or project inquiries</p>
+        <p>Let's build something great together — reach out through any channel below</p>
       </div>
 
-      <div class="row gy-5">
-        <div class="col-lg-5" data-aos="fade-up" data-aos-delay="100">
-          <div class="contact-info-card">
-            <div class="contact-info-header">
-              <h3>Contact Information</h3>
-              <p>Ready to discuss your project? Reach out through any of these channels</p>
-            </div>
-            
-            <div class="contact-info-item">
-              <div class="icon-box">
-                <i class="bi bi-geo-alt"></i>
-              </div>
-              <div class="content">
-                <h5>Location</h5>
-                <p>Pinagbarilan, Baliuag, Bulacan</p>
-              </div>
-            </div>
-            
-            <div class="contact-info-item">
-              <div class="icon-box">
-                <i class="bi bi-telephone"></i>
-              </div>
-              <div class="content">
-                <h5>Phone</h5>
-                <p>+63 966 9931 667</p>
-              </div>
-            </div>
-            
-            <div class="contact-info-item">
-              <div class="icon-box">
-                <i class="bi bi-envelope"></i>
-              </div>
-              <div class="content">
-                <h5>Email</h5>
-                <p>patrickperez1322@gmail.com</p>
-              </div>
-            </div>
-            
-            <div class="social-links">
-              <a href="https://www.facebook.com/pat.flores.339" class="facebook"><i class="bi bi-facebook"></i></a>
-              <a href="https://github.com/pat1322" class="github"><i class="bi bi-github"></i></a>
-              <a href="https://www.linkedin.com/in/patrickp2025/" class="linkedin"><i class="bi bi-linkedin"></i></a>
-            </div>
-            
-            <div class="map-container">
-              <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3854.752559834969!2d120.88352019999998!3d14.950872800000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3396555a0daef5f9%3A0x7d434bb5a87853a7!2sAmore%20Apartelle!5e0!3m2!1sen!2sph!4v1741576978028!5m2!1sen!2sph" frameborder="0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            </div>
+      <!-- Contact Chips -->
+      <div class="contact-v2-chips" data-aos="fade-up" data-aos-delay="100">
+        <div class="contact-chip">
+          <div class="contact-chip-icon"><i class="bi bi-geo-alt-fill"></i></div>
+          <div>
+            <div class="contact-chip-label">Location</div>
+            <div class="contact-chip-value">Baliuag, Bulacan, PH</div>
           </div>
         </div>
-
-        <div class="col-lg-7" data-aos="fade-up" data-aos-delay="200">
-          <div class="contact-form-card">
-            <div class="contact-form-header">
-              <h3>Send Me a Message</h3>
-              <p>I'll get back to you as soon as possible</p>
-            </div>
-            
-            <form id="contact-form" class="contact-form">
-              <div class="row g-4">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="name-field">Your Name</label>
-                    <div class="input-group">
-                      <span class="input-group-text"><i class="bi bi-person"></i></span>
-                      <input type="text" id="name-field" class="form-control" placeholder="Enter your name" required>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="email-field">Your Email</label>
-                    <div class="input-group">
-                      <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                      <input type="email" id="email-field" class="form-control" placeholder="Enter your email" required>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-12">
-                  <div class="form-group">
-                    <label for="subject-field">Subject</label>
-                    <div class="input-group">
-                      <span class="input-group-text"><i class="bi bi-chat-left-text"></i></span>
-                      <input type="text" id="subject-field" class="form-control" placeholder="Enter subject" required>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-12">
-                  <div class="form-group">
-                    <label for="message-field">Message</label>
-                    <div class="input-group">
-                      <span class="input-group-text"><i class="bi bi-pencil-square"></i></span>
-                      <textarea id="message-field" class="form-control" rows="6" placeholder="Enter your message" required></textarea>
-                    </div>
-                  </div>
-                </div>
-                
-                <div class="col-12">
-                  <div id="status-message"></div>
-                  <button type="submit" class="btn btn-primary submit-btn">
-                    <i class="bi bi-send me-2"></i> Send Message
-                  </button>
-                </div>
-              </div>
-            </form>
+        <div class="contact-chip">
+          <div class="contact-chip-icon"><i class="bi bi-telephone-fill"></i></div>
+          <div>
+            <div class="contact-chip-label">Phone</div>
+            <div class="contact-chip-value">+63 966 9931 667</div>
+          </div>
+        </div>
+        <div class="contact-chip">
+          <div class="contact-chip-icon"><i class="bi bi-envelope-fill"></i></div>
+          <div>
+            <div class="contact-chip-label">Email</div>
+            <div class="contact-chip-value">patrickperez1322@gmail.com</div>
           </div>
         </div>
       </div>
+
+      <!-- Floating-label Form -->
+      <div class="contact-form-v2" data-aos="fade-up" data-aos-delay="200">
+        <form id="contact-form">
+          <div class="row g-5">
+            <div class="col-md-6">
+              <div class="form-field-v2">
+                <input type="text" id="name-field" class="field-input" placeholder=" " required>
+                <label for="name-field" class="field-label">Your Name</label>
+                <div class="field-line"></div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-field-v2">
+                <input type="email" id="email-field" class="field-input" placeholder=" " required>
+                <label for="email-field" class="field-label">Email Address</label>
+                <div class="field-line"></div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-field-v2">
+                <input type="text" id="subject-field" class="field-input" placeholder=" " required>
+                <label for="subject-field" class="field-label">Subject</label>
+                <div class="field-line"></div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="form-field-v2">
+                <textarea id="message-field" class="field-input" rows="5" placeholder=" " required></textarea>
+                <label for="message-field" class="field-label">Message</label>
+                <div class="field-line"></div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div id="status-message"></div>
+              <button type="submit" class="contact-submit-v2">
+                <i class="bi bi-send"></i> Send Message
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Social Links -->
+        <div class="contact-social-v2">
+          <a href="https://www.facebook.com/pat.flores.339" target="_blank"><i class="bi bi-facebook"></i> Facebook</a>
+          <a href="https://github.com/pat1322" target="_blank"><i class="bi bi-github"></i> GitHub</a>
+          <a href="https://www.linkedin.com/in/patrickp2025/" target="_blank"><i class="bi bi-linkedin"></i> LinkedIn</a>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -2580,7 +2230,7 @@
 <footer id="footer" class="footer position-relative light-background">
   <div class="container">
     <div class="credits">
-      Designed by <a href="https://www.linkedin.com/in/patrickp2025/">Patrick Perez</a>
+      &copy; 2026 <a href="https://www.linkedin.com/in/patrickp2025/">Patrick Perez</a>. All rights reserved.
     </div>
   </div>
 </footer>
@@ -2606,6 +2256,60 @@
 <!-- Grouped JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+<!-- Splash Screen JS -->
+<script>
+  function dismissSplash() {
+    var s = document.getElementById('splash-screen');
+    if (!s || s.classList.contains('fade-out')) return;
+    s.classList.add('fade-out');
+    setTimeout(function () {
+      s.style.display = 'none';
+      startPuzzleReveal();
+    }, 950);
+  }
+  window.addEventListener('load', function () {
+    setTimeout(dismissSplash, 3200);
+  });
+</script>
+
+<!-- Custom Cursor JS (adapted from lourine-portfolio) -->
+<script>
+(function () {
+  // Only activate on real pointer devices
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+  var dot  = document.querySelector('.cursor-dot');
+  var ring = document.querySelector('.cursor-ring');
+  if (!dot || !ring) return;
+
+  var mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', function (e) {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    dot.style.left = mouseX + 'px';
+    dot.style.top  = mouseY + 'px';
+    // Show cursors on first move
+    document.body.classList.add('cursor-ready');
+  });
+
+  (function animateRing() {
+    ringX += (mouseX - ringX) * 0.12;
+    ringY += (mouseY - ringY) * 0.12;
+    ring.style.left = ringX + 'px';
+    ring.style.top  = ringY + 'px';
+    requestAnimationFrame(animateRing);
+  })();
+
+  // Expand ring on interactive elements
+  var targets = 'a, button, .pf-card, .skill-item, .timeline-header-item, .pf-filter-btn, .contact-submit-v2, .resume-download-btn, .social-links a, .contact-chip, .milestone-card, .stat-card';
+  document.querySelectorAll(targets).forEach(function (el) {
+    el.addEventListener('mouseenter', function () { ring.classList.add('hovering'); });
+    el.addEventListener('mouseleave', function () { ring.classList.remove('hovering'); });
+  });
+})();
+</script>
 
 <!-- Combined JavaScript -->
 <script>
@@ -2647,377 +2351,167 @@ document.getElementById("contact-form").addEventListener("submit", function(even
   );
 });
 
-// Gaming Mode Script with RPG Elements
-document.addEventListener("DOMContentLoaded", function () {
-  const gtaToggle = document.getElementById("gtaToggle");
-  const heroSection = document.getElementById("hero");
-  const typedText = document.getElementById("typed-text");
-  const gtaThemeMusic = document.getElementById("gtaThemeMusic");
-  const toggleSound = document.getElementById("toggleSound");
-  const achievementSound = document.getElementById("achievementSound");
-  const heroBg = document.querySelector("#hero .hero-bg");
-  const container = document.querySelector("#hero .container");
-  const body = document.body;
-  const achievement = document.querySelector(".achievement");
-  const moneyValue = document.getElementById("money-value");
-  const stockValue = document.getElementById("stock-value");
-  const cryptoValue = document.getElementById("crypto-value");
-  
-  // Required elements check to prevent null reference errors
-  if (!gtaToggle || !heroSection || !typedText) {
-    console.error("Required elements not found!");
-    return;
-  }
-  
-  // Force hero background to load properly
-  if (heroBg) {
-    // Ensure background is loaded
-    if (!heroBg.complete) {
-      heroBg.onload = function() {
-        heroBg.style.opacity = "1";
-      };
-    } else {
-      heroBg.style.opacity = "1";
+// ── Hero: code matrix canvas ──────────────────────────────────
+function startCodeCanvas() {
+  var canvas = document.getElementById('hero-code-canvas');
+  var hero   = document.getElementById('hero');
+  if (!canvas || !hero) return;
+
+  canvas.width  = hero.offsetWidth;
+  canvas.height = hero.offsetHeight;
+  var ctx   = canvas.getContext('2d');
+  var chars = '01アイウエオカキクケコサシスセソタチツテトabcdefghijklmnopqrstuvwxyz{}[]<>/\\;:=+-*&^%#@!'.split('');
+  var fs    = 13;
+  var cols  = Math.floor(canvas.width / fs) + 1;
+  var drops = [];
+  for (var i = 0; i < cols; i++) drops[i] = Math.random() * -(canvas.height / fs);
+
+  var raf;
+  function draw() {
+    ctx.fillStyle = 'rgba(12,10,8,0.14)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.font = fs + 'px "Courier New",monospace';
+    for (var i = 0; i < drops.length; i++) {
+      var ch = chars[Math.floor(Math.random() * chars.length)];
+      var bright = Math.random() > 0.94;
+      ctx.fillStyle = bright
+        ? 'rgba(240,220,160,0.95)'
+        : 'rgba(201,162,39,' + (0.25 + Math.random() * 0.55) + ')';
+      ctx.fillText(ch, i * fs, drops[i] * fs);
+      if (drops[i] * fs > canvas.height && Math.random() > 0.972) drops[i] = 0;
+      drops[i] += 0.55;
     }
+    raf = requestAnimationFrame(draw);
   }
-  
-  // Configure audio
-  gtaThemeMusic.loop = true;
-  gtaThemeMusic.volume = 0.7;
-  toggleSound.volume = 0.3;
-  achievementSound.volume = 0.5;
+  draw();
+  return function stopCode() { cancelAnimationFrame(raf); };
+}
 
-  // Typed.js Words
-  let normalWords = ["Software Engineer", "Developer", "Data Analyst", "Web Designer"];
-  let gtaWords = ["Ethical Noob Hacker", "Digital Alchemist", "Stack Overflow Solutions Architect", "Time Traveling Debugger", "Casual Gamer Developer"];
-  let typedInstance;
-  let stars = [];
-  let moneyInterval;
-  let energyParticles = [];
+// ── Hero: puzzle reveal ───────────────────────────────────────
+function startPuzzleReveal() {
+  var puzzle = document.getElementById('hero-puzzle');
+  if (!puzzle || puzzle.dataset.built) return;
+  puzzle.dataset.built = '1';
 
-  function startTyping(words) {
-    if (typedInstance) typedInstance.destroy(); // Destroy old instance
-    typedInstance = new Typed("#typed-text", {
-      strings: words,
-      typeSpeed: 80,
-      backSpeed: 50,
-      backDelay: 1000,
-      loop: true,
+  var hero = document.getElementById('hero');
+  var img  = document.querySelector('#hero .hero-bg');
+  var stopCode = startCodeCanvas();
+
+  var COLS = 10, ROWS = 6;
+
+  function buildTiles() {
+    var heroW = hero.offsetWidth;
+    var heroH = hero.offsetHeight;
+    var natW  = img.naturalWidth  || 1920;
+    var natH  = img.naturalHeight || 1080;
+
+    // Mirror object-fit: cover; object-position: center
+    var scale  = Math.max(heroW / natW, heroH / natH);
+    var bgW    = natW * scale;
+    var bgH    = natH * scale;
+    var bgOffX = (heroW - bgW) / 2;  // negative = image wider than hero
+    var bgOffY = (heroH - bgH) / 2;
+
+    var tileW  = heroW / COLS;
+    var tileH  = heroH / ROWS;
+
+    var tiles = [];
+    for (var r = 0; r < ROWS; r++) {
+      for (var c = 0; c < COLS; c++) {
+        var tile     = document.createElement('div');
+        tile.className = 'hero-tile';
+        var tileLeft = c * tileW;
+        var tileTop  = r * tileH;
+        tile.style.cssText =
+          'left:'   + tileLeft.toFixed(2)      + 'px;' +
+          'top:'    + tileTop.toFixed(2)        + 'px;' +
+          'width:'  + tileW.toFixed(2)          + 'px;' +
+          'height:' + tileH.toFixed(2)          + 'px;' +
+          'background-image:url(' + img.src + ');' +
+          'background-size:' + bgW.toFixed(2) + 'px ' + bgH.toFixed(2) + 'px;' +
+          'background-position:' + (bgOffX - tileLeft).toFixed(2) + 'px ' + (bgOffY - tileTop).toFixed(2) + 'px;' +
+          'background-repeat:no-repeat;';
+        puzzle.appendChild(tile);
+        tiles.push(tile);
+      }
+    }
+
+    var shuffled = tiles.slice().sort(function () { return Math.random() - 0.5; });
+    var START = 500, STAGGER = 48;
+    shuffled.forEach(function (tile, i) {
+      setTimeout(function () { tile.classList.add('reveal'); }, START + i * STAGGER);
     });
+
+    var FINISH = START + (tiles.length - 1) * STAGGER + 820;
+    setTimeout(function () {
+      if (stopCode) stopCode();
+      var cvs = document.getElementById('hero-code-canvas');
+      if (cvs) { cvs.style.transition = 'opacity 0.4s ease'; cvs.style.opacity = '0'; }
+      img.style.transition = 'opacity 0.35s ease';
+      img.style.opacity    = '1';
+      puzzle.style.transition = 'opacity 0.35s ease';
+      puzzle.style.opacity    = '0';
+      setTimeout(function () {
+        puzzle.style.display = 'none';
+        if (cvs) cvs.style.display = 'none';
+      }, 380);
+    }, FINISH);
   }
 
-  // Initialize typing
-  try {
-    startTyping(normalWords); // Start with default words
-  } catch (error) {
-    console.error("Typed.js initialization error:", error);
-    // Fallback if Typed.js fails
-    typedText.textContent = normalWords[0]; 
+  if (img && img.complete && img.naturalWidth) {
+    buildTiles();
+  } else if (img) {
+    img.addEventListener('load', buildTiles);
   }
-  
-  // Create stars (background effect for GTA mode)
-  function createStars() {
-    // Clear existing stars
-    stars.forEach(star => {
-      if (star && star.parentNode) {
-        star.parentNode.removeChild(star);
-      }
-    });
-    stars = [];
-    
-    // Create new stars
-    for (let i = 0; i < 50; i++) {
-      const star = document.createElement('div');
-      star.classList.add('star');
-      star.style.width = Math.random() * 3 + 'px';
-      star.style.height = star.style.width;
-      star.style.left = Math.random() * 100 + '%';
-      star.style.top = Math.random() * 100 + '%';
-      star.style.animationDelay = Math.random() * 2 + 's';
-      heroSection.appendChild(star);
-      stars.push(star);
-    }
-  }
+}
 
-  // RPG Elements
-  function createDamageNumber(x, y, amount) {
-    const damageNumber = document.createElement('div');
-    damageNumber.classList.add('damage-number');
-    damageNumber.textContent = amount;
-    damageNumber.style.left = `${x}px`;
-    damageNumber.style.top = `${y}px`;
-    document.body.appendChild(damageNumber);
-    
-    setTimeout(() => {
-      if (damageNumber.parentNode) {
-        damageNumber.parentNode.removeChild(damageNumber);
-      }
-    }, 1500);
-  }
+// ── Sidebar hero-active: fires on about-title entering viewport ─
+(function () {
+  var hero  = document.getElementById('hero');
+  var about = document.getElementById('about');
+  if (!hero) return;
 
-  // Add click event for damage numbers in gaming mode
-  document.addEventListener('click', function(e) {
-    if (body.classList.contains('gaming-mode')) {
-      createDamageNumber(e.clientX, e.clientY, Math.floor(Math.random() * 100) + 1);
-      createEnergyParticles(e.clientX, e.clientY, 10);
-    }
-  });
+  var heroVis  = false;
+  var aboutVis = false;
 
-  // Create energy particles
-  function createEnergyParticles(x, y, count) {
-    for (let i = 0; i < count; i++) {
-      const particle = document.createElement('div');
-      particle.classList.add('energy-particle');
-      particle.style.left = `${x}px`;
-      particle.style.top = `${y}px`;
-      document.body.appendChild(particle);
-      
-      // Random direction and speed
-      const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 5 + 3;
-      const dx = Math.cos(angle) * speed;
-      const dy = Math.sin(angle) * speed;
-      
-      // Store particle data
-      energyParticles.push({
-        element: particle,
-        dx: dx,
-        dy: dy,
-        life: 100
-      });
-      
-      // Start with opacity 0
-      gsap.to(particle, {
-        opacity: 0.8,
-        duration: 0.2,
-        onComplete: () => {
-          // Then fade out
-          gsap.to(particle, {
-            opacity: 0,
-            duration: 1,
-            delay: 0.5
-          });
-        }
-      });
-    }
-  }
-
-  // Update energy particles
-  function updateEnergyParticles() {
-    for (let i = energyParticles.length - 1; i >= 0; i--) {
-      const particle = energyParticles[i];
-      
-      // Update position
-      const currentLeft = parseFloat(particle.element.style.left);
-      const currentTop = parseFloat(particle.element.style.top);
-      particle.element.style.left = `${currentLeft + particle.dx}px`;
-      particle.element.style.top = `${currentTop + particle.dy}px`;
-      
-      // Decrease life
-      particle.life -= 1;
-      
-      // Remove if life is over
-      if (particle.life <= 0) {
-        if (particle.element.parentNode) {
-          particle.element.parentNode.removeChild(particle.element);
-        }
-        energyParticles.splice(i, 1);
-      }
-    }
-    
-    // Continue animation if in gaming mode
-    if (body.classList.contains('gaming-mode')) {
-      requestAnimationFrame(updateEnergyParticles);
-    }
-  }
-
-  // Show achievement notification
-  function showAchievement() {
-    if (achievement) {
-      achievement.classList.add('show');
-      
-      try {
-        achievementSound.currentTime = 0;
-        achievementSound.play().catch(e => console.warn("Audio autoplay blocked:", e));
-      } catch (error) {
-        console.warn("Audio error:", error);
-      }
-      
-      setTimeout(() => {
-        achievement.classList.remove('show');
-      }, 5000);
-    }
-  }
-
-  gtaToggle.addEventListener("change", function () {
-    // Play toggle sound
-    try {
-      toggleSound.currentTime = 0;
-      toggleSound.play();
-    } catch (error) {
-      console.warn("Audio error:", error);
-    }
-    
-    if (gtaToggle.checked) {
-      // Activate GTA Mode
-      heroSection.classList.add("gta-dark-mode");
-      body.classList.add("gaming-mode");
-      
-      // Change background image to hero-bg2.jpg
-      if (heroBg) {
-        heroBg.src = "assets/img/hero-bg2.jpg";
-      }
-      
-      try {
-        startTyping(gtaWords); // Change words
-      } catch (error) {
-        console.error("Typed.js error:", error);
-        typedText.textContent = gtaWords[0]; 
-      }
-
-      // Play GTA music
-      try {
-        // Set the current time to 5 seconds before playing
-        gtaThemeMusic.currentTime = 5;
-        gtaThemeMusic.play().catch(e => console.warn("Audio autoplay blocked:", e));
-      } catch (error) {
-        console.warn("Audio error:", error);
-      }
-      
-      // Create star background
-      createStars();
-
-      // Money rain effect
-      moneyInterval = setInterval(() => {
-        let money = document.createElement("img");
-        money.src = "assets/img/money.png";
-        money.classList.add("money-rain");
-        money.style.left = `${Math.random() * 100}%`;
-        heroSection.appendChild(money);
-
-        setTimeout(() => {
-          if (money && money.parentNode) {
-            money.parentNode.removeChild(money);
-          }
-        }, 3000);
-      }, 300);
-      
-      // Update mode text
-      document.querySelector('.mode-text').textContent = 'Dev Mode';
-      
-      // Start energy particles animation
-      requestAnimationFrame(updateEnergyParticles);
-      
-      // Show achievement after 3 seconds
-      setTimeout(showAchievement, 3000);
-      
+  function sync() {
+    if (heroVis && !aboutVis) {
+      document.body.classList.add('hero-active');
     } else {
-      // Deactivate GTA Mode
-      heroSection.classList.remove("gta-dark-mode");
-      body.classList.remove("gaming-mode");
-      
-      // Change background image back to hero-bg.jpg
-      if (heroBg) {
-        heroBg.src = "assets/img/hero-bg.jpg";
-      }
-      
-      try {
-        startTyping(normalWords); // Revert words
-      } catch (error) {
-        console.error("Typed.js error:", error);
-        typedText.textContent = normalWords[0]; 
-      }
-
-      // Stop GTA music
-      try {
-        gtaThemeMusic.pause();
-        gtaThemeMusic.currentTime = 0;
-      } catch (error) {
-        console.warn("Audio error:", error);
-      }
-
-      // Remove stars
-      stars.forEach(star => {
-        if (star && star.parentNode) {
-          star.parentNode.removeChild(star);
-        }
-      });
-      stars = [];
-
-      // Stop money rain
-      clearInterval(moneyInterval);
-      heroSection.querySelectorAll(".money-rain").forEach(el => {
-        if (el && el.parentNode) {
-          el.parentNode.removeChild(el);
-        }
-      });
-      
-      // Hide achievement
-      if (achievement) achievement.classList.remove('show');
-      
-      // Remove all energy particles
-      energyParticles.forEach(particle => {
-        if (particle.element && particle.element.parentNode) {
-          particle.element.parentNode.removeChild(particle.element);
-        }
-      });
-      energyParticles = [];
-      
-      // Reset money counter values
-      if (moneyValue) moneyValue.textContent = "1,000,000";
-      if (stockValue) stockValue.textContent = "+487%";
-      if (cryptoValue) cryptoValue.textContent = "2,345";
-      
-      // Update mode text
-      document.querySelector('.mode-text').textContent = 'Dev Mode';
+      document.body.classList.remove('hero-active');
     }
-  });
-  
-  gtaToggle.addEventListener("change", function(e) {
-    // Prevent event from bubbling up
-    e.stopPropagation();
-  });			
-  
-  // Add touch/mobile support
-  gtaToggle.addEventListener("touchend", function(e) {
-    e.preventDefault(); // Prevent double triggering
-  });
-  
-  // Add keyboard support (spacebar toggles GTA mode when focused on hero section)
-  document.addEventListener("keydown", function(e) {
-    // Only trigger if hero section is visible in viewport
-    const rect = heroSection.getBoundingClientRect();
-    const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
-    
-    if (e.code === "Space" && document.activeElement !== gtaToggle && isVisible) {
-      gtaToggle.checked = !gtaToggle.checked;
-      gtaToggle.dispatchEvent(new Event("change"));
-      e.preventDefault(); // Prevent scrolling
-    }
-  });
-  
-  // Handle window resize to reposition accessories
-  window.addEventListener("resize", function() {
-    if (gtaToggle.checked) {
-      // Recalculate position on resize
-      if (heroBg) {
-        heroBg.style.opacity = "1"; // Ensure background is visible
-      }
-    }
-  });
-  
-  // Run initial positioning after images have loaded
-  window.addEventListener('load', function() {
-    if (gtaToggle.checked && heroBg) {
-      heroBg.src = "assets/img/hero-bg2.jpg";
-    }
-  });
-});
+  }
 
-// About Section Bubbles
+  new IntersectionObserver(function (entries) {
+    heroVis = entries[0].isIntersecting;
+    sync();
+  }, { threshold: 0.1 }).observe(hero);
+
+  if (about) {
+    // Observe the section title so the switch happens the moment it peeks in
+    var trigger = about.querySelector('.section-title') || about;
+    new IntersectionObserver(function (entries) {
+      aboutVis = entries[0].isIntersecting;
+      sync();
+    }, { threshold: 0, rootMargin: '0px 0px 0px 0px' }).observe(trigger);
+  }
+
+  // Sync state immediately (handles hard-refresh mid-scroll)
+  var hr = hero.getBoundingClientRect();
+  heroVis = hr.top < window.innerHeight && hr.bottom > 0;
+  if (about) {
+    var ar = about.getBoundingClientRect();
+    aboutVis = ar.top < window.innerHeight && ar.bottom > 0;
+  }
+  sync();
+})();
+
+
+// About Section Bubbles (disabled — about section redesigned)
 document.addEventListener("DOMContentLoaded", function() {
-  let techStacks = document.querySelectorAll(".tech-stack");
   let bubbleContainer = document.getElementById("bubble-container");
+  if (!bubbleContainer) return; // exit if bubbles not present
+  let techStacks = document.querySelectorAll(".tech-stack");
   let backendIcons = document.querySelectorAll(".backend-bubble-icons img");
   let frontendIcons = document.querySelectorAll(".frontend-bubble-icons img");
 
@@ -3127,57 +2621,70 @@ document.addEventListener("DOMContentLoaded", function() {
   navHighlighter();
 });
 
-// Portfolio Filtering
+// Portfolio: filter + 3D tilt + spotlight
 document.addEventListener("DOMContentLoaded", function() {
-  const portfolioFilters = document.querySelectorAll('.filters-list li');
-  const portfolioItems = document.querySelectorAll('.portfolio-item');
-  
-  portfolioFilters.forEach(filter => {
-    filter.addEventListener('click', function() {
-      // Remove active class from all filters
-      portfolioFilters.forEach(f => f.classList.remove('filter-active'));
-      
-      // Add active class to clicked filter
-      this.classList.add('filter-active');
-      
-      // Filter portfolio items
-      const filterValue = this.getAttribute('data-filter');
-      
-      portfolioItems.forEach(item => {
-        if (filterValue === '*' || item.classList.contains(filterValue.substring(1))) {
-          item.style.display = 'block';
-          setTimeout(() => {
-            item.style.opacity = '1';
-            item.style.transform = 'scale(1)';
-          }, 50);
+  const pfBtns = document.querySelectorAll('.pf-filter-btn');
+  const pfWraps = document.querySelectorAll('.pf-wrap');
+  const pfLine = document.querySelector('.pf-filter-line');
+
+  function moveLine(btn) {
+    if (!pfLine || !btn) return;
+    const parent = btn.closest('.pf-filters-inner');
+    const pr = parent.getBoundingClientRect();
+    const br = btn.getBoundingClientRect();
+    pfLine.style.left  = (br.left - pr.left) + 'px';
+    pfLine.style.width = br.width + 'px';
+  }
+
+  pfBtns.forEach(btn => {
+    btn.addEventListener('click', function() {
+      pfBtns.forEach(b => b.classList.remove('pf-active'));
+      this.classList.add('pf-active');
+      moveLine(this);
+
+      const f = this.dataset.filter;
+      pfWraps.forEach(w => {
+        const show = f === '*' || w.classList.contains(f);
+        if (show) {
+          w.style.display = '';
+          requestAnimationFrame(() => w.classList.remove('pf-exit'));
         } else {
-          item.style.opacity = '0';
-          item.style.transform = 'scale(0.8)';
-          setTimeout(() => {
-            item.style.display = 'none';
-          }, 300);
+          w.classList.add('pf-exit');
+          setTimeout(() => { if (w.classList.contains('pf-exit')) w.style.display = 'none'; }, 370);
         }
       });
     });
   });
-  
-  // Resume Timeline Functionality
-  const timelineHeaderItems = document.querySelectorAll('.timeline-header-item');
-  
-  timelineHeaderItems.forEach(item => {
-    item.addEventListener('click', function() {
-      // Remove active class from all header items
-      timelineHeaderItems.forEach(i => i.classList.remove('active'));
-      
-      // Add active class to clicked item
+
+  // Init indicator position
+  requestAnimationFrame(() => moveLine(document.querySelector('.pf-filter-btn.pf-active')));
+
+  // 3D tilt + spotlight
+  document.querySelectorAll('.pf-card').forEach(card => {
+    const spot = card.querySelector('.pf-spot');
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top)  / r.height;
+      const rx = (y - 0.5) * -12;
+      const ry = (x - 0.5) *  12;
+      card.style.transform = `perspective(800px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(6px)`;
+      if (spot) {
+        spot.style.setProperty('--mx', (x * 100) + '%');
+        spot.style.setProperty('--my', (y * 100) + '%');
+      }
+    });
+    card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+  });
+
+  // Professional Journey tab switcher
+  document.querySelectorAll('.pj-tab-btn').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.pj-tab-btn').forEach(function(b) { b.classList.remove('active'); });
+      document.querySelectorAll('.pj-panel').forEach(function(p) { p.classList.remove('active'); });
       this.classList.add('active');
-      
-      // Show corresponding timeline section
-      const target = this.getAttribute('data-target');
-      document.querySelectorAll('.timeline-section').forEach(section => {
-        section.classList.remove('active');
-      });
-      document.getElementById(target + '-timeline').classList.add('active');
+      var panel = document.getElementById(this.getAttribute('data-panel'));
+      if (panel) panel.classList.add('active');
     });
   });
   
