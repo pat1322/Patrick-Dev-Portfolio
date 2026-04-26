@@ -1266,74 +1266,68 @@
   .contact-social-v2 a i { font-size: 1rem; }
 
   /* ═══════════════════════════════════════════
-     HERO LOOP — 3D OBJECTS + TEXT
+     HERO CINEMATIC LOOP
      ═══════════════════════════════════════════ */
 
-  /* Ambient glow layers (one per act, crossfaded via GSAP) */
-  .hglow {
-    position: absolute; inset: 0; z-index: 4;
-    pointer-events: none; opacity: 0;
-  }
-  #hglow-1 { background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,162,39,.14) 0%, transparent 70%); }
-  #hglow-2 { background: radial-gradient(ellipse 65% 55% at 50% 45%, rgba(40,110,220,.10) 0%, transparent 65%); }
-  #hglow-3 { background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,162,39,.20) 0%, transparent 55%); }
+  /* Coloured scene backdrop per act */
+  .hero-scene-bg { position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0; }
 
-  /* Three.js canvas */
-  .hero-3d {
-    position: absolute; inset: 0; z-index: 5;
-    width: 100%; height: 100%; pointer-events: none;
-  }
+  /* Ambient radial glow per act */
+  .hglow { position:absolute;inset:0;z-index:4;pointer-events:none;opacity:0; }
+  #hglow-1 { background:radial-gradient(ellipse 80% 70% at 50% 45%, rgba(201,162,39,.20) 0%, transparent 70%); }
+  #hglow-2 { background:radial-gradient(ellipse 75% 65% at 50% 45%, rgba(40,130,255,.14) 0%, transparent 65%); }
+  #hglow-3 { background:radial-gradient(ellipse 70% 70% at 50% 50%, rgba(201,162,39,.26) 0%, transparent 55%); }
 
-  /* Text overlay — lower third of hero */
-  .hero-motion {
-    position: absolute; inset: 0; z-index: 6;
-    display: flex; align-items: flex-end; justify-content: center;
-    overflow: hidden; pointer-events: none; opacity: 0;
+  /* Three.js canvas — alpha transparent */
+  .hero-3d { position:absolute;inset:0;z-index:5;width:100%;height:100%;pointer-events:none; }
+
+  /* Text motion layer */
+  .hero-motion { position:absolute;inset:0;z-index:6;overflow:hidden;pointer-events:none;opacity:0; }
+
+  /* Readability gradient behind text so it reads on any background */
+  .hero-motion::before {
+    content:''; position:absolute; bottom:0;left:0;right:0;height:48%;
+    background:linear-gradient(to top, rgba(4,3,2,.90) 0%, transparent 100%);
+    pointer-events:none; z-index:0;
   }
 
   .hm-frame {
-    position: absolute; inset: 0;
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: flex-end;
-    text-align: center;
-    padding: 0 clamp(1rem, 5vw, 5rem) clamp(4rem, 9vh, 7rem);
-    opacity: 0;
+    position:absolute;inset:0;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:flex-end;
+    text-align:center;
+    padding:0 clamp(1rem,5vw,4rem) clamp(3.5rem,8vh,6rem);
+    opacity:0;z-index:1;
   }
 
   .hm-label {
-    font-family: 'Raleway', sans-serif;
-    font-size: clamp(0.36rem, 0.78vw, 0.55rem);
-    font-weight: 600; letter-spacing: 0.56em;
-    text-transform: uppercase; color: #C9A227;
-    margin-bottom: 1rem; opacity: 0;
+    font-family:'Raleway',sans-serif;
+    font-size:clamp(.36rem,.78vw,.56rem);
+    font-weight:600;letter-spacing:.56em;text-transform:uppercase;
+    color:#C9A227;margin-bottom:.9rem;
   }
 
-  /* Overflow-hidden clip — text slides up from below */
-  .hm-clip { overflow: hidden; line-height: 1; margin-bottom: 0.06em; }
-
+  /* Main headline — no default transform; each animation handles its own entrance */
   .hm-line {
-    display: block;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.6rem, 7.5vw, 8.5rem);
-    font-weight: 300; letter-spacing: 0.07em;
-    text-transform: uppercase; color: #F0E6CC;
-    line-height: 0.88; transform: translateY(108%);
+    display:block;
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(2.8rem,8.5vw,10rem);
+    font-weight:300;letter-spacing:.07em;text-transform:uppercase;
+    color:#F0E6CC;line-height:.86;
   }
-  .hm-line.gold    { color: #C9A227; }
-  .hm-line.outline { -webkit-text-stroke: 1.5px rgba(201,162,39,.65); color: transparent; }
-  .hm-line.mid     { font-size: clamp(1.6rem, 4vw, 4.5rem); }
+  .hm-line.gold    { color:#C9A227; }
+  .hm-line.outline { -webkit-text-stroke:1.5px rgba(201,162,39,.7);color:transparent; }
 
   .hm-rule {
-    width: 52px; height: 1px;
-    background: linear-gradient(90deg, transparent, #C9A227, transparent);
-    margin: 1rem auto; flex-shrink: 0; opacity: 0;
+    width:52px;height:1px;
+    background:linear-gradient(90deg,transparent,#C9A227,transparent);
+    margin:.9rem auto;flex-shrink:0;
   }
   .hm-sub {
-    font-family: 'Raleway', sans-serif;
-    font-size: clamp(0.34rem, 0.68vw, 0.48rem);
-    font-weight: 500; letter-spacing: 0.38em;
-    text-transform: uppercase; color: rgba(240,230,204,.45);
-    opacity: 0;
+    font-family:'Raleway',sans-serif;
+    font-size:clamp(.35rem,.72vw,.52rem);
+    font-weight:500;letter-spacing:.38em;text-transform:uppercase;
+    color:rgba(240,230,204,.52);
   }
 
 </style>
@@ -1499,15 +1493,16 @@
     <img src="assets/img/hero-bg.jpg" alt="" class="hero-bg">
     <canvas id="hero-code-canvas" class="hero-code-canvas"></canvas>
     <div class="hero-puzzle" id="hero-puzzle"></div>
-    <!-- Dark cinematic overlay — GSAP-controlled throughout the loop -->
     <div class="hero-overlay" id="hero-overlay"></div>
-    <!-- Per-act ambient glow layers -->
+    <!-- Colored scene background (crossfades per act) -->
+    <div id="hero-scene-bg" class="hero-scene-bg"></div>
+    <!-- Ambient glow per act -->
     <div class="hglow" id="hglow-1"></div>
     <div class="hglow" id="hglow-2"></div>
     <div class="hglow" id="hglow-3"></div>
-    <!-- Three.js canvas for 3D objects -->
+    <!-- Three.js -->
     <canvas id="hero-3d" class="hero-3d"></canvas>
-    <!-- Text identity labels -->
+    <!-- Text motion overlay -->
     <div id="hero-motion" class="hero-motion"></div>
     <div class="hero-scanner"></div>
   </section>
@@ -2568,260 +2563,436 @@ function startPuzzleReveal() {
   }
 }
 
-// ── Hero identity motion loop ─────────────────────────────────
+// ── Hero cinematic loop ────────────────────────────────────────
 function initHeroMotion() {
   var root    = document.getElementById('hero-motion');
   var canvas  = document.getElementById('hero-3d');
   var overlay = document.getElementById('hero-overlay');
-  if (!root || !canvas || !window.gsap) return;
+  var sceneBg = document.getElementById('hero-scene-bg');
+  if (!root || !canvas || !window.gsap || !window.THREE) return;
 
-  /* ── Ken Burns on hero photo ── */
-  var bgImg = document.querySelector('#hero .hero-bg');
-  if (bgImg) gsap.to(bgImg, { scale: 1.09, duration: 24, ease: 'none',
-                               repeat: -1, yoyo: true, transformOrigin: '50% 50%' });
-
-  /* ─────────────────────────────────────────
-     THREE.JS SCENE
-     ───────────────────────────────────────── */
-  if (!window.THREE) { console.warn('Three.js not loaded'); return; }
   var T = THREE;
-
   var heroEl = document.getElementById('hero');
   var W = heroEl.offsetWidth, H = heroEl.offsetHeight;
 
+  /* Ken Burns on photo */
+  var bgImg = document.querySelector('#hero .hero-bg');
+  if (bgImg) gsap.to(bgImg, { scale: 1.09, duration: 26, ease: 'none',
+                               repeat: -1, yoyo: true, transformOrigin: '50% 50%' });
+
+  /* ══════════════════════════════════════════
+     THREE.JS — renderer, camera, scene
+     ══════════════════════════════════════════ */
   var renderer = new T.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
   renderer.setSize(W, H);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
   var scene  = new T.Scene();
-  var camera = new T.PerspectiveCamera(52, W / H, 0.1, 100);
-  camera.position.set(0, 1.2, 6);
-  camera.lookAt(0, 0, 0);
+  var camera = new T.PerspectiveCamera(55, W / H, 0.1, 200);
+  camera.position.set(0, 0, 10);
 
-  /* Materials — stored target opacity for GSAP transitions */
-  function wMat(op) {
-    var m = new T.MeshBasicMaterial({ color: 0xC9A227, wireframe: true,
-                                       opacity: op, transparent: true });
-    m.userData.t = op; return m;
-  }
-  function lMat(op) {
-    var m = new T.LineBasicMaterial({ color: 0xC9A227, opacity: op, transparent: true });
-    m.userData.t = op; return m;
-  }
-  function sMat() {
-    var m = new T.MeshBasicMaterial({ color: 0xC9A227, transparent: true, opacity: 1 });
-    m.userData.t = 1; return m;
-  }
-
-  /* ── Object 1: Double wireframe cube + 3 orbiting nodes ── */
-  var cubeGrp  = new T.Group();
-  var outerBox = new T.Mesh(new T.BoxGeometry(2.6, 2.6, 2.6), wMat(0.55));
-  var innerBox = new T.Mesh(new T.BoxGeometry(1.3, 1.3, 1.3), wMat(0.22));
-  cubeGrp.add(outerBox, innerBox);
-
-  var orbits = [];
-  [[2.1, 0.95, 0.7], [1.85, 0.55, 1.1], [2.3, 0.35, 0.5]].forEach(function(p, i) {
-    var orb = new T.Mesh(new T.SphereGeometry(0.075, 7, 7), sMat());
-    orbits.push({ m: orb, r: p[0], tilt: p[1], speed: p[2], a: (i / 3) * Math.PI * 2 });
-    cubeGrp.add(orb);
+  /* Mouse parallax offset */
+  var mPX = 0, mPY = 0;
+  heroEl.addEventListener('mousemove', function(e) {
+    var r = heroEl.getBoundingClientRect();
+    gsap.to({ x: mPX, y: mPY }, {
+      x: ((e.clientX - r.left) / r.width  - 0.5) * 2.8,
+      y: -((e.clientY - r.top)  / r.height - 0.5) * 1.4,
+      duration: 2, ease: 'power2.out',
+      onUpdate: function() { mPX = this.targets()[0].x; mPY = this.targets()[0].y; }
+    });
   });
-  cubeGrp.visible = false; scene.add(cubeGrp);
 
-  /* ── Object 2: Network sphere — 32 nodes on sphere + edges ── */
-  var netGrp = new T.Group();
-  var nPts   = [];
-  for (var ni = 0; ni < 32; ni++) {
-    var phi   = Math.acos(-1 + (2 * ni) / 32);
-    var theta = Math.sqrt(32 * Math.PI) * phi;
-    var rr    = 2.1;
-    var pos   = new T.Vector3(rr * Math.sin(phi) * Math.cos(theta),
-                               rr * Math.sin(phi) * Math.sin(theta),
-                               rr * Math.cos(phi));
-    nPts.push(pos);
-    var node = new T.Mesh(new T.SphereGeometry(0.055, 5, 5), sMat());
-    node.position.copy(pos); netGrp.add(node);
+  /* ── MATERIAL HELPERS ── */
+  function wm(col, op) {
+    var m = new T.MeshBasicMaterial({ color: col||0xC9A227, wireframe:true, transparent:true, opacity:op });
+    m.userData.base = op; return m;
   }
+  function lm(col, op) {
+    var m = new T.LineBasicMaterial({ color: col||0xC9A227, transparent:true, opacity:op });
+    m.userData.base = op; return m;
+  }
+  function sm(col, op) {
+    var m = new T.MeshBasicMaterial({ color: col||0xC9A227, transparent:true, opacity:op||1 });
+    m.userData.base = op||1; return m;
+  }
+
+  /* ══════════════════════════════════════════
+     ACT 1 — GOLDEN PARTICLE COSMOS
+     Hundreds of particles at different Z depths
+     → camera drift creates true 3D parallax
+     ══════════════════════════════════════════ */
+  var a1 = new T.Group();
+
+  /* 600 particles across a 60-unit Z range */
+  var pCount = 600, pArr = new Float32Array(pCount * 3);
+  for (var i = 0; i < pCount; i++) {
+    pArr[i*3]   = (Math.random() - .5) * 40;
+    pArr[i*3+1] = (Math.random() - .5) * 22;
+    pArr[i*3+2] = (Math.random() - .5) * 60; /* deep z for parallax */
+  }
+  var pGeo = new T.BufferGeometry();
+  pGeo.setAttribute('position', new T.Float32BufferAttribute(pArr, 3));
+  a1.add(new T.Points(pGeo, new T.PointsMaterial({ color:0xC9A227, size:.07, transparent:true, opacity:.6, sizeAttenuation:true })));
+
+  /* Mid-depth wireframe spheres — each at a different Z */
+  [[0,0,0,.5],[−5,2,−7,.3],[5,−2,−13,.22],[−2,−3,−4,.38],[3,3,−20,.14]].forEach(function(d, idx) {
+    var r = [1.5,.7,.9,.55,1.2][idx];
+    var mesh = new T.Mesh(new T.SphereGeometry(r, 10, 10), wm(0xC9A227, d[3]));
+    mesh.position.set(d[0], d[1], d[2]);
+    mesh.userData.ry = (Math.random()-.5)*.009;
+    a1.add(mesh);
+  });
+  a1.visible = false; scene.add(a1);
+
+  /* ══════════════════════════════════════════
+     ACT 2 — NEURAL NETWORK
+     60 nodes scattered in 3D space, connected
+     by animated edges; nodes pulse in opacity
+     ══════════════════════════════════════════ */
+  var a2 = new T.Group();
+  var nPts = [];
+  for (var j = 0; j < 60; j++) {
+    var np = new T.Vector3((Math.random()-.5)*26, (Math.random()-.5)*16, (Math.random()-.5)*32);
+    nPts.push(np);
+    var nm = new T.Mesh(new T.SphereGeometry(.07, 6, 6), sm(0xC9A227, .8));
+    nm.position.copy(np);
+    nm.userData.ph = Math.random() * Math.PI * 2;
+    a2.add(nm);
+  }
+  /* Edges between neighbours */
   for (var na = 0; na < nPts.length; na++) {
-    for (var nb = na + 1; nb < nPts.length; nb++) {
-      if (nPts[na].distanceTo(nPts[nb]) < 1.4) {
-        var lg = new T.BufferGeometry().setFromPoints([nPts[na], nPts[nb]]);
-        netGrp.add(new T.Line(lg, lMat(0.18)));
+    for (var nb = na+1; nb < nPts.length; nb++) {
+      if (nPts[na].distanceTo(nPts[nb]) < 6) {
+        var em = lm(0xC9A227, .12);
+        a2.add(new T.Line(new T.BufferGeometry().setFromPoints([nPts[na],nPts[nb]]), em));
       }
     }
   }
-  netGrp.visible = false; scene.add(netGrp);
+  a2.visible = false; scene.add(a2);
 
-  /* ── Object 3: Double icosahedron (outer detail + inner solid frame) ── */
-  var icoGrp  = new T.Group();
-  var icoOut  = new T.Mesh(new T.IcosahedronGeometry(2.2, 1), wMat(0.5));
-  var icoIn   = new T.Mesh(new T.IcosahedronGeometry(1.15, 0), wMat(0.28));
-  /* Thin edge lines on outer shell for extra depth */
-  var icoEdge = new T.LineSegments(
-    new T.EdgesGeometry(new T.IcosahedronGeometry(2.2, 1)),
-    lMat(0.35)
-  );
-  icoGrp.add(icoOut, icoIn, icoEdge);
-  icoGrp.visible = false; scene.add(icoGrp);
+  /* ══════════════════════════════════════════
+     ACT 3 — GEOMETRIC DIMENSION
+     7 shapes at different Z depths; camera
+     movement creates true parallax separation
+     ══════════════════════════════════════════ */
+  var a3 = new T.Group();
+  /* [geo, pos, wireOpacity, rotSpeeds] */
+  var gDefs = [
+    [new T.BoxGeometry(2.2,2.2,2.2),        [ 0,  0,  0], .58, [.50,.60,.40]],
+    [new T.IcosahedronGeometry(1.6,1),       [−5.5, 1.5,−5],.42,[.40,.50,.30]],
+    [new T.OctahedronGeometry(1.2),          [ 5, −2, −8],  .48, [.60,.30,.50]],
+    [new T.BoxGeometry(.9,.9,.9),            [−3.5,−3.5,−3],.34,[.70,.40,.60]],
+    [new T.IcosahedronGeometry(.85,0),       [ 5.5, 2.5,−4],.38,[.40,.70,.30]],
+    [new T.OctahedronGeometry(1.9),          [−4,  2, −15], .20,[.25,.35,.18]],
+    [new T.BoxGeometry(2.8,2.8,2.8),         [ 4, −1, −20], .11,[.15,.22,.12]],
+  ];
+  var gMeshes = gDefs.map(function(d) {
+    var m = new T.Mesh(d[0], wm(0xC9A227, d[2]));
+    m.position.set(d[1][0],d[1][1],d[1][2]);
+    m.userData.rs = d[3]; a3.add(m); return m;
+  });
+  /* Bright edge-line overlay on the front cube */
+  var eLines = new T.LineSegments(
+    new T.EdgesGeometry(new T.BoxGeometry(2.2,2.2,2.2)),
+    lm(0xEDD060, .75));
+  a3.add(eLines);
+  a3.visible = false; scene.add(a3);
 
-  /* ── Render loop ── */
-  var tick = 0;
-  (function animate() {
-    requestAnimationFrame(animate);
-    tick += 0.01;
+  /* ── RENDER LOOP ── */
+  var tk = 0;
+  (function tick() {
+    requestAnimationFrame(tick);
+    tk += .0075;
 
-    outerBox.rotation.x = tick * 0.28; outerBox.rotation.y = tick * 0.45;
-    innerBox.rotation.x = -tick * 0.38; innerBox.rotation.y = -tick * 0.62;
-    orbits.forEach(function(o) {
-      o.a += o.speed * 0.011;
-      o.m.position.set(Math.cos(o.a) * o.r,
-                        Math.sin(o.a * 0.65) * o.tilt,
-                        Math.sin(o.a) * o.r);
-    });
+    /* Automated camera drift + mouse parallax — the parallax magic */
+    var ax = Math.sin(tk*.55)*.85, ay = Math.cos(tk*.33)*.42;
+    camera.position.x += (mPX + ax - camera.position.x) * .025;
+    camera.position.y += (mPY + ay - camera.position.y) * .025;
+    camera.lookAt(0, 0, 0);
 
-    netGrp.rotation.y = tick * 0.21; netGrp.rotation.x = tick * 0.08;
+    if (a1.visible) {
+      /* Particles drift upward; further-away ones move slower (natural perspective) */
+      var pos = pGeo.attributes.position;
+      for (var pi = 0; pi < pCount; pi++) {
+        var spd = .008 + (.5 - Math.abs(pos.getZ(pi)) / 60) * .014;
+        pos.setY(pi, pos.getY(pi) + spd);
+        if (pos.getY(pi) > 11) pos.setY(pi, -11);
+      }
+      pos.needsUpdate = true;
+      a1.children.forEach(function(c,idx){ if(idx>0) c.rotation.y += c.userData.ry||.005; });
+    }
 
-    icoOut.rotation.x  =  tick * 0.17; icoOut.rotation.y  =  tick * 0.31;
-    icoIn.rotation.x   = -tick * 0.24; icoIn.rotation.y   = -tick * 0.38;
-    icoEdge.rotation.x =  tick * 0.17; icoEdge.rotation.y =  tick * 0.31;
+    if (a2.visible) {
+      a2.rotation.y += .0006; a2.rotation.x += .0003;
+      a2.children.forEach(function(c) {
+        if (c.isMesh && c.userData.ph !== undefined) {
+          c.material.opacity = .25 + Math.sin(tk*2.1 + c.userData.ph)*.45;
+          var s = 1 + Math.sin(tk*3.2 + c.userData.ph)*.14;
+          c.scale.setScalar(s);
+        }
+      });
+    }
+
+    if (a3.visible) {
+      gMeshes.forEach(function(m) {
+        m.rotation.x += m.userData.rs[0]*.01;
+        m.rotation.y += m.userData.rs[1]*.01;
+        m.rotation.z += m.userData.rs[2]*.007;
+      });
+      eLines.rotation.copy(gMeshes[0].rotation);
+    }
 
     renderer.render(scene, camera);
   })();
 
-  /* Responsive resize */
   window.addEventListener('resize', function() {
     var nW = heroEl.offsetWidth, nH = heroEl.offsetHeight;
     camera.aspect = nW / nH; camera.updateProjectionMatrix();
     renderer.setSize(nW, nH);
   });
 
-  /* ─────────────────────────────────────────
-     OBJECT TRANSITION HELPERS
-     ───────────────────────────────────────── */
-  var allGrps = [cubeGrp, netGrp, icoGrp];
+  /* ══════════════════════════════════════════
+     TEXT ANIMATIONS
+     ══════════════════════════════════════════ */
+  var GC = '!<>-_\\/[]{}=+*^?#@$%&01ABCDEFabcdef';
+  var AC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-  function fadeGrp(grp, targetScale, onDone) {
+  /* ACT 1: Glitch reveal with chromatic aberration */
+  function glitchIn(el, txt, cb) {
+    var itr = 0, max = txt.length * 2.8;
+    el.style.cssText = 'display:block;white-space:nowrap';
+    var iv = setInterval(function() {
+      var out = '';
+      for (var ci = 0; ci < txt.length; ci++) {
+        if (txt[ci]===' ') { out+=' '; continue; }
+        if (ci < itr/2.8) { out += txt[ci]; continue; }
+        out += GC[Math.floor(Math.random()*GC.length)];
+      }
+      el.textContent = out;
+      el.style.transform = Math.random()>.7 ? 'translateX('+(Math.random()*10-5).toFixed(1)+'px)' : '';
+      el.style.textShadow = Math.random()>.45 ? '-3px 0 rgba(255,30,30,.7),3px 0 rgba(30,210,255,.7)' : 'none';
+      if (++itr > max) {
+        clearInterval(iv);
+        el.textContent = txt;
+        el.style.transform = el.style.textShadow = '';
+        if (cb) cb();
+      }
+    }, 36);
+  }
+
+  /* ACT 2: Character scramble — left to right resolve */
+  function scrambleIn(el, txt, cb) {
+    var t0 = Date.now(), dur = 1300;
+    el.style.cssText = 'display:block;white-space:nowrap';
+    (function fr() {
+      var p = Math.min((Date.now()-t0)/dur, 1);
+      el.textContent = txt.split('').map(function(c,i) {
+        if (c===' ') return ' ';
+        return p > i/txt.length ? c : AC[Math.floor(Math.random()*AC.length)];
+      }).join('');
+      p < 1 ? requestAnimationFrame(fr) : (el.textContent = txt, cb && cb());
+    })();
+  }
+
+  /* ACT 3: Kinetic letter fly-in from random directions */
+  function kineticIn(el, txt, cb) {
+    el.innerHTML = ''; el.style.cssText = 'display:block;white-space:nowrap';
+    var spans = txt.split('').map(function(c) {
+      var s = document.createElement('span');
+      s.style.display = 'inline-block';
+      s.textContent = c===' ' ? ' ' : c;
+      el.appendChild(s); return s;
+    });
+    var real = spans.filter(function(s){ return s.textContent !== ' '; });
+    var done = 0;
+    real.forEach(function(s, i) {
+      gsap.fromTo(s,
+        { opacity:0, x:(Math.random()-.5)*320, y:(Math.random()-.5)*220, rotation:(Math.random()-.5)*80, scale:.2 },
+        { opacity:1, x:0, y:0, rotation:0, scale:1,
+          duration:.7+Math.random()*.4, delay:i*.04, ease:'power3.out',
+          onComplete: function(){ if(++done===real.length && cb) cb(); } });
+    });
+    if (!real.length && cb) cb();
+  }
+
+  /* ══════════════════════════════════════════
+     3D GROUP TRANSITIONS (5 styles)
+     ══════════════════════════════════════════ */
+  var allGrps = [a1, a2, a3];
+
+  function matFade(grp, toBase) {
     grp.traverse(function(c) {
-      if (c.material) gsap.to(c.material, { opacity: targetScale === 1 ? c.material.userData.t : 0,
-                                              duration: 0.6, ease: 'power2.inOut' });
-    });
-    gsap.to(grp.scale, { x: targetScale, y: targetScale, z: targetScale,
-                          duration: 0.7, ease: targetScale === 1 ? 'power3.out' : 'power2.in',
-                          onComplete: function() { if (targetScale === 0) grp.visible = false; if (onDone) onDone(); } });
-  }
-
-  function activateGrp(grp) {
-    allGrps.forEach(function(g) { if (g.visible) fadeGrp(g, 0); });
-    grp.visible = true;
-    grp.scale.set(0.65, 0.65, 0.65);
-    grp.traverse(function(c) { if (c.material) { c.material.opacity = 0; } });
-    fadeGrp(grp, 1);
-  }
-
-  function setGlow(n) {
-    [1, 2, 3].forEach(function(i) {
-      var el = document.getElementById('hglow-' + i);
-      if (el) gsap.to(el, { opacity: i === n ? 1 : 0, duration: 1.1, ease: 'power2.inOut' });
+      if (c.material) gsap.to(c.material, { opacity: toBase ? (c.material.userData.base||.4) : 0, duration:.7 });
     });
   }
 
-  /* ─────────────────────────────────────────
-     TEXT FRAMES
-     ───────────────────────────────────────── */
-  var ACTS = [
-    { label: 'Core Expertise',       lines: [{ t: 'BACKEND',     c: '' },
-                                              { t: 'SYSTEMS',     c: 'outline' }],
-      sub: 'C++  ·  Python  ·  Java  ·  SQL',            grp: cubeGrp, glow: 1 },
-    { label: 'Full Stack Developer',  lines: [{ t: 'FULL STACK',  c: '' },
-                                              { t: 'DEVELOPER',   c: 'gold' }],
-      sub: 'Web  ·  Mobile  ·  IoT  ·  Banking Systems', grp: netGrp,  glow: 2 },
-    { label: 'Engineering Philosophy',lines: [{ t: 'PERFORMANCE', c: '' },
-                                              { t: 'DRIVEN',      c: 'outline' }],
-      sub: 'Scalable  ·  Optimized  ·  Reliable',         grp: icoGrp,  glow: 3 }
+  /* Entry styles */
+  function entryImplode(grp) {         /* scale up from zero */
+    grp.visible=true; grp.scale.set(.3,.3,.3); matFade(grp,false);
+    gsap.to(grp.scale, {x:1,y:1,z:1,duration:1,ease:'elastic.out(1,.75)'});
+    matFade(grp,true);
+  }
+  function entryRise(grp) {            /* rise from below */
+    grp.visible=true; grp.scale.set(.7,.7,.7);
+    grp.position.y = -10; matFade(grp,false);
+    gsap.to(grp.scale,   {x:1,y:1,z:1,duration:1,ease:'power3.out'});
+    gsap.to(grp.position,{y:0,duration:1.1,ease:'power3.out'});
+    matFade(grp,true);
+  }
+  function entryCameraRush(grp) {      /* camera pushes in from far */
+    grp.visible=true; grp.scale.set(1,1,1); matFade(grp,false);
+    camera.position.z = 18;
+    gsap.to(camera.position,{z:10,duration:1.3,ease:'power3.out'});
+    matFade(grp,true);
+  }
+
+  /* Exit styles */
+  function exitExplode(grp, cb) {      /* blow up and fade */
+    gsap.to(grp.scale,{x:2.2,y:2.2,z:2.2,duration:.7,ease:'power2.in'});
+    matFade(grp,false);
+    setTimeout(function(){ grp.visible=false; grp.scale.set(1,1,1); if(cb) cb(); }, 750);
+  }
+  function exitSink(grp, cb) {         /* sink down */
+    gsap.to(grp.position,{y:-12,duration:.75,ease:'power2.in'});
+    matFade(grp,false);
+    setTimeout(function(){ grp.visible=false; grp.position.y=0; if(cb) cb(); }, 800);
+  }
+  function exitPinhole(grp, cb) {      /* collapse to point */
+    gsap.to(grp.scale,{x:.01,y:.01,z:.01,duration:.6,ease:'power3.in'});
+    matFade(grp,false);
+    setTimeout(function(){ grp.visible=false; grp.scale.set(1,1,1); if(cb) cb(); }, 650);
+  }
+
+  /* ══════════════════════════════════════════
+     ACT DEFINITIONS
+     ══════════════════════════════════════════ */
+  var bgs = [
+    'radial-gradient(ellipse 90% 80% at 50% 50%, #110d04 0%, #040302 100%)',
+    'radial-gradient(ellipse 85% 75% at 50% 44%, #03060f 0%, #020305 100%)',
+    'radial-gradient(ellipse 85% 80% at 55% 50%, #0e0803 0%, #040302 100%)',
   ];
 
-  var frames = ACTS.map(function(act) {
+  var ACTS = [
+    { grp:a1, bg:bgs[0], glow:1, entry:entryImplode,  exit:exitExplode,
+      label:'Core Expertise',
+      line1:'BACKEND ENGINEER', cls1:'', animFn1:glitchIn,
+      line2:'C++ · PYTHON · JAVA · SQL', cls2:'outline', animFn2:glitchIn },
+    { grp:a2, bg:bgs[1], glow:2, entry:entryRise,     exit:exitSink,
+      label:'Full Stack Developer',
+      line1:'FULL STACK', cls1:'', animFn1:scrambleIn,
+      line2:'DEVELOPER',  cls2:'gold', animFn2:scrambleIn },
+    { grp:a3, bg:bgs[2], glow:3, entry:entryCameraRush,exit:exitPinhole,
+      label:'Engineering Philosophy',
+      line1:'PERFORMANCE', cls1:'', animFn1:kineticIn,
+      line2:'DRIVEN',      cls2:'outline', animFn2:kineticIn },
+  ];
+
+  var frames = ACTS.map(function() {
     var f = document.createElement('div'); f.className = 'hm-frame';
-    var lbl = document.createElement('div'); lbl.className = 'hm-label';
-    lbl.textContent = act.label; f.appendChild(lbl);
-    act.lines.forEach(function(l) {
-      var clip = document.createElement('div'); clip.className = 'hm-clip';
-      var line = document.createElement('span');
-      line.className = 'hm-line' + (l.c ? ' ' + l.c : '');
-      line.textContent = l.t; clip.appendChild(line); f.appendChild(clip);
-    });
-    var rule = document.createElement('div'); rule.className = 'hm-rule'; f.appendChild(rule);
-    var sub  = document.createElement('div'); sub.className  = 'hm-sub';
-    sub.textContent = act.sub; f.appendChild(sub);
     root.appendChild(f); return f;
   });
 
-  gsap.set(frames, { opacity: 0 });
-  gsap.to(root, { opacity: 1, duration: 0.9, ease: 'power2.out' });
+  gsap.set(frames, {opacity:0});
+  gsap.to(root, {opacity:1, duration:.9, ease:'power2.out'});
 
-  var HOLD = 2800, IN_L = 0.74, IN_M = 0.5, OUT = 0.42;
-
-  function showText(f) {
-    var lbl   = f.querySelector('.hm-label');
-    var lines = Array.from(f.querySelectorAll('.hm-line'));
-    var rule  = f.querySelector('.hm-rule');
-    var sub   = f.querySelector('.hm-sub');
-    gsap.set(f, { opacity: 1 });
-    gsap.set(lines, { y: '108%' });
-    gsap.set([lbl, rule, sub], { opacity: 0, y: 10 });
-    gsap.to(lbl, { opacity: 1, y: 0, duration: IN_M, ease: 'power2.out' });
-    lines.forEach(function(l, i) {
-      gsap.to(l, { y: '0%', duration: IN_L, delay: 0.12 + i * 0.13, ease: 'power4.out' });
+  function setGlow(n) {
+    [1,2,3].forEach(function(i) {
+      var el = document.getElementById('hglow-'+i);
+      if (el) gsap.to(el, {opacity: i===n?1:0, duration:1.3, ease:'power2.inOut'});
     });
-    var d = 0.18 + lines.length * 0.13;
-    gsap.to(rule, { opacity: 1, y: 0, duration: IN_M, delay: d });
-    gsap.to(sub,  { opacity: 1, y: 0, duration: IN_M, delay: d + 0.1 });
   }
 
-  function hideText(f, cb) {
-    var lbl   = f.querySelector('.hm-label');
-    var lines = Array.from(f.querySelectorAll('.hm-line')).reverse();
-    var rule  = f.querySelector('.hm-rule');
-    var sub   = f.querySelector('.hm-sub');
-    lines.forEach(function(l, i) {
-      gsap.to(l, { y: '-108%', duration: OUT, delay: i * 0.06, ease: 'power3.in' });
-    });
-    gsap.to([lbl, rule, sub], { opacity: 0, y: -8, duration: OUT * 0.8, stagger: 0.04,
-      ease: 'power2.in', onComplete: function() { gsap.set(f, { opacity: 0 }); if (cb) cb(); } });
-  }
-
-  /* ─────────────────────────────────────────
-     SEQUENCE CONTROLLER
-     ───────────────────────────────────────── */
-  function runAct(idx) {
-    var act = ACTS[idx];
-    activateGrp(act.grp);
-    setGlow(act.glow);
-    showText(frames[idx]);
-    setTimeout(function() {
-      hideText(frames[idx], function() {
-        if (idx < ACTS.length - 1) {
-          runAct(idx + 1);
-        } else {
-          photoReturn(function() { runAct(0); });
-        }
-      });
-    }, HOLD);
-  }
-
-  function photoReturn(cb) {
-    /* All 3D objects fade out */
-    allGrps.forEach(function(g) { if (g.visible) fadeGrp(g, 0); });
-    setGlow(0);
-    /* Overlay opens — photo fills the hero */
-    gsap.to(overlay, { opacity: 0.06, duration: 1.1, ease: 'power2.out', onComplete: function() {
-      setTimeout(function() {
-        /* Overlay closes back */
-        gsap.to(overlay, { opacity: 0.78, duration: 1.0, ease: 'power2.in', onComplete: cb });
-      }, 1600);
+  function setBg(bg) {
+    if (!sceneBg) return;
+    gsap.to(sceneBg, {opacity:0, duration:.5, onComplete: function() {
+      sceneBg.style.background = bg;
+      gsap.to(sceneBg, {opacity:1, duration:.9});
     }});
   }
 
-  setTimeout(function() { runAct(0); }, 350);
+  /* Build and animate text frame */
+  function buildText(f, act, onDone) {
+    f.innerHTML = '';
+    var lbl = document.createElement('div'); lbl.className='hm-label'; lbl.textContent=act.label;
+    f.appendChild(lbl); gsap.from(lbl, {opacity:0, y:10, duration:.5, ease:'power2.out'});
+
+    var l1 = document.createElement('span'); l1.className='hm-line '+(act.cls1||'');
+    var l2 = document.createElement('span'); l2.className='hm-line '+(act.cls2||'');
+    var rule= document.createElement('div'); rule.className='hm-rule'; rule.style.opacity='0';
+    f.appendChild(l1); f.appendChild(l2); f.appendChild(rule);
+
+    gsap.set(f, {opacity:1});
+
+    /* Animate line 1, then line 2, then rule */
+    act.animFn1(l1, act.line1, function() {
+      act.animFn2(l2, act.line2, function() {
+        gsap.to(rule, {opacity:1, duration:.5, onComplete: onDone});
+      });
+    });
+  }
+
+  function exitText(f, cb) {
+    gsap.to(Array.from(f.children), {
+      opacity:0, y:-18, duration:.4, stagger:.05, ease:'power2.in',
+      onComplete: function() { gsap.set(f, {opacity:0}); if(cb) cb(); }
+    });
+  }
+
+  /* ══════════════════════════════════════════
+     SEQUENCE CONTROLLER
+     ══════════════════════════════════════════ */
+  var ACT_HOLD = 5400; /* ms text is held per act — total ~25s */
+  var curIdx   = -1;
+
+  function runAct(idx) {
+    var act = ACTS[idx];
+    var f   = frames[idx];
+
+    /* Exit previous 3D group */
+    if (curIdx >= 0 && curIdx !== idx) {
+      var prev = ACTS[curIdx];
+      prev.exit(prev.grp, function() { act.entry(act.grp); });
+    } else {
+      act.entry(act.grp);
+    }
+    curIdx = idx;
+
+    setBg(act.bg);
+    setGlow(act.glow);
+
+    /* Text enters 600ms after 3D objects start appearing */
+    setTimeout(function() {
+      buildText(f, act, function() {
+        setTimeout(function() {
+          exitText(f, function() {
+            var next = (idx + 1) % ACTS.length;
+            if (next === 0) {
+              photoReturn(function() { runAct(0); });
+            } else {
+              runAct(next);
+            }
+          });
+        }, ACT_HOLD);
+      });
+    }, 600);
+  }
+
+  function photoReturn(cb) {
+    var last = ACTS[curIdx];
+    last.exit(last.grp, null);
+    setGlow(0);
+    gsap.to(sceneBg, {opacity:0, duration:.8, delay:.2});
+    /* Overlay peels back → photo fills hero → overlay returns */
+    gsap.to(overlay, {opacity:.04, duration:1.1, delay:.5, ease:'power2.out',
+      onComplete: function() {
+        setTimeout(function() {
+          gsap.to(overlay, {opacity:.78, duration:1, ease:'power2.in', onComplete: cb});
+        }, 2000);
+      }
+    });
+  }
+
+  setTimeout(function() { runAct(0); }, 420);
 }
 
 // ── Sidebar hero-active: fires on about-title entering viewport ─
