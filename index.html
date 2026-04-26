@@ -1266,81 +1266,73 @@
   .contact-social-v2 a i { font-size: 1rem; }
 
   /* ═══════════════════════════════════════════
-     HERO MOTION GRAPHICS
+     HERO LOOP — 3D OBJECTS + TEXT
      ═══════════════════════════════════════════ */
-  .hero-motion {
-    position: absolute;
-    inset: 0;
-    z-index: 4;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    pointer-events: none;
-    opacity: 0;
+
+  /* Ambient glow layers (one per act, crossfaded via GSAP) */
+  .hglow {
+    position: absolute; inset: 0; z-index: 4;
+    pointer-events: none; opacity: 0;
+  }
+  #hglow-1 { background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(201,162,39,.14) 0%, transparent 70%); }
+  #hglow-2 { background: radial-gradient(ellipse 65% 55% at 50% 45%, rgba(40,110,220,.10) 0%, transparent 65%); }
+  #hglow-3 { background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(201,162,39,.20) 0%, transparent 55%); }
+
+  /* Three.js canvas */
+  .hero-3d {
+    position: absolute; inset: 0; z-index: 5;
+    width: 100%; height: 100%; pointer-events: none;
   }
 
-  /* One frame = one cycle of the identity loop */
+  /* Text overlay — lower third of hero */
+  .hero-motion {
+    position: absolute; inset: 0; z-index: 6;
+    display: flex; align-items: flex-end; justify-content: center;
+    overflow: hidden; pointer-events: none; opacity: 0;
+  }
+
   .hm-frame {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-end;
     text-align: center;
-    padding: 0 clamp(1rem, 5vw, 5rem);
+    padding: 0 clamp(1rem, 5vw, 5rem) clamp(4rem, 9vh, 7rem);
     opacity: 0;
   }
 
   .hm-label {
     font-family: 'Raleway', sans-serif;
-    font-size: clamp(0.38rem, 0.82vw, 0.58rem);
-    font-weight: 600;
-    letter-spacing: 0.56em;
-    text-transform: uppercase;
-    color: #C9A227;
-    margin-bottom: 1.3rem;
-    opacity: 0;
+    font-size: clamp(0.36rem, 0.78vw, 0.55rem);
+    font-weight: 600; letter-spacing: 0.56em;
+    text-transform: uppercase; color: #C9A227;
+    margin-bottom: 1rem; opacity: 0;
   }
 
-  /* Clip container — hides overflow so lines slide up from below */
-  .hm-clip {
-    overflow: hidden;
-    line-height: 1;
-    margin-bottom: 0.06em;
-  }
+  /* Overflow-hidden clip — text slides up from below */
+  .hm-clip { overflow: hidden; line-height: 1; margin-bottom: 0.06em; }
 
   .hm-line {
     display: block;
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(3rem, 9vw, 10rem);
-    font-weight: 300;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: #F0E6CC;
-    line-height: 0.88;
-    transform: translateY(108%);
+    font-size: clamp(2.6rem, 7.5vw, 8.5rem);
+    font-weight: 300; letter-spacing: 0.07em;
+    text-transform: uppercase; color: #F0E6CC;
+    line-height: 0.88; transform: translateY(108%);
   }
   .hm-line.gold    { color: #C9A227; }
   .hm-line.outline { -webkit-text-stroke: 1.5px rgba(201,162,39,.65); color: transparent; }
-  .hm-line.mid     { font-size: clamp(1.9rem, 4.5vw, 5rem); }
+  .hm-line.mid     { font-size: clamp(1.6rem, 4vw, 4.5rem); }
 
   .hm-rule {
-    width: 54px; height: 1px;
+    width: 52px; height: 1px;
     background: linear-gradient(90deg, transparent, #C9A227, transparent);
-    margin: 1.3rem auto;
-    flex-shrink: 0;
-    opacity: 0;
+    margin: 1rem auto; flex-shrink: 0; opacity: 0;
   }
-
   .hm-sub {
     font-family: 'Raleway', sans-serif;
-    font-size: clamp(0.36rem, 0.72vw, 0.5rem);
-    font-weight: 500;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: rgba(240,230,204,0.48);
+    font-size: clamp(0.34rem, 0.68vw, 0.48rem);
+    font-weight: 500; letter-spacing: 0.38em;
+    text-transform: uppercase; color: rgba(240,230,204,.45);
     opacity: 0;
   }
 
@@ -1505,15 +1497,18 @@
   <!-- Hero Section — background assembled as a puzzle by JS -->
   <section id="hero" class="hero section dark-background">
     <img src="assets/img/hero-bg.jpg" alt="" class="hero-bg">
-    <!-- Coding/matrix canvas sits behind puzzle tiles -->
     <canvas id="hero-code-canvas" class="hero-code-canvas"></canvas>
-    <!-- JS populates this with puzzle tiles -->
     <div class="hero-puzzle" id="hero-puzzle"></div>
-    <!-- Dark cinematic overlay (shown after puzzle reveal) -->
+    <!-- Dark cinematic overlay — GSAP-controlled throughout the loop -->
     <div class="hero-overlay" id="hero-overlay"></div>
-    <!-- Looping identity motion graphics -->
+    <!-- Per-act ambient glow layers -->
+    <div class="hglow" id="hglow-1"></div>
+    <div class="hglow" id="hglow-2"></div>
+    <div class="hglow" id="hglow-3"></div>
+    <!-- Three.js canvas for 3D objects -->
+    <canvas id="hero-3d" class="hero-3d"></canvas>
+    <!-- Text identity labels -->
     <div id="hero-motion" class="hero-motion"></div>
-    <!-- Gold scan line sweeps before tiles appear -->
     <div class="hero-scanner"></div>
   </section>
 
@@ -2349,6 +2344,7 @@
 
 <!-- Grouped JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 <!-- Splash Screen JS -->
@@ -2556,10 +2552,10 @@ function startPuzzleReveal() {
       puzzle.style.opacity    = '0';
       setTimeout(function () {
         puzzle.style.display = 'none';
-        /* Show dark cinematic overlay */
+        /* Fade in dark cinematic overlay via GSAP (GSAP owns opacity from here on) */
         var overlay = document.getElementById('hero-overlay');
-        if (overlay) overlay.classList.add('visible');
-        /* Start the identity motion loop */
+        if (overlay) gsap.to(overlay, { opacity: 0.78, duration: 1.0, ease: 'power2.out' });
+        /* Start the 3D identity loop */
         initHeroMotion();
       }, 420);
     }, FINISH);
@@ -2574,132 +2570,258 @@ function startPuzzleReveal() {
 
 // ── Hero identity motion loop ─────────────────────────────────
 function initHeroMotion() {
-  var root = document.getElementById('hero-motion');
-  if (!root || !window.gsap) return;
+  var root    = document.getElementById('hero-motion');
+  var canvas  = document.getElementById('hero-3d');
+  var overlay = document.getElementById('hero-overlay');
+  if (!root || !canvas || !window.gsap) return;
 
-  /* Ken Burns — slow zoom on the hero photo for that cinematic feel */
+  /* ── Ken Burns on hero photo ── */
   var bgImg = document.querySelector('#hero .hero-bg');
-  if (bgImg) {
-    gsap.to(bgImg, { scale: 1.10, duration: 22, ease: 'none', repeat: -1, yoyo: true,
-                     transformOrigin: '50% 50%' });
+  if (bgImg) gsap.to(bgImg, { scale: 1.09, duration: 24, ease: 'none',
+                               repeat: -1, yoyo: true, transformOrigin: '50% 50%' });
+
+  /* ─────────────────────────────────────────
+     THREE.JS SCENE
+     ───────────────────────────────────────── */
+  if (!window.THREE) { console.warn('Three.js not loaded'); return; }
+  var T = THREE;
+
+  var heroEl = document.getElementById('hero');
+  var W = heroEl.offsetWidth, H = heroEl.offsetHeight;
+
+  var renderer = new T.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+  renderer.setSize(W, H);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  var scene  = new T.Scene();
+  var camera = new T.PerspectiveCamera(52, W / H, 0.1, 100);
+  camera.position.set(0, 1.2, 6);
+  camera.lookAt(0, 0, 0);
+
+  /* Materials — stored target opacity for GSAP transitions */
+  function wMat(op) {
+    var m = new T.MeshBasicMaterial({ color: 0xC9A227, wireframe: true,
+                                       opacity: op, transparent: true });
+    m.userData.t = op; return m;
+  }
+  function lMat(op) {
+    var m = new T.LineBasicMaterial({ color: 0xC9A227, opacity: op, transparent: true });
+    m.userData.t = op; return m;
+  }
+  function sMat() {
+    var m = new T.MeshBasicMaterial({ color: 0xC9A227, transparent: true, opacity: 1 });
+    m.userData.t = 1; return m;
   }
 
-  var FRAMES = [
-    { label: 'Full Stack Developer · Manila, PH',
-      lines: [ { t: 'PATRICK', c: '' }, { t: 'PEREZ', c: 'gold' } ],
-      sub:   'Software Engineer' },
-    { label: 'Core Expertise',
-      lines: [ { t: 'BACKEND', c: '' }, { t: 'SYSTEMS', c: 'outline' } ],
-      sub:   'C++  ·  Python  ·  Java  ·  SQL' },
-    { label: 'Domains',
-      lines: [ { t: 'BANKING · IoT', c: 'mid gold' }, { t: 'WEB & MOBILE', c: 'mid' } ],
-      sub:   'Asia United Bank  ·  Mobile Apps  ·  Web Platforms' },
-    { label: 'Engineering Philosophy',
-      lines: [ { t: 'PERFORMANCE', c: '' }, { t: 'DRIVEN', c: 'outline' } ],
-      sub:   'Scalable  ·  Optimized  ·  Reliable' }
-  ];
+  /* ── Object 1: Double wireframe cube + 3 orbiting nodes ── */
+  var cubeGrp  = new T.Group();
+  var outerBox = new T.Mesh(new T.BoxGeometry(2.6, 2.6, 2.6), wMat(0.55));
+  var innerBox = new T.Mesh(new T.BoxGeometry(1.3, 1.3, 1.3), wMat(0.22));
+  cubeGrp.add(outerBox, innerBox);
 
-  /* Build DOM — each frame is pre-rendered, hidden until its turn */
-  var frameEls = FRAMES.map(function(fd) {
-    var frame = document.createElement('div');
-    frame.className = 'hm-frame';
+  var orbits = [];
+  [[2.1, 0.95, 0.7], [1.85, 0.55, 1.1], [2.3, 0.35, 0.5]].forEach(function(p, i) {
+    var orb = new T.Mesh(new T.SphereGeometry(0.075, 7, 7), sMat());
+    orbits.push({ m: orb, r: p[0], tilt: p[1], speed: p[2], a: (i / 3) * Math.PI * 2 });
+    cubeGrp.add(orb);
+  });
+  cubeGrp.visible = false; scene.add(cubeGrp);
 
-    var label = document.createElement('div');
-    label.className = 'hm-label';
-    label.textContent = fd.label;
-    frame.appendChild(label);
+  /* ── Object 2: Network sphere — 32 nodes on sphere + edges ── */
+  var netGrp = new T.Group();
+  var nPts   = [];
+  for (var ni = 0; ni < 32; ni++) {
+    var phi   = Math.acos(-1 + (2 * ni) / 32);
+    var theta = Math.sqrt(32 * Math.PI) * phi;
+    var rr    = 2.1;
+    var pos   = new T.Vector3(rr * Math.sin(phi) * Math.cos(theta),
+                               rr * Math.sin(phi) * Math.sin(theta),
+                               rr * Math.cos(phi));
+    nPts.push(pos);
+    var node = new T.Mesh(new T.SphereGeometry(0.055, 5, 5), sMat());
+    node.position.copy(pos); netGrp.add(node);
+  }
+  for (var na = 0; na < nPts.length; na++) {
+    for (var nb = na + 1; nb < nPts.length; nb++) {
+      if (nPts[na].distanceTo(nPts[nb]) < 1.4) {
+        var lg = new T.BufferGeometry().setFromPoints([nPts[na], nPts[nb]]);
+        netGrp.add(new T.Line(lg, lMat(0.18)));
+      }
+    }
+  }
+  netGrp.visible = false; scene.add(netGrp);
 
-    fd.lines.forEach(function(l) {
-      var clip = document.createElement('div');
-      clip.className = 'hm-clip';
-      var line = document.createElement('span');
-      line.className = 'hm-line' + (l.c ? ' ' + l.c : '');
-      line.textContent = l.t;
-      clip.appendChild(line);
-      frame.appendChild(clip);
+  /* ── Object 3: Double icosahedron (outer detail + inner solid frame) ── */
+  var icoGrp  = new T.Group();
+  var icoOut  = new T.Mesh(new T.IcosahedronGeometry(2.2, 1), wMat(0.5));
+  var icoIn   = new T.Mesh(new T.IcosahedronGeometry(1.15, 0), wMat(0.28));
+  /* Thin edge lines on outer shell for extra depth */
+  var icoEdge = new T.LineSegments(
+    new T.EdgesGeometry(new T.IcosahedronGeometry(2.2, 1)),
+    lMat(0.35)
+  );
+  icoGrp.add(icoOut, icoIn, icoEdge);
+  icoGrp.visible = false; scene.add(icoGrp);
+
+  /* ── Render loop ── */
+  var tick = 0;
+  (function animate() {
+    requestAnimationFrame(animate);
+    tick += 0.01;
+
+    outerBox.rotation.x = tick * 0.28; outerBox.rotation.y = tick * 0.45;
+    innerBox.rotation.x = -tick * 0.38; innerBox.rotation.y = -tick * 0.62;
+    orbits.forEach(function(o) {
+      o.a += o.speed * 0.011;
+      o.m.position.set(Math.cos(o.a) * o.r,
+                        Math.sin(o.a * 0.65) * o.tilt,
+                        Math.sin(o.a) * o.r);
     });
 
-    var rule = document.createElement('div');
-    rule.className = 'hm-rule';
-    frame.appendChild(rule);
+    netGrp.rotation.y = tick * 0.21; netGrp.rotation.x = tick * 0.08;
 
-    var sub = document.createElement('div');
-    sub.className = 'hm-sub';
-    sub.textContent = fd.sub;
-    frame.appendChild(sub);
+    icoOut.rotation.x  =  tick * 0.17; icoOut.rotation.y  =  tick * 0.31;
+    icoIn.rotation.x   = -tick * 0.24; icoIn.rotation.y   = -tick * 0.38;
+    icoEdge.rotation.x =  tick * 0.17; icoEdge.rotation.y =  tick * 0.31;
 
-    root.appendChild(frame);
-    return frame;
+    renderer.render(scene, camera);
+  })();
+
+  /* Responsive resize */
+  window.addEventListener('resize', function() {
+    var nW = heroEl.offsetWidth, nH = heroEl.offsetHeight;
+    camera.aspect = nW / nH; camera.updateProjectionMatrix();
+    renderer.setSize(nW, nH);
   });
 
-  gsap.set(frameEls, { opacity: 0 });
-  /* Fade motion container in */
-  gsap.to(root, { opacity: 1, duration: 1, ease: 'power2.out' });
+  /* ─────────────────────────────────────────
+     OBJECT TRANSITION HELPERS
+     ───────────────────────────────────────── */
+  var allGrps = [cubeGrp, netGrp, icoGrp];
 
-  var HOLD     = 2700; /* ms each frame is held after entering */
-  var IN_LINE  = 0.78; /* line reveal duration */
-  var IN_META  = 0.52; /* label/rule/sub duration */
-  var OUT_DUR  = 0.44; /* exit duration */
-  var cur      = 0;
-
-  function els(frame) {
-    return {
-      label: frame.querySelector('.hm-label'),
-      lines: Array.from(frame.querySelectorAll('.hm-line')),
-      rule:  frame.querySelector('.hm-rule'),
-      sub:   frame.querySelector('.hm-sub')
-    };
+  function fadeGrp(grp, targetScale, onDone) {
+    grp.traverse(function(c) {
+      if (c.material) gsap.to(c.material, { opacity: targetScale === 1 ? c.material.userData.t : 0,
+                                              duration: 0.6, ease: 'power2.inOut' });
+    });
+    gsap.to(grp.scale, { x: targetScale, y: targetScale, z: targetScale,
+                          duration: 0.7, ease: targetScale === 1 ? 'power3.out' : 'power2.in',
+                          onComplete: function() { if (targetScale === 0) grp.visible = false; if (onDone) onDone(); } });
   }
 
-  function show(idx) {
-    var f = frameEls[idx], e = els(f);
+  function activateGrp(grp) {
+    allGrps.forEach(function(g) { if (g.visible) fadeGrp(g, 0); });
+    grp.visible = true;
+    grp.scale.set(0.65, 0.65, 0.65);
+    grp.traverse(function(c) { if (c.material) { c.material.opacity = 0; } });
+    fadeGrp(grp, 1);
+  }
+
+  function setGlow(n) {
+    [1, 2, 3].forEach(function(i) {
+      var el = document.getElementById('hglow-' + i);
+      if (el) gsap.to(el, { opacity: i === n ? 1 : 0, duration: 1.1, ease: 'power2.inOut' });
+    });
+  }
+
+  /* ─────────────────────────────────────────
+     TEXT FRAMES
+     ───────────────────────────────────────── */
+  var ACTS = [
+    { label: 'Core Expertise',       lines: [{ t: 'BACKEND',     c: '' },
+                                              { t: 'SYSTEMS',     c: 'outline' }],
+      sub: 'C++  ·  Python  ·  Java  ·  SQL',            grp: cubeGrp, glow: 1 },
+    { label: 'Full Stack Developer',  lines: [{ t: 'FULL STACK',  c: '' },
+                                              { t: 'DEVELOPER',   c: 'gold' }],
+      sub: 'Web  ·  Mobile  ·  IoT  ·  Banking Systems', grp: netGrp,  glow: 2 },
+    { label: 'Engineering Philosophy',lines: [{ t: 'PERFORMANCE', c: '' },
+                                              { t: 'DRIVEN',      c: 'outline' }],
+      sub: 'Scalable  ·  Optimized  ·  Reliable',         grp: icoGrp,  glow: 3 }
+  ];
+
+  var frames = ACTS.map(function(act) {
+    var f = document.createElement('div'); f.className = 'hm-frame';
+    var lbl = document.createElement('div'); lbl.className = 'hm-label';
+    lbl.textContent = act.label; f.appendChild(lbl);
+    act.lines.forEach(function(l) {
+      var clip = document.createElement('div'); clip.className = 'hm-clip';
+      var line = document.createElement('span');
+      line.className = 'hm-line' + (l.c ? ' ' + l.c : '');
+      line.textContent = l.t; clip.appendChild(line); f.appendChild(clip);
+    });
+    var rule = document.createElement('div'); rule.className = 'hm-rule'; f.appendChild(rule);
+    var sub  = document.createElement('div'); sub.className  = 'hm-sub';
+    sub.textContent = act.sub; f.appendChild(sub);
+    root.appendChild(f); return f;
+  });
+
+  gsap.set(frames, { opacity: 0 });
+  gsap.to(root, { opacity: 1, duration: 0.9, ease: 'power2.out' });
+
+  var HOLD = 2800, IN_L = 0.74, IN_M = 0.5, OUT = 0.42;
+
+  function showText(f) {
+    var lbl   = f.querySelector('.hm-label');
+    var lines = Array.from(f.querySelectorAll('.hm-line'));
+    var rule  = f.querySelector('.hm-rule');
+    var sub   = f.querySelector('.hm-sub');
     gsap.set(f, { opacity: 1 });
-    gsap.set(e.lines, { y: '108%' });
-    gsap.set([e.label, e.rule, e.sub], { opacity: 0, y: 10 });
-
-    /* Label fades in first */
-    gsap.to(e.label, { opacity: 1, y: 0, duration: IN_META, ease: 'power2.out' });
-
-    /* Lines slide up from below their clip boundary — the GSAP showcase signature */
-    e.lines.forEach(function(line, i) {
-      gsap.to(line, { y: '0%', duration: IN_LINE, delay: 0.14 + i * 0.14,
-                      ease: 'power4.out' });
+    gsap.set(lines, { y: '108%' });
+    gsap.set([lbl, rule, sub], { opacity: 0, y: 10 });
+    gsap.to(lbl, { opacity: 1, y: 0, duration: IN_M, ease: 'power2.out' });
+    lines.forEach(function(l, i) {
+      gsap.to(l, { y: '0%', duration: IN_L, delay: 0.12 + i * 0.13, ease: 'power4.out' });
     });
-
-    /* Rule and sub follow */
-    var afterLines = 0.18 + e.lines.length * 0.14;
-    gsap.to(e.rule, { opacity: 1, y: 0, duration: IN_META,
-                      delay: afterLines, ease: 'power2.out' });
-    gsap.to(e.sub,  { opacity: 1, y: 0, duration: IN_META,
-                      delay: afterLines + 0.1, ease: 'power2.out',
-                      onComplete: function() {
-                        setTimeout(function() { hide(idx); }, HOLD);
-                      }});
+    var d = 0.18 + lines.length * 0.13;
+    gsap.to(rule, { opacity: 1, y: 0, duration: IN_M, delay: d });
+    gsap.to(sub,  { opacity: 1, y: 0, duration: IN_M, delay: d + 0.1 });
   }
 
-  function hide(idx) {
-    var f = frameEls[idx], e = els(f);
-    var linesRev = e.lines.slice().reverse();
-
-    /* Lines slide up and out of their clip boundary */
-    linesRev.forEach(function(line, i) {
-      gsap.to(line, { y: '-108%', duration: OUT_DUR, delay: i * 0.07,
-                      ease: 'power3.in' });
+  function hideText(f, cb) {
+    var lbl   = f.querySelector('.hm-label');
+    var lines = Array.from(f.querySelectorAll('.hm-line')).reverse();
+    var rule  = f.querySelector('.hm-rule');
+    var sub   = f.querySelector('.hm-sub');
+    lines.forEach(function(l, i) {
+      gsap.to(l, { y: '-108%', duration: OUT, delay: i * 0.06, ease: 'power3.in' });
     });
-    /* Label/rule/sub fade out simultaneously */
-    gsap.to([e.label, e.rule, e.sub], {
-      opacity: 0, y: -8, duration: OUT_DUR * 0.8, stagger: 0.05,
-      ease: 'power2.in',
-      onComplete: function() {
-        gsap.set(f, { opacity: 0 });
-        cur = (idx + 1) % frameEls.length;
-        show(cur);
-      }
-    });
+    gsap.to([lbl, rule, sub], { opacity: 0, y: -8, duration: OUT * 0.8, stagger: 0.04,
+      ease: 'power2.in', onComplete: function() { gsap.set(f, { opacity: 0 }); if (cb) cb(); } });
   }
 
-  /* Brief pause so overlay settles before first frame enters */
-  setTimeout(function() { show(0); }, 260);
+  /* ─────────────────────────────────────────
+     SEQUENCE CONTROLLER
+     ───────────────────────────────────────── */
+  function runAct(idx) {
+    var act = ACTS[idx];
+    activateGrp(act.grp);
+    setGlow(act.glow);
+    showText(frames[idx]);
+    setTimeout(function() {
+      hideText(frames[idx], function() {
+        if (idx < ACTS.length - 1) {
+          runAct(idx + 1);
+        } else {
+          photoReturn(function() { runAct(0); });
+        }
+      });
+    }, HOLD);
+  }
+
+  function photoReturn(cb) {
+    /* All 3D objects fade out */
+    allGrps.forEach(function(g) { if (g.visible) fadeGrp(g, 0); });
+    setGlow(0);
+    /* Overlay opens — photo fills the hero */
+    gsap.to(overlay, { opacity: 0.06, duration: 1.1, ease: 'power2.out', onComplete: function() {
+      setTimeout(function() {
+        /* Overlay closes back */
+        gsap.to(overlay, { opacity: 0.78, duration: 1.0, ease: 'power2.in', onComplete: cb });
+      }, 1600);
+    }});
+  }
+
+  setTimeout(function() { runAct(0); }, 350);
 }
 
 // ── Sidebar hero-active: fires on about-title entering viewport ─
