@@ -1265,6 +1265,85 @@
   .contact-social-v2 a:hover { background: rgba(201,162,39,0.1); border-color: rgba(201,162,39,0.52); color: #C9A227; transform: translateY(-4px); box-shadow: 0 10px 28px rgba(0,0,0,0.25); }
   .contact-social-v2 a i { font-size: 1rem; }
 
+  /* ═══════════════════════════════════════════
+     HERO MOTION GRAPHICS
+     ═══════════════════════════════════════════ */
+  .hero-motion {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  /* One frame = one cycle of the identity loop */
+  .hm-frame {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 clamp(1rem, 5vw, 5rem);
+    opacity: 0;
+  }
+
+  .hm-label {
+    font-family: 'Raleway', sans-serif;
+    font-size: clamp(0.38rem, 0.82vw, 0.58rem);
+    font-weight: 600;
+    letter-spacing: 0.56em;
+    text-transform: uppercase;
+    color: #C9A227;
+    margin-bottom: 1.3rem;
+    opacity: 0;
+  }
+
+  /* Clip container — hides overflow so lines slide up from below */
+  .hm-clip {
+    overflow: hidden;
+    line-height: 1;
+    margin-bottom: 0.06em;
+  }
+
+  .hm-line {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 9vw, 10rem);
+    font-weight: 300;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #F0E6CC;
+    line-height: 0.88;
+    transform: translateY(108%);
+  }
+  .hm-line.gold    { color: #C9A227; }
+  .hm-line.outline { -webkit-text-stroke: 1.5px rgba(201,162,39,.65); color: transparent; }
+  .hm-line.mid     { font-size: clamp(1.9rem, 4.5vw, 5rem); }
+
+  .hm-rule {
+    width: 54px; height: 1px;
+    background: linear-gradient(90deg, transparent, #C9A227, transparent);
+    margin: 1.3rem auto;
+    flex-shrink: 0;
+    opacity: 0;
+  }
+
+  .hm-sub {
+    font-family: 'Raleway', sans-serif;
+    font-size: clamp(0.36rem, 0.72vw, 0.5rem);
+    font-weight: 500;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: rgba(240,230,204,0.48);
+    opacity: 0;
+  }
+
 </style>
 </head>
 
@@ -1430,6 +1509,10 @@
     <canvas id="hero-code-canvas" class="hero-code-canvas"></canvas>
     <!-- JS populates this with puzzle tiles -->
     <div class="hero-puzzle" id="hero-puzzle"></div>
+    <!-- Dark cinematic overlay (shown after puzzle reveal) -->
+    <div class="hero-overlay" id="hero-overlay"></div>
+    <!-- Looping identity motion graphics -->
+    <div id="hero-motion" class="hero-motion"></div>
     <!-- Gold scan line sweeps before tiles appear -->
     <div class="hero-scanner"></div>
   </section>
@@ -2462,16 +2545,23 @@ function startPuzzleReveal() {
     var FINISH = START + (tiles.length - 1) * STAGGER + 820;
     setTimeout(function () {
       if (stopCode) stopCode();
+      /* Keep the code canvas as a very subtle background texture */
       var cvs = document.getElementById('hero-code-canvas');
-      if (cvs) { cvs.style.transition = 'opacity 0.4s ease'; cvs.style.opacity = '0'; }
-      img.style.transition = 'opacity 0.35s ease';
-      img.style.opacity    = '1';
-      puzzle.style.transition = 'opacity 0.35s ease';
+      if (cvs) { cvs.style.transition = 'opacity 1s ease'; cvs.style.opacity = '0.055'; }
+      /* Reveal hero-bg.jpg — slightly held back so overlay reads clearly */
+      img.style.transition = 'opacity 0.7s ease';
+      img.style.opacity    = '0.82';
+      /* Fade puzzle tiles out */
+      puzzle.style.transition = 'opacity 0.4s ease';
       puzzle.style.opacity    = '0';
       setTimeout(function () {
         puzzle.style.display = 'none';
-        if (cvs) cvs.style.display = 'none';
-      }, 380);
+        /* Show dark cinematic overlay */
+        var overlay = document.getElementById('hero-overlay');
+        if (overlay) overlay.classList.add('visible');
+        /* Start the identity motion loop */
+        initHeroMotion();
+      }, 420);
     }, FINISH);
   }
 
@@ -2480,6 +2570,136 @@ function startPuzzleReveal() {
   } else if (img) {
     img.addEventListener('load', buildTiles);
   }
+}
+
+// ── Hero identity motion loop ─────────────────────────────────
+function initHeroMotion() {
+  var root = document.getElementById('hero-motion');
+  if (!root || !window.gsap) return;
+
+  /* Ken Burns — slow zoom on the hero photo for that cinematic feel */
+  var bgImg = document.querySelector('#hero .hero-bg');
+  if (bgImg) {
+    gsap.to(bgImg, { scale: 1.10, duration: 22, ease: 'none', repeat: -1, yoyo: true,
+                     transformOrigin: '50% 50%' });
+  }
+
+  var FRAMES = [
+    { label: 'Full Stack Developer · Manila, PH',
+      lines: [ { t: 'PATRICK', c: '' }, { t: 'PEREZ', c: 'gold' } ],
+      sub:   'Software Engineer' },
+    { label: 'Core Expertise',
+      lines: [ { t: 'BACKEND', c: '' }, { t: 'SYSTEMS', c: 'outline' } ],
+      sub:   'C++  ·  Python  ·  Java  ·  SQL' },
+    { label: 'Domains',
+      lines: [ { t: 'BANKING · IoT', c: 'mid gold' }, { t: 'WEB & MOBILE', c: 'mid' } ],
+      sub:   'Asia United Bank  ·  Mobile Apps  ·  Web Platforms' },
+    { label: 'Engineering Philosophy',
+      lines: [ { t: 'PERFORMANCE', c: '' }, { t: 'DRIVEN', c: 'outline' } ],
+      sub:   'Scalable  ·  Optimized  ·  Reliable' }
+  ];
+
+  /* Build DOM — each frame is pre-rendered, hidden until its turn */
+  var frameEls = FRAMES.map(function(fd) {
+    var frame = document.createElement('div');
+    frame.className = 'hm-frame';
+
+    var label = document.createElement('div');
+    label.className = 'hm-label';
+    label.textContent = fd.label;
+    frame.appendChild(label);
+
+    fd.lines.forEach(function(l) {
+      var clip = document.createElement('div');
+      clip.className = 'hm-clip';
+      var line = document.createElement('span');
+      line.className = 'hm-line' + (l.c ? ' ' + l.c : '');
+      line.textContent = l.t;
+      clip.appendChild(line);
+      frame.appendChild(clip);
+    });
+
+    var rule = document.createElement('div');
+    rule.className = 'hm-rule';
+    frame.appendChild(rule);
+
+    var sub = document.createElement('div');
+    sub.className = 'hm-sub';
+    sub.textContent = fd.sub;
+    frame.appendChild(sub);
+
+    root.appendChild(frame);
+    return frame;
+  });
+
+  gsap.set(frameEls, { opacity: 0 });
+  /* Fade motion container in */
+  gsap.to(root, { opacity: 1, duration: 1, ease: 'power2.out' });
+
+  var HOLD     = 2700; /* ms each frame is held after entering */
+  var IN_LINE  = 0.78; /* line reveal duration */
+  var IN_META  = 0.52; /* label/rule/sub duration */
+  var OUT_DUR  = 0.44; /* exit duration */
+  var cur      = 0;
+
+  function els(frame) {
+    return {
+      label: frame.querySelector('.hm-label'),
+      lines: Array.from(frame.querySelectorAll('.hm-line')),
+      rule:  frame.querySelector('.hm-rule'),
+      sub:   frame.querySelector('.hm-sub')
+    };
+  }
+
+  function show(idx) {
+    var f = frameEls[idx], e = els(f);
+    gsap.set(f, { opacity: 1 });
+    gsap.set(e.lines, { y: '108%' });
+    gsap.set([e.label, e.rule, e.sub], { opacity: 0, y: 10 });
+
+    /* Label fades in first */
+    gsap.to(e.label, { opacity: 1, y: 0, duration: IN_META, ease: 'power2.out' });
+
+    /* Lines slide up from below their clip boundary — the GSAP showcase signature */
+    e.lines.forEach(function(line, i) {
+      gsap.to(line, { y: '0%', duration: IN_LINE, delay: 0.14 + i * 0.14,
+                      ease: 'power4.out' });
+    });
+
+    /* Rule and sub follow */
+    var afterLines = 0.18 + e.lines.length * 0.14;
+    gsap.to(e.rule, { opacity: 1, y: 0, duration: IN_META,
+                      delay: afterLines, ease: 'power2.out' });
+    gsap.to(e.sub,  { opacity: 1, y: 0, duration: IN_META,
+                      delay: afterLines + 0.1, ease: 'power2.out',
+                      onComplete: function() {
+                        setTimeout(function() { hide(idx); }, HOLD);
+                      }});
+  }
+
+  function hide(idx) {
+    var f = frameEls[idx], e = els(f);
+    var linesRev = e.lines.slice().reverse();
+
+    /* Lines slide up and out of their clip boundary */
+    linesRev.forEach(function(line, i) {
+      gsap.to(line, { y: '-108%', duration: OUT_DUR, delay: i * 0.07,
+                      ease: 'power3.in' });
+    });
+    /* Label/rule/sub fade out simultaneously */
+    gsap.to([e.label, e.rule, e.sub], {
+      opacity: 0, y: -8, duration: OUT_DUR * 0.8, stagger: 0.05,
+      ease: 'power2.in',
+      onComplete: function() {
+        gsap.set(f, { opacity: 0 });
+        cur = (idx + 1) % frameEls.length;
+        show(cur);
+      }
+    });
+  }
+
+  /* Brief pause so overlay settles before first frame enters */
+  setTimeout(function() { show(0); }, 260);
 }
 
 // ── Sidebar hero-active: fires on about-title entering viewport ─

@@ -395,11 +395,28 @@ body {
   100% { opacity: 1;  transform: scale(1);     filter: brightness(1) saturate(1); }
 }
 
+/* Dark cinematic overlay — appears after puzzle reveal */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(
+    160deg,
+    rgba(4,3,2,0.80) 0%,
+    rgba(4,3,2,0.50) 45%,
+    rgba(4,3,2,0.68) 100%
+  );
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.hero-overlay.visible { opacity: 1; }
+
 /* Gold scan line sweeps before tiles appear */
 .hero-scanner {
   position: absolute;
   inset: 0;
-  z-index: 4;
+  z-index: 6;
   pointer-events: none;
   overflow: hidden;
 }
