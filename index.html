@@ -937,6 +937,17 @@
     padding-bottom: 20px;
   }
   
+  .section-title h2::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 50px;
+    height: 3px;
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
   /* ===== ABOUT — PERSONAL INFO CARD ===== */
   .about-info-card {
@@ -1318,38 +1329,7 @@
     color:rgba(240,230,204,.52);
   }
 
-  /* ── Scroll progress bar ── */
-  #scroll-progress-bar {
-    position:fixed;top:0;left:0;height:3px;width:0%;
-    background:linear-gradient(90deg,#7A5A10,#C9A227,#F0D060,#C9A227,#7A5A10);
-    background-size:300% 100%;
-    z-index:99998;pointer-events:none;
-    animation:progressShimmer 4s linear infinite;
-  }
-  @keyframes progressShimmer {
-    0%   { background-position:100% 0; }
-    100% { background-position:-100% 0; }
-  }
-
-  /* ── Section title morphing underline (fires when AOS adds .aos-animate) ── */
-  .section-title h2 { position:relative; display:inline-block; }
-  .section-title h2::after {
-    content:'';
-    position:absolute;bottom:-9px;left:50%;
-    transform:translateX(-50%) scaleX(0);
-    width:70%;height:1.5px;
-    background:linear-gradient(90deg,transparent,#C9A227,transparent);
-    transform-origin:center;
-    transition:transform .75s cubic-bezier(.7,0,.3,1) .28s;
-  }
-  .section-title.aos-animate h2::after { transform:translateX(-50%) scaleX(1); }
-
-  /* ── 3D tilt cards ── */
-  .pf-card, .service-item, .milestone-card, .stat-card {
-    transform-style:preserve-3d;
-  }
-
-  /* ── ── hero-bg2 (second background, revealed after puzzle) ── */
+  /* ── hero-bg2 (second background, revealed after puzzle) ── */
   #hero .hero-bg2 {
     position:absolute !important;
     inset:0;width:100% !important;height:100% !important;
@@ -1383,9 +1363,6 @@
 <body class="index-page">
 <!-- Security gate — must be first, runs synchronously before content renders -->
 <script src="assets/js/gate.js"></script>
-
-<!-- Scroll progress bar -->
-<div id="scroll-progress-bar"></div>
 
 <!-- ══════════════ SPLASH SCREEN ══════════════ -->
 <div id="splash-screen" onclick="dismissSplash()">
@@ -2392,7 +2369,6 @@
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <!-- Splash Screen JS -->
 <script>
@@ -3535,177 +3511,6 @@ document.addEventListener("DOMContentLoaded", function() {
       }
     }
   }
-})();
-</script>
-
-<!-- ═══════════════════════════════════════════════════════════
-     PARALLAX · PROGRESS BAR · 3D TILT · MORPHING EFFECTS
-     ═══════════════════════════════════════════════════════════ -->
-<script>
-(function() {
-  'use strict';
-
-  /* ── Scroll Progress Bar ──────────────────────────────────── */
-  var pb = document.getElementById('scroll-progress-bar');
-  if (pb) {
-    function updatePB() {
-      var total = document.documentElement.scrollHeight - window.innerHeight;
-      pb.style.width = (total > 0 ? (window.scrollY / total) * 100 : 0) + '%';
-    }
-    window.addEventListener('scroll', updatePB, { passive: true });
-    updatePB();
-  }
-
-  /* ── GSAP ScrollTrigger parallax ─────────────────────────── */
-  document.addEventListener('gateDismissed', function() {
-    if (!window.gsap || !window.ScrollTrigger) return;
-    gsap.registerPlugin(ScrollTrigger);
-
-    /* Hero background shapes — each drifts at a unique speed */
-    var hSpeeds = [0.38, 0.62, 0.28, 0.55, 0.18];
-    document.querySelectorAll('.hshape').forEach(function(sh, i) {
-      gsap.to(sh, {
-        y: -320 * hSpeeds[i % 5],
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '#hero',
-          start: 'top top',
-          end: 'bottom top',
-          scrub: 1.4
-        }
-      });
-    });
-
-    /* About section floating shapes */
-    var aSpeeds = [0.44, 0.26, 0.58, 0.34];
-    document.querySelectorAll('.as').forEach(function(sh, i) {
-      gsap.to(sh, {
-        y: -160 * aSpeeds[i % 4],
-        x: (i % 2 === 0 ? 1 : -1) * 36 * aSpeeds[i % 4],
-        ease: 'none',
-        scrollTrigger: {
-          trigger: '#about',
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: 1.2
-        }
-      });
-    });
-
-    /* Skills rows — row 1 drifts left, row 2 drifts right while scrolling */
-    var r1 = document.querySelector('.skills-row.row-1');
-    var r2 = document.querySelector('.skills-row.row-2');
-    if (r1) gsap.to(r1, { x: -60, ease: 'none',
-      scrollTrigger: { trigger: '#skills', start: 'top bottom', end: 'bottom top', scrub: 1 } });
-    if (r2) gsap.to(r2, { x:  60, ease: 'none',
-      scrollTrigger: { trigger: '#skills', start: 'top bottom', end: 'bottom top', scrub: 1 } });
-
-    /* Section clip-path wipe: each section's decorative background
-       expands from a skewed polygon to a full rectangle as it enters view */
-    document.querySelectorAll('#services, #resume, #portfolio, #achievements, #contact').forEach(function(sec) {
-      gsap.fromTo(sec,
-        { clipPath: 'polygon(0 3%, 100% 0%, 100% 97%, 0 100%)' },
-        {
-          clipPath: 'polygon(0 0%, 100% 0%, 100% 100%, 0 100%)',
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: sec,
-            start: 'top 88%',
-            end: 'top 30%',
-            scrub: 0.6
-          }
-        }
-      );
-    });
-
-    /* Resume entries: alternating left/right 3D slide-in */
-    document.querySelectorAll('.pj-entry').forEach(function(entry, i) {
-      var fromX = i % 2 === 0 ? -60 : 60;
-      gsap.from(entry, {
-        x: fromX,
-        rotateY: i % 2 === 0 ? -6 : 6,
-        opacity: 0,
-        duration: 0.7,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: entry,
-          start: 'top 85%',
-          toggleActions: 'play none none none'
-        }
-      });
-    });
-
-    /* Services: 3D rotateX flip-up entrance (column wrappers) */
-    gsap.from('[data-aos-delay="100"] .service-item, [data-aos-delay="200"] .service-item, [data-aos-delay="300"] .service-item, [data-aos-delay="400"] .service-item, [data-aos-delay="500"] .service-item, [data-aos-delay="600"] .service-item', {
-      rotateX: 18, y: 40, opacity: 0, duration: 0.75, stagger: 0.1,
-      ease: 'back.out(1.4)',
-      scrollTrigger: { trigger: '#services', start: 'top 68%', toggleActions: 'play none none none' }
-    });
-
-    /* Achievements: scale pop-in with 3D */
-    gsap.from('.stat-card', {
-      scale: 0.82, rotateX: 14, opacity: 0, duration: 0.65, stagger: 0.08,
-      ease: 'back.out(1.5)',
-      scrollTrigger: { trigger: '#achievements', start: 'top 72%', toggleActions: 'play none none none' }
-    });
-    gsap.from('.milestone-card', {
-      x: -50, rotateY: -8, opacity: 0, duration: 0.65, stagger: 0.1,
-      ease: 'power3.out',
-      scrollTrigger: { trigger: '.milestone-card', start: 'top 82%', toggleActions: 'play none none none' }
-    });
-  });
-
-  /* Also run if gate is already dismissed (session restored) */
-  if (!window.pfGateActive && window.gsap && window.ScrollTrigger) {
-    document.dispatchEvent(new CustomEvent('gateDismissed'));
-  }
-
-  /* ── 3D Tilt on interactive cards (hover/mousemove) ─────── */
-  function initTilt() {
-    document.querySelectorAll('.pf-card, .service-item, .milestone-card, .stat-card').forEach(function(card) {
-      var tRX = 0, tRY = 0, cRX = 0, cRY = 0, raf = null, active = false;
-
-      card.addEventListener('mouseenter', function() {
-        active = true;
-        card.style.willChange = 'transform';
-        card.style.transition = 'box-shadow 0.3s ease';
-        (function tick() {
-          if (!active) return;
-          cRX += (tRX - cRX) * 0.13;
-          cRY += (tRY - cRY) * 0.13;
-          card.style.transform = 'perspective(720px) rotateX('+cRX+'deg) rotateY('+cRY+'deg) translateZ(5px)';
-          raf = requestAnimationFrame(tick);
-        })();
-      });
-
-      card.addEventListener('mousemove', function(e) {
-        var r = card.getBoundingClientRect();
-        tRY =  ((e.clientX - r.left  - r.width  / 2) / (r.width  / 2)) * 7;
-        tRX = -((e.clientY - r.top   - r.height / 2) / (r.height / 2)) * 6;
-      });
-
-      card.addEventListener('mouseleave', function() {
-        active = false;
-        cancelAnimationFrame(raf);
-        tRX = 0; tRY = 0;
-        (function reset() {
-          cRX += (0 - cRX) * 0.11;
-          cRY += (0 - cRY) * 0.11;
-          card.style.transform = 'perspective(720px) rotateX('+cRX+'deg) rotateY('+cRY+'deg) translateZ(0)';
-          if (Math.abs(cRX) > 0.04 || Math.abs(cRY) > 0.04) { requestAnimationFrame(reset); }
-          else { card.style.transform = ''; card.style.willChange = ''; }
-        })();
-      });
-    });
-  }
-
-  /* Run tilt after DOM is ready */
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initTilt);
-  } else {
-    initTilt();
-  }
-
 })();
 </script>
 </body>
