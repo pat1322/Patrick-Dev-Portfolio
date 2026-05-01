@@ -1329,6 +1329,34 @@
     color:rgba(240,230,204,.52);
   }
 
+  /* ── hero-bg2 (second background, revealed after puzzle) ── */
+  #hero .hero-bg2 {
+    position:absolute !important;
+    inset:0;width:100% !important;height:100% !important;
+    object-fit:cover;object-position:center;
+    z-index:0;opacity:0;pointer-events:none;
+    transform-origin:center center;
+  }
+
+  /* ── Mobile nav toggle — standalone so iOS fixed-position quirks don't clip it ── */
+  .header-toggle {
+    color:#0e0c0a !important;
+    background:#C9A227 !important;
+    font-size:22px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:40px;height:40px;
+    border-radius:50%;
+    cursor:pointer;
+    position:fixed;
+    top:15px;right:15px;
+    z-index:10000;
+    transition:background-color 0.3s;
+  }
+  .header-toggle:hover { background:#d4aa2e !important; }
+  @media (min-width:1200px) { .header-toggle { display:none !important; } }
+
 </style>
 </head>
 
@@ -1404,6 +1432,8 @@
 <div class="cursor-dot"></div>
 <div class="cursor-ring"></div>
 
+<i class="header-toggle d-xl-none bi bi-list"></i>
+
 <header id="header" class="header dark-background d-flex flex-column align-items-center text-center">
 
   <!-- Floating background shapes -->
@@ -1414,8 +1444,6 @@
     <div class="hshape hshape-4"></div>
     <div class="hshape hshape-5"></div>
   </div>
-
-  <i class="header-toggle d-xl-none bi bi-list"></i>
 
   <div class="profile-img-container">
     <div class="profile-img">
@@ -1490,6 +1518,7 @@
   <!-- Hero Section — background assembled as a puzzle by JS -->
   <section id="hero" class="hero section dark-background">
     <img src="assets/img/hero-bg.jpg" alt="" class="hero-bg">
+    <img src="assets/img/hero-bg2.jpg" alt="" class="hero-bg2">
     <canvas id="hero-code-canvas" class="hero-code-canvas"></canvas>
     <div class="hero-puzzle" id="hero-puzzle"></div>
     <div class="hero-overlay" id="hero-overlay"></div>
@@ -2319,8 +2348,8 @@
   </div>
 </footer>
 
-<!-- Scroll Top -->
-<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+
 
 <!-- Preloader -->
 <div id="preloader"></div>
@@ -2546,11 +2575,30 @@ function startPuzzleReveal() {
       puzzle.style.opacity    = '0';
       setTimeout(function () {
         puzzle.style.display = 'none';
-        /* Fade in dark cinematic overlay via GSAP (GSAP owns opacity from here on) */
+        /* Fade in dark cinematic overlay */
         var overlay = document.getElementById('hero-overlay');
         if (overlay) gsap.to(overlay, { opacity: 0.78, duration: 1.0, ease: 'power2.out' });
-        /* Start the 3D identity loop */
-        initHeroMotion();
+
+        /* Cinematic cut: hold on bg1, flash to black, reveal bg2, then start motion */
+        var img2 = document.querySelector('#hero .hero-bg2');
+        if (img2 && window.gsap) {
+          setTimeout(function() {
+            /* Flash to black by driving overlay to full opacity */
+            gsap.to(overlay, { opacity: 1, duration: 0.55, ease: 'power2.in',
+              onComplete: function() {
+                /* Behind the black: swap images */
+                if (img) { img.style.transition = 'none'; img.style.opacity = '0'; }
+                gsap.set(img2, { opacity: 0.82 });
+                /* Pull overlay back to reveal bg2 */
+                gsap.to(overlay, { opacity: 0.78, duration: 1.1, ease: 'power2.out',
+                  onComplete: function() { setTimeout(initHeroMotion, 450); }
+                });
+              }
+            });
+          }, 1300);
+        } else {
+          initHeroMotion();
+        }
       }, 420);
     }, FINISH);
   }
@@ -2574,8 +2622,8 @@ function initHeroMotion() {
   var heroEl = document.getElementById('hero');
   var W = heroEl.offsetWidth, H = heroEl.offsetHeight;
 
-  /* Ken Burns on photo */
-  var bgImg = document.querySelector('#hero .hero-bg');
+  /* Ken Burns on whichever bg is currently showing */
+  var bgImg = document.querySelector('#hero .hero-bg2') || document.querySelector('#hero .hero-bg');
   if (bgImg) gsap.to(bgImg, { scale: 1.09, duration: 26, ease: 'none',
                                repeat: -1, yoyo: true, transformOrigin: '50% 50%' });
 

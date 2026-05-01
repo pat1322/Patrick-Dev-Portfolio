@@ -184,6 +184,10 @@
       'cursor:pointer;transition:all .3s;align-items:center;gap:.45rem}',
     '#gx-badge:hover{border-color:rgba(201,162,39,.5);color:#C9A227}',
     'body.role-guest #gx-badge{display:flex!important}',
+    '#gx-ov .gx-btn-hint{display:block;font-size:.39rem;letter-spacing:.08em;',
+      'text-transform:none;color:rgba(201,162,39,.3);line-height:1.5;',
+      'padding-top:.25rem;transition:color .28s;white-space:normal}',
+    '#gx-ov .gx-btn:hover .gx-btn-hint{color:rgba(201,162,39,.85)}',
   ].join('');
   document.head.appendChild(sty);
 
@@ -202,10 +206,14 @@
 
         /* Step 1 — role selection */
         '<div class="gx-step" id="gx-s1">' +
-          '<span class="gx-q">How are you visiting today?</span>' +
+          '<span class="gx-q">How would you like to browse?</span>' +
           '<div class="gx-row">' +
-            '<button class="gx-btn" id="gx-guest"><i class="bi bi-person"></i>Guest</button>' +
-            '<button class="gx-btn" id="gx-rec"><i class="bi bi-briefcase"></i>Recruiter</button>' +
+            '<button class="gx-btn" id="gx-guest"><i class="bi bi-person"></i>Just Visiting' +
+              '<span class="gx-btn-hint">Some personal info will be blurred for privacy</span>' +
+            '</button>' +
+            '<button class="gx-btn" id="gx-rec"><i class="bi bi-key"></i>I Have a Code' +
+              '<span class="gx-btn-hint">All personal details will be fully visible</span>' +
+            '</button>' +
           '</div>' +
           '<div class="gx-or"><span>or</span></div>' +
           '<button class="gx-btn gx-btn-full" id="gx-adm">' +
