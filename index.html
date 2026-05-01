@@ -1294,16 +1294,14 @@
   .hm-frame {
     position:absolute;inset:0;
     display:flex;flex-direction:column;
-    align-items:center;justify-content:flex-end;
-    text-align:center;
-    padding:0 clamp(1rem,5vw,4rem) clamp(3.5rem,8vh,6rem);
+    padding:0;overflow:hidden;
     opacity:0;z-index:1;
   }
 
   .hm-label {
     font-family:'Raleway',sans-serif;
-    font-size:clamp(.36rem,.78vw,.56rem);
-    font-weight:600;letter-spacing:.56em;text-transform:uppercase;
+    font-size:clamp(.7rem,1.1vw,.95rem);
+    font-weight:600;letter-spacing:.52em;text-transform:uppercase;
     color:#C9A227;margin-bottom:.9rem;
   }
 
@@ -1311,9 +1309,10 @@
   .hm-line {
     display:block;
     font-family:'Cormorant Garamond',serif;
-    font-size:clamp(2.8rem,8.5vw,10rem);
+    font-size:clamp(1.1rem,5vw,6rem);
     font-weight:300;letter-spacing:.07em;text-transform:uppercase;
-    color:#F0E6CC;line-height:.86;
+    color:#F0E6CC;line-height:.95;
+    white-space:normal;word-break:break-word;max-width:100%;
   }
   .hm-line.gold    { color:#C9A227; }
   .hm-line.outline { -webkit-text-stroke:1.5px rgba(201,162,39,.7);color:transparent; }
@@ -1321,11 +1320,11 @@
   .hm-rule {
     width:52px;height:1px;
     background:linear-gradient(90deg,transparent,#C9A227,transparent);
-    margin:.9rem auto;flex-shrink:0;
+    margin:.9rem 0;flex-shrink:0;
   }
   .hm-sub {
     font-family:'Raleway',sans-serif;
-    font-size:clamp(.35rem,.72vw,.52rem);
+    font-size:clamp(.65rem,.85vw,.8rem);
     font-weight:500;letter-spacing:.38em;text-transform:uppercase;
     color:rgba(240,230,204,.52);
   }
@@ -2760,7 +2759,7 @@ function initHeroMotion() {
   /* ACT 1: Glitch reveal with chromatic aberration */
   function glitchIn(el, txt, cb) {
     var itr = 0, max = txt.length * 2.8;
-    el.style.cssText = 'display:block;white-space:nowrap';
+    el.style.cssText = 'display:block;white-space:normal;max-width:100%;';
     var iv = setInterval(function() {
       var out = '';
       for (var ci = 0; ci < txt.length; ci++) {
@@ -2783,7 +2782,7 @@ function initHeroMotion() {
   /* ACT 2: Character scramble — left to right resolve */
   function scrambleIn(el, txt, cb) {
     var t0 = Date.now(), dur = 1300;
-    el.style.cssText = 'display:block;white-space:nowrap';
+    el.style.cssText = 'display:block;white-space:normal;max-width:100%;';
     (function fr() {
       var p = Math.min((Date.now()-t0)/dur, 1);
       el.textContent = txt.split('').map(function(c,i) {
@@ -2796,7 +2795,7 @@ function initHeroMotion() {
 
   /* ACT 3: Kinetic letter fly-in from random directions */
   function kineticIn(el, txt, cb) {
-    el.innerHTML = ''; el.style.cssText = 'display:block;white-space:nowrap';
+    el.innerHTML = ''; el.style.cssText = 'display:block;white-space:normal;max-width:100%;';
     var spans = txt.split('').map(function(c) {
       var s = document.createElement('span');
       s.style.display = 'inline-block';
@@ -2876,24 +2875,28 @@ function initHeroMotion() {
     { grp:a1, bg:bgs[0], glow:1, entry:entryImplode,  exit:exitExplode,
       label:'Core Expertise',
       line1:'BACKEND ENGINEER', cls1:'', animFn1:glitchIn,
-      line2:'C++ · PYTHON · JAVA · SQL', cls2:'outline', animFn2:glitchIn },
+      line2:'C++ · PYTHON · JAVA · SQL', cls2:'outline', animFn2:glitchIn,
+      frameStyle:'align-items:flex-start;justify-content:flex-end;text-align:left;padding:0 0 clamp(3rem,7vh,5.5rem) clamp(2.5rem,9vw,8rem);' },
     { grp:a2, bg:bgs[1], glow:2, entry:entryRise,     exit:exitSink,
-      label:'Full Stack Developer',
-      line1:'FULL STACK', cls1:'', animFn1:scrambleIn,
-      line2:'DEVELOPER',  cls2:'gold', animFn2:scrambleIn },
+      label:'Full-Stack Builder',
+      line1:'FRONT TO BACK', cls1:'', animFn1:scrambleIn,
+      line2:'WEB · API · DB',  cls2:'gold', animFn2:scrambleIn,
+      frameStyle:'align-items:flex-end;justify-content:center;text-align:right;padding:0 clamp(2.5rem,9vw,8rem) clamp(1rem,3vh,2rem) 0;' },
     { grp:a3, bg:bgs[2], glow:3, entry:entryCameraRush,exit:exitPinhole,
-      label:'Engineering Philosophy',
-      line1:'PERFORMANCE', cls1:'', animFn1:kineticIn,
-      line2:'DRIVEN',      cls2:'outline', animFn2:kineticIn },
+      label:'Engineering Craft',
+      line1:'SCALABLE · FAST', cls1:'', animFn1:kineticIn,
+      line2:'BUILT TO LAST',   cls2:'outline', animFn2:kineticIn,
+      frameStyle:'align-items:center;justify-content:flex-start;text-align:center;padding:clamp(3rem,9vh,7rem) 0 0;' },
   ];
 
-  var frames = ACTS.map(function() {
+  var frames = ACTS.map(function(act) {
     var f = document.createElement('div'); f.className = 'hm-frame';
+    if (act.frameStyle) f.style.cssText = act.frameStyle;
     root.appendChild(f); return f;
   });
 
   gsap.set(frames, {opacity:0});
-  gsap.to(root, {opacity:1, duration:.9, ease:'power2.out'});
+  gsap.set(root, {opacity:1});
 
   function setGlow(n) {
     [1,2,3].forEach(function(i) {
@@ -2939,60 +2942,117 @@ function initHeroMotion() {
   }
 
   /* ══════════════════════════════════════════
+     WIPE CURTAIN — solid opaque transition
+     ══════════════════════════════════════════ */
+  var curtain = document.createElement('div');
+  curtain.style.cssText = 'position:absolute;inset:0;z-index:20;background:#080604;transform:scaleX(0);transform-origin:0% 50%;pointer-events:none;will-change:transform;';
+  heroEl.appendChild(curtain);
+
+  function wipeIn(cb) {
+    gsap.set(curtain, { scaleX: 0, transformOrigin: '0% 50%' });
+    gsap.to(curtain, { scaleX: 1, duration: 0.44, ease: 'power2.inOut', onComplete: cb });
+  }
+
+  function wipeOut(cb) {
+    gsap.set(curtain, { scaleX: 1, transformOrigin: '100% 50%' });
+    gsap.to(curtain, { scaleX: 0, duration: 0.48, ease: 'power2.inOut', onComplete: cb });
+  }
+
+  /* ══════════════════════════════════════════
      SEQUENCE CONTROLLER
      ══════════════════════════════════════════ */
-  var ACT_HOLD = 5400; /* ms text is held per act — total ~25s */
+  var ACT_HOLD = 5000; /* ms text is held per act */
   var curIdx   = -1;
 
-  function runAct(idx) {
+  /* Called while curtain is fully covering — swap scene instantly */
+  function setupAct(idx) {
+    var act      = ACTS[idx];
+    var prevIdx  = curIdx;
+    curIdx = idx;
+
+    if (prevIdx >= 0 && prevIdx !== idx) {
+      ACTS[prevIdx].grp.visible = false;
+      ACTS[prevIdx].grp.scale.set(1, 1, 1);
+      ACTS[prevIdx].grp.position.y = 0;
+      gsap.set(frames[prevIdx], { opacity: 0 });
+    }
+
+    sceneBg.style.background = act.bg;
+    sceneBg.style.opacity    = '1';
+    setGlow(act.glow);
+    act.entry(act.grp);
+  }
+
+  /* Called right after wipeOut — text and hold logic */
+  function revealAct(idx) {
     var act = ACTS[idx];
     var f   = frames[idx];
 
-    /* Exit previous 3D group */
-    if (curIdx >= 0 && curIdx !== idx) {
-      var prev = ACTS[curIdx];
-      prev.exit(prev.grp, function() { act.entry(act.grp); });
-    } else {
-      act.entry(act.grp);
-    }
-    curIdx = idx;
-
-    setBg(act.bg);
-    setGlow(act.glow);
-
-    /* Text enters 600ms after 3D objects start appearing */
-    setTimeout(function() {
-      buildText(f, act, function() {
-        setTimeout(function() {
-          exitText(f, function() {
-            var next = (idx + 1) % ACTS.length;
-            if (next === 0) {
-              photoReturn(function() { runAct(0); });
-            } else {
-              runAct(next);
-            }
-          });
-        }, ACT_HOLD);
-      });
-    }, 600);
-  }
-
-  function photoReturn(cb) {
-    var last = ACTS[curIdx];
-    last.exit(last.grp, null);
-    setGlow(0);
-    gsap.to(sceneBg, {opacity:0, duration:.8, delay:.2});
-    /* Overlay peels back → photo fills hero → overlay returns */
-    gsap.to(overlay, {opacity:.04, duration:1.1, delay:.5, ease:'power2.out',
-      onComplete: function() {
-        setTimeout(function() {
-          gsap.to(overlay, {opacity:.78, duration:1, ease:'power2.in', onComplete: cb});
-        }, 2000);
-      }
+    wipeOut(function() {
+      setTimeout(function() {
+        buildText(f, act, function() {
+          setTimeout(function() {
+            /* Quick text dissolve before next wipe */
+            gsap.to(Array.from(f.children), {
+              opacity: 0, duration: 0.28, stagger: 0.04,
+              onComplete: function() {
+                gsap.set(f, { opacity: 0 });
+                var next = (idx + 1) % ACTS.length;
+                if (next === 0) {
+                  photoReturn();
+                } else {
+                  runAct(next);
+                }
+              }
+            });
+          }, ACT_HOLD);
+        });
+      }, 400);
     });
   }
 
-  setTimeout(function() { runAct(0); }, 420);
+  function runAct(idx) {
+    wipeIn(function() {
+      setupAct(idx);
+      revealAct(idx);
+    });
+  }
+
+  function photoReturn() {
+    /* Wipe in covers the active 3D scene */
+    wipeIn(function() {
+      allGrps.forEach(function(g) { g.visible=false; g.scale.set(1,1,1); g.position.y=0; });
+      sceneBg.style.opacity = '0';
+      setGlow(0);
+      gsap.set(overlay, { opacity: 0.14 }); /* let photo breathe */
+      curIdx = -1;
+
+      /* Wipe out to reveal photo, then arm hover/tap to replay */
+      wipeOut(armHoverReplay);
+    });
+  }
+
+  function armHoverReplay() {
+    function replay() {
+      heroEl.removeEventListener('mouseenter', replay);
+      heroEl.removeEventListener('touchstart', replay);
+      wipeIn(function() {
+        gsap.set(overlay, { opacity: 0.78 });
+        setupAct(0);
+        revealAct(0);
+      });
+    }
+    heroEl.addEventListener('mouseenter', replay, { once: true });
+    heroEl.addEventListener('touchstart', replay, { once: true, passive: true });
+  }
+
+  /* Kick off with a brief delay after the overlay fades in */
+  setTimeout(function() {
+    wipeIn(function() {
+      setupAct(0);
+      revealAct(0);
+    });
+  }, 420);
 }
 
 // ── Sidebar hero-active: fires on about-title entering viewport ─
