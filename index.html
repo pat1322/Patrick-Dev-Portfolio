@@ -1391,6 +1391,7 @@
   .hero-act-overlay {
     position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;
     transition:opacity 0.6s ease;
+    overflow:hidden;
   }
 
   /* ══════════════════════════════════════════
@@ -1407,11 +1408,12 @@
                inset 0 1px 0 rgba(201,162,39,0.05);
     animation:cwFloat 7s ease-in-out infinite;
     transform-style:preserve-3d;
+	overflow:hidden;
   }
   /* Centered cluster — spread around middle of hero, clear of bottom-left text */
-  .cw-1 { top:8%;  left:clamp(4%,6vw,12%);   animation-delay:0s;   animation-duration:8s; }
-  .cw-2 { top:10%; right:clamp(4%,6vw,12%);  animation-delay:-3s;  animation-duration:10s; }
-  .cw-3 { bottom:20%;left:50%;transform:translateX(-50%);animation-delay:-5.5s;animation-duration:9s;width:clamp(130px,16vw,190px); }
+  .cw-1 { top:40%;  left:40%;  animation-delay:0s;  animation-duration:8s;  }
+  .cw-2 { top:25%;  right:25%;  animation-delay:-3s; animation-duration:10s; }
+  .cw-3 { top:30%; left:35%;  transform:translateX(-50%); animation-delay:-5.5s; animation-duration:9s; width:clamp(130px,14vw,175px); }
   @keyframes cwFloat {
     0%,100%{transform:translateY(0) rotateY(-4deg);}
     50%    {transform:translateY(-14px) rotateY(4deg);}
@@ -1438,11 +1440,15 @@
     vertical-align:text-bottom;animation:cwBlink 1s step-end infinite;}
   @keyframes cwBlink{0%,100%{opacity:1;}50%{opacity:0;}}
   /* Mobile: smaller windows, cw-3 hidden to avoid clutter */
-  @media(max-width:768px){
-    .cw{width:120px;font-size:.5rem;}
-    .cw-1{top:5%;left:2%;}
-    .cw-2{top:5%;right:2%;}
-    .cw-3{display:none;}
+  @media(max-width:991px){
+    .cw{ width:clamp(110px,28vw,155px); font-size:.48rem; }
+    .cw-1{ top:5%;  left:4%;  }
+    .cw-2{ top:5%;  left:auto; right:4%; }
+    .cw-3{ display:none; }
+  }
+  @media(max-width:575px){
+    .cw-1{ display:none; }
+    .cw-2{ top:8%; left:50%; right:auto; transform:translateX(-50%); width:clamp(130px,70vw,200px); font-size:.52rem; }
   }
 
   /* ══════════════════════════════════════════
@@ -2780,55 +2786,53 @@ function startPuzzleReveal() {
       /* Fade puzzle tiles out */
       puzzle.style.transition = 'opacity 0.4s ease';
       puzzle.style.opacity    = '0';
-      setTimeout(function () {
+	  setTimeout(function () {
         puzzle.style.display = 'none';
-        /* Fade in dark cinematic overlay */
-        var overlay = document.getElementById('hero-overlay');
-        if (overlay) gsap.to(overlay, { opacity: 0.78, duration: 1.0, ease: 'power2.out' });
 
-		/* Cinematic cross-dissolve: fade to near-black → reveal bg2 → hold → motion */
+        /* ── Keep overlay very light so hero-bg shows cleanly ── */
+        var overlay = document.getElementById('hero-overlay');
+        if (overlay) gsap.to(overlay, { opacity: 0.28, duration: 1.8, ease: 'power2.out' });
+
+        /* ── hero-bg is already visible from above — just let it breathe for 2s ── */
         var img2 = document.querySelector('#hero .hero-bg2');
         if (img2 && window.gsap) {
 
-          /* Step 1 — Fade overlay to near-black over 1.4s (cinematic "fade to dark") */
-          gsap.to(overlay, { opacity: 0.96, duration: 1.4, ease: 'power2.inOut',
-            onComplete: function() {
+          setTimeout(function() {
+            /* Cross-dissolve: gently raise overlay just enough to hide the swap */
+            gsap.to(overlay, { opacity: 0.55, duration: 1.2, ease: 'power1.inOut',
+              onComplete: function() {
 
-              /* Step 2 — While dark: swap backgrounds */
-              if (img) { img.style.transition = 'none'; img.style.opacity = '0'; }
-              img2.style.opacity = '0';
+                /* Swap bg1 → bg2 while overlay hides it */
+                if (img) { img.style.transition = 'none'; img.style.opacity = '0'; }
+                img2.style.opacity = '0';
 
-              /* Step 3 — Slow golden lens-flare sweep div */
-              var flare = document.createElement('div');
-              flare.style.cssText = [
-                'position:absolute;inset:0;z-index:26;pointer-events:none;',
-                'background:linear-gradient(105deg,',
-                '  transparent 0%,',
-                '  transparent 38%,',
-                '  rgba(201,162,39,0.18) 48%,',
-                '  rgba(255,230,120,0.32) 50%,',
-                '  rgba(201,162,39,0.18) 52%,',
-                '  transparent 62%,',
-                '  transparent 100%);',
-                'transform:translateX(-100%);',
-                'will-change:transform;'
-              ].join('');
-              hero.appendChild(flare);
+                /* Golden lens flare */
+                var flare = document.createElement('div');
+                flare.style.cssText = [
+                  'position:absolute;inset:0;z-index:26;pointer-events:none;',
+                  'background:linear-gradient(105deg,',
+                  '  transparent 0%, transparent 38%,',
+                  '  rgba(201,162,39,0.15) 48%,',
+                  '  rgba(255,230,120,0.26) 50%,',
+                  '  rgba(201,162,39,0.15) 52%,',
+                  '  transparent 62%, transparent 100%);',
+                  'transform:translateX(-100%);will-change:transform;'
+                ].join('');
+                hero.appendChild(flare);
 
-              /* Step 4 — Fade overlay back out (reveal bg2) while flare sweeps across */
-              gsap.to(overlay, { opacity: 0.72, duration: 2.2, ease: 'power3.out' });
-              gsap.to(img2,    { opacity: 0.9,  duration: 2.4, ease: 'power2.out' });
-              gsap.to(flare,   {
-                x: hero.offsetWidth * 2, duration: 2.0, ease: 'power1.inOut',
-                onComplete: function() { flare.remove(); }
-              });
+                /* Fade overlay back down revealing bg2, sweep flare across */
+                gsap.to(overlay, { opacity: 0.72, duration: 2.6, ease: 'power2.out' });
+                gsap.to(img2,    { opacity: 0.9,  duration: 2.8, ease: 'power2.out' });
+                gsap.to(flare,   {
+                  x: hero.offsetWidth * 2, duration: 2.2, ease: 'power1.inOut',
+                  onComplete: function() { flare.remove(); }
+                });
 
-              /* Step 5 — Hold bg2 for ~4.5s, then start motion */
-              setTimeout(function() {
-                initHeroMotion();
-              }, 4000);
-            }
-          });
+                /* Hold bg2 for 4.5s then start motion */
+                setTimeout(initHeroMotion, 4500);
+              }
+            });
+          }, 1000); /* ← 1 second clean display of hero-bg before any transition */
 
         } else {
           setTimeout(initHeroMotion, 4500);
