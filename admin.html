@@ -982,9 +982,14 @@ function renderProjects() {
   projects.forEach(function(p, i) {
     var el = document.createElement('div');
     el.className = 'adm-entry';
+    el.dataset.projIdx = i;
     el.innerHTML =
       '<div class="adm-entry-head">' +
-        '<div class="adm-entry-label">' + String(i+1).padStart(2,'0') + '. ' + esc(p.title || 'Untitled') + '</div>' +
+        '<div style="display:flex;gap:.25rem;flex-shrink:0">' +
+          '<button class="adm-entry-del proj-up" data-i="' + i + '" title="Move up" style="padding:.2rem .45rem;font-size:.65rem" ' + (i===0?'disabled':'') + '>▲</button>' +
+          '<button class="adm-entry-del proj-dn" data-i="' + i + '" title="Move down" style="padding:.2rem .45rem;font-size:.65rem" ' + (i===projects.length-1?'disabled':'') + '>▼</button>' +
+        '</div>' +
+        '<div class="adm-entry-label" style="flex:1;margin:0 .5rem">' + String(i+1).padStart(2,'0') + '. ' + esc(p.title || 'Untitled') + '</div>' +
         '<button class="adm-entry-del" data-i="' + i + '"><i class="bi bi-trash3"></i> Remove</button>' +
       '</div>' +
 
@@ -1024,8 +1029,21 @@ function renderProjects() {
         '<input class="adm-input" data-f="downloadUrl" value="' + esc(p.downloadUrl||'') + '" placeholder="https://..."></div>' +
       '</div>';
 
-    el.querySelector('.adm-entry-del').addEventListener('click', function() {
-      projects.splice(+this.dataset.i, 1); renderProjects();
+    el.querySelectorAll('.adm-entry-del').forEach(function(btn) {
+      if (btn.classList.contains('proj-up') || btn.classList.contains('proj-dn')) return;
+      btn.addEventListener('click', function() { projects.splice(+this.dataset.i, 1); renderProjects(); });
+    });
+    var upBtn = el.querySelector('.proj-up');
+    var dnBtn = el.querySelector('.proj-dn');
+    if (upBtn) upBtn.addEventListener('click', function() {
+      var idx = +this.dataset.i; if (idx <= 0) return;
+      var tmp = projects[idx]; projects[idx] = projects[idx-1]; projects[idx-1] = tmp;
+      renderProjects();
+    });
+    if (dnBtn) dnBtn.addEventListener('click', function() {
+      var idx = +this.dataset.i; if (idx >= projects.length-1) return;
+      var tmp = projects[idx]; projects[idx] = projects[idx+1]; projects[idx+1] = tmp;
+      renderProjects();
     });
 
     /* Auto-generate ID from title on input */
@@ -1050,13 +1068,14 @@ function renderProjects() {
           fetch('/api/upload', { method: 'POST', body: fd })
             .then(function(r) { if (!r.ok) throw new Error('Upload failed'); return r.json(); })
             .then(function(d) {
-              /* For detailImages, append; for img, replace */
-              if (target === 'detailImages' && targetInput.value.trim()) {
-                targetInput.value = targetInput.value.trim() + ',' + d.url.replace('data/uploads/','');
-              } else if (target === 'img') {
-                targetInput.value = d.url;
+              /* Keep full URL (e.g. data/uploads/123-file.jpg) for all fields.
+                 detailImages appends; img replaces. */
+              if (target === 'detailImages') {
+                targetInput.value = targetInput.value.trim()
+                  ? targetInput.value.trim() + ',' + d.url
+                  : d.url;
               } else {
-                targetInput.value = (targetInput.value ? targetInput.value + ',' : '') + d.url.replace('data/uploads/','');
+                targetInput.value = d.url;
               }
               toast('Uploaded — save to publish');
             })
@@ -1071,10 +1090,11 @@ function renderProjects() {
 }
 
 function readProjects() {
+  var prev = projects.slice(); /* preserve IDs before clearing */
   projects = [];
   document.querySelectorAll('#projects-list .adm-entry').forEach(function(entry, i) {
     var title = entry.querySelector('[data-f="title"]').value.trim();
-    var existingId = projects[i] && projects[i].id ? projects[i].id : (entry.dataset.autoId || slugify(title));
+    var existingId = (prev[i] && prev[i].id) ? prev[i].id : (entry.dataset.autoId || slugify(title));
     projects.push({
       id:           existingId || slugify(title) || ('project-' + (i+1)),
       num:          String(i+1).padStart(2,'0'),

@@ -760,7 +760,11 @@
 
   function buildSlides(images) {
     return images.map(function (img) {
-      return '<div class="swiper-slide"><img src="assets/img/portfolio/' + img + '" alt=""></div>';
+      /* Support full paths (data/uploads/..., assets/..., https://...) and bare filenames */
+      var src = (img.indexOf('/') !== -1 || img.indexOf('http') === 0)
+        ? img
+        : 'assets/img/portfolio/' + img;
+      return '<div class="swiper-slide"><img src="' + src + '" alt=""></div>';
     }).join('\n');
   }
 
@@ -794,8 +798,7 @@
        into the shape expected by buildContent */
     function cfgProjectToDetail(p) {
       var imgs = (p.detailImages || p.img || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
-      // Strip path prefix from image names for buildSlides
-      imgs = imgs.map(function(s) { return s.replace(/^assets\/img\/portfolio\//, ''); });
+      /* Keep paths as-is — buildSlides handles full paths and bare filenames */
       var infoLines = (p.detailInfo || '').split('\n').filter(Boolean);
       var infoItems = infoLines.map(function(line) {
         var sep = line.indexOf(':');
