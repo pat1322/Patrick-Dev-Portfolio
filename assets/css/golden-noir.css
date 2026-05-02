@@ -68,6 +68,17 @@ body.cursor-ready .cursor-ring { display: block; }
    ═══════════════════════════════════════════════════════════════ */
 html, body { overflow-x: hidden; }
 
+/* ── Custom scrollbar ───────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #8B6914 0%, #C9A227 50%, #8B6914 100%);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover { background: #C9A227; }
+::-webkit-scrollbar-corner { background: transparent; }
+* { scrollbar-width: thin; scrollbar-color: #C9A227 transparent; }
+
 #splash-screen {
   position: fixed;
   inset: 0;
@@ -343,6 +354,7 @@ body {
 #hero.hero {
   position: relative;
   height: 100vh;
+  padding: 0 !important;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -1374,8 +1386,8 @@ section.section, .section {
    ACHIEVEMENTS SECTION
    ═══════════════════════════════════════════════════════════════ */
 #achievements.achievements.section {
-  background-color: #1d1b17 !important;
-  --background-color: #1d1b17;
+  background-color: #0e0e15 !important;
+  --background-color: #0e0e15;
 }
 .stat-card {
   background: var(--gn-card) !important;

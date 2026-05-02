@@ -182,6 +182,7 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
       <div class="adm-nav-item" data-sec="services"><i class="bi bi-hdd-stack"></i>Summary of Work</div>
       <div class="adm-nav-item" data-sec="resume"><i class="bi bi-briefcase"></i>Professional Journey</div>
       <div class="adm-nav-item" data-sec="portfolio"><i class="bi bi-images"></i>Portfolio</div>
+      <div class="adm-nav-item" data-sec="projdetails"><i class="bi bi-file-richtext"></i>Project Details</div>
       <div class="adm-nav-item" data-sec="skills"><i class="bi bi-bar-chart"></i>Skills</div>
       <div class="adm-nav-group">Site Config</div>
       <div class="adm-nav-item" data-sec="contact"><i class="bi bi-envelope"></i>Contact</div>
@@ -341,10 +342,23 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
         <div class="adm-section-desc">Project cards shown in the Portfolio Showcase section</div>
       </div>
       <div class="adm-note">
-        <strong>Project detail pages</strong> (screenshots, tech stack, description) are managed in <code>portfolio-details.html</code>. This panel manages the grid cards on the main page.
+        This panel manages the <strong>grid cards</strong> on the main portfolio page. To edit a project's <strong>detail page</strong> (images gallery, info, description), go to <strong>Project Details</strong> in the sidebar.
       </div>
       <div id="projects-list"></div>
       <button class="adm-add-btn" id="add-project" style="margin-top:.2rem"><i class="bi bi-plus-lg"></i> Add Project</button>
+    </section>
+
+    <!-- ══ PROJECT DETAILS ══ -->
+    <section class="adm-section" id="sec-projdetails">
+      <div class="adm-section-header">
+        <div class="adm-section-title">Project Details</div>
+        <div class="adm-section-desc">Edit each project's detail page — images, info rows, and description</div>
+      </div>
+      <div class="adm-note">
+        These settings control what appears on the <code>portfolio-details.html</code> page for each project.
+        <strong>Images:</strong> comma-separated filenames from <code>assets/img/portfolio/</code>. <strong>Info rows:</strong> one <code>Label: Value</code> per line. HTML links are supported in values.
+      </div>
+      <div id="projdetails-list"></div>
     </section>
 
     <!-- ══ SKILLS ══ -->
@@ -671,40 +685,56 @@ var DEFAULT_SKILLS = [
   {name:'Raspberry Pi',pct:70},{name:'Arduino',pct:65},{name:'Git',pct:80}
 ];
 
+/* Default project detail page data — mirrors portfolio-details.html hardcoded data */
+var DEFAULT_PROJECT_DETAILS = {
+  'bcn-mtp':           { title:'BCN Montjuic Tourist Point Mobile', images:'app-1.png', description:'A mobile application designed for BCN Montjuic Tourist Point Inc., helping tourists navigate and access essential services. It enhances the travel experience with an intuitive and user-friendly interface.', info:'Category: Mobile App\nClient: BCN Montjuic Tourist Point\nProject date: September, 2021\nProject URL: <a href="https://drive.google.com/file/d/1UoxvqTrGcKv2HlgPxDfiz-xcVizF1288/view">Google Drive</a>\nApp Preview: <a href="https://youtu.be/sCn9oxtT-mw">Youtube</a>' },
+  'ecoeye-ai':         { title:'EcoEye AI', images:'product-1.png,ecoeye2.png,ecoeye3.png', description:'An AI-powered web app that identifies plants and animals using image recognition. Perfect for nature enthusiasts, researchers, and students who want quick and accurate identification.', info:'Category: Web App\nProject date: November, 2024\nProject URL: <a href="https://v0-eco-eye-qmp1ffik4pi-uewuwm.vercel.app/">Vercel</a>' },
+  'djared-web-design': { title:'Djared Web Design', images:'product-3.png,jared2.png,jared3.png', description:"A collaborative community web design project that showcases modern UI/UX trends. It serves as an example of responsive and visually appealing web development.", info:"Category: Web design\nClient: D'jared View Construction Corp.\nProject date: March, 2021\nProject URL: <a href=\"https://drive.google.com/drive/folders/1IC_zhnMOyJ_mSy1g6uA_JO_jZ_17UfOu\">Google Drive</a>" },
+  'functions-in-python':{ title:'Functions in Python', images:'branding-3.png', description:'A powerful Python-based calculator designed to compute areas, volumes, and centroids. Ideal for students, engineers, and anyone needing precise mathematical calculations in an easy-to-use program.', info:'Category: Python Programming, Windows Console\nPurpose: Capstone Project\nProject date: November, 2019\nProject URL: <a href="https://drive.google.com/drive/folders/1cZqQAI4ZKlmZlwM1BvInSyER2uwX5JCX">Google Drive</a>' },
+  'lotto-ai':          { title:'Lotto AI', images:'app-3.png,lotto2.png', description:'A lottery number generator that uses AI-based randomization techniques. Designed to help users generate unique number combinations for various lottery games.', info:'Category: Web App, Mobile App, Logic and Algorithms\nProject date: September, 2024\nProject URL: <a href="https://ihn10tvi5hmppp36ailtwpcokwxeqcvu.vercel.app/">Vercel</a>' },
+  'olfactory-machine': { title:'Olfactory Machine for UTI Detection', images:'branding-1.png,gas2.jpg,gas3.png,gas4.jpg,gas5.jpg', description:'A smart device that detects urinary tract infections (UTIs) using gas sensors and a Raspberry Pi. Designed to provide an early warning system for better health monitoring.', info:'Category: Micro-Controller, Python Programming, Data Analytics\nPurpose: Case Study\nProject date: April, 2022\nProject Preview: <a href="https://youtu.be/aTzg8ltQU7M">Youtube</a>' },
+  'smart-dustbin':     { title:'Smart Dustbin', images:'branding-2.png', description:'An Arduino-powered smart dustbin that opens automatically when detecting movement. Helps promote hygiene and reduces contact with waste.', info:'Category: Micro-controller, Arduino\nPurpose: Project for Feedback and Controls\nProject date: March, 2020\nProject Preview: <a href="https://youtu.be/1AseMnCCzK0">Youtube</a>' },
+  'super-mega-scatter':{ title:'Super Mega Scatter', images:'app-2.png', description:'A fun and engaging mobile game designed for casual entertainment. It features dynamic gameplay and vibrant visuals to keep players entertained.', info:'Category: Web App, Mobile App\nProject date: October, 2024\nProject URL: <a href="https://v0-super-mega-scatter-3bozojlggdy-yqryu7.vercel.app/">Vercel</a>' },
+  'titan-trade':       { title:'Titan Trade', images:'product-2.png,drop2.png,drop3.png', description:'A personal dropshipping website that automates product listing and order management. Ideal for entrepreneurs looking to start an online business with minimal hassle.', info:'Category: Web Design, Web App\nClient: Personal Use\nProject date: December, 2024\nProject URL: <a href="https://fwjs9ubxpkzkbbnym770vi0tzyvssc8o.vercel.app/">Vercel</a>' }
+};
+
 /* ═══════════════════════════════════════════
    STATE
    ═══════════════════════════════════════════ */
 var state = {}, highlights = [], services = [], experience = [],
-    education = [], projects = [], skills = [];
+    education = [], projects = [], skills = [], projectDetails = {};
 
 function loadState() {
   try {
     var saved = JSON.parse(localStorage.getItem('pfAdminState') || 'null');
     if (saved) {
-      state      = Object.assign({}, DEFAULT_STATE, saved.state  || {});
-      highlights = saved.highlights  || DEFAULT_HIGHLIGHTS.slice();
-      services   = saved.services    || DEFAULT_SERVICES.slice();
-      experience = saved.experience  || DEFAULT_EXPERIENCE.slice();
-      education  = saved.education   || DEFAULT_EDUCATION.slice();
-      projects   = saved.projects    || DEFAULT_PROJECTS.slice();
-      skills     = saved.skills      || DEFAULT_SKILLS.slice();
+      state          = Object.assign({}, DEFAULT_STATE, saved.state  || {});
+      highlights     = saved.highlights      || DEFAULT_HIGHLIGHTS.slice();
+      services       = saved.services        || DEFAULT_SERVICES.slice();
+      experience     = saved.experience      || DEFAULT_EXPERIENCE.slice();
+      education      = saved.education       || DEFAULT_EDUCATION.slice();
+      projects       = saved.projects        || DEFAULT_PROJECTS.slice();
+      skills         = saved.skills          || DEFAULT_SKILLS.slice();
+      projectDetails = saved.projectDetails  || Object.assign({}, DEFAULT_PROJECT_DETAILS);
     } else {
-      state      = Object.assign({}, DEFAULT_STATE);
-      highlights = DEFAULT_HIGHLIGHTS.slice();
-      services   = DEFAULT_SERVICES.slice();
-      experience = DEFAULT_EXPERIENCE.slice();
-      education  = DEFAULT_EDUCATION.slice();
-      projects   = DEFAULT_PROJECTS.slice();
-      skills     = DEFAULT_SKILLS.slice();
+      state          = Object.assign({}, DEFAULT_STATE);
+      highlights     = DEFAULT_HIGHLIGHTS.slice();
+      services       = DEFAULT_SERVICES.slice();
+      experience     = DEFAULT_EXPERIENCE.slice();
+      education      = DEFAULT_EDUCATION.slice();
+      projects       = DEFAULT_PROJECTS.slice();
+      skills         = DEFAULT_SKILLS.slice();
+      projectDetails = Object.assign({}, DEFAULT_PROJECT_DETAILS);
     }
   } catch(e) {
-    state      = Object.assign({}, DEFAULT_STATE);
-    highlights = DEFAULT_HIGHLIGHTS.slice();
-    services   = DEFAULT_SERVICES.slice();
-    experience = DEFAULT_EXPERIENCE.slice();
-    education  = DEFAULT_EDUCATION.slice();
-    projects   = DEFAULT_PROJECTS.slice();
-    skills     = DEFAULT_SKILLS.slice();
+    state          = Object.assign({}, DEFAULT_STATE);
+    highlights     = DEFAULT_HIGHLIGHTS.slice();
+    services       = DEFAULT_SERVICES.slice();
+    experience     = DEFAULT_EXPERIENCE.slice();
+    education      = DEFAULT_EDUCATION.slice();
+    projects       = DEFAULT_PROJECTS.slice();
+    skills         = DEFAULT_SKILLS.slice();
+    projectDetails = Object.assign({}, DEFAULT_PROJECT_DETAILS);
   }
 }
 
@@ -727,6 +757,7 @@ function populateForms() {
   renderEducation();
   renderProjects();
   renderSkills();
+  renderProjDetails();
   renderVisToggles();
 }
 
@@ -741,6 +772,7 @@ function readForms() {
   readEducation();
   readProjects();
   readSkills();
+  readProjDetails();
 }
 
 /* ═══════════════════════════════════════════
@@ -1095,6 +1127,50 @@ function toast(msg, isError) {
 }
 
 /* ═══════════════════════════════════════════
+   PROJECT DETAILS RENDER / READ
+   ═══════════════════════════════════════════ */
+function renderProjDetails() {
+  var list = document.getElementById('projdetails-list');
+  if (!list) return;
+  list.innerHTML = '';
+  /* Build one card per known project ID (from DEFAULT_PROJECT_DETAILS keys) */
+  Object.keys(DEFAULT_PROJECT_DETAILS).forEach(function(id) {
+    var d = projectDetails[id] || DEFAULT_PROJECT_DETAILS[id];
+    var el = document.createElement('div');
+    el.className = 'adm-entry';
+    el.dataset.projId = id;
+    el.innerHTML =
+      '<div class="adm-entry-head">' +
+        '<div class="adm-entry-label">' + esc(d.title || id) + '</div>' +
+        '<span style="font-size:.44rem;color:#8a7a60;letter-spacing:.1em;">' + id + '</span>' +
+      '</div>' +
+      '<div class="adm-field" style="margin-bottom:.7rem">' +
+        '<label class="adm-label">Images (comma-separated filenames)</label>' +
+        '<input class="adm-input" data-pd="images" value="' + esc(d.images||'') + '" placeholder="app-1.png,app-2.png"></div>' +
+      '<div class="adm-field" style="margin-bottom:.7rem">' +
+        '<label class="adm-label">Description</label>' +
+        '<textarea class="adm-input" data-pd="description" rows="3">' + esc(d.description||'') + '</textarea></div>' +
+      '<div class="adm-field">' +
+        '<label class="adm-label">Info rows (one per line: Label: Value, HTML links allowed)</label>' +
+        '<textarea class="adm-input" data-pd="info" rows="5" style="font-family:Courier New,monospace;font-size:.72rem">' + esc(d.info||'') + '</textarea></div>';
+    list.appendChild(el);
+  });
+}
+
+function readProjDetails() {
+  document.querySelectorAll('#projdetails-list .adm-entry').forEach(function(entry) {
+    var id = entry.dataset.projId;
+    if (!id) return;
+    projectDetails[id] = {
+      title:       (projectDetails[id] || DEFAULT_PROJECT_DETAILS[id] || {}).title || id,
+      images:      entry.querySelector('[data-pd="images"]').value.trim(),
+      description: entry.querySelector('[data-pd="description"]').value.trim(),
+      info:        entry.querySelector('[data-pd="info"]').value.trim()
+    };
+  });
+}
+
+/* ═══════════════════════════════════════════
    BUILD CONFIG
    ═══════════════════════════════════════════ */
 function buildConfig() {
@@ -1115,7 +1191,8 @@ function buildConfig() {
     experience: experience,
     education: education,
     projects: projects,
-    skills: skills
+    skills: skills,
+    projectDetails: projectDetails
   };
 }
 
@@ -1149,7 +1226,8 @@ document.getElementById('adm-save-all').addEventListener('click', function() {
   var guestVis = (saved.state && saved.state.guestVis) || {};
   state.guestVis = guestVis;
   var snapshot = { state: state, highlights: highlights, services: services,
-    experience: experience, education: education, projects: projects, skills: skills };
+    experience: experience, education: education, projects: projects, skills: skills,
+    projectDetails: projectDetails };
   localStorage.setItem('pfAdminState', JSON.stringify(snapshot));
   var cfg = buildConfig();
   localStorage.setItem('pfConfig', JSON.stringify(cfg));
@@ -1270,7 +1348,8 @@ document.getElementById('publish-btn').addEventListener('click', function() {
       localStorage.setItem('pfConfig', JSON.stringify(cfg));
       localStorage.setItem('pfAdminState', JSON.stringify({
         state: state, highlights: highlights, services: services,
-        experience: experience, education: education, projects: projects, skills: skills
+        experience: experience, education: education, projects: projects, skills: skills,
+        projectDetails: projectDetails
       }));
       status.style.color = '#C9A227';
       status.textContent = '✓ Published — changes are live';

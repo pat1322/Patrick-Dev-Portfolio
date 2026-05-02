@@ -514,6 +514,16 @@
 <div class="cursor-ring"></div>
 
 <header id="header" class="header dark-background d-flex flex-column align-items-center text-center">
+
+  <!-- Floating background shapes (matches index.html sidebar) -->
+  <div class="header-shapes" aria-hidden="true">
+    <div class="hshape hshape-1"></div>
+    <div class="hshape hshape-2"></div>
+    <div class="hshape hshape-3"></div>
+    <div class="hshape hshape-4"></div>
+    <div class="hshape hshape-5"></div>
+  </div>
+
   <i class="header-toggle d-xl-none bi bi-list"></i>
 
   <div class="profile-img-container">
@@ -554,9 +564,11 @@
     <ul>
       <li><a href="index.html#hero"><i class="bi bi-house navicon"></i>Home</a></li>
       <li><a href="index.html#about"><i class="bi bi-person navicon"></i> About</a></li>
+      <li><a href="index.html#skills"><i class="bi bi-stars navicon"></i> Skills</a></li>
       <li><a href="index.html#services"><i class="bi bi-hdd-stack navicon"></i> Summary of Work</a></li>
       <li><a href="index.html#resume"><i class="bi bi-file-earmark-text navicon"></i> Professional Journey</a></li>
       <li><a href="index.html#portfolio"><i class="bi bi-images navicon"></i> Portfolio Showcase</a></li>
+      <li><a href="index.html#achievements"><i class="bi bi-trophy navicon"></i> Achievements</a></li>
       <li><a href="index.html#contact"><i class="bi bi-envelope navicon"></i> Get In Touch</a></li>
     </ul>
   </nav>
@@ -601,7 +613,7 @@
 <footer id="footer" class="footer position-relative">
   <div class="container">
     <div class="credits">
-      Designed by <a href="https://www.linkedin.com/in/patrickp2025/">Patrick Perez</a>
+      &copy; 2026 <a href="https://www.linkedin.com/in/patrickp2025/">Patrick Perez</a>. All rights reserved.
     </div>
   </div>
 </footer>
@@ -746,20 +758,64 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     var id = getProjectId();
-    var project = id ? projects[id] : null;
 
-    if (!project) {
-      document.getElementById('project-title').textContent = 'Project Not Found';
-      document.getElementById('project-content').innerHTML =
-        '<div class="project-not-found col-12">' +
-        '<h2>Project not found</h2>' +
-        '<p><a href="index.html#portfolio">Back to Portfolio</a></p>' +
-        '</div>';
-      return;
+    /* Try loading project detail data from server config first (admin-editable),
+       then fall back to the hardcoded projects object above */
+    function renderProject(project) {
+      if (!project) {
+        document.getElementById('project-title').textContent = 'Project Not Found';
+        document.getElementById('project-content').innerHTML =
+          '<div class="project-not-found col-12">' +
+          '<h2>Project not found</h2>' +
+          '<p><a href="index.html#portfolio">Back to Portfolio</a></p>' +
+          '</div>';
+        return;
+      }
+      document.title = project.title + ' - Patrick Perez';
+      document.getElementById('project-title').textContent = project.title;
+      buildContent(project);
     }
 
-    document.title = project.title + ' - Patrick Perez';
-    document.getElementById('project-title').textContent = project.title;
+    /* Parse config-format projectDetail into the same shape as hardcoded projects */
+    function configToProject(id, d) {
+      var imgs = (d.images || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+      var infoLines = (d.info || '').split('\n').filter(Boolean);
+      var infoItems = infoLines.map(function(line) {
+        var sep = line.indexOf(':');
+        if (sep < 0) return { label: line, value: '' };
+        return { label: line.slice(0, sep).trim(), value: line.slice(sep+1).trim() };
+      });
+      return { title: d.title || id, images: imgs, info: infoItems, description: d.description || '' };
+    }
+
+    function loadAndRender() {
+      /* Check localStorage preview first */
+      try {
+        var local = JSON.parse(localStorage.getItem('pfConfig') || 'null');
+        if (local && local.projectDetails && local.projectDetails[id]) {
+          renderProject(configToProject(id, local.projectDetails[id]));
+          return;
+        }
+      } catch(e) {}
+
+      /* Fetch from server config */
+      fetch('/api/config')
+        .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+        .then(function(cfg) {
+          if (cfg && cfg.projectDetails && cfg.projectDetails[id]) {
+            renderProject(configToProject(id, cfg.projectDetails[id]));
+          } else {
+            renderProject(id ? projects[id] : null);
+          }
+        })
+        .catch(function() {
+          renderProject(id ? projects[id] : null);
+        });
+    }
+
+    loadAndRender();
+
+    function buildContent(project) {
 
     document.getElementById('project-content').innerHTML =
       '<div class="col-lg-8">' +
@@ -869,6 +925,7 @@
         el.addEventListener('mouseleave', function () { cursorRing.classList.remove('hovering'); });
       });
     }
+    } /* end buildContent */
   });
 })();
 </script>
