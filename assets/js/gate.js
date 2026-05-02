@@ -53,7 +53,7 @@
   var sty = document.createElement('style');
   sty.textContent = [
     /* Overlay */
-    '#gx-ov{position:fixed;inset:0;z-index:99999;background:#040302;',
+    '#gx-ov{position:fixed;inset:0;z-index:99999;background:#050509;',
       'display:flex;align-items:center;justify-content:center;',
       'font-family:"Raleway",sans-serif;transition:opacity .65s ease}',
     '#gx-ov.gx-out{opacity:0;pointer-events:none}',
@@ -63,7 +63,7 @@
       'font-family:"Raleway",sans-serif;border-radius:0}',
 
     /* Card */
-    '#gx-ov .gx-card{background:#1a1713;border:1px solid rgba(201,162,39,.32);',
+    '#gx-ov .gx-card{background:#17171e;border:1px solid rgba(201,162,39,.32);',
       'max-width:450px;width:90%;position:relative;overflow:hidden;',
       'box-shadow:0 40px 100px rgba(0,0,0,.85);',
       'animation:gxIn .55s cubic-bezier(.16,1,.3,1) forwards}',
@@ -130,7 +130,7 @@
 
     /* PIN inputs */
     '#gx-ov .gx-pins{display:flex;gap:.65rem;justify-content:center;margin-bottom:1.1rem}',
-    '#gx-ov .gx-pin{width:50px;height:56px;background:#0c0b09;',
+    '#gx-ov .gx-pin{width:50px;height:56px;background:#0b0b10;',
       'border:1px solid rgba(201,162,39,.18);color:#F0E6CC;',
       'font-size:1.35rem;text-align:center;',
       'font-family:"Cormorant Garamond",serif;outline:none;',
@@ -143,7 +143,7 @@
       '60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}',
 
     /* Password */
-    '#gx-ov .gx-pw{width:100%;background:#0c0b09;',
+    '#gx-ov .gx-pw{width:100%;background:#0b0b10;',
       'border:1px solid rgba(201,162,39,.18);color:#F0E6CC;',
       'font-size:.88rem;padding:.82rem 1rem;outline:none;',
       'letter-spacing:.07em;margin-bottom:1.2rem;',
@@ -178,7 +178,7 @@
 
     /* Guest re-auth badge */
     '#gx-badge{display:none;position:fixed;bottom:1.4rem;right:1.4rem;',
-      'z-index:9990;background:#1a1713;border:1px solid rgba(201,162,39,.3);',
+      'z-index:9990;background:#17171e;border:1px solid rgba(201,162,39,.3);',
       'padding:.5rem 1rem;font-family:"Raleway",sans-serif;font-size:.48rem;',
       'letter-spacing:.22em;text-transform:uppercase;color:#9a8a6e;',
       'cursor:pointer;transition:all .3s;align-items:center;gap:.45rem}',

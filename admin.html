@@ -11,7 +11,7 @@
 <style>
 /* ── Reset & Base ── */
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;font-family:'Raleway',sans-serif;background:#0a0906;color:#e8dcc8}
+html,body{height:100%;font-family:'Raleway',sans-serif;background:#09090e;color:#e8dcc8}
 a{color:inherit;text-decoration:none}
 button{cursor:pointer;font-family:inherit}
 input,textarea,select{font-family:inherit}
@@ -20,7 +20,7 @@ input,textarea,select{font-family:inherit}
 .adm-layout{display:flex;height:100vh;overflow:hidden}
 
 /* ── Sidebar ── */
-.adm-sidebar{width:230px;flex-shrink:0;background:#131109;border-right:1px solid rgba(201,162,39,.18);
+.adm-sidebar{width:230px;flex-shrink:0;background:#101015;border-right:1px solid rgba(201,162,39,.15);
   display:flex;flex-direction:column;overflow-y:auto}
 .adm-logo{padding:1.5rem 1.4rem 1.1rem;border-bottom:1px solid rgba(201,162,39,.1)}
 .adm-logo-eye{font-size:.42rem;letter-spacing:.38em;text-transform:uppercase;color:#C9A227;margin-bottom:.3rem}
@@ -42,8 +42,8 @@ input,textarea,select{font-family:inherit}
 .adm-logout:hover{border-color:rgba(201,162,39,.5);color:#C9A227}
 
 /* ── Main ── */
-.adm-main{flex:1;overflow-y:auto;background:#0d0b09}
-.adm-topbar{position:sticky;top:0;z-index:10;background:rgba(10,9,6,.95);
+.adm-main{flex:1;overflow-y:auto;background:#0c0c11}
+.adm-topbar{position:sticky;top:0;z-index:10;background:rgba(9,9,14,.95);
   backdrop-filter:blur(8px);border-bottom:1px solid rgba(201,162,39,.1);
   padding:.85rem 2rem;display:flex;align-items:center;justify-content:space-between}
 .adm-topbar-title{font-size:.55rem;letter-spacing:.28em;text-transform:uppercase;color:#C9A227}
@@ -66,7 +66,7 @@ input,textarea,select{font-family:inherit}
 .adm-section-desc{font-size:.62rem;color:#9a8a6e;letter-spacing:.07em}
 
 /* ── Cards ── */
-.adm-card{background:#161310;border:1px solid rgba(201,162,39,.18);padding:1.4rem;
+.adm-card{background:#14141a;border:1px solid rgba(201,162,39,.15);padding:1.4rem;
   margin-bottom:1rem}
 .adm-card-title{font-size:.5rem;letter-spacing:.26em;text-transform:uppercase;
   color:#C9A227;margin-bottom:1rem;display:flex;align-items:center;gap:.45rem}
@@ -79,7 +79,7 @@ input,textarea,select{font-family:inherit}
 .adm-field:last-child{margin-bottom:0}
 .adm-label{display:block;font-size:.46rem;letter-spacing:.2em;text-transform:uppercase;
   color:#a09070;margin-bottom:.4rem}
-.adm-input{width:100%;background:#0f0d0a;border:1px solid rgba(201,162,39,.22);
+.adm-input{width:100%;background:#0e0e14;border:1px solid rgba(201,162,39,.22);
   color:#e8dcc8;padding:.6rem .75rem;font-size:.78rem;outline:none;
   transition:border-color .3s;border-radius:0;-webkit-appearance:none}
 .adm-input:focus{border-color:rgba(201,162,39,.55)}
@@ -90,7 +90,7 @@ textarea.adm-input{resize:vertical;min-height:72px;line-height:1.55}
 
 /* ── Inline row editors (skills, highlights, bullets) ── */
 .adm-row-list{display:flex;flex-direction:column;gap:.5rem;margin-bottom:.8rem}
-.adm-row{display:flex;align-items:center;gap:.5rem;background:#0f0d0a;
+.adm-row{display:flex;align-items:center;gap:.5rem;background:#0e0e14;
   border:1px solid rgba(201,162,39,.18);padding:.5rem .7rem}
 .adm-row-input{flex:1;background:transparent;border:none;color:#e8dcc8;
   font-size:.78rem;outline:none;font-family:'Raleway',sans-serif}
@@ -106,7 +106,7 @@ textarea.adm-input{resize:vertical;min-height:72px;line-height:1.55}
 .adm-add-btn:hover{border-color:rgba(201,162,39,.5);color:#C9A227}
 
 /* ── Entry cards (experience, education, services, projects) ── */
-.adm-entry{background:#0f0d0a;border:1px solid rgba(201,162,39,.14);
+.adm-entry{background:#0e0e14;border:1px solid rgba(201,162,39,.14);
   padding:1.1rem;margin-bottom:.7rem}
 .adm-entry-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem}
 .adm-entry-label{font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:#C9A227}
@@ -116,7 +116,7 @@ textarea.adm-input{resize:vertical;min-height:72px;line-height:1.55}
 .adm-entry-del:hover{border-color:#c04a4a;color:#c04a4a}
 
 /* ── Export panel ── */
-.adm-export-box{background:#0f0d0a;border:1px solid rgba(201,162,39,.22);
+.adm-export-box{background:#0e0e14;border:1px solid rgba(201,162,39,.22);
   padding:1.1rem;font-size:.7rem;color:#b0a080;line-height:1.8;
   white-space:pre-wrap;word-break:break-all;max-height:260px;overflow-y:auto;
   font-family:'Courier New',monospace;margin-bottom:.9rem}
@@ -133,7 +133,7 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
   font-size:.85em;color:#C9A227}
 
 /* ── Toast ── */
-.adm-toast{position:fixed;bottom:1.4rem;right:1.4rem;background:#1a1713;
+.adm-toast{position:fixed;bottom:1.4rem;right:1.4rem;background:#17171e;
   border:1px solid rgba(201,162,39,.35);color:#C9A227;padding:.65rem 1.1rem;
   font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;
   z-index:99999;opacity:0;transform:translateY(8px);
@@ -227,8 +227,9 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
             <input class="adm-input" id="f-name" type="text" placeholder="Patrick Perez">
           </div>
           <div class="adm-field">
-            <label class="adm-label">Professional Title (gate & head)</label>
+            <label class="adm-label">Professional Title / Subtitle</label>
             <input class="adm-input" id="f-title" type="text" placeholder="Full Stack Developer">
+            <div class="adm-hint">Updates the splash screen tagline and browser tab title. The <strong style="color:#C9A227">security gate subtitle</strong> is hardcoded in <code>gate.js</code> — edit that file directly to change it.</div>
           </div>
         </div>
       </div>
