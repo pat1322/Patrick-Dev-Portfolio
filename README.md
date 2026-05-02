@@ -1,6 +1,6 @@
 # Patrick Perez — Developer Portfolio
 
-A personal developer portfolio built with pure HTML, CSS, and vanilla JavaScript — no build step, no framework. Features a golden-noir art-deco aesthetic, a security gate with role-based access, a browser-based admin CMS, and one-click publishing to GitHub via the GitHub API.
+A personal developer portfolio built with pure HTML, CSS, and vanilla JavaScript — no build step, no framework. Features a golden-noir art-deco aesthetic, a security gate with role-based access, a browser-based admin CMS, and a Node.js/Express server that persists content to a Railway Volume so edits go live instantly without any git push.
 
 **Live site: [patrickdev.work](https://patrickdev.work)**
 
@@ -9,15 +9,19 @@ A personal developer portfolio built with pure HTML, CSS, and vanilla JavaScript
 ## Features
 
 - **Security gate** — visitors choose Guest, Recruiter (4-digit PIN), or Admin before entering; sensitive content is blurred for guests
-- **Browser-based admin CMS** — edit every section of the portfolio (bio, skills, resume, projects, services, contact) via `admin.html`; changes preview instantly and publish to GitHub in one click
-- **Config-driven content** — `data/config.json` drives all dynamic sections; hardcoded values in `index.html` serve as fallbacks
-- **Glitch text animation** — custom vanilla JS character-glitch cycling replaces Typed.js in the sidebar hero panel
+- **Browser-based admin CMS** — edit every section (bio, skills, resume, projects, services, contact, images) via `admin.html`; changes save to the server in one click, no git push needed
+- **Direct image uploads** — upload profile photos and portfolio card images from the admin panel; files stored on the Railway Volume
+- **Config-driven content** — `data/config.json` (on the Volume) drives all dynamic sections; hardcoded values in `index.html` are fallbacks
+- **Scroll progress bar** — gold gradient bar at the top of the viewport tracks scroll depth
+- **3D morphing section transitions** — each section folds in with a perspective tilt as it enters the viewport (GSAP ScrollTrigger)
+- **Glitch text animation** — custom vanilla JS character-glitch cycling in the sidebar hero panel
+- **Cinematic hero** — Three.js 3D scene with GSAP-choreographed acts, wipe transitions, and particle parallax
 - **Puzzle hero reveal** — hero background assembles tile-by-tile after the splash screen
 - **Animated skill rows** — auto-scrolling carousel of tech stack badges
 - **Timeline resume** — tabbed Education / Experience view
 - **Filterable portfolio grid** — filter by Mobile App, Web App, Hardware/IoT
 - **Single project detail template** — `portfolio-details.html` serves all projects via `?project=<id>`; no duplicate pages
-- **EmailJS contact form** — messages sent without a backend
+- **EmailJS contact form** — messages sent without extra infrastructure
 - **AOS scroll animations** — entrance animations throughout, deferred until after the splash screen
 - **Responsive sidebar layout** — collapses to hamburger on mobile
 
@@ -28,20 +32,22 @@ A personal developer portfolio built with pure HTML, CSS, and vanilla JavaScript
 ```
 pat-portfolio/
 ├── index.html                  # Main single-page portfolio
-├── portfolio-details.html      # Shared project detail template (data-driven via ?project=id)
+├── portfolio-details.html      # Shared project detail template (driven via ?project=id)
 ├── admin.html                  # Browser-based admin CMS (password-protected)
+├── server.js                   # Node.js/Express server — API + static file serving
+├── package.json                # Node dependencies (express, express-session, multer)
 ├── data/
-│   └── config.json             # Live site config — committed here drives all dynamic content
-├── Dockerfile                  # nginx:alpine image for Railway
-├── nginx.conf                  # nginx config (PORT_PLACEHOLDER swapped at runtime)
-├── docker-entrypoint.sh        # Injects $PORT + Railway credentials into gate.js at startup
-├── railway.json                # Railway build config
+│   └── config.json             # Live site config (persisted to Railway Volume)
+├── Dockerfile                  # node:20-alpine image for Railway
+├── docker-entrypoint.sh        # Injects Railway credentials into gate.js, starts Node server
+├── railway.json                # Railway build config (Dockerfile builder)
+├── nginx.conf                  # Legacy config (no longer active — kept for reference)
 ├── assets/
 │   ├── css/
 │   │   ├── main.css            # Vendor/base styles
-│   │   └── golden-noir.css     # Custom golden-noir theme (hero, sidebar panel, glitch animation)
+│   │   └── golden-noir.css     # Custom golden-noir theme
 │   ├── js/
-│   │   ├── main.js             # AOS init, glitch animation, Swiper, scroll-spy, header toggle
+│   │   ├── main.js             # AOS, glitch animation, Swiper, scroll-spy, header toggle
 │   │   └── gate.js             # Security gate overlay, role-based blur, anti-scraping
 │   ├── img/
 │   │   ├── portfolio/          # Project card images
@@ -60,7 +66,7 @@ pat-portfolio/
 
 ## Content Management
 
-All site content is managed through the admin panel at `/admin.html` (requires admin password).
+All site content is managed through the admin panel at `/admin.html` (requires admin password at the security gate).
 
 ### Admin panel sections
 
@@ -70,26 +76,43 @@ All site content is managed through the admin panel at `/admin.html` (requires a
 | About | Quote, bio, competency highlights, personal info card |
 | Summary of Work | Service cards (icon, title, description, tags) |
 | Professional Journey | Work experience and education timeline entries |
-| Portfolio | Project cards (title, category, image, tags, link) |
+| Portfolio | Project cards (title, category, image upload, tags, link) |
 | Skills | Skill names and proficiency percentages |
 | Contact | Phone, email, location, social links |
 | Links | Resume URL, YouTube video ID |
-| Images | Profile photo, hero background, about GIF |
+| Images | Upload profile photo, hero background, about GIF directly |
 | Guest Blurring | Toggle which elements are blurred for guest visitors |
-| Publish | One-click publish to GitHub via GitHub API |
+| Publish | One-click save to server — live instantly, no deploy needed |
+| Export / Backup | Download `config.json` as a local backup |
 
 ### Publishing workflow
 
 1. Log in to the admin panel (Admin role at the security gate)
-2. Edit any section and click **Save Changes** — changes appear immediately in your browser
-3. Go to **Publish**, enter your GitHub Personal Access Token, click **Save & Publish to GitHub**
-4. Railway detects the new commit and redeploys in ~30 seconds
+2. Edit any section and click **Save Changes** — changes appear in your browser immediately via localStorage preview
+3. Click **Save & Publish to Server** on the Publish page — writes directly to `data/config.json` on the Railway Volume; the live site reflects changes on the next page load
 
 ### Adding a project
 
-1. Add screenshot(s) to `assets/img/portfolio/`
-2. Add project data to the `projects` object in `portfolio-details.html`
-3. In the admin panel → Portfolio, add a project card entry and publish
+1. In the admin panel → Portfolio, click **Add Project**
+2. Fill in the title, category, tags, and description
+3. Click **Upload** next to the card image to upload a screenshot from your computer
+4. Click **Save & Publish to Server** — done, no git push needed
+
+> For project *detail* pages (screenshots gallery, full description): add an entry to the `projects` object in `portfolio-details.html` and push to git.
+
+---
+
+## API Routes
+
+| Method | Route | Auth | Purpose |
+|--------|-------|------|---------|
+| `POST` | `/api/login` | — | Establish admin session |
+| `GET` | `/api/auth` | — | Check session status |
+| `POST` | `/api/logout` | — | Destroy session |
+| `GET` | `/api/config` | — | Read `data/config.json` |
+| `POST` | `/api/config` | Admin | Write `data/config.json` |
+| `POST` | `/api/upload` | Admin | Upload image to `data/uploads/` |
+| `DELETE` | `/api/upload/:file` | Admin | Delete uploaded image |
 
 ---
 
@@ -118,9 +141,11 @@ If either variable is unset, that access mode is disabled (fails safely).
 | Structure | HTML5 |
 | Styling | CSS3, Bootstrap 5, custom golden-noir theme |
 | Icons | Bootstrap Icons, devicons (CDN) |
-| JavaScript | Vanilla JS, AOS, Swiper, Isotope, GSAP, EmailJS |
+| JavaScript | Vanilla JS, AOS, Swiper, Isotope, GSAP + ScrollTrigger, Three.js, EmailJS |
 | Fonts | Google Fonts (Cormorant Garamond, Raleway) |
-| Hosting | Railway (Docker + nginx:alpine) |
+| Server | Node.js 20, Express, express-session, multer |
+| Hosting | Railway (Docker + node:20-alpine) |
+| Persistent storage | Railway Volume mounted at `/app/data` |
 | Domain | patrickdev.work |
 | CI/CD | Railway auto-deploy on `git push main` |
 
@@ -132,39 +157,55 @@ Every push to `main` triggers an automatic Railway redeploy.
 
 ### How it works
 
-1. Railway detects the `Dockerfile` and builds an `nginx:alpine` image
-2. `docker-entrypoint.sh` substitutes `$PORT` into `nginx.conf` and injects `$RECRUITER_CODE` / `$ADMIN_PASS` into `gate.js`
-3. nginx serves static files with 1-year asset caching and security headers
+1. Railway detects the `Dockerfile` and builds a `node:20-alpine` image
+2. `docker-entrypoint.sh` injects `$RECRUITER_CODE` / `$ADMIN_PASS` into `gate.js`, then starts `node server.js`
+3. Express serves all static files and handles the admin API
+4. `data/config.json` and uploaded images live on the Railway Volume at `/app/data` and survive redeploys
 
-### Required Railway environment variables
+### First-time Railway setup
+
+After the first deploy, configure the Volume and environment variables:
+
+1. **Attach a Volume** — Railway dashboard → your service → **Volumes** tab → **Add Volume**
+   - Mount path: `/app/data`
+   - 1 GB is plenty for a portfolio
+2. **Set environment variables** — Railway dashboard → **Variables**:
 
 | Variable | Purpose |
 |---|---|
 | `RECRUITER_CODE` | 4-digit recruiter PIN |
 | `ADMIN_PASS` | Admin panel password |
-| `PORT` | Injected automatically by Railway |
+| `SESSION_SECRET` | Random secret for session signing (keep private) |
+| `PORT` | Injected automatically by Railway — do not set manually |
+
+3. **Trigger a redeploy** after adding the Volume and variables
+
+### Local development
+
+```bash
+git clone https://github.com/pat1322/Patrick-Dev-Portfolio.git
+cd Patrick-Dev-Portfolio
+npm install
+ADMIN_PASS=secret RECRUITER_CODE=1234 SESSION_SECRET=dev node server.js
+# open http://localhost:8080
+```
+
+On Windows (PowerShell):
+```powershell
+$env:ADMIN_PASS="secret"; $env:RECRUITER_CODE="1234"; $env:SESSION_SECRET="dev"; node server.js
+```
 
 ### Local Docker testing
 
 ```bash
 docker build -t portfolio .
-docker run -p 8080:8080 -e RECRUITER_CODE=1234 -e ADMIN_PASS=secret portfolio
+docker run -p 8080:8080 \
+  -e RECRUITER_CODE=1234 \
+  -e ADMIN_PASS=secret \
+  -e SESSION_SECRET=dev \
+  portfolio
 # open http://localhost:8080
 ```
-
-### Local dev (no Docker)
-
-No build step required:
-
-```bash
-# Python
-python -m http.server 8080
-
-# Node
-npx serve .
-```
-
-Note: `data/config.json` is fetched via HTTP, so local dev requires a server (not `file://`).
 
 ---
 
