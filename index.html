@@ -2768,70 +2768,66 @@ function startPuzzleReveal() {
       }
     }
 
-    var shuffled = tiles.slice().sort(function () { return Math.random() - 0.5; });
-    var START = 500, STAGGER = 48;
-    shuffled.forEach(function (tile, i) {
-      setTimeout(function () { tile.classList.add('reveal'); }, START + i * STAGGER);
-    });
+	var shuffled = tiles.slice().sort(function () { return Math.random() - 0.5; });
+	var START = 500, STAGGER = 48;
+	shuffled.forEach(function (tile, i) {
+	  setTimeout(function () { tile.classList.add('reveal'); }, START + i * STAGGER);
+	});
 
-    var FINISH = START + (tiles.length - 1) * STAGGER + 820;
-    setTimeout(function () {
-      if (stopCode) stopCode();
-      /* Keep the code canvas as a very subtle background texture */
-      var cvs = document.getElementById('hero-code-canvas');
-      if (cvs) { cvs.style.transition = 'opacity 1s ease'; cvs.style.opacity = '0.055'; }
-      /* Reveal hero-bg.jpg — slightly held back so overlay reads clearly */
-      img.style.transition = 'opacity 0.7s ease';
-      img.style.opacity    = '0.82';
-      /* Fade puzzle tiles out */
-      puzzle.style.transition = 'opacity 0.4s ease';
-      puzzle.style.opacity    = '0';
+	var FINISH = START + (tiles.length - 1) * STAGGER + 820;
+	setTimeout(function () {
+	  if (stopCode) stopCode();
+
+	  var cvs = document.getElementById('hero-code-canvas');
+	  if (cvs) { cvs.style.transition = 'none'; cvs.style.opacity = '0'; }
+
+	  img.style.transition = 'none';
+	  img.style.opacity = '1';
+
+	  puzzle.style.display = 'none';
+
 	  setTimeout(function () {
-        puzzle.style.display = 'none';
 
         /* ── Keep overlay very light so hero-bg shows cleanly ── */
         var overlay = document.getElementById('hero-overlay');
-        if (overlay) gsap.to(overlay, { opacity: 0.28, duration: 1.8, ease: 'power2.out' });
+		/* overlay stays at 0 so hero-bg shows at full brightness */
+        /*if (overlay) gsap.to(overlay, { opacity: 0.28, duration: 1.8, ease: 'power2.out' });*/
 
         /* ── hero-bg is already visible from above — just let it breathe for 2s ── */
         var img2 = document.querySelector('#hero .hero-bg2');
         if (img2 && window.gsap) {
 
-          setTimeout(function() {
-            /* Cross-dissolve: gently raise overlay just enough to hide the swap */
-            gsap.to(overlay, { opacity: 0.55, duration: 1.2, ease: 'power1.inOut',
-              onComplete: function() {
+		  setTimeout(function() {
+            /* Direct cross-dissolve: bg2 fades in over bg1, no overlay involved */
+            img2.style.transition = 'none';
+            img2.style.opacity = '0';
 
-                /* Swap bg1 → bg2 while overlay hides it */
-                if (img) { img.style.transition = 'none'; img.style.opacity = '0'; }
-                img2.style.opacity = '0';
+            /* Golden lens flare sweeps across during the dissolve */
+            var flare = document.createElement('div');
+            flare.style.cssText = [
+              'position:absolute;inset:0;z-index:26;pointer-events:none;',
+              'background:linear-gradient(105deg,',
+              '  transparent 0%, transparent 38%,',
+              '  rgba(201,162,39,0.13) 48%,',
+              '  rgba(255,230,120,0.22) 50%,',
+              '  rgba(201,162,39,0.13) 52%,',
+              '  transparent 62%, transparent 100%);',
+              'transform:translateX(-100%);will-change:transform;'
+            ].join('');
+            hero.appendChild(flare);
 
-                /* Golden lens flare */
-                var flare = document.createElement('div');
-                flare.style.cssText = [
-                  'position:absolute;inset:0;z-index:26;pointer-events:none;',
-                  'background:linear-gradient(105deg,',
-                  '  transparent 0%, transparent 38%,',
-                  '  rgba(201,162,39,0.15) 48%,',
-                  '  rgba(255,230,120,0.26) 50%,',
-                  '  rgba(201,162,39,0.15) 52%,',
-                  '  transparent 62%, transparent 100%);',
-                  'transform:translateX(-100%);will-change:transform;'
-                ].join('');
-                hero.appendChild(flare);
-
-                /* Fade overlay back down revealing bg2, sweep flare across */
-                gsap.to(overlay, { opacity: 0.72, duration: 2.6, ease: 'power2.out' });
-                gsap.to(img2,    { opacity: 0.9,  duration: 2.8, ease: 'power2.out' });
-                gsap.to(flare,   {
-                  x: hero.offsetWidth * 2, duration: 2.2, ease: 'power1.inOut',
-                  onComplete: function() { flare.remove(); }
-                });
-
-                /* Hold bg2 for 4.5s then start motion */
-                setTimeout(initHeroMotion, 4500);
-              }
+            /* Fade bg2 in while bg1 fades out — no overlay change at all */
+            gsap.to(img2, { opacity: 1, duration: 3.0, ease: 'power2.inOut' });
+            gsap.to(img,  { opacity: 0, duration: 2.2, delay: 0.8, ease: 'power1.in',
+              onComplete: function() { if (img) img.style.display = 'none'; }
             });
+            gsap.to(flare, {
+              x: hero.offsetWidth * 2, duration: 2.2, ease: 'power1.inOut',
+              onComplete: function() { flare.remove(); }
+            });
+
+            /* Hold bg2 for 4.5s then start motion */
+            setTimeout(initHeroMotion, 4500);
           }, 1000); /* ← 1 second clean display of hero-bg before any transition */
 
         } else {
