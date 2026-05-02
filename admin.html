@@ -182,7 +182,6 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
       <div class="adm-nav-item" data-sec="services"><i class="bi bi-hdd-stack"></i>Summary of Work</div>
       <div class="adm-nav-item" data-sec="resume"><i class="bi bi-briefcase"></i>Professional Journey</div>
       <div class="adm-nav-item" data-sec="portfolio"><i class="bi bi-images"></i>Portfolio</div>
-      <div class="adm-nav-item" data-sec="projdetails"><i class="bi bi-file-richtext"></i>Project Details</div>
       <div class="adm-nav-item" data-sec="skills"><i class="bi bi-bar-chart"></i>Skills</div>
       <div class="adm-nav-group">Site Config</div>
       <div class="adm-nav-item" data-sec="contact"><i class="bi bi-envelope"></i>Contact</div>
@@ -342,23 +341,10 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
         <div class="adm-section-desc">Project cards shown in the Portfolio Showcase section</div>
       </div>
       <div class="adm-note">
-        This panel manages the <strong>grid cards</strong> on the main portfolio page. To edit a project's <strong>detail page</strong> (images gallery, info, description), go to <strong>Project Details</strong> in the sidebar.
+        Each project has two parts: the <strong>Card</strong> (grid thumbnail on the main page) and the <strong>Detail Page</strong> (gallery, info, description when clicking a project). Both are editable here.
       </div>
       <div id="projects-list"></div>
       <button class="adm-add-btn" id="add-project" style="margin-top:.2rem"><i class="bi bi-plus-lg"></i> Add Project</button>
-    </section>
-
-    <!-- ══ PROJECT DETAILS ══ -->
-    <section class="adm-section" id="sec-projdetails">
-      <div class="adm-section-header">
-        <div class="adm-section-title">Project Details</div>
-        <div class="adm-section-desc">Edit each project's detail page — images, info rows, and description</div>
-      </div>
-      <div class="adm-note">
-        These settings control what appears on the <code>portfolio-details.html</code> page for each project.
-        <strong>Images:</strong> comma-separated filenames from <code>assets/img/portfolio/</code>. <strong>Info rows:</strong> one <code>Label: Value</code> per line. HTML links are supported in values.
-      </div>
-      <div id="projdetails-list"></div>
     </section>
 
     <!-- ══ SKILLS ══ -->
@@ -668,15 +654,24 @@ var DEFAULT_EDUCATION = [
 ];
 
 var DEFAULT_PROJECTS = [
-  { id: 'bcn-mtp',            num: '01', cat: 'Mobile App', filter: 'filter-mobapp',  title: 'BCN MTP Mobile',            desc: 'App made for BCN Montjuic Tourist Point Inc',     img: 'assets/img/portfolio/app-1.png',      tags: 'Java,Android,Tourism' },
-  { id: 'ecoeye-ai',          num: '02', cat: 'Web App',    filter: 'filter-webapp',  title: 'EcoEye AI',                 desc: 'AI-powered ecological identifier',                img: 'assets/img/portfolio/product-1.png',  tags: 'Python,AI,Web' },
-  { id: 'olfactory-machine',  num: '03', cat: 'Hardware',   filter: 'filter-windows', title: 'Olfactory UTI Detector',    desc: 'IoT health device using Raspberry Pi and gas sensors', img: 'assets/img/portfolio/branding-1.png', tags: 'Raspberry Pi,Python,IoT' },
-  { id: 'super-mega-scatter', num: '04', cat: 'Mobile App', filter: 'filter-mobapp',  title: 'Super Mega Scatter',        desc: 'Mobile gaming application',                      img: 'assets/img/portfolio/app-2.png',      tags: 'Java,Android' },
-  { id: 'titan-trade',        num: '05', cat: 'Web App',    filter: 'filter-webapp',  title: 'Titan Trade',               desc: 'Trading web application',                        img: 'assets/img/portfolio/product-2.png',  tags: 'JavaScript,Web' },
-  { id: 'smart-dustbin',      num: '06', cat: 'Hardware',   filter: 'filter-windows', title: 'Smart Dustbin',             desc: 'IoT smart waste management system',              img: 'assets/img/portfolio/branding-2.png', tags: 'Arduino,IoT,C++' },
-  { id: 'lotto-ai',           num: '07', cat: 'Mobile App', filter: 'filter-mobapp',  title: 'Lotto AI',                  desc: 'AI-powered lottery prediction system',           img: 'assets/img/portfolio/app-3.png',      tags: 'Python,AI,Android' },
-  { id: 'djared-web-design',  num: '08', cat: 'Web App',    filter: 'filter-webapp',  title: 'Djared Web Design',         desc: 'Professional web design project',                img: 'assets/img/portfolio/product-3.png',  tags: 'HTML,CSS,JavaScript' },
-  { id: 'functions-in-python',num: '09', cat: 'Hardware',   filter: 'filter-windows', title: 'Functions in Python',       desc: 'Python utilities and functions library',         img: 'assets/img/portfolio/branding-3.png', tags: 'Python,Algorithms' }
+  { id:'bcn-mtp',            num:'01', cat:'Mobile App', filter:'filter-mobapp',  title:'BCN MTP Mobile',         desc:'App made for BCN Montjuic Tourist Point Inc',            img:'assets/img/portfolio/app-1.png',      tags:'Java,Android,Tourism',
+    detailImages:'app-1.png', detailDesc:'A mobile application designed for BCN Montjuic Tourist Point Inc., helping tourists navigate and access essential services. It enhances the travel experience with an intuitive and user-friendly interface.', detailInfo:'Category: Mobile App\nClient: BCN Montjuic Tourist Point\nProject date: September, 2021', youtubeUrl:'https://youtu.be/sCn9oxtT-mw', downloadUrl:'https://drive.google.com/file/d/1UoxvqTrGcKv2HlgPxDfiz-xcVizF1288/view' },
+  { id:'ecoeye-ai',          num:'02', cat:'Web App',    filter:'filter-webapp',  title:'EcoEye AI',              desc:'AI-powered ecological identifier',                        img:'assets/img/portfolio/product-1.png',  tags:'Python,AI,Web',
+    detailImages:'product-1.png,ecoeye2.png,ecoeye3.png', detailDesc:'An AI-powered web app that identifies plants and animals using image recognition. Perfect for nature enthusiasts, researchers, and students who want quick and accurate identification.', detailInfo:'Category: Web App\nProject date: November, 2024', youtubeUrl:'', downloadUrl:'https://v0-eco-eye-qmp1ffik4pi-uewuwm.vercel.app/' },
+  { id:'olfactory-machine',  num:'03', cat:'Hardware',   filter:'filter-windows', title:'Olfactory UTI Detector', desc:'IoT health device using Raspberry Pi and gas sensors',   img:'assets/img/portfolio/branding-1.png', tags:'Raspberry Pi,Python,IoT',
+    detailImages:'branding-1.png,gas2.jpg,gas3.png,gas4.jpg,gas5.jpg', detailDesc:'A smart device that detects urinary tract infections (UTIs) using gas sensors and a Raspberry Pi. Designed to provide an early warning system for better health monitoring.', detailInfo:'Category: Micro-Controller, Python Programming, Data Analytics\nPurpose: Case Study\nProject date: April, 2022', youtubeUrl:'https://youtu.be/aTzg8ltQU7M', downloadUrl:'' },
+  { id:'super-mega-scatter', num:'04', cat:'Mobile App', filter:'filter-mobapp',  title:'Super Mega Scatter',     desc:'Mobile gaming application',                              img:'assets/img/portfolio/app-2.png',      tags:'Java,Android',
+    detailImages:'app-2.png', detailDesc:'A fun and engaging mobile game designed for casual entertainment. It features dynamic gameplay and vibrant visuals to keep players entertained.', detailInfo:'Category: Web App, Mobile App\nProject date: October, 2024', youtubeUrl:'', downloadUrl:'https://v0-super-mega-scatter-3bozojlggdy-yqryu7.vercel.app/' },
+  { id:'titan-trade',        num:'05', cat:'Web App',    filter:'filter-webapp',  title:'Titan Trade',            desc:'Trading web application',                                img:'assets/img/portfolio/product-2.png',  tags:'JavaScript,Web',
+    detailImages:'product-2.png,drop2.png,drop3.png', detailDesc:'A personal dropshipping website that automates product listing and order management. Ideal for entrepreneurs looking to start an online business with minimal hassle.', detailInfo:'Category: Web Design, Web App\nClient: Personal Use\nProject date: December, 2024', youtubeUrl:'', downloadUrl:'https://fwjs9ubxpkzkbbnym770vi0tzyvssc8o.vercel.app/' },
+  { id:'smart-dustbin',      num:'06', cat:'Hardware',   filter:'filter-windows', title:'Smart Dustbin',          desc:'IoT smart waste management system',                       img:'assets/img/portfolio/branding-2.png', tags:'Arduino,IoT,C++',
+    detailImages:'branding-2.png', detailDesc:'An Arduino-powered smart dustbin that opens automatically when detecting movement. Helps promote hygiene and reduces contact with waste.', detailInfo:'Category: Micro-controller, Arduino\nPurpose: Project for Feedback and Controls\nProject date: March, 2020', youtubeUrl:'https://youtu.be/1AseMnCCzK0', downloadUrl:'' },
+  { id:'lotto-ai',           num:'07', cat:'Mobile App', filter:'filter-mobapp',  title:'Lotto AI',               desc:'AI-powered lottery prediction system',                    img:'assets/img/portfolio/app-3.png',      tags:'Python,AI,Android',
+    detailImages:'app-3.png,lotto2.png', detailDesc:'A lottery number generator that uses AI-based randomization techniques. Designed to help users generate unique number combinations for various lottery games.', detailInfo:'Category: Web App, Mobile App, Logic and Algorithms\nProject date: September, 2024', youtubeUrl:'', downloadUrl:'https://ihn10tvi5hmppp36ailtwpcokwxeqcvu.vercel.app/' },
+  { id:'djared-web-design',  num:'08', cat:'Web App',    filter:'filter-webapp',  title:'Djared Web Design',      desc:'Professional web design project',                        img:'assets/img/portfolio/product-3.png',  tags:'HTML,CSS,JavaScript',
+    detailImages:'product-3.png,jared2.png,jared3.png', detailDesc:'A collaborative community web design project that showcases modern UI/UX trends. It serves as an example of responsive and visually appealing web development.', detailInfo:"Category: Web design\nClient: D'jared View Construction Corp.\nProject date: March, 2021", youtubeUrl:'', downloadUrl:'https://drive.google.com/drive/folders/1IC_zhnMOyJ_mSy1g6uA_JO_jZ_17UfOu' },
+  { id:'functions-in-python',num:'09', cat:'Hardware',   filter:'filter-windows', title:'Functions in Python',    desc:'Python utilities and functions library',                  img:'assets/img/portfolio/branding-3.png', tags:'Python,Algorithms',
+    detailImages:'branding-3.png', detailDesc:'A powerful Python-based calculator designed to compute areas, volumes, and centroids. Ideal for students, engineers, and anyone needing precise mathematical calculations.', detailInfo:'Category: Python Programming, Windows Console\nPurpose: Capstone Project\nProject date: November, 2019', youtubeUrl:'', downloadUrl:'https://drive.google.com/drive/folders/1cZqQAI4ZKlmZlwM1BvInSyER2uwX5JCX' }
 ];
 
 var DEFAULT_SKILLS = [
@@ -685,57 +680,37 @@ var DEFAULT_SKILLS = [
   {name:'Raspberry Pi',pct:70},{name:'Arduino',pct:65},{name:'Git',pct:80}
 ];
 
-/* Default project detail page data — mirrors portfolio-details.html hardcoded data */
-var DEFAULT_PROJECT_DETAILS = {
-  'bcn-mtp':           { title:'BCN Montjuic Tourist Point Mobile', images:'app-1.png', description:'A mobile application designed for BCN Montjuic Tourist Point Inc., helping tourists navigate and access essential services. It enhances the travel experience with an intuitive and user-friendly interface.', info:'Category: Mobile App\nClient: BCN Montjuic Tourist Point\nProject date: September, 2021\nProject URL: <a href="https://drive.google.com/file/d/1UoxvqTrGcKv2HlgPxDfiz-xcVizF1288/view">Google Drive</a>\nApp Preview: <a href="https://youtu.be/sCn9oxtT-mw">Youtube</a>' },
-  'ecoeye-ai':         { title:'EcoEye AI', images:'product-1.png,ecoeye2.png,ecoeye3.png', description:'An AI-powered web app that identifies plants and animals using image recognition. Perfect for nature enthusiasts, researchers, and students who want quick and accurate identification.', info:'Category: Web App\nProject date: November, 2024\nProject URL: <a href="https://v0-eco-eye-qmp1ffik4pi-uewuwm.vercel.app/">Vercel</a>' },
-  'djared-web-design': { title:'Djared Web Design', images:'product-3.png,jared2.png,jared3.png', description:"A collaborative community web design project that showcases modern UI/UX trends. It serves as an example of responsive and visually appealing web development.", info:"Category: Web design\nClient: D'jared View Construction Corp.\nProject date: March, 2021\nProject URL: <a href=\"https://drive.google.com/drive/folders/1IC_zhnMOyJ_mSy1g6uA_JO_jZ_17UfOu\">Google Drive</a>" },
-  'functions-in-python':{ title:'Functions in Python', images:'branding-3.png', description:'A powerful Python-based calculator designed to compute areas, volumes, and centroids. Ideal for students, engineers, and anyone needing precise mathematical calculations in an easy-to-use program.', info:'Category: Python Programming, Windows Console\nPurpose: Capstone Project\nProject date: November, 2019\nProject URL: <a href="https://drive.google.com/drive/folders/1cZqQAI4ZKlmZlwM1BvInSyER2uwX5JCX">Google Drive</a>' },
-  'lotto-ai':          { title:'Lotto AI', images:'app-3.png,lotto2.png', description:'A lottery number generator that uses AI-based randomization techniques. Designed to help users generate unique number combinations for various lottery games.', info:'Category: Web App, Mobile App, Logic and Algorithms\nProject date: September, 2024\nProject URL: <a href="https://ihn10tvi5hmppp36ailtwpcokwxeqcvu.vercel.app/">Vercel</a>' },
-  'olfactory-machine': { title:'Olfactory Machine for UTI Detection', images:'branding-1.png,gas2.jpg,gas3.png,gas4.jpg,gas5.jpg', description:'A smart device that detects urinary tract infections (UTIs) using gas sensors and a Raspberry Pi. Designed to provide an early warning system for better health monitoring.', info:'Category: Micro-Controller, Python Programming, Data Analytics\nPurpose: Case Study\nProject date: April, 2022\nProject Preview: <a href="https://youtu.be/aTzg8ltQU7M">Youtube</a>' },
-  'smart-dustbin':     { title:'Smart Dustbin', images:'branding-2.png', description:'An Arduino-powered smart dustbin that opens automatically when detecting movement. Helps promote hygiene and reduces contact with waste.', info:'Category: Micro-controller, Arduino\nPurpose: Project for Feedback and Controls\nProject date: March, 2020\nProject Preview: <a href="https://youtu.be/1AseMnCCzK0">Youtube</a>' },
-  'super-mega-scatter':{ title:'Super Mega Scatter', images:'app-2.png', description:'A fun and engaging mobile game designed for casual entertainment. It features dynamic gameplay and vibrant visuals to keep players entertained.', info:'Category: Web App, Mobile App\nProject date: October, 2024\nProject URL: <a href="https://v0-super-mega-scatter-3bozojlggdy-yqryu7.vercel.app/">Vercel</a>' },
-  'titan-trade':       { title:'Titan Trade', images:'product-2.png,drop2.png,drop3.png', description:'A personal dropshipping website that automates product listing and order management. Ideal for entrepreneurs looking to start an online business with minimal hassle.', info:'Category: Web Design, Web App\nClient: Personal Use\nProject date: December, 2024\nProject URL: <a href="https://fwjs9ubxpkzkbbnym770vi0tzyvssc8o.vercel.app/">Vercel</a>' }
-};
-
 /* ═══════════════════════════════════════════
    STATE
    ═══════════════════════════════════════════ */
 var state = {}, highlights = [], services = [], experience = [],
-    education = [], projects = [], skills = [], projectDetails = {};
+    education = [], projects = [], skills = [];
 
 function loadState() {
   try {
     var saved = JSON.parse(localStorage.getItem('pfAdminState') || 'null');
     if (saved) {
-      state          = Object.assign({}, DEFAULT_STATE, saved.state  || {});
-      highlights     = saved.highlights      || DEFAULT_HIGHLIGHTS.slice();
-      services       = saved.services        || DEFAULT_SERVICES.slice();
-      experience     = saved.experience      || DEFAULT_EXPERIENCE.slice();
-      education      = saved.education       || DEFAULT_EDUCATION.slice();
-      projects       = saved.projects        || DEFAULT_PROJECTS.slice();
-      skills         = saved.skills          || DEFAULT_SKILLS.slice();
-      projectDetails = saved.projectDetails  || Object.assign({}, DEFAULT_PROJECT_DETAILS);
+      state      = Object.assign({}, DEFAULT_STATE, saved.state  || {});
+      highlights = saved.highlights || DEFAULT_HIGHLIGHTS.slice();
+      services   = saved.services   || DEFAULT_SERVICES.slice();
+      experience = saved.experience || DEFAULT_EXPERIENCE.slice();
+      education  = saved.education  || DEFAULT_EDUCATION.slice();
+      projects   = saved.projects   || DEFAULT_PROJECTS.slice();
+      skills     = saved.skills     || DEFAULT_SKILLS.slice();
     } else {
-      state          = Object.assign({}, DEFAULT_STATE);
-      highlights     = DEFAULT_HIGHLIGHTS.slice();
-      services       = DEFAULT_SERVICES.slice();
-      experience     = DEFAULT_EXPERIENCE.slice();
-      education      = DEFAULT_EDUCATION.slice();
-      projects       = DEFAULT_PROJECTS.slice();
-      skills         = DEFAULT_SKILLS.slice();
-      projectDetails = Object.assign({}, DEFAULT_PROJECT_DETAILS);
+      resetToDefaults();
     }
-  } catch(e) {
-    state          = Object.assign({}, DEFAULT_STATE);
-    highlights     = DEFAULT_HIGHLIGHTS.slice();
-    services       = DEFAULT_SERVICES.slice();
-    experience     = DEFAULT_EXPERIENCE.slice();
-    education      = DEFAULT_EDUCATION.slice();
-    projects       = DEFAULT_PROJECTS.slice();
-    skills         = DEFAULT_SKILLS.slice();
-    projectDetails = Object.assign({}, DEFAULT_PROJECT_DETAILS);
-  }
+  } catch(e) { resetToDefaults(); }
+}
+
+function resetToDefaults() {
+  state      = Object.assign({}, DEFAULT_STATE);
+  highlights = DEFAULT_HIGHLIGHTS.slice();
+  services   = DEFAULT_SERVICES.slice();
+  experience = DEFAULT_EXPERIENCE.slice();
+  education  = DEFAULT_EDUCATION.slice();
+  projects   = DEFAULT_PROJECTS.map(function(p){ return Object.assign({}, p); });
+  skills     = DEFAULT_SKILLS.slice();
 }
 
 /* ═══════════════════════════════════════════
@@ -757,7 +732,6 @@ function populateForms() {
   renderEducation();
   renderProjects();
   renderSkills();
-  renderProjDetails();
   renderVisToggles();
 }
 
@@ -772,7 +746,37 @@ function readForms() {
   readEducation();
   readProjects();
   readSkills();
-  readProjDetails();
+}
+
+/* Always sync from the live server config so admin shows current values */
+function syncFromServer() {
+  fetch('/api/config')
+    .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
+    .then(function(cfg) {
+      if (!cfg || !Object.keys(cfg).length) return;
+      var m = {
+        name:cfg.name, title:cfg.title, rolelabel:cfg.rolelabel,
+        glitchphrases:cfg.glitchPhrases,
+        quote:cfg.quote, bio:cfg.bio,
+        fullname:cfg.fullname, birthday:cfg.birthday, address:cfg.address,
+        nationality:cfg.nationality, religion:cfg.religion,
+        languages:cfg.languages, hobbies:cfg.hobbies,
+        phone:cfg.phone, email:cfg.email, location:cfg.location,
+        linkedin:cfg.linkedin, github:cfg.github, facebook:cfg.facebook,
+        resume:cfg.resumeUrl, ytid:cfg.youtubeId,
+        profileimg:cfg.profileImg, herobg:cfg.heroBg, gif:cfg.gifPath
+      };
+      Object.keys(m).forEach(function(k){ if (m[k] !== undefined && m[k] !== null) state[k] = m[k]; });
+      if (cfg.highlights && cfg.highlights.length)  highlights = cfg.highlights;
+      if (cfg.services   && cfg.services.length)    services   = cfg.services;
+      if (cfg.experience && cfg.experience.length)  experience = cfg.experience;
+      if (cfg.education  && cfg.education.length)   education  = cfg.education;
+      if (cfg.projects   && cfg.projects.length)    projects   = cfg.projects;
+      if (cfg.skills     && cfg.skills.length)      skills     = cfg.skills;
+      populateForms();
+      toast('Loaded latest config from server');
+    })
+    .catch(function() { /* keep local state */ });
 }
 
 /* ═══════════════════════════════════════════
@@ -946,8 +950,32 @@ document.getElementById('add-edu').addEventListener('click', function() {
 });
 
 /* ═══════════════════════════════════════════
-   PROJECTS
+   PROJECTS (merged with detail page editing)
    ═══════════════════════════════════════════ */
+var FILTER_OPTIONS = [
+  { value:'filter-webapp',  label:'Web App' },
+  { value:'filter-mobapp',  label:'Mobile App' },
+  { value:'filter-windows', label:'Hardware / IoT' },
+  { value:'filter-branding',label:'Design / Branding' }
+];
+
+function slugify(str) {
+  return str.toLowerCase().trim()
+    .replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-');
+}
+
+function filterSelect(val) {
+  return '<select class="adm-input" data-f="filter">' +
+    FILTER_OPTIONS.map(function(o){
+      return '<option value="' + o.value + '"' + (o.value===val?' selected':'') + '>' + o.label + '</option>';
+    }).join('') + '</select>';
+}
+
+function uploadBtn(fieldTarget, label) {
+  return '<label class="adm-upload-btn"><i class="bi bi-upload"></i> ' + label +
+    '<input type="file" accept="image/*" style="display:none" data-upload-target="' + fieldTarget + '"></label>';
+}
+
 function renderProjects() {
   var list = document.getElementById('projects-list');
   list.innerHTML = '';
@@ -956,79 +984,118 @@ function renderProjects() {
     el.className = 'adm-entry';
     el.innerHTML =
       '<div class="adm-entry-head">' +
-        '<div class="adm-entry-label">Project ' + (i+1) + ' — ' + esc(p.title || 'Untitled') + '</div>' +
+        '<div class="adm-entry-label">' + String(i+1).padStart(2,'0') + '. ' + esc(p.title || 'Untitled') + '</div>' +
         '<button class="adm-entry-del" data-i="' + i + '"><i class="bi bi-trash3"></i> Remove</button>' +
       '</div>' +
+
+      /* ── GRID CARD fields ── */
+      '<div style="font-size:.44rem;letter-spacing:.2em;text-transform:uppercase;color:#C9A227;margin-bottom:.6rem;padding-bottom:.3rem;border-bottom:1px solid rgba(201,162,39,.1)"><i class="bi bi-grid"></i> Card (portfolio grid)</div>' +
       '<div class="adm-grid" style="margin-bottom:.7rem">' +
-        '<div class="adm-field"><label class="adm-label">Project ID (URL param)</label>' +
-        '<input class="adm-input" data-f="id" value="' + esc(p.id) + '" placeholder="my-project-id"></div>' +
         '<div class="adm-field"><label class="adm-label">Title</label>' +
         '<input class="adm-input" data-f="title" value="' + esc(p.title) + '" placeholder="Project Title"></div>' +
         '<div class="adm-field"><label class="adm-label">Category Label</label>' +
-        '<input class="adm-input" data-f="cat" value="' + esc(p.cat) + '" placeholder="Mobile App"></div>' +
-        '<div class="adm-field"><label class="adm-label">Filter Class</label>' +
-        '<input class="adm-input" data-f="filter" value="' + esc(p.filter) + '" placeholder="filter-mobapp"></div>' +
+        '<input class="adm-input" data-f="cat" value="' + esc(p.cat) + '" placeholder="Web App"></div>' +
+        '<div class="adm-field"><label class="adm-label">Filter</label>' + filterSelect(p.filter||'filter-webapp') + '</div>' +
+        '<div class="adm-field"><label class="adm-label">Tags (comma-separated)</label>' +
+        '<input class="adm-input" data-f="tags" value="' + esc(p.tags) + '" placeholder="React,Node"></div>' +
       '</div>' +
-      '<div class="adm-field" style="margin-bottom:.7rem"><label class="adm-label">Short Description</label>' +
-        '<input class="adm-input" data-f="desc" value="' + esc(p.desc) + '" placeholder="Brief description"></div>' +
-      '<div class="adm-field" style="margin-bottom:.7rem"><label class="adm-label">Card Image</label>' +
+      '<div class="adm-field" style="margin-bottom:.7rem"><label class="adm-label">Card Short Description</label>' +
+        '<input class="adm-input" data-f="desc" value="' + esc(p.desc) + '" placeholder="One-line description for the card"></div>' +
+      '<div class="adm-field" style="margin-bottom:.9rem"><label class="adm-label">Card Thumbnail</label>' +
         '<div class="adm-field-row">' +
         '<input class="adm-input" data-f="img" value="' + esc(p.img) + '" placeholder="assets/img/portfolio/app-1.png">' +
-        '<label class="adm-upload-btn" title="Upload image"><i class="bi bi-upload"></i> Upload' +
-          '<input type="file" accept="image/*" style="display:none" data-proj-img="' + i + '"></label>' +
-        '</div></div>' +
-      '<div class="adm-field"><label class="adm-label">Tags (comma-separated)</label>' +
-        '<input class="adm-input" data-f="tags" value="' + esc(p.tags) + '" placeholder="Java,Android"></div>';
+        uploadBtn('img','Upload') + '</div></div>' +
+
+      /* ── DETAIL PAGE fields ── */
+      '<div style="font-size:.44rem;letter-spacing:.2em;text-transform:uppercase;color:#8ab4f8;margin-bottom:.6rem;padding-bottom:.3rem;border-bottom:1px solid rgba(40,130,255,.12)"><i class="bi bi-file-richtext"></i> Detail Page</div>' +
+      '<div class="adm-field" style="margin-bottom:.7rem"><label class="adm-label">Gallery Images (comma-separated filenames from assets/img/portfolio/)</label>' +
+        '<div class="adm-field-row">' +
+        '<input class="adm-input" data-f="detailImages" value="' + esc(p.detailImages||'') + '" placeholder="app-1.png,app-2.png">' +
+        uploadBtn('detailImages','Upload') + '</div>' +
+        '<div class="adm-hint">Upload image then copy the returned path. Comma-separate multiple images.</div></div>' +
+      '<div class="adm-field" style="margin-bottom:.7rem"><label class="adm-label">Full Description (detail page)</label>' +
+        '<textarea class="adm-input" data-f="detailDesc" rows="3" placeholder="Detailed project description...">' + esc(p.detailDesc||'') + '</textarea></div>' +
+      '<div class="adm-field" style="margin-bottom:.7rem"><label class="adm-label">Info Rows (one per line: Label: Value — HTML links OK)</label>' +
+        '<textarea class="adm-input" data-f="detailInfo" rows="4" style="font-family:Courier New,monospace;font-size:.7rem" placeholder="Category: Web App\nClient: Acme Corp\nProject date: 2024">' + esc(p.detailInfo||'') + '</textarea></div>' +
+      '<div class="adm-grid">' +
+        '<div class="adm-field"><label class="adm-label"><i class="bi bi-youtube" style="color:#ff4444"></i> YouTube URL</label>' +
+        '<input class="adm-input" data-f="youtubeUrl" value="' + esc(p.youtubeUrl||'') + '" placeholder="https://youtu.be/..."></div>' +
+        '<div class="adm-field"><label class="adm-label"><i class="bi bi-download"></i> Download / Project URL</label>' +
+        '<input class="adm-input" data-f="downloadUrl" value="' + esc(p.downloadUrl||'') + '" placeholder="https://..."></div>' +
+      '</div>';
+
     el.querySelector('.adm-entry-del').addEventListener('click', function() {
       projects.splice(+this.dataset.i, 1); renderProjects();
     });
-    /* Wire project card image upload */
-    var projUpload = el.querySelector('input[data-proj-img]');
-    if (projUpload) {
-      projUpload.addEventListener('change', function() {
-        var file = this.files[0];
-        if (!file) return;
-        var imgInput = this.closest('.adm-field-row').querySelector('[data-f="img"]');
+
+    /* Auto-generate ID from title on input */
+    var titleInput = el.querySelector('[data-f="title"]');
+    titleInput.addEventListener('input', function() {
+      /* Only update if ID hasn't been set manually */
+      var slugged = slugify(this.value);
+      el.dataset.autoId = slugged;
+    });
+
+    /* File upload handler for all upload buttons in this entry */
+    el.querySelectorAll('input[data-upload-target]').forEach(function(fileInput) {
+      fileInput.addEventListener('change', function() {
+        var file = this.files[0]; if (!file) return;
+        var target = this.dataset.uploadTarget;
+        var targetInput = el.querySelector('[data-f="' + target + '"]');
         var lbl = this.closest('label');
         ensureApiAuth().then(function(ok) {
-          if (!ok) { toast('Not authenticated — log in again', true); return; }
+          if (!ok) { toast('Not authenticated', true); return; }
           if (lbl) lbl.classList.add('uploading');
-          var fd = new FormData();
-          fd.append('image', file);
+          var fd = new FormData(); fd.append('image', file);
           fetch('/api/upload', { method: 'POST', body: fd })
-            .then(function(r) {
-              if (!r.ok) throw new Error('Upload failed (' + r.status + ')');
-              return r.json();
-            })
+            .then(function(r) { if (!r.ok) throw new Error('Upload failed'); return r.json(); })
             .then(function(d) {
-              imgInput.value = d.url;
-              toast('Image uploaded — save to publish');
+              /* For detailImages, append; for img, replace */
+              if (target === 'detailImages' && targetInput.value.trim()) {
+                targetInput.value = targetInput.value.trim() + ',' + d.url.replace('data/uploads/','');
+              } else if (target === 'img') {
+                targetInput.value = d.url;
+              } else {
+                targetInput.value = (targetInput.value ? targetInput.value + ',' : '') + d.url.replace('data/uploads/','');
+              }
+              toast('Uploaded — save to publish');
             })
             .catch(function(e) { toast(e.message, true); })
             .finally(function() { if (lbl) lbl.classList.remove('uploading'); });
         });
       });
-    }
+    });
+
     list.appendChild(el);
   });
 }
+
 function readProjects() {
   projects = [];
   document.querySelectorAll('#projects-list .adm-entry').forEach(function(entry, i) {
+    var title = entry.querySelector('[data-f="title"]').value.trim();
+    var existingId = projects[i] && projects[i].id ? projects[i].id : (entry.dataset.autoId || slugify(title));
     projects.push({
-      id:     entry.querySelector('[data-f="id"]').value.trim(),
-      num:    String(i+1).padStart(2,'0'),
-      cat:    entry.querySelector('[data-f="cat"]').value.trim(),
-      filter: entry.querySelector('[data-f="filter"]').value.trim(),
-      title:  entry.querySelector('[data-f="title"]').value.trim(),
-      desc:   entry.querySelector('[data-f="desc"]').value.trim(),
-      img:    entry.querySelector('[data-f="img"]').value.trim(),
-      tags:   entry.querySelector('[data-f="tags"]').value.trim()
+      id:           existingId || slugify(title) || ('project-' + (i+1)),
+      num:          String(i+1).padStart(2,'0'),
+      cat:          entry.querySelector('[data-f="cat"]').value.trim(),
+      filter:       entry.querySelector('[data-f="filter"]').value.trim(),
+      title:        title,
+      desc:         entry.querySelector('[data-f="desc"]').value.trim(),
+      img:          entry.querySelector('[data-f="img"]').value.trim(),
+      tags:         entry.querySelector('[data-f="tags"]').value.trim(),
+      detailImages: entry.querySelector('[data-f="detailImages"]').value.trim(),
+      detailDesc:   entry.querySelector('[data-f="detailDesc"]').value.trim(),
+      detailInfo:   entry.querySelector('[data-f="detailInfo"]').value.trim(),
+      youtubeUrl:   entry.querySelector('[data-f="youtubeUrl"]').value.trim(),
+      downloadUrl:  entry.querySelector('[data-f="downloadUrl"]').value.trim()
     });
   });
 }
+
 document.getElementById('add-project').addEventListener('click', function() {
-  projects.push({ id: '', num: '', cat: '', filter: 'filter-webapp', title: '', desc: '', img: '', tags: '' });
+  projects.push({ id:'', num:'', cat:'Web App', filter:'filter-webapp', title:'', desc:'', img:'', tags:'',
+    detailImages:'', detailDesc:'', detailInfo:'Category: \nProject date: ', youtubeUrl:'', downloadUrl:'' });
   renderProjects();
 });
 
@@ -1127,50 +1194,6 @@ function toast(msg, isError) {
 }
 
 /* ═══════════════════════════════════════════
-   PROJECT DETAILS RENDER / READ
-   ═══════════════════════════════════════════ */
-function renderProjDetails() {
-  var list = document.getElementById('projdetails-list');
-  if (!list) return;
-  list.innerHTML = '';
-  /* Build one card per known project ID (from DEFAULT_PROJECT_DETAILS keys) */
-  Object.keys(DEFAULT_PROJECT_DETAILS).forEach(function(id) {
-    var d = projectDetails[id] || DEFAULT_PROJECT_DETAILS[id];
-    var el = document.createElement('div');
-    el.className = 'adm-entry';
-    el.dataset.projId = id;
-    el.innerHTML =
-      '<div class="adm-entry-head">' +
-        '<div class="adm-entry-label">' + esc(d.title || id) + '</div>' +
-        '<span style="font-size:.44rem;color:#8a7a60;letter-spacing:.1em;">' + id + '</span>' +
-      '</div>' +
-      '<div class="adm-field" style="margin-bottom:.7rem">' +
-        '<label class="adm-label">Images (comma-separated filenames)</label>' +
-        '<input class="adm-input" data-pd="images" value="' + esc(d.images||'') + '" placeholder="app-1.png,app-2.png"></div>' +
-      '<div class="adm-field" style="margin-bottom:.7rem">' +
-        '<label class="adm-label">Description</label>' +
-        '<textarea class="adm-input" data-pd="description" rows="3">' + esc(d.description||'') + '</textarea></div>' +
-      '<div class="adm-field">' +
-        '<label class="adm-label">Info rows (one per line: Label: Value, HTML links allowed)</label>' +
-        '<textarea class="adm-input" data-pd="info" rows="5" style="font-family:Courier New,monospace;font-size:.72rem">' + esc(d.info||'') + '</textarea></div>';
-    list.appendChild(el);
-  });
-}
-
-function readProjDetails() {
-  document.querySelectorAll('#projdetails-list .adm-entry').forEach(function(entry) {
-    var id = entry.dataset.projId;
-    if (!id) return;
-    projectDetails[id] = {
-      title:       (projectDetails[id] || DEFAULT_PROJECT_DETAILS[id] || {}).title || id,
-      images:      entry.querySelector('[data-pd="images"]').value.trim(),
-      description: entry.querySelector('[data-pd="description"]').value.trim(),
-      info:        entry.querySelector('[data-pd="info"]').value.trim()
-    };
-  });
-}
-
-/* ═══════════════════════════════════════════
    BUILD CONFIG
    ═══════════════════════════════════════════ */
 function buildConfig() {
@@ -1191,8 +1214,7 @@ function buildConfig() {
     experience: experience,
     education: education,
     projects: projects,
-    skills: skills,
-    projectDetails: projectDetails
+    skills: skills
   };
 }
 
@@ -1227,7 +1249,7 @@ document.getElementById('adm-save-all').addEventListener('click', function() {
   state.guestVis = guestVis;
   var snapshot = { state: state, highlights: highlights, services: services,
     experience: experience, education: education, projects: projects, skills: skills,
-    projectDetails: projectDetails };
+  };
   localStorage.setItem('pfAdminState', JSON.stringify(snapshot));
   var cfg = buildConfig();
   localStorage.setItem('pfConfig', JSON.stringify(cfg));
@@ -1348,8 +1370,7 @@ document.getElementById('publish-btn').addEventListener('click', function() {
       localStorage.setItem('pfConfig', JSON.stringify(cfg));
       localStorage.setItem('pfAdminState', JSON.stringify({
         state: state, highlights: highlights, services: services,
-        experience: experience, education: education, projects: projects, skills: skills,
-        projectDetails: projectDetails
+        experience: experience, education: education, projects: projects, skills: skills
       }));
       status.style.color = '#C9A227';
       status.textContent = '✓ Published — changes are live';
@@ -1365,6 +1386,8 @@ document.getElementById('publish-btn').addEventListener('click', function() {
 /* ── Init ── */
 loadState();
 populateForms();
+/* Always pull the latest live config from server on admin open */
+syncFromServer();
 </script>
 </body>
 </html>

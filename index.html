@@ -2764,7 +2764,7 @@ function startPuzzleReveal() {
         if (img2 && window.gsap) {
           var wipeCurtain = document.createElement('div');
           wipeCurtain.style.cssText = 'position:absolute;inset:0;z-index:25;background:#08080e;transform:scaleX(0);transform-origin:0% 50%;pointer-events:none;will-change:transform;';
-          heroEl.appendChild(wipeCurtain);
+          hero.appendChild(wipeCurtain);
           setTimeout(function() {
             /* Sweep left-to-right (0.38s) */
             gsap.to(wipeCurtain, { scaleX: 1, duration: 0.38, ease: 'power2.inOut',
@@ -3718,17 +3718,20 @@ document.addEventListener("DOMContentLoaded", function() {
 <!-- Scroll Progress Bar + 3D Section Morph Transitions -->
 <script>
 (function() {
-  // ── Scroll Progress Bar ──────────────────────────────────────
+  // ── Scroll Progress Bar + scrollbar visibility ───────────────
   var bar = document.getElementById('scroll-progress');
-  if (bar) {
-    function updateBar() {
+  var heroHeight = window.innerHeight;
+  function updateScroll() {
+    var sy = window.scrollY;
+    if (bar) {
       var total = document.documentElement.scrollHeight - window.innerHeight;
-      if (total <= 0) return;
-      bar.style.width = Math.min((window.scrollY / total) * 100, 100) + '%';
+      if (total > 0) bar.style.width = Math.min((sy / total) * 100, 100) + '%';
     }
-    window.addEventListener('scroll', updateBar, { passive: true });
-    updateBar();
+    // Show scrollbar only after scrolling past the hero
+    document.documentElement.classList.toggle('page-scrolled', sy > heroHeight * 0.5);
   }
+  window.addEventListener('scroll', updateScroll, { passive: true });
+  updateScroll();
 
   // ── 3D Section Morph Transitions ────────────────────────────
   function initMorphTransitions() {

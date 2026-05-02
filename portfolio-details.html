@@ -510,6 +510,20 @@
 
 <body class="index-page">
 
+<!-- Apply guest/recruiter role from session (mirrors gate.js behavior) -->
+<script>
+(function() {
+  var role = sessionStorage.getItem('pf_role');
+  if (role) document.body.classList.add('role-' + role);
+  // Apply guest blur CSS inline (gate.js only runs on index.html)
+  if (role === 'guest') {
+    var s = document.createElement('style');
+    s.textContent = 'body.role-guest .sensitive{filter:blur(6px);-webkit-filter:blur(6px);user-select:none;pointer-events:none;}body.role-guest .sensitive-hide{display:none!important;}';
+    document.head.appendChild(s);
+  }
+})();
+</script>
+
 <div class="cursor-dot"></div>
 <div class="cursor-ring"></div>
 
@@ -555,9 +569,9 @@
   </a>
 
   <div class="social-links text-center">
-    <a href="https://www.facebook.com/pat.flores.339" class="facebook"><i class="bi bi-facebook"></i></a>
+    <a href="https://www.facebook.com/pat.flores.339" class="facebook sensitive"><i class="bi bi-facebook"></i></a>
     <a href="https://github.com/pat1322" class="github"><i class="bi bi-github"></i></a>
-    <a href="https://www.linkedin.com/in/patrickp2025/" class="linkedin"><i class="bi bi-linkedin"></i></a>
+    <a href="https://www.linkedin.com/in/patrickp2025/" class="linkedin sensitive"><i class="bi bi-linkedin"></i></a>
   </div>
 
   <nav id="navmenu" class="navmenu">
@@ -776,25 +790,36 @@
       buildContent(project);
     }
 
-    /* Parse config-format projectDetail into the same shape as hardcoded projects */
-    function configToProject(id, d) {
-      var imgs = (d.images || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
-      var infoLines = (d.info || '').split('\n').filter(Boolean);
+    /* Parse a config project object (with detailImages/detailDesc/detailInfo fields)
+       into the shape expected by buildContent */
+    function cfgProjectToDetail(p) {
+      var imgs = (p.detailImages || p.img || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+      // Strip path prefix from image names for buildSlides
+      imgs = imgs.map(function(s) { return s.replace(/^assets\/img\/portfolio\//, ''); });
+      var infoLines = (p.detailInfo || '').split('\n').filter(Boolean);
       var infoItems = infoLines.map(function(line) {
         var sep = line.indexOf(':');
         if (sep < 0) return { label: line, value: '' };
         return { label: line.slice(0, sep).trim(), value: line.slice(sep+1).trim() };
       });
-      return { title: d.title || id, images: imgs, info: infoItems, description: d.description || '' };
+      // Auto-append YouTube/download links if set
+      if (p.youtubeUrl) infoItems.push({ label: 'Preview', value: '<a href="' + p.youtubeUrl + '" target="_blank">Watch on YouTube</a>' });
+      if (p.downloadUrl) infoItems.push({ label: 'Download', value: '<a href="' + p.downloadUrl + '" target="_blank">Open Link</a>' });
+      return {
+        title: p.title || p.id,
+        images: imgs,
+        info: infoItems,
+        description: p.detailDesc || p.description || ''
+      };
     }
 
     function loadAndRender() {
       /* Check localStorage preview first */
       try {
         var local = JSON.parse(localStorage.getItem('pfConfig') || 'null');
-        if (local && local.projectDetails && local.projectDetails[id]) {
-          renderProject(configToProject(id, local.projectDetails[id]));
-          return;
+        if (local && local.projects) {
+          var lp = local.projects.filter(function(p){ return p.id === id; })[0];
+          if (lp && lp.detailImages) { renderProject(cfgProjectToDetail(lp)); return; }
         }
       } catch(e) {}
 
@@ -802,11 +827,11 @@
       fetch('/api/config')
         .then(function(r) { return r.ok ? r.json() : Promise.reject(); })
         .then(function(cfg) {
-          if (cfg && cfg.projectDetails && cfg.projectDetails[id]) {
-            renderProject(configToProject(id, cfg.projectDetails[id]));
-          } else {
-            renderProject(id ? projects[id] : null);
+          if (cfg && cfg.projects) {
+            var cp = cfg.projects.filter(function(p){ return p.id === id; })[0];
+            if (cp && cp.detailImages) { renderProject(cfgProjectToDetail(cp)); return; }
           }
+          renderProject(id ? projects[id] : null);
         })
         .catch(function() {
           renderProject(id ? projects[id] : null);
