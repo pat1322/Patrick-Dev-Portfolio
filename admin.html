@@ -142,6 +142,19 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
 
 /* ── Vis toggles ── */
 #vis-toggles label:hover > div > div:first-child{color:#C9A227}
+
+/* ── Upload button ── */
+.adm-upload-btn{display:inline-flex;align-items:center;gap:.35rem;
+  background:rgba(201,162,39,.08);border:1px solid rgba(201,162,39,.28);
+  color:#a09070;padding:.55rem .8rem;font-size:.46rem;letter-spacing:.16em;
+  text-transform:uppercase;cursor:pointer;white-space:nowrap;flex-shrink:0;
+  transition:all .25s;line-height:1}
+.adm-upload-btn:hover{border-color:rgba(201,162,39,.5);color:#C9A227}
+.adm-upload-btn.uploading{opacity:.55;pointer-events:none}
+.adm-field-row{display:flex;gap:.5rem;align-items:flex-start}
+.adm-field-row .adm-input{flex:1}
+.adm-img-thumb{width:60px;height:60px;object-fit:cover;
+  border:1px solid rgba(201,162,39,.22);margin-top:.5rem;display:block}
 </style>
 </head>
 <body>
@@ -417,32 +430,53 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
     <section class="adm-section" id="sec-images">
       <div class="adm-section-header">
         <div class="adm-section-title">Images & Media</div>
-        <div class="adm-section-desc">Update image paths. Files must be committed to the repo.</div>
+        <div class="adm-section-desc">Upload images directly — they are stored on the Railway Volume and served instantly.</div>
       </div>
       <div class="adm-card">
         <div class="adm-card-title"><i class="bi bi-person-bounding-box"></i> Profile Image</div>
         <div class="adm-field">
-          <label class="adm-label">Profile Photo Path</label>
-          <input class="adm-input" id="f-profileimg" type="text" placeholder="assets/img/my-profile-img.jpg">
+          <label class="adm-label">Profile Photo</label>
+          <div class="adm-field-row">
+            <input class="adm-input" id="f-profileimg" type="text" placeholder="assets/img/my-profile-img.jpg">
+            <label class="adm-upload-btn" id="up-profileimg-lbl">
+              <i class="bi bi-upload"></i> Upload
+              <input type="file" id="up-profileimg" accept="image/*" style="display:none"
+                     data-target="f-profileimg" data-preview="profile-preview">
+            </label>
+          </div>
         </div>
-        <div style="margin-top:.85rem">
-          <label class="adm-label">Current Preview</label>
+        <div style="margin-top:.75rem">
+          <label class="adm-label">Preview</label>
           <img id="profile-preview" src="assets/img/my-profile-img.jpg"
-               style="width:72px;height:72px;object-fit:cover;border:1px solid rgba(201,162,39,.22)" alt="Profile">
+               class="adm-img-thumb" alt="Profile">
         </div>
       </div>
       <div class="adm-card">
         <div class="adm-card-title"><i class="bi bi-image"></i> Hero Background</div>
         <div class="adm-field">
-          <label class="adm-label">Hero BG Image Path</label>
-          <input class="adm-input" id="f-herobg" type="text" placeholder="assets/img/hero-bg.jpg">
+          <label class="adm-label">Hero BG Image</label>
+          <div class="adm-field-row">
+            <input class="adm-input" id="f-herobg" type="text" placeholder="assets/img/hero-bg.jpg">
+            <label class="adm-upload-btn" id="up-herobg-lbl">
+              <i class="bi bi-upload"></i> Upload
+              <input type="file" id="up-herobg" accept="image/*" style="display:none"
+                     data-target="f-herobg">
+            </label>
+          </div>
         </div>
       </div>
       <div class="adm-card">
         <div class="adm-card-title"><i class="bi bi-film"></i> Animated GIF (About section)</div>
         <div class="adm-field">
-          <label class="adm-label">GIF Path</label>
-          <input class="adm-input" id="f-gif" type="text" placeholder="assets/img/ez.gif">
+          <label class="adm-label">GIF / Image</label>
+          <div class="adm-field-row">
+            <input class="adm-input" id="f-gif" type="text" placeholder="assets/img/ez.gif">
+            <label class="adm-upload-btn" id="up-gif-lbl">
+              <i class="bi bi-upload"></i> Upload
+              <input type="file" id="up-gif" accept="image/*,image/gif" style="display:none"
+                     data-target="f-gif">
+            </label>
+          </div>
         </div>
       </div>
     </section>
@@ -501,34 +535,22 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
     <section class="adm-section" id="sec-publish">
       <div class="adm-section-header">
         <div class="adm-section-title">Publish</div>
-        <div class="adm-section-desc">Push config directly to GitHub — Railway redeploys automatically in ~30 seconds</div>
+        <div class="adm-section-desc">Save config directly to the server — changes are live instantly, no GitHub push needed</div>
       </div>
       <div class="adm-note">
-        <strong>How it works:</strong> Clicking "Save &amp; Publish" commits <code>data/config.json</code> to your GitHub repo. Railway detects the push and redeploys automatically.<br><br>
-        <strong>Instant preview:</strong> "Save Changes" (top-right) also updates your local browser preview immediately — no deploy needed to see changes in this browser.
+        <strong>How it works:</strong> Clicking "Save &amp; Publish" writes <code>data/config.json</code> directly to the Railway Volume. Changes are live on the site immediately — no redeploy, no git push needed.<br><br>
+        <strong>Instant local preview:</strong> "Save Changes" (top-right) also updates your browser's localStorage preview immediately.
       </div>
       <div class="adm-card">
-        <div class="adm-card-title"><i class="bi bi-key"></i> GitHub Token</div>
-        <div class="adm-field">
-          <label class="adm-label">Personal Access Token</label>
-          <input class="adm-input" id="f-ghtoken" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" style="max-width:380px">
-          <div class="adm-hint">
-            Generate at <strong style="color:#C9A227">github.com → Settings → Developer settings → Personal access tokens → Fine-grained tokens</strong>.<br>
-            Required permission: <strong style="color:#C9A227">Contents: Read and write</strong> on the <code>pat1322/Patrick-Dev-Portfolio</code> repo.<br>
-            Token is stored only in your browser's localStorage and never sent anywhere except GitHub's API.
-          </div>
-        </div>
-      </div>
-      <div class="adm-card">
-        <div class="adm-card-title"><i class="bi bi-cloud-upload"></i> Publish to GitHub</div>
+        <div class="adm-card-title"><i class="bi bi-cloud-upload"></i> Publish to Server</div>
         <div style="display:flex;gap:.8rem;align-items:center;flex-wrap:wrap">
           <button class="adm-save-btn" id="publish-btn" style="padding:.5rem 1.4rem;font-size:.52rem">
-            <i class="bi bi-cloud-upload"></i> Save &amp; Publish to GitHub
+            <i class="bi bi-cloud-upload"></i> Save &amp; Publish to Server
           </button>
           <span id="publish-status" style="font-size:.54rem;letter-spacing:.08em;color:#9a8a6e"></span>
         </div>
         <div class="adm-hint" style="margin-top:.8rem">
-          Saves all current changes and commits <code>data/config.json</code> to <code>pat1322/Patrick-Dev-Portfolio</code> on <code>main</code>. Railway auto-redeploys.
+          Writes all current changes to <code>data/config.json</code> on the Railway Volume. The live site at <strong>patrickdev.work</strong> reflects changes instantly on next page load.
         </div>
       </div>
     </section>
@@ -536,14 +558,11 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
     <!-- ══ EXPORT ══ -->
     <section class="adm-section" id="sec-export">
       <div class="adm-section-header">
-        <div class="adm-section-title">Export JSON</div>
-        <div class="adm-section-desc">Manually download config.json for local deployment</div>
+        <div class="adm-section-title">Export / Backup</div>
+        <div class="adm-section-desc">Download a local backup of your config.json</div>
       </div>
       <div class="adm-note">
-        Use this if you prefer to deploy manually via git:<br>
-        1. Click <strong>Download config.json</strong> below.<br>
-        2. Place the file at <code>data/config.json</code> in your local repo.<br>
-        3. <code>git add data/config.json &amp;&amp; git commit -m "Update config" &amp;&amp; git push</code>
+        Use this to keep a local backup of your site config. The server stores the live config on the Railway Volume — download a copy here periodically so you have it if needed.
       </div>
       <div class="adm-card">
         <div class="adm-card-title"><i class="bi bi-code-slash"></i> Config Preview</div>
@@ -553,13 +572,6 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
           <button class="adm-dl-btn" id="dl-btn"><i class="bi bi-download"></i> Download config.json</button>
           <button class="adm-dl-btn" id="copy-btn"><i class="bi bi-clipboard"></i> Copy</button>
         </div>
-      </div>
-      <div class="adm-card">
-        <div class="adm-card-title"><i class="bi bi-terminal"></i> Quick Deploy</div>
-        <div class="adm-export-box" style="font-size:.65rem;padding:.8rem">cd /path/to/pat-portfolio
-git add data/config.json
-git commit -m "Update site config"
-git push origin main</div>
       </div>
     </section>
 
@@ -925,13 +937,44 @@ function renderProjects() {
       '</div>' +
       '<div class="adm-field" style="margin-bottom:.7rem"><label class="adm-label">Short Description</label>' +
         '<input class="adm-input" data-f="desc" value="' + esc(p.desc) + '" placeholder="Brief description"></div>' +
-      '<div class="adm-field" style="margin-bottom:.7rem"><label class="adm-label">Card Image Path</label>' +
-        '<input class="adm-input" data-f="img" value="' + esc(p.img) + '" placeholder="assets/img/portfolio/app-1.png"></div>' +
+      '<div class="adm-field" style="margin-bottom:.7rem"><label class="adm-label">Card Image</label>' +
+        '<div class="adm-field-row">' +
+        '<input class="adm-input" data-f="img" value="' + esc(p.img) + '" placeholder="assets/img/portfolio/app-1.png">' +
+        '<label class="adm-upload-btn" title="Upload image"><i class="bi bi-upload"></i> Upload' +
+          '<input type="file" accept="image/*" style="display:none" data-proj-img="' + i + '"></label>' +
+        '</div></div>' +
       '<div class="adm-field"><label class="adm-label">Tags (comma-separated)</label>' +
         '<input class="adm-input" data-f="tags" value="' + esc(p.tags) + '" placeholder="Java,Android"></div>';
     el.querySelector('.adm-entry-del').addEventListener('click', function() {
       projects.splice(+this.dataset.i, 1); renderProjects();
     });
+    /* Wire project card image upload */
+    var projUpload = el.querySelector('input[data-proj-img]');
+    if (projUpload) {
+      projUpload.addEventListener('change', function() {
+        var file = this.files[0];
+        if (!file) return;
+        var imgInput = this.closest('.adm-field-row').querySelector('[data-f="img"]');
+        var lbl = this.closest('label');
+        ensureApiAuth().then(function(ok) {
+          if (!ok) { toast('Not authenticated — log in again', true); return; }
+          if (lbl) lbl.classList.add('uploading');
+          var fd = new FormData();
+          fd.append('image', file);
+          fetch('/api/upload', { method: 'POST', body: fd })
+            .then(function(r) {
+              if (!r.ok) throw new Error('Upload failed (' + r.status + ')');
+              return r.json();
+            })
+            .then(function(d) {
+              imgInput.value = d.url;
+              toast('Image uploaded — save to publish');
+            })
+            .catch(function(e) { toast(e.message, true); })
+            .finally(function() { if (lbl) lbl.classList.remove('uploading'); });
+        });
+      });
+    }
     list.appendChild(el);
   });
 }
@@ -1035,39 +1078,22 @@ document.querySelectorAll('.adm-nav-item').forEach(function(item) {
 });
 
 /* ═══════════════════════════════════════════
-   SAVE
+   HELPERS
    ═══════════════════════════════════════════ */
-document.getElementById('adm-save-all').addEventListener('click', function() {
-  readForms();
-  var saved = JSON.parse(localStorage.getItem('pfAdminState') || '{}');
-  var guestVis = (saved.state && saved.state.guestVis) || {};
-  state.guestVis = guestVis;
-  localStorage.setItem('pfAdminState', JSON.stringify({
-    state: state, highlights: highlights, services: services,
-    experience: experience, education: education, projects: projects, skills: skills
-  }));
-  /* Write pfConfig so index.html reflects changes instantly in this browser */
-  localStorage.setItem('pfConfig', JSON.stringify(buildConfig()));
-  toast('Saved — open index.html to preview changes');
-});
+function esc(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function toast(msg, isError) {
+  var t = document.getElementById('adm-toast');
+  document.getElementById('adm-toast-msg').textContent = msg;
+  t.style.borderColor = isError ? 'rgba(192,74,74,.5)' : 'rgba(201,162,39,.35)';
+  t.style.color = isError ? '#c04a4a' : '#C9A227';
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 3200);
+}
 
 /* ═══════════════════════════════════════════
-   LOGOUT
-   ═══════════════════════════════════════════ */
-document.getElementById('adm-logout').addEventListener('click', function() {
-  sessionStorage.removeItem('pf_role');
-  window.location.href = 'index.html';
-});
-
-/* ═══════════════════════════════════════════
-   PROFILE IMAGE PREVIEW
-   ═══════════════════════════════════════════ */
-document.getElementById('f-profileimg').addEventListener('input', function() {
-  document.getElementById('profile-preview').src = this.value || 'assets/img/my-profile-img.jpg';
-});
-
-/* ═══════════════════════════════════════════
-   EXPORT
+   BUILD CONFIG
    ═══════════════════════════════════════════ */
 function buildConfig() {
   readForms();
@@ -1090,6 +1116,110 @@ function buildConfig() {
     skills: skills
   };
 }
+
+/* ═══════════════════════════════════════════
+   SERVER AUTH
+   Ensures a server-side session exists before API calls.
+   gate.js stores the entered admin password in sessionStorage
+   as 'pf_admin_token' when the user successfully logs in.
+   ═══════════════════════════════════════════ */
+function ensureApiAuth() {
+  return fetch('/api/auth')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      if (d.authenticated) return true;
+      var pass = sessionStorage.getItem('pf_admin_token');
+      if (!pass) return false;
+      return fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: pass })
+      }).then(function(r) { return r.ok; });
+    });
+}
+
+/* ═══════════════════════════════════════════
+   SAVE (local preview + server persist)
+   ═══════════════════════════════════════════ */
+document.getElementById('adm-save-all').addEventListener('click', function() {
+  readForms();
+  var saved    = JSON.parse(localStorage.getItem('pfAdminState') || '{}');
+  var guestVis = (saved.state && saved.state.guestVis) || {};
+  state.guestVis = guestVis;
+  var snapshot = { state: state, highlights: highlights, services: services,
+    experience: experience, education: education, projects: projects, skills: skills };
+  localStorage.setItem('pfAdminState', JSON.stringify(snapshot));
+  var cfg = buildConfig();
+  localStorage.setItem('pfConfig', JSON.stringify(cfg));
+
+  /* Also persist to server */
+  ensureApiAuth().then(function(ok) {
+    if (!ok) { toast('Saved locally — not authenticated with server', true); return; }
+    fetch('/api/config', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cfg)
+    })
+    .then(function(r) {
+      if (r.ok) toast('Saved — changes are live');
+      else toast('Saved locally; server write failed', true);
+    })
+    .catch(function() { toast('Saved locally; server unreachable', true); });
+  });
+});
+
+/* ═══════════════════════════════════════════
+   LOGOUT
+   ═══════════════════════════════════════════ */
+document.getElementById('adm-logout').addEventListener('click', function() {
+  sessionStorage.removeItem('pf_role');
+  sessionStorage.removeItem('pf_admin_token');
+  fetch('/api/logout', { method: 'POST' }).catch(function(){});
+  window.location.href = 'index.html';
+});
+
+/* ═══════════════════════════════════════════
+   PROFILE IMAGE PREVIEW (path input)
+   ═══════════════════════════════════════════ */
+document.getElementById('f-profileimg').addEventListener('input', function() {
+  document.getElementById('profile-preview').src = this.value || 'assets/img/my-profile-img.jpg';
+});
+
+/* ═══════════════════════════════════════════
+   IMAGE UPLOAD HANDLERS
+   ═══════════════════════════════════════════ */
+document.querySelectorAll('input[type="file"][data-target]').forEach(function(input) {
+  input.addEventListener('change', function() {
+    var file = this.files[0];
+    if (!file) return;
+    var targetId  = this.dataset.target;
+    var previewId = this.dataset.preview;
+    var lbl = this.closest('label');
+
+    ensureApiAuth().then(function(ok) {
+      if (!ok) { toast('Not authenticated — log in again', true); return; }
+      if (lbl) lbl.classList.add('uploading');
+      var fd = new FormData();
+      fd.append('image', file);
+      fetch('/api/upload', { method: 'POST', body: fd })
+        .then(function(r) {
+          if (!r.ok) throw new Error('Upload failed (' + r.status + ')');
+          return r.json();
+        })
+        .then(function(d) {
+          document.getElementById(targetId).value = d.url;
+          if (previewId) document.getElementById(previewId).src = d.url;
+          toast('Image uploaded — save to publish');
+        })
+        .catch(function(e) { toast(e.message, true); })
+        .finally(function() { if (lbl) lbl.classList.remove('uploading'); });
+    });
+  });
+});
+
+/* ═══════════════════════════════════════════
+   EXPORT / BACKUP
+   ═══════════════════════════════════════════ */
 document.getElementById('gen-btn').addEventListener('click', function() {
   document.getElementById('export-preview').textContent = JSON.stringify(buildConfig(), null, 2);
 });
@@ -1098,7 +1228,7 @@ document.getElementById('dl-btn').addEventListener('click', function() {
   var a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([json], {type:'application/json'}));
   a.download = 'config.json'; a.click();
-  toast('config.json downloaded — place it in data/ and push');
+  toast('config.json downloaded');
 });
 document.getElementById('copy-btn').addEventListener('click', function() {
   navigator.clipboard.writeText(JSON.stringify(buildConfig(), null, 2)).then(function() {
@@ -1110,81 +1240,45 @@ document.getElementById('copy-btn').addEventListener('click', function() {
 });
 
 /* ═══════════════════════════════════════════
-   HELPERS
+   PUBLISH (server)
    ═══════════════════════════════════════════ */
-function esc(str) {
-  return String(str || '').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-function toast(msg) {
-  var t = document.getElementById('adm-toast');
-  document.getElementById('adm-toast-msg').textContent = msg;
-  t.classList.add('show');
-  setTimeout(function(){ t.classList.remove('show'); }, 2800);
-}
-
-/* ═══════════════════════════════════════════
-   GITHUB PUBLISH
-   ═══════════════════════════════════════════ */
-var GH_REPO   = 'pat1322/Patrick-Dev-Portfolio';
-var GH_BRANCH = 'main';
-var GH_FILE   = 'data/config.json';
-
-/* Restore saved token */
-(function() {
-  var tok = localStorage.getItem('pfGithubToken');
-  if (tok) document.getElementById('f-ghtoken').value = tok;
-})();
-
 document.getElementById('publish-btn').addEventListener('click', function() {
-  var token  = document.getElementById('f-ghtoken').value.trim();
   var status = document.getElementById('publish-status');
-
-  if (!token) {
-    status.style.color = '#c04a4a';
-    status.textContent = 'Enter a GitHub token first.';
-    return;
-  }
-  localStorage.setItem('pfGithubToken', token);
-
   readForms();
-  var cfg     = buildConfig();
-  var json    = JSON.stringify(cfg, null, 2);
-  var content = btoa(unescape(encodeURIComponent(json)));
-  var apiUrl  = 'https://api.github.com/repos/' + GH_REPO + '/contents/' + GH_FILE;
-  var headers = { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' };
+  var cfg = buildConfig();
 
   status.style.color = '#9a8a6e';
-  status.textContent = 'Connecting to GitHub...';
+  status.textContent = 'Authenticating...';
 
-  /* Get current file SHA (required for updates; null for new file) */
-  fetch(apiUrl, { headers: headers })
-    .then(function(r) { return r.status === 404 ? null : r.json(); })
-    .then(function(existing) {
-      status.textContent = 'Committing...';
-      var body = {
-        message: 'Update site config via admin panel',
-        content: content,
-        branch:  GH_BRANCH
-      };
-      if (existing && existing.sha) body.sha = existing.sha;
-      return fetch(apiUrl, { method: 'PUT', headers: headers, body: JSON.stringify(body) });
+  ensureApiAuth().then(function(ok) {
+    if (!ok) {
+      status.style.color = '#c04a4a';
+      status.textContent = 'Not authenticated — reload and log in again.';
+      return;
+    }
+    status.textContent = 'Saving...';
+    return fetch('/api/config', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(cfg)
     })
     .then(function(r) {
-      if (!r.ok) return r.json().then(function(e) { throw new Error(e.message || 'GitHub error ' + r.status); });
-      /* Also update localStorage so index.html preview is instant */
-      localStorage.setItem('pfConfig', json);
+      if (!r.ok) return r.json().then(function(e) { throw new Error(e.error || 'Server error ' + r.status); });
+      /* Update localStorage so index.html preview is instant */
+      localStorage.setItem('pfConfig', JSON.stringify(cfg));
       localStorage.setItem('pfAdminState', JSON.stringify({
         state: state, highlights: highlights, services: services,
         experience: experience, education: education, projects: projects, skills: skills
       }));
       status.style.color = '#C9A227';
-      status.textContent = '✓ Published — Railway is deploying (~30s)';
-      toast('Published to GitHub — Railway deploying');
+      status.textContent = '✓ Published — changes are live';
+      toast('Published to server — live now');
     })
     .catch(function(err) {
       status.style.color = '#c04a4a';
       status.textContent = 'Error: ' + err.message;
     });
+  });
 });
 
 /* ── Init ── */

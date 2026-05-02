@@ -358,8 +358,11 @@
   });
 
   function checkAdmin() {
-    if (q('#gx-pw').value === ADMIN_PASS) {
+    var pw = q('#gx-pw').value;
+    if (pw === ADMIN_PASS) {
       sessionStorage.setItem(SESSION_KEY, 'admin');
+      /* Store for server-side session auth in admin.html API calls */
+      sessionStorage.setItem('pf_admin_token', pw);
       window.pfGateActive = false;
       document.documentElement.classList.remove('gate-active');
       window.location.href = 'admin.html';

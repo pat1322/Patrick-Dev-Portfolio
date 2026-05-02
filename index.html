@@ -3377,11 +3377,17 @@ document.addEventListener("DOMContentLoaded", function() {
     if (local) { applyConfig(local); return; }
   } catch (e) {}
 
-  /* Production: fetch config.json committed to the repo */
-  fetch('data/config.json?v=' + Date.now())
+  /* Production: fetch config from the server API (writes to Railway Volume) */
+  fetch('/api/config')
     .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
-    .then(applyConfig)
-    .catch(function () { /* No config.json — hardcoded defaults remain */ });
+    .then(function (cfg) {
+      /* Empty object means no config saved yet — fall back to static file */
+      if (cfg && Object.keys(cfg).length > 0) { applyConfig(cfg); return; }
+      return fetch('data/config.json?v=' + Date.now())
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+        .then(applyConfig);
+    })
+    .catch(function () { /* No config available — hardcoded defaults remain */ });
 
   function applyConfig(cfg) {
     function setText(sel, val) {

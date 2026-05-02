@@ -1,19 +1,12 @@
 #!/bin/sh
-# Replace PORT_PLACEHOLDER with the actual $PORT value Railway injects.
-# Falls back to 8080 if PORT is not set (local Docker testing).
-sed -i "s/PORT_PLACEHOLDER/${PORT:-8080}/g" /etc/nginx/conf.d/default.conf
-
-# Inject security credentials from Railway environment variables into gate.js.
-# Set RECRUITER_CODE and ADMIN_PASS in Railway → Variables dashboard.
-# If a variable is not set, the placeholder stays — nobody can type the
-# literal placeholder string as a PIN/password, so the gate fails safely.
+# Inject security credentials into gate.js at container start.
+# RECRUITER_CODE and ADMIN_PASS are set in Railway → Variables dashboard.
+# If unset, the placeholder strings remain — those role paths become inaccessible.
 if [ -n "${RECRUITER_CODE}" ]; then
-  sed -i "s|RECRUITER_CODE_PLACEHOLDER|${RECRUITER_CODE}|g" \
-      /usr/share/nginx/html/assets/js/gate.js
+  sed -i "s|RECRUITER_CODE_PLACEHOLDER|${RECRUITER_CODE}|g" /app/assets/js/gate.js
 fi
 if [ -n "${ADMIN_PASS}" ]; then
-  sed -i "s|ADMIN_PASS_PLACEHOLDER|${ADMIN_PASS}|g" \
-      /usr/share/nginx/html/assets/js/gate.js
+  sed -i "s|ADMIN_PASS_PLACEHOLDER|${ADMIN_PASS}|g" /app/assets/js/gate.js
 fi
 
-exec nginx -g "daemon off;"
+exec node /app/server.js
