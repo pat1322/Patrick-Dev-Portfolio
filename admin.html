@@ -510,8 +510,9 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
         <div class="adm-section-desc">Recruiter access code and admin password</div>
       </div>
       <div class="adm-note">
-        <strong>Credentials are set as Railway environment variables</strong> — <code>RECRUITER_CODE</code> and <code>ADMIN_PASS</code>.<br>
+        <strong>Credentials are set as Railway environment variables</strong> — <code>RECRUITER_CODE</code>, <code>ADMIN_PASS</code>, and <code>GATE_SUBTITLE</code>.<br>
         Go to Railway → your service → Variables to set or update them. Trigger a redeploy after changing.<br>
+        <strong>GATE_SUBTITLE</strong> controls the subtitle text shown on the security gate (e.g. "Software Engineer"). Default is "GATE_SUBTITLE_PLACEHOLDER" if unset — set it in Railway Variables.<br>
         When testing new credentials, open an Incognito window or clear <code>pf_role</code> from Session Storage in DevTools.
       </div>
       <div class="adm-card">

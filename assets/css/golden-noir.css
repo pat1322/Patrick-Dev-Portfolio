@@ -66,11 +66,13 @@ body.cursor-ready .cursor-ring { display: block; }
 /* ═══════════════════════════════════════════════════════════════
    SPLASH SCREEN
    ═══════════════════════════════════════════════════════════════ */
+html, body { overflow-x: hidden; }
+
 #splash-screen {
   position: fixed;
   inset: 0;
   z-index: 9999999;
-  background: #0e0c0a;
+  background: #0b0b0f;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -345,7 +347,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #0c0a08;
+  background: #09090d;
 }
 
 /* Actual photo — hidden until puzzle completes */
@@ -739,7 +741,7 @@ body.hero-active .sidebar-hero-panel {
 /* ── Resume ─────────────────────────────────────────────────── */
 .resume.section { background-color: var(--gn-bg) !important; }
 .timeline-header {
-  background-color: #241E0C !important;
+  background-color: #181820 !important;
   border: 1px solid rgba(201,162,39,0.2) !important;
 }
 .timeline-header-item { color: var(--gn-muted) !important; }
@@ -761,7 +763,7 @@ body.hero-active .sidebar-hero-panel {
   border: 1px solid rgba(201,162,39,0.12) !important;
 }
 .timeline-date {
-  background-color: #241E0C !important;
+  background-color: #181820 !important;
   color: var(--gn-gold) !important;
   border: 1px solid rgba(201,162,39,0.2) !important;
 }
@@ -770,7 +772,7 @@ body.hero-active .sidebar-hero-panel {
 .timeline-description,
 .timeline-description ul li { color: var(--gn-muted) !important; }
 .education-highlights .badge {
-  background-color: #241E0C !important;
+  background-color: #181820 !important;
   color: var(--gn-gold) !important;
   border: 1px solid rgba(201,162,39,0.2) !important;
 }
@@ -792,7 +794,7 @@ body.hero-active .sidebar-hero-panel {
   --background-color: var(--gn-surface);
 }
 .filters-list {
-  background-color: #241E0C !important;
+  background-color: #181820 !important;
   border: 1px solid rgba(201,162,39,0.2) !important;
 }
 .filters-list li          { color: var(--gn-muted) !important; }
@@ -812,7 +814,7 @@ body.hero-active .sidebar-hero-panel {
 .portfolio-info h4 { color: var(--gn-ivory) !important; }
 .portfolio-info p  { color: var(--gn-muted) !important; }
 .portfolio-tags .tag {
-  background-color: #241E0C !important;
+  background-color: #181820 !important;
   color: var(--gn-gold) !important;
   border: 1px solid rgba(201,162,39,0.2) !important;
 }
@@ -849,7 +851,7 @@ body.hero-active .sidebar-hero-panel {
 .contact-info-item .content h5 { color: var(--gn-ivory) !important; }
 .contact-info-item .content p  { color: var(--gn-muted) !important; }
 .social-links a {
-  background-color: #241E0C !important;
+  background-color: #181820 !important;
   border: 1px solid rgba(201,162,39,0.2) !important;
   color: var(--gn-muted) !important;
 }
@@ -869,7 +871,7 @@ body.hero-active .sidebar-hero-panel {
 .contact-form-header h3 { color: #0e0c0a !important; }
 .form-group label       { color: var(--gn-muted) !important; }
 .input-group-text {
-  background-color: #241E0C !important;
+  background-color: #181820 !important;
   border-color: rgba(201,162,39,0.28) !important;
   color: var(--gn-muted) !important;
 }
@@ -881,7 +883,7 @@ body.hero-active .sidebar-hero-panel {
 .form-control:focus {
   border-color: var(--gn-gold) !important;
   box-shadow: 0 0 0 0.2rem rgba(201,162,39,0.18) !important;
-  background-color: #241E0C !important;
+  background-color: #181820 !important;
 }
 .form-control::placeholder { color: #50412C !important; }
 .submit-btn {
@@ -910,13 +912,13 @@ section.section, .section {
 
 /* ── Footer ─────────────────────────────────────────────────── */
 .footer, #footer {
-  background-color: #131109 !important;
-  border-top: 1px solid rgba(201,162,39,0.2) !important;
+  background-color: #0d0d14 !important;
+  border-top: 1px solid rgba(201,162,39,0.14) !important;
   color: var(--gn-muted) !important;
-  --background-color: #131109;
+  --background-color: #0d0d14;
 }
 .footer .credits,
-.footer .copyright p { color: #5a4a38 !important; }
+.footer .copyright p { color: #70687a !important; }
 .footer .credits a   { color: var(--gn-gold) !important; }
 
 /* ── Scroll-top ─────────────────────────────────────────────── */
@@ -1427,4 +1429,22 @@ section.section, .section {
   color: var(--gn-gold) !important;
 }
 #status-message p { margin: 0 0 12px; font-size: 0.85rem; }
+
+/* ── Skills section dark override ─────────────────────────── */
+#skills.skills-section,
+.skills-section {
+  background-color: var(--gn-bg) !important;
+}
+#skills .skills-header h2 { color: var(--gn-ivory) !important; }
+#skills .skills-header p  { color: var(--gn-muted) !important; }
+
+/* ── Portfolio section override (ensure dark bg) ──────────── */
+#portfolio.portfolio.section {
+  background-color: var(--gn-bg) !important;
+}
+
+/* ── Achievement notification bg cool-down ─────────────────── */
+.achievement {
+  background-color: rgba(20,20,28,0.95) !important;
+}
 

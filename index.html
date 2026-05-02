@@ -235,8 +235,8 @@
 
   /* ===== SKILLS SECTION STYLES ===== */
   .skills-section {
-    padding: 60px 0; /* Increased padding from 40px to 60px */
-    background-color: #f8f9fa;
+    padding: 60px 0;
+    background-color: #0f0f13;
   }
   
   .skills-container {
@@ -253,10 +253,11 @@
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 0.75rem;
+    color: #F0E6CC;
   }
-  
+
   .skills-header p {
-    color: #666;
+    color: #8a7a60;
     max-width: 600px;
     margin: 0 auto;
   }
@@ -3022,7 +3023,7 @@ function initHeroMotion() {
      WIPE CURTAIN — solid opaque transition
      ══════════════════════════════════════════ */
   var curtain = document.createElement('div');
-  curtain.style.cssText = 'position:absolute;inset:0;z-index:20;background:#080604;transform:scaleX(0);transform-origin:0% 50%;pointer-events:none;will-change:transform;';
+  curtain.style.cssText = 'position:absolute;inset:0;z-index:20;background:#08080e;transform:scaleX(0);transform-origin:0% 50%;pointer-events:none;will-change:transform;';
   heroEl.appendChild(curtain);
 
   function wipeIn(cb) {

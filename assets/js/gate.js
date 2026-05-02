@@ -9,6 +9,7 @@
   /* ── Railway-injected credentials ─────────────────────────── */
   var RECRUITER_CODE = 'RECRUITER_CODE_PLACEHOLDER';
   var ADMIN_PASS     = 'ADMIN_PASS_PLACEHOLDER';
+  var GATE_SUBTITLE  = 'GATE_SUBTITLE_PLACEHOLDER';
   var SESSION_KEY    = 'pf_role';
   /* ─────────────────────────────────────────────────────────── */
 
@@ -199,7 +200,7 @@
       '<div class="gx-top">' +
         '<span class="gx-eye">Developer Portfolio</span>' +
         '<span class="gx-name">Patrick Perez</span>' +
-        '<span class="gx-sub">Full Stack Developer</span>' +
+        '<span class="gx-sub">' + GATE_SUBTITLE + '</span>' +
         '<span class="gx-hr"></span>' +
       '</div>' +
       '<div class="gx-body">' +

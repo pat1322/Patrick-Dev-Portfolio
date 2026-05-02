@@ -407,6 +407,94 @@
     color: #e8c547;
   }
 
+  /* ===== BACKGROUND SHAPES ===== */
+  .pd-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .pd-shape {
+    position: absolute;
+    border: 1px solid rgba(201, 162, 39, 0.10);
+    animation: pdFloat linear infinite;
+  }
+  .pd-shape-1 {
+    width: 420px; height: 420px;
+    top: 3%; right: -10%;
+    border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    animation-duration: 30s;
+    border-color: rgba(201, 162, 39, 0.06);
+  }
+  .pd-shape-2 {
+    width: 220px; height: 220px;
+    top: 35%; left: -6%;
+    border-radius: 50%;
+    animation-duration: 24s;
+    animation-delay: -10s;
+    border-color: rgba(201, 162, 39, 0.07);
+  }
+  .pd-shape-3 {
+    width: 110px; height: 110px;
+    bottom: 22%; right: 12%;
+    border-radius: 50%;
+    animation-duration: 19s;
+    animation-delay: -16s;
+    border-color: rgba(201, 162, 39, 0.10);
+  }
+  .pd-shape-4 {
+    width: 320px; height: 1px;
+    top: 55%; left: 25%;
+    background: linear-gradient(90deg, transparent, rgba(201,162,39,0.22), transparent);
+    border: none;
+    animation: pdShimmer 7s ease-in-out infinite;
+  }
+  .pd-shape-5 {
+    width: 160px; height: 160px;
+    bottom: 6%; left: 18%;
+    border-radius: 20% 80% 40% 60% / 60% 40% 80% 20%;
+    animation-duration: 26s;
+    animation-delay: -6s;
+    border-color: rgba(201, 162, 39, 0.06);
+  }
+  .pd-shape-6 {
+    width: 60px; height: 60px;
+    top: 20%; left: 40%;
+    border-radius: 50%;
+    animation-duration: 15s;
+    animation-delay: -3s;
+    border-color: rgba(201, 162, 39, 0.12);
+  }
+  @keyframes pdFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%       { transform: translateY(-28px) rotate(180deg); }
+  }
+  @keyframes pdShimmer {
+    0%, 100% { opacity: 0.14; transform: scaleX(1); }
+    50%       { opacity: 0.42; transform: scaleX(1.28); }
+  }
+  /* Ambient radial glow on main content */
+  #main-content {
+    position: relative;
+    z-index: 1;
+  }
+  #main-content::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 55% 40% at 85% 18%, rgba(201,162,39,0.04) 0%, transparent 65%),
+      radial-gradient(ellipse 45% 35% at 12% 78%, rgba(201,162,39,0.03) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .page-title,
+  .portfolio-details.section {
+    position: relative;
+    z-index: 1;
+  }
+
   /* ===== SPACING HELPERS ===== */
   @media (max-width: 991px) {
     .portfolio-details-slider {
@@ -476,6 +564,16 @@
 
 <main class="main" id="main-content">
 
+  <!-- Floating background shapes -->
+  <div class="pd-bg" aria-hidden="true">
+    <div class="pd-shape pd-shape-1"></div>
+    <div class="pd-shape pd-shape-2"></div>
+    <div class="pd-shape pd-shape-3"></div>
+    <div class="pd-shape pd-shape-4"></div>
+    <div class="pd-shape pd-shape-5"></div>
+    <div class="pd-shape pd-shape-6"></div>
+  </div>
+
   <!-- Page Title -->
   <div class="page-title dark-background">
     <div class="container d-lg-flex justify-content-between align-items-center">
@@ -524,8 +622,9 @@
 <!-- Main JS File -->
 <script src="assets/js/main.js"></script>
 
-<!-- GSAP -->
+<!-- GSAP + ScrollTrigger -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <script>
 (function () {
@@ -702,21 +801,64 @@
 
     // GSAP entrance animations
     if (typeof gsap !== 'undefined') {
+      if (typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+      }
+
+      // Page title slides in from top
       gsap.from('.page-title', {
-        y: -30,
-        opacity: 0,
-        duration: 0.7,
-        ease: 'power2.out'
+        y: -40, opacity: 0, duration: 0.8, ease: 'power3.out'
       });
 
+      // Two columns stagger up
       gsap.from('#project-content > div', {
-        y: 40,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.15,
-        delay: 0.3,
-        ease: 'power2.out'
+        y: 55, opacity: 0, duration: 0.85,
+        stagger: 0.18, delay: 0.25, ease: 'power3.out'
       });
+
+      // Slider image subtle zoom-in
+      gsap.from('.portfolio-details-slider', {
+        scale: 0.96, opacity: 0, duration: 1.1,
+        delay: 0.1, ease: 'power2.out'
+      });
+
+      // Info + description cards cascade with slight rotation
+      gsap.from('.portfolio-info', {
+        x: 30, opacity: 0, duration: 0.75,
+        delay: 0.45, ease: 'power3.out'
+      });
+      gsap.from('.portfolio-description', {
+        x: 30, opacity: 0, duration: 0.75,
+        delay: 0.62, ease: 'power3.out'
+      });
+
+      // Each info list item staggers in
+      gsap.from('.portfolio-info ul li', {
+        x: 15, opacity: 0, duration: 0.5,
+        stagger: 0.07, delay: 0.65, ease: 'power2.out'
+      });
+
+      // Background shapes drift in subtly
+      gsap.from('.pd-shape', {
+        opacity: 0, scale: 0.85, duration: 2,
+        stagger: 0.2, delay: 0.1, ease: 'power1.out'
+      });
+
+      // ScrollTrigger: parallax on bg shapes as user scrolls
+      if (typeof ScrollTrigger !== 'undefined') {
+        document.querySelectorAll('.pd-shape').forEach(function(shape, i) {
+          gsap.to(shape, {
+            y: (i % 2 === 0 ? -60 : 60) * (0.5 + i * 0.15),
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '#main-content',
+              start: 'top top',
+              end: 'bottom bottom',
+              scrub: 1.5
+            }
+          });
+        });
+      }
     }
 
     // Re-attach cursor hover listeners to newly injected elements
