@@ -2786,33 +2786,52 @@ function startPuzzleReveal() {
         var overlay = document.getElementById('hero-overlay');
         if (overlay) gsap.to(overlay, { opacity: 0.78, duration: 1.0, ease: 'power2.out' });
 
-        /* Cinematic horizontal wipe: curtain sweeps L→R over bg1, swap to bg2 behind it, sweep R→L off */
+		/* Cinematic cross-dissolve: fade to near-black → reveal bg2 → hold → motion */
         var img2 = document.querySelector('#hero .hero-bg2');
         if (img2 && window.gsap) {
-          var wipeCurtain = document.createElement('div');
-          wipeCurtain.style.cssText = 'position:absolute;inset:0;z-index:25;background:#08080e;transform:scaleX(0);transform-origin:0% 50%;pointer-events:none;will-change:transform;';
-          hero.appendChild(wipeCurtain);
-          setTimeout(function() {
-            /* Sweep left-to-right (0.38s) */
-            gsap.to(wipeCurtain, { scaleX: 1, duration: 0.38, ease: 'power2.inOut',
-              onComplete: function() {
-                /* Instantly swap: hide bg1, show bg2 — no filter */
-                if (img) { img.style.transition = 'none'; img.style.opacity = '0'; }
-                img2.style.opacity = '0.9';
-                gsap.set(overlay, { opacity: 0.72 });
-                /* Sweep right-to-left off (0.42s) */
-                wipeCurtain.style.transformOrigin = '100% 50%';
-                gsap.to(wipeCurtain, { scaleX: 0, duration: 0.42, ease: 'power2.inOut',
-                  onComplete: function() {
-                    wipeCurtain.remove();
-                    initHeroMotion();
-                  }
-                });
-              }
-            });
-          }, 650);
+
+          /* Step 1 — Fade overlay to near-black over 1.4s (cinematic "fade to dark") */
+          gsap.to(overlay, { opacity: 0.96, duration: 1.4, ease: 'power2.inOut',
+            onComplete: function() {
+
+              /* Step 2 — While dark: swap backgrounds */
+              if (img) { img.style.transition = 'none'; img.style.opacity = '0'; }
+              img2.style.opacity = '0';
+
+              /* Step 3 — Slow golden lens-flare sweep div */
+              var flare = document.createElement('div');
+              flare.style.cssText = [
+                'position:absolute;inset:0;z-index:26;pointer-events:none;',
+                'background:linear-gradient(105deg,',
+                '  transparent 0%,',
+                '  transparent 38%,',
+                '  rgba(201,162,39,0.18) 48%,',
+                '  rgba(255,230,120,0.32) 50%,',
+                '  rgba(201,162,39,0.18) 52%,',
+                '  transparent 62%,',
+                '  transparent 100%);',
+                'transform:translateX(-100%);',
+                'will-change:transform;'
+              ].join('');
+              hero.appendChild(flare);
+
+              /* Step 4 — Fade overlay back out (reveal bg2) while flare sweeps across */
+              gsap.to(overlay, { opacity: 0.72, duration: 2.2, ease: 'power3.out' });
+              gsap.to(img2,    { opacity: 0.9,  duration: 2.4, ease: 'power2.out' });
+              gsap.to(flare,   {
+                x: hero.offsetWidth * 2, duration: 2.0, ease: 'power1.inOut',
+                onComplete: function() { flare.remove(); }
+              });
+
+              /* Step 5 — Hold bg2 for ~4.5s, then start motion */
+              setTimeout(function() {
+                initHeroMotion();
+              }, 4000);
+            }
+          });
+
         } else {
-          initHeroMotion();
+          setTimeout(initHeroMotion, 4500);
         }
       }, 420);
     }, FINISH);

@@ -68,16 +68,23 @@ body.cursor-ready .cursor-ring { display: block; }
    ═══════════════════════════════════════════════════════════════ */
 html, body { overflow-x: hidden; }
 
-/* ── Custom scrollbar (main page only) ─────────────────────────── */
-::-webkit-scrollbar { width: 5px; height: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb {
+/* ── Custom scrollbar (html only — kills the body duplicate) ── */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #C9A227 transparent;
+}
+html::-webkit-scrollbar { width: 5px; height: 5px; }
+html::-webkit-scrollbar-track { background: transparent; }
+html::-webkit-scrollbar-thumb {
   background: linear-gradient(180deg, #8B6914 0%, #C9A227 50%, #8B6914 100%);
   border-radius: 3px;
 }
-::-webkit-scrollbar-thumb:hover { background: #C9A227; }
-::-webkit-scrollbar-corner { background: transparent; }
-html { scrollbar-width: thin; scrollbar-color: #C9A227 transparent; }
+html::-webkit-scrollbar-thumb:hover { background: #C9A227; }
+html::-webkit-scrollbar-corner { background: transparent; }
+
+/* Suppress body's duplicate scrollbar */
+body::-webkit-scrollbar { display: none; }
+body { scrollbar-width: none; }
 
 /* Hide the sidebar's own scrollbar — it has overflow-y:auto from main.css */
 .header { scrollbar-width: none; }
