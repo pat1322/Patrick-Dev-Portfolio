@@ -1486,15 +1486,11 @@
 
 <!-- ══════════════ SPLASH SCREEN ══════════════ -->
 <div id="splash-screen" onclick="dismissSplash()">
-  <div class="splash-corner splash-corner-tl"></div>
-  <div class="splash-corner splash-corner-tr"></div>
-  <div class="splash-corner splash-corner-bl"></div>
-  <div class="splash-corner splash-corner-br"></div>
 
   <div class="splash-content">
     <!-- Art Deco Developer Logo -->
     <div class="splash-logo">
-      <svg viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg" width="130" height="130" aria-hidden="true">
+      <svg class="splash-logo-main" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg" width="130" height="130" aria-hidden="true">
         <defs>
           <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%"   style="stop-color:#F0D060"/>
@@ -1506,44 +1502,48 @@
             <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
         </defs>
-        <!-- Outer ring -->
         <circle cx="65" cy="65" r="58" fill="none" stroke="url(#sg)" stroke-width="1.8" opacity="0.35"/>
-        <!-- Outer octagon -->
         <polygon points="65,7 103,28 118,68 103,105 65,123 27,105 12,68 27,28"
                  fill="none" stroke="url(#sg)" stroke-width="2.5" filter="url(#sf)"/>
-        <!-- Inner octagon -->
         <polygon points="65,22 94,38 105,67 94,95 65,108 36,95 25,67 36,38"
                  fill="none" stroke="#C9A227" stroke-width="0.8" opacity="0.38"/>
-        <!-- Cardinal tick marks -->
         <line x1="65" y1="7"   x2="65" y2="21"  stroke="#C9A227" stroke-width="3" stroke-linecap="round"/>
         <line x1="65" y1="109" x2="65" y2="123" stroke="#C9A227" stroke-width="3" stroke-linecap="round"/>
         <line x1="12" y1="65"  x2="26" y2="65"  stroke="#C9A227" stroke-width="3" stroke-linecap="round"/>
         <line x1="104" y1="65" x2="118" y2="65" stroke="#C9A227" stroke-width="3" stroke-linecap="round"/>
-        <!-- Diagonal tick marks -->
         <line x1="23"  y1="23"  x2="33"  y2="33"  stroke="#C9A227" stroke-width="1.2" opacity="0.45"/>
         <line x1="107" y1="23"  x2="97"  y2="33"  stroke="#C9A227" stroke-width="1.2" opacity="0.45"/>
         <line x1="23"  y1="107" x2="33"  y2="97"  stroke="#C9A227" stroke-width="1.2" opacity="0.45"/>
         <line x1="107" y1="107" x2="97"  y2="97"  stroke="#C9A227" stroke-width="1.2" opacity="0.45"/>
-        <!-- Code symbol -->
         <text x="65" y="68" font-family="'Courier New',Courier,monospace" font-size="28"
               font-weight="bold" fill="url(#sg)" text-anchor="middle"
               filter="url(#sf)">&lt;/&gt;</text>
-        <!-- DEV label -->
         <text x="65" y="87" font-family="'Raleway',Arial,sans-serif" font-size="11"
               fill="#C9A227" text-anchor="middle" letter-spacing="5" opacity="0.9">DEV</text>
-        <!-- Diamond accents top/bottom -->
         <polygon points="65,2  69,9  65,16 61,9"  fill="#C9A227" opacity="0.9"/>
         <polygon points="65,114 69,121 65,128 61,121" fill="#C9A227" opacity="0.9"/>
+      </svg>
+
+      <!-- Red channel glitch ghost -->
+      <svg class="splash-logo-glitch splash-logo-glitch-r" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg" width="130" height="130" aria-hidden="true">
+        <polygon points="65,7 103,28 118,68 103,105 65,123 27,105 12,68 27,28"
+                 fill="none" stroke="rgba(255,60,60,0.7)" stroke-width="2.5"/>
+        <text x="65" y="68" font-family="'Courier New',Courier,monospace" font-size="28"
+              font-weight="bold" fill="rgba(255,60,60,0.6)" text-anchor="middle">&lt;/&gt;</text>
+      </svg>
+
+      <!-- Blue channel glitch ghost -->
+      <svg class="splash-logo-glitch splash-logo-glitch-b" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg" width="130" height="130" aria-hidden="true">
+        <polygon points="65,7 103,28 118,68 103,105 65,123 27,105 12,68 27,28"
+                 fill="none" stroke="rgba(60,200,255,0.7)" stroke-width="2.5"/>
+        <text x="65" y="68" font-family="'Courier New',Courier,monospace" font-size="28"
+              font-weight="bold" fill="rgba(60,200,255,0.6)" text-anchor="middle">&lt;/&gt;</text>
       </svg>
     </div>
 
     <h1 class="splash-name">Patrick Perez</h1>
     <div class="splash-divider"></div>
     <p class="splash-tagline" data-cfg="title">Software Engineer &amp; Developer</p>
-
-    <div class="splash-loader-track">
-      <div class="splash-loader-fill"></div>
-    </div>
   </div>
 </div>
 <!-- ══════════════ END SPLASH ══════════════ -->
@@ -2777,14 +2777,36 @@ function startPuzzleReveal() {
 	var FINISH = START + (tiles.length - 1) * STAGGER + 820;
 	setTimeout(function () {
 	  if (stopCode) stopCode();
-
+ 
 	  var cvs = document.getElementById('hero-code-canvas');
-	  if (cvs) { cvs.style.transition = 'none'; cvs.style.opacity = '0'; }
-
+	  if (cvs) { cvs.style.transition = 'opacity 0.3s'; cvs.style.opacity = '0'; }
+ 
+	  /* ── Step 1: Strip CSS filters from every tile.
+	     filter:brightness(1)saturate(1) routes through the GPU filter
+	     compositing pipeline, which produces subtly different colour
+	     output than an unfiltered <img> even at "neutral" values.
+	     Removing the filter synchronises both to the same render path
+	     BEFORE the img is revealed, eliminating the brightness jump. ── */
+	  tiles.forEach(function(t) {
+	    t.style.filter = 'none';
+	    t.style.webkitFilter = 'none';
+	  });
+ 
+	  /* ── Step 2: Show the img underneath the tile layer. ── */
 	  img.style.transition = 'none';
 	  img.style.opacity = '1';
-
-	  puzzle.style.display = 'none';
+ 
+	  /* ── Step 3: Fade the tile layer out over 350ms.
+	     This crossfade acts as a perceptual bridge — the eye blends
+	     the (now filter-free) tiles with the identical img below,
+	     and perceives no discontinuity as tiles disappear. ── */
+	  puzzle.style.transition = 'opacity 0.35s ease';
+	  puzzle.style.opacity = '0';
+	  setTimeout(function () {
+	    puzzle.style.display = 'none';
+	    puzzle.style.transition = '';
+	    puzzle.style.opacity = '';
+	  }, 360);
 
 	  setTimeout(function () {
 
