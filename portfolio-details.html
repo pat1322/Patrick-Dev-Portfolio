@@ -475,10 +475,6 @@
     50%       { opacity: 0.42; transform: scaleX(1.28); }
   }
   /* Ambient radial glow on main content */
-  #main-content {
-    position: relative;
-    z-index: 1;
-  }
   #main-content::before {
     content: '';
     position: fixed;
@@ -492,7 +488,20 @@
   .page-title,
   .portfolio-details.section {
     position: relative;
-    z-index: 1;
+    z-index: 2;
+  }
+
+  /* ===== CONSTELLATION CANVAS ===== */
+  #pd-constellation {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #pd-constellation { display: none; }
   }
 
   /* ===== SPACING HELPERS ===== */
@@ -589,6 +598,9 @@
 </header>
 
 <main class="main" id="main-content">
+
+  <!-- Constellation background (same as index.html non-hero sections) -->
+  <canvas id="pd-constellation" aria-hidden="true"></canvas>
 
   <!-- Floating background shapes -->
   <div class="pd-bg" aria-hidden="true">
@@ -795,24 +807,30 @@
     }
 
     /* Parse a config project object (with detailImages/detailDesc/detailInfo fields)
-       into the shape expected by buildContent */
+       into the shape expected by buildContent.
+       Falls back to the hardcoded projects object for any empty fields so that
+       admins who only set detailImages still get info + description from the defaults. */
     function cfgProjectToDetail(p) {
+      var fallback = projects[p.id] || {};
       var imgs = (p.detailImages || p.img || '').split(',').map(function(s){ return s.trim(); }).filter(Boolean);
-      /* Keep paths as-is — buildSlides handles full paths and bare filenames */
+      if (!imgs.length) imgs = fallback.images || [];
       var infoLines = (p.detailInfo || '').split('\n').filter(Boolean);
       var infoItems = infoLines.map(function(line) {
         var sep = line.indexOf(':');
         if (sep < 0) return { label: line, value: '' };
         return { label: line.slice(0, sep).trim(), value: line.slice(sep+1).trim() };
       });
-      // Auto-append YouTube/download links if set
+      /* If admin left info blank, use the hardcoded fallback */
+      if (!infoItems.length) infoItems = (fallback.info || []).slice();
+      /* Auto-append YouTube/download links if set in config */
       if (p.youtubeUrl) infoItems.push({ label: 'Preview', value: '<a href="' + p.youtubeUrl + '" target="_blank">Watch on YouTube</a>' });
       if (p.downloadUrl) infoItems.push({ label: 'Download', value: '<a href="' + p.downloadUrl + '" target="_blank">Open Link</a>' });
+      var description = p.detailDesc || fallback.description || p.description || '';
       return {
         title: p.title || p.id,
         images: imgs,
         info: infoItems,
-        description: p.detailDesc || p.description || ''
+        description: description
       };
     }
 
@@ -955,6 +973,116 @@
     }
     } /* end buildContent */
   });
+})();
+</script>
+
+<!-- Constellation background (mirrors index.html global bg, no hero-scroll fade logic) -->
+<script>
+(function () {
+  var canvas = document.getElementById('pd-constellation');
+  if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var ctx = canvas.getContext('2d');
+  var W = 0, H = 0;
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize, { passive: true });
+
+  var mouseX = W / 2, mouseY = H / 2, lerpX = W / 2, lerpY = H / 2;
+  window.addEventListener('mousemove', function(e) {
+    mouseX = e.clientX; mouseY = e.clientY;
+  }, { passive: true });
+
+  var GOLD  = [201, 162, 39];
+  var GOLD2 = [232, 197, 71];
+  var CONN  = 145;
+  var N = Math.min(75, Math.max(44, Math.floor(window.innerWidth * window.innerHeight / 15000)));
+
+  function makeParticle() {
+    var roll = Math.random();
+    var near = roll < 0.27, far = roll > 0.72;
+    return {
+      x:  Math.random() * W,
+      y:  Math.random() * H,
+      r:  near ? 1.4 + Math.random() * 1.9 : (far ? 0.3 + Math.random() * 0.55 : 0.65 + Math.random() * 1.05),
+      vx: (Math.random() - 0.5) * (near ? 0.25 : 0.13),
+      vy: (Math.random() - 0.5) * (near ? 0.15 : 0.08),
+      baseAlpha: near ? 0.44 + Math.random() * 0.36 : (far ? 0.1 + Math.random() * 0.2 : 0.2 + Math.random() * 0.3),
+      phase:      Math.random() * Math.PI * 2,
+      phaseSpeed: 0.012 + Math.random() * 0.022,
+      pf:  near ? 0.15 : (far ? 0.022 : 0.072),
+      col: Math.random() > 0.62 ? GOLD2 : GOLD
+    };
+  }
+
+  var pts = [];
+  for (var i = 0; i < N; i++) pts.push(makeParticle());
+
+  var sxArr = new Float32Array(N);
+  var syArr = new Float32Array(N);
+
+  /* Fade in on load */
+  var canvasOp = 0;
+  var targetOp = 0.78;
+
+  function draw() {
+    lerpX += (mouseX - lerpX) * 0.052;
+    lerpY += (mouseY - lerpY) * 0.052;
+
+    if (Math.abs(targetOp - canvasOp) > 0.004) {
+      canvasOp = canvasOp + (targetOp - canvasOp) * 0.06;
+      canvas.style.opacity = canvasOp;
+    }
+
+    ctx.clearRect(0, 0, W, H);
+
+    var mxN = W > 0 ? lerpX / W - 0.5 : 0;
+    var myN = H > 0 ? lerpY / H - 0.5 : 0;
+
+    for (var i = 0; i < N; i++) {
+      var p = pts[i];
+      p.vx *= 0.985; p.vy *= 0.985;
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -8) p.x = W + 8; else if (p.x > W + 8) p.x = -8;
+      if (p.y < -8) p.y = H + 8; else if (p.y > H + 8) p.y = -8;
+      sxArr[i] = p.x + mxN * p.pf * 26;
+      syArr[i] = p.y + myN * p.pf * 20;
+    }
+
+    ctx.lineWidth = 0.55;
+    for (var i = 0; i < N; i++) {
+      for (var j = i + 1; j < N; j++) {
+        var dx = sxArr[i] - sxArr[j], dy = syArr[i] - syArr[j];
+        var d2 = dx * dx + dy * dy;
+        if (d2 < CONN * CONN) {
+          ctx.strokeStyle = 'rgba(201,162,39,' + (1 - Math.sqrt(d2) / CONN) * 0.14 + ')';
+          ctx.beginPath();
+          ctx.moveTo(sxArr[i], syArr[i]);
+          ctx.lineTo(sxArr[j], syArr[j]);
+          ctx.stroke();
+        }
+      }
+    }
+
+    for (var i = 0; i < N; i++) {
+      var p = pts[i];
+      p.phase += p.phaseSpeed;
+      var alpha = p.baseAlpha * (0.4 + 0.6 * (0.5 + 0.5 * Math.sin(p.phase)));
+      var c = p.col;
+      ctx.beginPath();
+      ctx.arc(sxArr[i], syArr[i], p.r, 0, 6.2832);
+      ctx.fillStyle = 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + alpha + ')';
+      ctx.fill();
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
 })();
 </script>
 
