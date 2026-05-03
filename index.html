@@ -2962,6 +2962,15 @@ function initHeroMotion() {
   var sceneBg = document.getElementById('hero-scene-bg');
   if (!root || !canvas || !window.gsap || !window.THREE) return;
 
+  /* Mobile hero panel — hide during acts, show when photo returns */
+  var mobilePanel = document.querySelector('.hero-mobile-panel');
+  function hideMobileHero() {
+    if (mobilePanel) gsap.to(mobilePanel, { opacity: 0, duration: 0.3, ease: 'power2.in', overwrite: true });
+  }
+  function showMobileHero() {
+    if (mobilePanel) gsap.to(mobilePanel, { opacity: 1, duration: 0.55, delay: 0.3, ease: 'power2.out', overwrite: true });
+  }
+
   var T = THREE;
   var heroEl = document.getElementById('hero');
   var W = heroEl.offsetWidth, H = heroEl.offsetHeight;
@@ -3318,8 +3327,8 @@ function initHeroMotion() {
     var o3 = document.getElementById('hero-infra');
     if (o1) {
       o1.style.opacity = '0';
-      /* Reset code windows so they pop in fresh next time */
-      gsap.set(o1.querySelectorAll('.cw-pos'), { scale: 0, opacity: 0, transformOrigin: '50% 80%' });
+      /* Reset opacity only — don't touch transform so CSS positioning (translateX etc.) is preserved */
+      gsap.set(o1.querySelectorAll('.cw-pos'), { opacity: 0, clearProps: 'scale,transform' });
     }
     if (o3) {
       o3.style.opacity = '0';
@@ -3336,11 +3345,10 @@ function initHeroMotion() {
     var o3 = document.getElementById('hero-infra');
     if (idx === 0 && o1) setTimeout(function() {
       o1.style.opacity = '1';
-      /* Staggered popup: each window scales in from center-bottom, one by one */
+      /* Stagger fade-in only — no scale so CSS positioning transforms are preserved on mobile */
       var pops = Array.from(o1.querySelectorAll('.cw-pos'));
       pops.forEach(function(w, i) {
-        gsap.to(w, { scale: 1, opacity: 1, duration: 0.52, delay: 0.1 + i * 0.28,
-          ease: 'back.out(1.5)' });
+        gsap.to(w, { opacity: 1, duration: 0.45, delay: 0.1 + i * 0.22, ease: 'power2.out' });
       });
     }, 80);
     else if (idx === 2 && o3) setTimeout(function() {
@@ -3426,7 +3434,7 @@ function initHeroMotion() {
       curIdx = -1;
 
       /* Wipe out to reveal photo, then arm hover/tap to replay */
-      wipeOut(armHoverReplay);
+      wipeOut(function() { showMobileHero(); armHoverReplay(); });
     });
   }
 
@@ -3434,6 +3442,7 @@ function initHeroMotion() {
     function replay() {
       heroEl.removeEventListener('mouseenter', replay);
       heroEl.removeEventListener('touchstart', replay);
+      hideMobileHero();
       wipeIn(function() {
         gsap.set(overlay, { opacity: 0.78 });
         setupAct(0);
@@ -3446,6 +3455,7 @@ function initHeroMotion() {
 
   /* Kick off with a brief delay after the overlay fades in */
   setTimeout(function() {
+    hideMobileHero();
     wipeIn(function() {
       setupAct(0);
       revealAct(0);
