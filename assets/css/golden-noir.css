@@ -384,6 +384,7 @@ body {
 #hero.hero {
   position: relative;
   height: 100vh;
+  height: 100svh; /* iOS Safari: use small viewport height (excludes address bar) */
   padding: 0 !important;
   overflow: hidden;
   display: flex;

@@ -32,6 +32,66 @@
 
 <!-- Grouped CSS Styles - Same as original but removing the floating-stats-container display in gaming mode -->
 <style>
+  /* ===== MOBILE HERO PANEL ===== */
+  .hero-mobile-panel {
+    display: none; /* hidden on desktop — sidebar shows instead */
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    z-index: 10;
+    padding: 2.4rem 1.8rem 3rem;
+    background: linear-gradient(to top, rgba(4,3,2,0.88) 0%, rgba(4,3,2,0.55) 55%, transparent 100%);
+    text-align: center;
+    pointer-events: none;
+  }
+  .hmp-role {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.36em;
+    text-transform: uppercase;
+    color: var(--gn-gold, #C9A227);
+    margin-bottom: 0.75rem;
+  }
+  .hmp-name {
+    display: flex;
+    flex-direction: column;
+    line-height: 0.95;
+    margin-bottom: 0.85rem;
+  }
+  .hmp-first {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    color: #F0E6CC;
+    font-size: clamp(2.4rem, 10vw, 3.4rem);
+    letter-spacing: 0.03em;
+  }
+  .hmp-last {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    color: var(--gn-gold, #C9A227);
+    font-size: clamp(2.4rem, 10vw, 3.4rem);
+    letter-spacing: 0.03em;
+  }
+  .hmp-tagline {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(240,230,204,0.5);
+  }
+
+  /* Show on mobile where sidebar is off-screen */
+  @media (max-width: 1199px) {
+    .hero-mobile-panel { display: block; opacity: 0; }
+    /* Fade in ~3.8s after splash dismisses (pre-reveal class removed = puzzle starts) */
+    body:not(.pre-reveal) .hero-mobile-panel {
+      animation: hmpFadeIn 1.4s ease 3.8s forwards;
+    }
+  }
+  @keyframes hmpFadeIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
   /* ===== HEADER STYLES ===== */
   .profile-img-container {
     display: flex;
@@ -1762,6 +1822,17 @@
         </div>
       </div>
     </div>
+
+    <!-- Mobile-only hero text overlay (sidebar is off-screen on mobile) -->
+    <div class="hero-mobile-panel">
+      <div class="hmp-role" data-cfg="rolelabel">Full-Stack Engineer</div>
+      <div class="hmp-name">
+        <span class="hmp-first">Patrick</span>
+        <span class="hmp-last">Perez</span>
+      </div>
+      <div class="hmp-tagline">Backend · Systems · AI Applications</div>
+    </div>
+
   </section>
 
   <!-- About Section -->
