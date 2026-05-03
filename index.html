@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <!-- Head section remains unchanged -->
@@ -1317,6 +1317,7 @@
   }
   .hm-line.gold    { color:#C9A227; }
   .hm-line.outline { -webkit-text-stroke:1.5px rgba(201,162,39,.7);color:transparent; }
+  .hm-line.sm      { font-size:clamp(.65rem,2.3vw,2.6rem); letter-spacing:.1em; }
 
   .hm-rule {
     width:52px;height:1px;
@@ -1402,7 +1403,7 @@
     background:rgba(7,9,15,0.88);
     border:1px solid rgba(201,162,39,0.28);
     border-radius:8px;
-    width:clamp(150px,19vw,215px);
+    width:clamp(185px,22vw,265px);
     font-family:'Courier New',Courier,monospace;
     box-shadow:0 12px 40px rgba(0,0,0,0.7),0 0 0 1px rgba(201,162,39,0.07),
                inset 0 1px 0 rgba(201,162,39,0.05);
@@ -1410,19 +1411,18 @@
     transform-style:preserve-3d;
 	overflow:hidden;
   }
-  /* Centered cluster — spread around middle of hero, clear of bottom-left text */
-  .cw-1 { top:40%;  left:40%;  animation-delay:0s;  animation-duration:8s;  }
-  .cw-2 { top:25%;  right:25%;  animation-delay:-3s; animation-duration:10s; }
-  .cw-3 { top:30%; left:35%;  transform:translateX(-50%); animation-delay:-5.5s; animation-duration:9s; width:clamp(130px,14vw,175px); }
+  /* Position wrappers — isolated from the float animation so GSAP popup never conflicts */
+  .cw-pos { position:absolute; }
+  .cw-pos-1 { top:40%; left:40%; }
+  .cw-pos-2 { top:30%; right:40%; }
+  .cw-pos-3 { top:32%; left:25%; transform:translateX(-50%); }
+  /* Float timing lives on the card; wrappers handle position */
+  .cw-1 { animation-delay:0s;  animation-duration:8s;  }
+  .cw-2 { animation-delay:-3s; animation-duration:10s; }
+  .cw-3 { animation-delay:-5.5s; animation-duration:9s; width:clamp(160px,17vw,215px); }
   @keyframes cwFloat {
     0%,100%{transform:translateY(0) rotateY(-4deg);}
     50%    {transform:translateY(-14px) rotateY(4deg);}
-  }
-  /* cw-3 needs a separate float so translateX(-50%) isn't overridden */
-  .cw-3 { animation-name:cwFloatCenter; }
-  @keyframes cwFloatCenter {
-    0%,100%{transform:translateX(-50%) translateY(0);}
-    50%    {transform:translateX(-50%) translateY(-14px);}
   }
   .cw-bar {
     display:flex;align-items:center;gap:5px;padding:6px 10px;
@@ -1431,8 +1431,8 @@
   }
   .cw-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
   .cw-dot.r{background:#ff5f57;}.cw-dot.y{background:#ffbd2e;}.cw-dot.g{background:#28c840;}
-  .cw-fname{margin-left:auto;color:rgba(201,162,39,0.55);font-size:clamp(0.46rem,0.58vw,0.56rem);letter-spacing:0.06em;}
-  .cw-body{padding:7px 10px 10px;line-height:1.7;color:#8892a4;font-size:clamp(0.5rem,0.64vw,0.62rem);}
+  .cw-fname{margin-left:auto;color:rgba(201,162,39,0.55);font-size:clamp(0.5rem,0.65vw,0.62rem);letter-spacing:0.06em;}
+  .cw-body{padding:7px 10px 10px;line-height:1.7;color:#8892a4;font-size:clamp(0.55rem,0.72vw,0.7rem);}
   .cw-line{display:block;white-space:nowrap;}
   .ck{color:#c678dd;}.cf{color:#61afef;}.cs{color:#98c379;}.cn{color:#d19a66;}
   .cc{color:#5c6370;font-style:italic;}.cv{color:#e5c07b;}.cp{color:#abb2bf;}
@@ -1441,38 +1441,78 @@
   @keyframes cwBlink{0%,100%{opacity:1;}50%{opacity:0;}}
   /* Mobile: smaller windows, cw-3 hidden to avoid clutter */
   @media(max-width:991px){
-    .cw{ width:clamp(110px,28vw,155px); font-size:.48rem; }
-    .cw-1{ top:5%;  left:4%;  }
-    .cw-2{ top:5%;  left:auto; right:4%; }
-    .cw-3{ display:none; }
+    .cw{ width:clamp(130px,32vw,190px); font-size:.52rem; }
+    .cw-pos-1{ top:5%;  left:4%;  }
+    .cw-pos-2{ top:5%;  left:auto; right:4%; }
+    .cw-pos-3{ display:none; }
   }
   @media(max-width:575px){
-    .cw-1{ display:none; }
-    .cw-2{ top:8%; left:50%; right:auto; transform:translateX(-50%); width:clamp(130px,70vw,200px); font-size:.52rem; }
+    .cw-pos-1{ display:none; }
+    .cw-pos-2{ top:8%; left:50%; right:auto; transform:translateX(-50%); }
+    .cw-2{ width:clamp(130px,70vw,200px); font-size:.52rem; }
   }
 
   /* ══════════════════════════════════════════
-     ACT 3 — INFRASTRUCTURE DIAGRAM
-     Anchored to BOTTOM so act-3 text (top) is clear
+     ACT 3 — ENGINEERING CRAFT PANEL
+     Anchored to bottom-right, clear of act-3 text (top)
      ══════════════════════════════════════════ */
   #hero-infra {
     position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;
     transition:opacity 0.6s ease;
-    display:flex;align-items:flex-end;justify-content:center;
-    padding-bottom:clamp(2vh,4vh,6vh);
+    display:flex;align-items:center;justify-content:center;
+    padding:0;
   }
-  .infra-svg{overflow:visible;}
-  .inode rect{filter:drop-shadow(0 0 5px rgba(201,162,39,0.25));}
-  /* Flowing line animations */
-  .iflow  { stroke-dasharray:6 4; animation:iflowAnim  1.6s linear infinite; }
-  .iflow-r{ stroke-dasharray:6 4; animation:iflowAnimR 2s   linear infinite; }
-  @keyframes iflowAnim  { to { stroke-dashoffset:-20; } }
-  @keyframes iflowAnimR { to { stroke-dashoffset: 20; } }
-  /* Node pulse: use transform scale instead of r (CSS can't animate SVG r attr) */
-  .ipulse  { transform-origin:center; animation:ipulseS 2.2s ease-in-out infinite; }
-  .ipulse2 { transform-origin:center; animation:ipulseS 2.2s ease-in-out infinite; animation-delay:-1.1s; }
-  @keyframes ipulseS { 0%,100%{opacity:0.5;transform:scale(1);}  50%{opacity:1;transform:scale(1.35);} }
-  @media(max-width:768px){ .infra-svg{ width:clamp(200px,88vw,340px) !important; } }
+  .craft-panel {
+    background:rgba(7,9,15,0.86);
+    border:1px solid rgba(201,162,39,0.28);
+    border-radius:10px;
+    padding:clamp(1.1rem,2.2vh,1.7rem) clamp(1.4rem,2.8vw,2.2rem);
+    width:clamp(260px,32vw,400px);
+    font-family:'Courier New',Courier,monospace;
+    box-shadow:0 16px 48px rgba(0,0,0,0.72),0 0 0 1px rgba(201,162,39,0.05);
+    transition:transform 0.12s ease-out;
+    transform-style:preserve-3d;
+  }
+  .craft-header {
+    display:flex;align-items:center;gap:8px;margin-bottom:1rem;
+    font-size:clamp(.58rem,.75vw,.75rem);letter-spacing:.2em;text-transform:uppercase;
+    color:rgba(201,162,39,0.65);
+  }
+  .craft-status-dot {
+    width:6px;height:6px;border-radius:50%;background:#28c840;flex-shrink:0;
+    box-shadow:0 0 7px rgba(40,200,64,0.85);
+    animation:craftPulse 1.9s ease-in-out infinite;
+  }
+  @keyframes craftPulse { 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+  .craft-metric { margin-bottom:.8rem; }
+  .craft-metric-label {
+    display:block;font-size:clamp(.5rem,.65vw,.65rem);letter-spacing:.15em;
+    color:rgba(240,230,204,0.4);margin-bottom:5px;
+  }
+  .craft-bar {
+    height:3px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden;margin-bottom:4px;
+  }
+  .craft-bar-fill {
+    height:100%;width:0%;border-radius:2px;
+    background:linear-gradient(90deg,rgba(201,162,39,0.45),#C9A227);
+    transition:width 1.5s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+  .craft-bar-fill.b { background:linear-gradient(90deg,rgba(40,130,255,0.45),#5aabff); }
+  .craft-bar-fill.g { background:linear-gradient(90deg,rgba(40,200,120,0.45),#3be07a); }
+  .craft-metric-val {
+    display:block;font-size:clamp(.56rem,.72vw,.72rem);
+    color:rgba(240,230,204,0.65);letter-spacing:.04em;
+  }
+  .craft-footer {
+    margin-top:.85rem;padding-top:.65rem;
+    border-top:1px solid rgba(201,162,39,0.1);
+    font-size:clamp(.5rem,.62vw,.62rem);letter-spacing:.14em;
+    color:rgba(201,162,39,0.45);display:flex;align-items:center;gap:6px;
+  }
+  .craft-build-dot { width:5px;height:5px;border-radius:50%;background:#28c840;flex-shrink:0; }
+  @media(max-width:768px){
+    .craft-panel { width:clamp(220px,82vw,320px); }
+  }
 
 </style>
 </head>
@@ -1656,7 +1696,7 @@
 
     <!-- Act 1: Floating code windows -->
     <div id="hero-cw-overlay" class="hero-act-overlay" aria-hidden="true">
-      <div class="cw cw-1">
+      <div class="cw-pos cw-pos-1"><div class="cw cw-1">
         <div class="cw-bar"><span class="cw-dot r"></span><span class="cw-dot y"></span><span class="cw-dot g"></span><span class="cw-fname">backend.py</span></div>
         <div class="cw-body">
           <span class="cw-line"><span class="ck">def</span> <span class="cf">query_db</span><span class="cp">(</span><span class="cv">conn</span><span class="cp">,</span> <span class="cv">sql</span><span class="cp">):</span></span>
@@ -1668,8 +1708,8 @@
           <span class="cw-line">&nbsp; <span class="cv">port</span> <span class="cp">=</span> <span class="cn">8080</span></span>
           <span class="cw-line">&nbsp; <span class="cv">debug</span> <span class="cp">=</span> <span class="cn">False</span><span class="cw-cursor"></span></span>
         </div>
-      </div>
-      <div class="cw cw-2">
+      </div></div>
+      <div class="cw-pos cw-pos-2"><div class="cw cw-2">
         <div class="cw-bar"><span class="cw-dot r"></span><span class="cw-dot y"></span><span class="cw-dot g"></span><span class="cw-fname">api.js</span></div>
         <div class="cw-body">
           <span class="cw-line"><span class="ck">const</span> <span class="cv">router</span> <span class="cp">=</span> <span class="cf">express</span><span class="cp">.</span><span class="cf">Router</span><span class="cp">()</span></span>
@@ -1679,8 +1719,8 @@
           <span class="cw-line">&nbsp; <span class="cv">res</span><span class="cp">.</span><span class="cf">json</span><span class="cp">({</span><span class="cv">data</span><span class="cp">})</span></span>
           <span class="cw-line"><span class="cp">})</span><span class="cw-cursor"></span></span>
         </div>
-      </div>
-      <div class="cw cw-3">
+      </div></div>
+      <div class="cw-pos cw-pos-3"><div class="cw cw-3">
         <div class="cw-bar"><span class="cw-dot r"></span><span class="cw-dot y"></span><span class="cw-dot g"></span><span class="cw-fname">schema.sql</span></div>
         <div class="cw-body">
           <span class="cw-line"><span class="ck">CREATE TABLE</span> <span class="cf">users</span> <span class="cp">(</span></span>
@@ -1688,62 +1728,36 @@
           <span class="cw-line">&nbsp; <span class="cv">name</span> <span class="cn">VARCHAR</span><span class="cp">(</span><span class="cn">100</span><span class="cp">)</span></span>
           <span class="cw-line"><span class="cp">);</span><span class="cw-cursor"></span></span>
         </div>
-      </div>
+      </div></div>
     </div>
 
-    <!-- Act 3: Infrastructure diagram -->
+    <!-- Act 3: Engineering Craft Panel -->
     <div id="hero-infra" class="hero-act-overlay" aria-hidden="true">
-      <svg class="infra-svg" viewBox="0 0 480 300" style="width:clamp(260px,45vw,480px);height:auto;">
-        <!-- Cloud -->
-        <g class="inode" transform="translate(240,28)">
-          <rect x="-50" y="-16" width="100" height="32" rx="16" fill="rgba(201,162,39,0.08)" stroke="#C9A227" stroke-width="1.5" opacity="0.9"/>
-          <text x="0" y="5" text-anchor="middle" fill="#C9A227" font-family="Courier New,monospace" font-size="10" font-weight="bold">&#x2601; CLOUD</text>
-          <circle cx="0" cy="0" r="8" fill="none" stroke="rgba(201,162,39,0.3)" stroke-width="1" class="ipulse"/>
-        </g>
-        <!-- Load Balancer -->
-        <g class="inode" transform="translate(240,90)">
-          <rect x="-42" y="-13" width="84" height="26" rx="4" fill="rgba(201,162,39,0.06)" stroke="rgba(201,162,39,0.55)" stroke-width="1"/>
-          <text x="0" y="4" text-anchor="middle" fill="#e8dcc8" font-family="Courier New,monospace" font-size="8">LOAD BALANCER</text>
-        </g>
-        <!-- Server 1 -->
-        <g class="inode" transform="translate(90,180)">
-          <rect x="-38" y="-15" width="76" height="30" rx="4" fill="rgba(40,130,255,0.07)" stroke="rgba(40,130,255,0.5)" stroke-width="1"/>
-          <text x="0" y="-2" text-anchor="middle" fill="#8ab4f8" font-family="Courier New,monospace" font-size="7">APP SERVER</text>
-          <text x="0" y="9" text-anchor="middle" fill="#8ab4f8" font-family="Courier New,monospace" font-size="7">:3001</text>
-          <circle cx="0" cy="0" r="7" fill="none" stroke="rgba(40,130,255,0.25)" stroke-width="1" class="ipulse2"/>
-        </g>
-        <!-- Server 2 -->
-        <g class="inode" transform="translate(240,180)">
-          <rect x="-38" y="-15" width="76" height="30" rx="4" fill="rgba(40,130,255,0.07)" stroke="rgba(40,130,255,0.5)" stroke-width="1"/>
-          <text x="0" y="-2" text-anchor="middle" fill="#8ab4f8" font-family="Courier New,monospace" font-size="7">APP SERVER</text>
-          <text x="0" y="9" text-anchor="middle" fill="#8ab4f8" font-family="Courier New,monospace" font-size="7">:3002</text>
-          <circle cx="0" cy="0" r="7" fill="none" stroke="rgba(40,130,255,0.25)" stroke-width="1" class="ipulse"/>
-        </g>
-        <!-- Server 3 -->
-        <g class="inode" transform="translate(390,180)">
-          <rect x="-38" y="-15" width="76" height="30" rx="4" fill="rgba(40,130,255,0.07)" stroke="rgba(40,130,255,0.5)" stroke-width="1"/>
-          <text x="0" y="-2" text-anchor="middle" fill="#8ab4f8" font-family="Courier New,monospace" font-size="7">APP SERVER</text>
-          <text x="0" y="9" text-anchor="middle" fill="#8ab4f8" font-family="Courier New,monospace" font-size="7">:3003</text>
-          <circle cx="0" cy="0" r="7" fill="none" stroke="rgba(40,130,255,0.25)" stroke-width="1" class="ipulse2"/>
-        </g>
-        <!-- Database -->
-        <g class="inode" transform="translate(240,265)">
-          <rect x="-46" y="-14" width="92" height="28" rx="4" fill="rgba(50,200,120,0.07)" stroke="rgba(50,200,120,0.52)" stroke-width="1"/>
-          <text x="0" y="-2" text-anchor="middle" fill="#68d499" font-family="Courier New,monospace" font-size="7">PRIMARY DB</text>
-          <text x="0" y="8" text-anchor="middle" fill="#68d499" font-family="Courier New,monospace" font-size="7">PostgreSQL</text>
-          <circle cx="0" cy="0" r="9" fill="none" stroke="rgba(50,200,120,0.25)" stroke-width="1" class="ipulse"/>
-        </g>
-        <!-- Cloud → LB -->
-        <line x1="240" y1="44" x2="240" y2="77" stroke="rgba(201,162,39,0.55)" stroke-width="1.5" class="iflow"/>
-        <!-- LB → Servers -->
-        <line x1="202" y1="103" x2="124" y2="165" stroke="rgba(40,130,255,0.45)" stroke-width="1" class="iflow"/>
-        <line x1="240" y1="103" x2="240" y2="165" stroke="rgba(40,130,255,0.45)" stroke-width="1" class="iflow" style="animation-delay:-0.55s"/>
-        <line x1="278" y1="103" x2="356" y2="165" stroke="rgba(40,130,255,0.45)" stroke-width="1" class="iflow" style="animation-delay:-1.1s"/>
-        <!-- Servers → DB -->
-        <line x1="110" y1="196" x2="200" y2="254" stroke="rgba(50,200,120,0.38)" stroke-width="1" class="iflow-r"/>
-        <line x1="240" y1="196" x2="240" y2="251" stroke="rgba(50,200,120,0.38)" stroke-width="1" class="iflow-r" style="animation-delay:-0.75s"/>
-        <line x1="370" y1="196" x2="278" y2="254" stroke="rgba(50,200,120,0.38)" stroke-width="1" class="iflow-r" style="animation-delay:-1.5s"/>
-      </svg>
+      <div class="craft-panel">
+        <div class="craft-header">
+          <span class="craft-status-dot"></span>
+          PERF PROFILE
+        </div>
+        <div class="craft-metric">
+          <span class="craft-metric-label">THROUGHPUT</span>
+          <div class="craft-bar"><div class="craft-bar-fill" data-target="88"></div></div>
+          <span class="craft-metric-val">88 K req/s</span>
+        </div>
+        <div class="craft-metric">
+          <span class="craft-metric-label">P99 LATENCY</span>
+          <div class="craft-bar"><div class="craft-bar-fill b" data-target="94"></div></div>
+          <span class="craft-metric-val">&lt; 8 ms</span>
+        </div>
+        <div class="craft-metric">
+          <span class="craft-metric-label">UPTIME</span>
+          <div class="craft-bar"><div class="craft-bar-fill g" data-target="99.7"></div></div>
+          <span class="craft-metric-val">99.97 %</span>
+        </div>
+        <div class="craft-footer">
+          <span class="craft-build-dot"></span>
+          BUILD PASSING &middot; DEPLOYED
+        </div>
+      </div>
     </div>
   </section>
 
@@ -3039,66 +3053,16 @@ function initHeroMotion() {
   /* ══════════════════════════════════════════
      TEXT ANIMATIONS
      ══════════════════════════════════════════ */
-  var GC = '!<>-_\\/[]{}=+*^?#@$%&01ABCDEFabcdef';
-  var AC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 
-  /* ACT 1: Glitch reveal with chromatic aberration */
-  function glitchIn(el, txt, cb) {
-    var itr = 0, max = txt.length * 2.8;
+  /* Smooth upward fade — used for all acts */
+  function fadeUpIn(el, txt, cb) {
     el.style.cssText = 'display:block;white-space:normal;max-width:100%;';
-    var iv = setInterval(function() {
-      var out = '';
-      for (var ci = 0; ci < txt.length; ci++) {
-        if (txt[ci]===' ') { out+=' '; continue; }
-        if (ci < itr/2.8) { out += txt[ci]; continue; }
-        out += GC[Math.floor(Math.random()*GC.length)];
-      }
-      el.textContent = out;
-      el.style.transform = Math.random()>.7 ? 'translateX('+(Math.random()*10-5).toFixed(1)+'px)' : '';
-      el.style.textShadow = Math.random()>.45 ? '-3px 0 rgba(255,30,30,.7),3px 0 rgba(30,210,255,.7)' : 'none';
-      if (++itr > max) {
-        clearInterval(iv);
-        el.textContent = txt;
-        el.style.transform = el.style.textShadow = '';
-        if (cb) cb();
-      }
-    }, 36);
+    el.textContent = txt;
+    gsap.fromTo(el,
+      { opacity: 0, y: 26 },
+      { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', onComplete: cb });
   }
 
-  /* ACT 2: Character scramble — left to right resolve */
-  function scrambleIn(el, txt, cb) {
-    var t0 = Date.now(), dur = 1300;
-    el.style.cssText = 'display:block;white-space:normal;max-width:100%;';
-    (function fr() {
-      var p = Math.min((Date.now()-t0)/dur, 1);
-      el.textContent = txt.split('').map(function(c,i) {
-        if (c===' ') return ' ';
-        return p > i/txt.length ? c : AC[Math.floor(Math.random()*AC.length)];
-      }).join('');
-      p < 1 ? requestAnimationFrame(fr) : (el.textContent = txt, cb && cb());
-    })();
-  }
-
-  /* ACT 3: Kinetic letter fly-in from random directions */
-  function kineticIn(el, txt, cb) {
-    el.innerHTML = ''; el.style.cssText = 'display:block;white-space:normal;max-width:100%;';
-    var spans = txt.split('').map(function(c) {
-      var s = document.createElement('span');
-      s.style.display = 'inline-block';
-      s.textContent = c===' ' ? ' ' : c;
-      el.appendChild(s); return s;
-    });
-    var real = spans.filter(function(s){ return s.textContent !== ' '; });
-    var done = 0;
-    real.forEach(function(s, i) {
-      gsap.fromTo(s,
-        { opacity:0, x:(Math.random()-.5)*320, y:(Math.random()-.5)*220, rotation:(Math.random()-.5)*80, scale:.2 },
-        { opacity:1, x:0, y:0, rotation:0, scale:1,
-          duration:.7+Math.random()*.4, delay:i*.04, ease:'power3.out',
-          onComplete: function(){ if(++done===real.length && cb) cb(); } });
-    });
-    if (!real.length && cb) cb();
-  }
 
   /* ══════════════════════════════════════════
      3D GROUP TRANSITIONS (5 styles)
@@ -3160,18 +3124,18 @@ function initHeroMotion() {
   var ACTS = [
     { grp:a1, bg:bgs[0], glow:1, entry:entryImplode,  exit:exitExplode,
       label:'Core Expertise',
-      line1:'BACKEND ENGINEER', cls1:'', animFn1:glitchIn,
-      line2:'C++ · PYTHON · JAVA · SQL', cls2:'outline', animFn2:glitchIn,
+      line1:'BACKEND ENGINEER', cls1:'', animFn1:fadeUpIn,
+      line2:'C++ · PYTHON · JAVA · SQL', cls2:'outline sm', animFn2:fadeUpIn,
       frameStyle:'align-items:flex-start;justify-content:flex-end;text-align:left;padding:0 0 clamp(3rem,7vh,5.5rem) clamp(2.5rem,9vw,8rem);' },
     { grp:a2, bg:bgs[1], glow:2, entry:entryRise,     exit:exitSink,
       label:'Full-Stack Builder',
-      line1:'FRONT TO BACK', cls1:'', animFn1:scrambleIn,
-      line2:'WEB · API · DB',  cls2:'gold', animFn2:scrambleIn,
+      line1:'FRONT TO BACK', cls1:'', animFn1:fadeUpIn,
+      line2:'WEB · API · DB',  cls2:'gold sm', animFn2:fadeUpIn,
       frameStyle:'align-items:flex-end;justify-content:center;text-align:right;padding:0 clamp(2.5rem,9vw,8rem) clamp(1rem,3vh,2rem) 0;' },
     { grp:a3, bg:bgs[2], glow:3, entry:entryCameraRush,exit:exitPinhole,
       label:'Engineering Craft',
-      line1:'SCALABLE · FAST', cls1:'', animFn1:kineticIn,
-      line2:'BUILT TO LAST',   cls2:'outline', animFn2:kineticIn,
+      line1:'SCALABLE · FAST', cls1:'', animFn1:fadeUpIn,
+      line2:'BUILT TO LAST',   cls2:'outline sm', animFn2:fadeUpIn,
       frameStyle:'align-items:center;justify-content:flex-start;text-align:center;padding:clamp(3rem,9vh,7rem) 0 0;' },
   ];
 
@@ -3199,25 +3163,22 @@ function initHeroMotion() {
     }});
   }
 
-  /* Build and animate text frame */
+  /* Build and animate text frame — both lines enter simultaneously, no layout push */
   function buildText(f, act, onDone) {
     f.innerHTML = '';
-    var lbl = document.createElement('div'); lbl.className='hm-label'; lbl.textContent=act.label;
-    f.appendChild(lbl); gsap.from(lbl, {opacity:0, y:10, duration:.5, ease:'power2.out'});
-
-    var l1 = document.createElement('span'); l1.className='hm-line '+(act.cls1||'');
-    var l2 = document.createElement('span'); l2.className='hm-line '+(act.cls2||'');
-    var rule= document.createElement('div'); rule.className='hm-rule'; rule.style.opacity='0';
-    f.appendChild(l1); f.appendChild(l2); f.appendChild(rule);
-
+    var lbl  = document.createElement('div');  lbl.className  = 'hm-label'; lbl.textContent  = act.label;
+    var l1   = document.createElement('span'); l1.className   = 'hm-line ' + (act.cls1||'');  l1.textContent  = act.line1;
+    var l2   = document.createElement('span'); l2.className   = 'hm-line ' + (act.cls2||'');  l2.textContent  = act.line2;
+    var rule = document.createElement('div');  rule.className = 'hm-rule';
+    l1.style.cssText = l2.style.cssText = 'display:block;white-space:normal;max-width:100%;';
+    f.appendChild(lbl); f.appendChild(l1); f.appendChild(l2); f.appendChild(rule);
     gsap.set(f, {opacity:1});
-
-    /* Animate line 1, then line 2, then rule */
-    act.animFn1(l1, act.line1, function() {
-      act.animFn2(l2, act.line2, function() {
-        gsap.to(rule, {opacity:1, duration:.5, onComplete: onDone});
-      });
-    });
+    gsap.set(rule, {opacity:0});
+    /* All elements enter at once — staggered by 0.1s so they feel distinct but never push */
+    gsap.from(lbl,  {opacity:0, y:10, duration:.5, ease:'power2.out'});
+    gsap.fromTo(l1, {opacity:0, y:26}, {opacity:1, y:0, duration:.8, ease:'power3.out'});
+    gsap.fromTo(l2, {opacity:0, y:22}, {opacity:1, y:0, duration:.8, delay:.12, ease:'power3.out'});
+    gsap.to(rule, {opacity:1, duration:.5, delay:.7, onComplete: onDone});
   }
 
   function exitText(f, cb) {
@@ -3250,20 +3211,78 @@ function initHeroMotion() {
   var ACT_HOLD = 5000; /* ms text is held per act */
   var curIdx   = -1;
 
+  /* ── Craft panel 3D tilt ── */
+  var craftTiltFn = null;
+  function craftTiltReset() {
+    var p = document.querySelector('.craft-panel');
+    if (p) p.style.transform = '';
+  }
+  function addCraftTilt() {
+    var p = document.querySelector('.craft-panel');
+    if (!p) return;
+    craftTiltFn = function(e) {
+      var hr = heroEl.getBoundingClientRect();
+      var pr = p.getBoundingClientRect();
+      var dx = ((e.clientX - (pr.left + pr.width  / 2)) / (pr.width  / 2));
+      var dy = ((e.clientY - (pr.top  + pr.height / 2)) / (pr.height / 2));
+      dx = Math.max(-1, Math.min(1, dx));
+      dy = Math.max(-1, Math.min(1, dy));
+      p.style.transform = 'perspective(700px) rotateY(' + (dx * 14) + 'deg) rotateX(' + (-dy * 9) + 'deg) scale(1.02)';
+    };
+    heroEl.addEventListener('mousemove', craftTiltFn);
+    heroEl.addEventListener('mouseleave', craftTiltReset);
+  }
+  function removeCraftTilt() {
+    if (craftTiltFn) { heroEl.removeEventListener('mousemove', craftTiltFn); craftTiltFn = null; }
+    heroEl.removeEventListener('mouseleave', craftTiltReset);
+    craftTiltReset();
+  }
+
   /* Hide all DOM act overlays (called during curtain-covered phase) */
   function hideActOverlays() {
     var o1 = document.getElementById('hero-cw-overlay');
     var o3 = document.getElementById('hero-infra');
-    if (o1) o1.style.opacity = '0';
-    if (o3) o3.style.opacity = '0';
+    if (o1) {
+      o1.style.opacity = '0';
+      /* Reset code windows so they pop in fresh next time */
+      gsap.set(o1.querySelectorAll('.cw-pos'), { scale: 0, opacity: 0, transformOrigin: '50% 80%' });
+    }
+    if (o3) {
+      o3.style.opacity = '0';
+      o3.querySelectorAll('.craft-bar-fill').forEach(function(f) {
+        f.style.transition = 'none'; f.style.width = '0%';
+      });
+    }
+    removeCraftTilt();
   }
 
   /* Fade in the overlay for the given act after the curtain wipes off */
   function showActOverlay(idx) {
     var o1 = document.getElementById('hero-cw-overlay');
     var o3 = document.getElementById('hero-infra');
-    if (idx === 0 && o1) setTimeout(function() { o1.style.opacity = '1'; }, 80);
-    else if (idx === 2 && o3) setTimeout(function() { o3.style.opacity = '1'; }, 80);
+    if (idx === 0 && o1) setTimeout(function() {
+      o1.style.opacity = '1';
+      /* Staggered popup: each window scales in from center-bottom, one by one */
+      var pops = Array.from(o1.querySelectorAll('.cw-pos'));
+      pops.forEach(function(w, i) {
+        gsap.to(w, { scale: 1, opacity: 1, duration: 0.52, delay: 0.1 + i * 0.28,
+          ease: 'back.out(1.5)' });
+      });
+    }, 80);
+    else if (idx === 2 && o3) setTimeout(function() {
+      /* Reset bars to 0 first, then animate to target */
+      var fills = o3.querySelectorAll('.craft-bar-fill');
+      fills.forEach(function(f) { f.style.transition = 'none'; f.style.width = '0%'; });
+      o3.style.opacity = '1';
+      requestAnimationFrame(function() { requestAnimationFrame(function() {
+        fills.forEach(function(f) {
+          f.style.transition = 'width 1.5s cubic-bezier(0.25,0.46,0.45,0.94)';
+          f.style.width = (parseFloat(f.dataset.target) || 80) + '%';
+        });
+      }); });
+      /* Wire up 3D tilt after overlay is visible */
+      setTimeout(addCraftTilt, 200);
+    }, 80);
   }
 
   /* Called while curtain is fully covering — swap scene instantly */
