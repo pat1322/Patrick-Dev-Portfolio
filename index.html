@@ -82,14 +82,6 @@
   /* Show on mobile where sidebar is off-screen */
   @media (max-width: 1199px) {
     .hero-mobile-panel { display: block; opacity: 0; }
-    /* Fade in ~3.8s after splash dismisses (pre-reveal class removed = puzzle starts) */
-    body:not(.pre-reveal) .hero-mobile-panel {
-      animation: hmpFadeIn 1.4s ease 3.8s forwards;
-    }
-  }
-  @keyframes hmpFadeIn {
-    from { opacity: 0; transform: translateY(14px); }
-    to   { opacity: 1; transform: translateY(0); }
   }
 
   /* ===== HEADER STYLES ===== */
@@ -1499,17 +1491,17 @@
   .cw-cursor{display:inline-block;width:1.5px;height:1em;background:#C9A227;
     vertical-align:text-bottom;animation:cwBlink 1s step-end infinite;}
   @keyframes cwBlink{0%,100%{opacity:1;}50%{opacity:0;}}
-  /* Mobile: smaller windows, cw-3 hidden to avoid clutter */
+  /* Mobile: flex layout so windows stay in-bounds regardless of cw-pos zero-width issue */
   @media(max-width:991px){
-    .cw{ width:clamp(130px,32vw,190px); font-size:.52rem; }
-    .cw-pos-1{ top:5%;  left:4%;  }
-    .cw-pos-2{ top:5%;  left:auto; right:4%; }
+    .cw{ width:clamp(130px,32vw,190px); font-size:.52rem; position:relative; }
+    #hero-cw-overlay{ display:flex;align-items:flex-start;justify-content:space-between;padding:8% 5% 0; }
+    .cw-pos{ position:relative;top:auto;left:auto;right:auto;transform:none; }
     .cw-pos-3{ display:none; }
   }
   @media(max-width:575px){
+    #hero-cw-overlay{ align-items:center;justify-content:center;padding:0; }
     .cw-pos-1{ display:none; }
-    .cw-pos-2{ top:8%; left:50%; right:auto; transform:translateX(-50%); }
-    .cw-2{ width:clamp(130px,70vw,200px); font-size:.52rem; }
+    .cw-2{ width:clamp(200px,78vw,280px);font-size:.6rem; }
   }
 
   /* ══════════════════════════════════════════
@@ -2936,11 +2928,25 @@ function startPuzzleReveal() {
               onComplete: function() { flare.remove(); }
             });
 
+            /* Show mobile panel once bg2 is becoming visible */
+            if (window.innerWidth < 1200) {
+              var _mp = document.querySelector('.hero-mobile-panel');
+              if (_mp) gsap.to(_mp, { opacity: 1, duration: 0.9, delay: 1.8, ease: 'power2.out' });
+            }
+
             /* Hold bg2 for 4.5s then start motion */
             setTimeout(initHeroMotion, 4500);
           }, 1000); /* ← 1 second clean display of hero-bg before any transition */
 
         } else {
+          /* No bg2 — show mobile panel on the base hero image */
+          if (window.innerWidth < 1200) {
+            var _mp2 = document.querySelector('.hero-mobile-panel');
+            if (_mp2) {
+              if (window.gsap) gsap.to(_mp2, { opacity: 1, duration: 0.9, ease: 'power2.out' });
+              else _mp2.style.opacity = '1';
+            }
+          }
           setTimeout(initHeroMotion, 4500);
         }
       }, 420);
@@ -2956,14 +2962,19 @@ function startPuzzleReveal() {
 
 // ── Hero cinematic loop ────────────────────────────────────────
 function initHeroMotion() {
+  /* Hide mobile panel before acts — even if THREE.js fails to load */
+  var mobilePanel = document.querySelector('.hero-mobile-panel');
+  if (mobilePanel) {
+    if (window.gsap) gsap.to(mobilePanel, { opacity: 0, duration: 0.4, ease: 'power2.in', overwrite: 'auto' });
+    else mobilePanel.style.opacity = '0';
+  }
+
   var root    = document.getElementById('hero-motion');
   var canvas  = document.getElementById('hero-3d');
   var overlay = document.getElementById('hero-overlay');
   var sceneBg = document.getElementById('hero-scene-bg');
   if (!root || !canvas || !window.gsap || !window.THREE) return;
 
-  /* Mobile hero panel — hide during acts, show when photo returns */
-  var mobilePanel = document.querySelector('.hero-mobile-panel');
   function hideMobileHero() {
     if (mobilePanel) gsap.to(mobilePanel, { opacity: 0, duration: 0.3, ease: 'power2.in', overwrite: true });
   }
@@ -3455,7 +3466,6 @@ function initHeroMotion() {
 
   /* Kick off with a brief delay after the overlay fades in */
   setTimeout(function() {
-    hideMobileHero();
     wipeIn(function() {
       setupAct(0);
       revealAct(0);
