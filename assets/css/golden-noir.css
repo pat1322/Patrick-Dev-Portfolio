@@ -1432,7 +1432,7 @@ section.section, .section {
 .milestone-title { color: var(--gn-ivory) !important; }
 .milestone-sub   { color: var(--gn-gold) !important; }
 .milestone-desc  { color: var(--gn-muted) !important; }
-.milestone-icon  { color: var(--gn-gold) !important; border-color: rgba(201,162,39,0.28) !important; }
+.milestone-icon  { color: rgba(201,162,39,0.4) !important; border-color: rgba(201,162,39,0.14) !important; background: rgba(201,162,39,0.04) !important; }
 .ach-divider-label { color: var(--gn-gold) !important; }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1488,5 +1488,29 @@ section.section, .section {
 /* ── Achievement notification bg cool-down ─────────────────── */
 .achievement {
   background-color: rgba(20,20,28,0.95) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   GLOBAL CANVAS BACKGROUND
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Stacking context — content floats above global canvas */
+section[id] { position: relative; }
+section[id] > .container,
+section[id] > .skills-container { position: relative; z-index: 2; }
+
+/* Global particle canvas — sits above section backgrounds, below content */
+#gbl-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  #gbl-canvas { display: none; }
 }
 

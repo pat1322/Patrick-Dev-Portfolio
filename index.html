@@ -1112,7 +1112,7 @@
     color: #C9A227;
     transition: all 0.4s ease;
   }
-  .milestone-card:hover .milestone-icon { background: #C9A227; color: #0e0c0a; box-shadow: 0 4px 18px rgba(201,162,39,0.45); border-color: #C9A227; }
+  .milestone-card:hover .milestone-icon { background: var(--gn-gold) !important; color: #0e0c0a !important; box-shadow: 0 4px 20px rgba(201,162,39,0.5) !important; border-color: var(--gn-gold) !important; }
   .milestone-title {
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.08rem;
@@ -1674,6 +1674,9 @@
 
 
 <main class="main">
+
+  <!-- Global constellation background — fixed, persists across all non-hero sections -->
+  <canvas id="gbl-canvas" aria-hidden="true"></canvas>
 
   <!-- Hero Section — background assembled as a puzzle by JS -->
   <section id="hero" class="hero section dark-background">
@@ -3850,6 +3853,138 @@ document.addEventListener("DOMContentLoaded", function() {
   } else {
     window.addEventListener('load', initMorphTransitions);
   }
+
+  /* ── Global constellation background ────────────────────────── */
+  function initGlobalBg() {
+    var canvas = document.getElementById('gbl-canvas');
+    if (!canvas || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var ctx = canvas.getContext('2d');
+    var W = 0, H = 0;
+
+    function resize() {
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    var scrollY = 0, prevScrollY = 0;
+    window.addEventListener('scroll', function() {
+      scrollY = window.pageYOffset || document.documentElement.scrollTop;
+    }, { passive: true });
+
+    var mouseX = W / 2, mouseY = H / 2, lerpX = W / 2, lerpY = H / 2;
+    window.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX; mouseY = e.clientY;
+    }, { passive: true });
+
+    var heroEl = document.getElementById('hero');
+    var canvasOp = 0;
+
+    /* Particle config */
+    var GOLD  = [201, 162, 39];
+    var GOLD2 = [232, 197, 71];
+    var CONN  = 145;
+    var N = Math.min(75, Math.max(44, Math.floor(window.innerWidth * window.innerHeight / 15000)));
+
+    function makeParticle() {
+      var roll = Math.random();
+      var near = roll < 0.27, far = roll > 0.72;
+      return {
+        x:  Math.random() * W,
+        y:  Math.random() * H,
+        r:  near ? 1.4 + Math.random() * 1.9 : (far ? 0.3 + Math.random() * 0.55 : 0.65 + Math.random() * 1.05),
+        vx: (Math.random() - 0.5) * (near ? 0.25 : 0.13),
+        vy: (Math.random() - 0.5) * (near ? 0.15 : 0.08),
+        baseAlpha: near ? 0.44 + Math.random() * 0.36 : (far ? 0.1 + Math.random() * 0.2 : 0.2 + Math.random() * 0.3),
+        phase:      Math.random() * Math.PI * 2,
+        phaseSpeed: 0.012 + Math.random() * 0.022,
+        pf:  near ? 0.15 : (far ? 0.022 : 0.072),   /* mouse parallax factor */
+        sp:  near ? 0.005 : (far ? 0.001 : 0.0024),  /* scroll push factor */
+        col: Math.random() > 0.62 ? GOLD2 : GOLD
+      };
+    }
+
+    var pts = [];
+    for (var i = 0; i < N; i++) pts.push(makeParticle());
+
+    /* Precomputed screen positions */
+    var sxArr = new Float32Array(N);
+    var syArr = new Float32Array(N);
+
+    function draw() {
+      var scrollVel = scrollY - prevScrollY;
+      prevScrollY = scrollY;
+
+      /* Smooth mouse lerp */
+      lerpX += (mouseX - lerpX) * 0.052;
+      lerpY += (mouseY - lerpY) * 0.052;
+
+      /* Canvas opacity — fades in as hero scrolls out */
+      var heroH = heroEl ? heroEl.offsetHeight : H;
+      var targetOp = Math.max(0, Math.min(1, (scrollY - heroH * 0.42) / (heroH * 0.45)));
+      if (Math.abs(targetOp - canvasOp) > 0.004) {
+        canvasOp = canvasOp + (targetOp - canvasOp) * 0.08;
+        canvas.style.opacity = canvasOp;
+      }
+
+      ctx.clearRect(0, 0, W, H);
+
+      /* Update particles + compute screen positions */
+      var mxN = W > 0 ? lerpX / W - 0.5 : 0;
+      var myN = H > 0 ? lerpY / H - 0.5 : 0;
+
+      for (var i = 0; i < N; i++) {
+        var p = pts[i];
+        p.vy += scrollVel * p.sp;
+        p.vx *= 0.985; p.vy *= 0.985;
+        var cap = p.r > 1.3 ? 0.4 : 0.22;
+        if (p.vx >  cap) p.vx =  cap; else if (p.vx < -cap) p.vx = -cap;
+        if (p.vy >  cap) p.vy =  cap; else if (p.vy < -cap) p.vy = -cap;
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < -8) p.x = W + 8; else if (p.x > W + 8) p.x = -8;
+        if (p.y < -8) p.y = H + 8; else if (p.y > H + 8) p.y = -8;
+        sxArr[i] = p.x + mxN * p.pf * 26;
+        syArr[i] = p.y + myN * p.pf * 20;
+      }
+
+      /* Connections (drawn first, below particles) */
+      ctx.lineWidth = 0.55;
+      for (var i = 0; i < N; i++) {
+        for (var j = i + 1; j < N; j++) {
+          var dx = sxArr[i] - sxArr[j], dy = syArr[i] - syArr[j];
+          var d2 = dx * dx + dy * dy;
+          if (d2 < CONN * CONN) {
+            var lineA = (1 - Math.sqrt(d2) / CONN) * 0.14;
+            ctx.strokeStyle = 'rgba(201,162,39,' + lineA + ')';
+            ctx.beginPath();
+            ctx.moveTo(sxArr[i], syArr[i]);
+            ctx.lineTo(sxArr[j], syArr[j]);
+            ctx.stroke();
+          }
+        }
+      }
+
+      /* Particles */
+      for (var i = 0; i < N; i++) {
+        var p = pts[i];
+        p.phase += p.phaseSpeed;
+        var alpha = p.baseAlpha * (0.4 + 0.6 * (0.5 + 0.5 * Math.sin(p.phase)));
+        var c = p.col;
+        ctx.beginPath();
+        ctx.arc(sxArr[i], syArr[i], p.r, 0, 6.2832);
+        ctx.fillStyle = 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + alpha + ')';
+        ctx.fill();
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  }
+
+  window.addEventListener('load', initGlobalBg);
 })();
 </script>
 </body>
