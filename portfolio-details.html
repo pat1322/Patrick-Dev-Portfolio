@@ -135,6 +135,13 @@
     100% { box-shadow: 0 0 0 2px rgba(201, 162, 39, 0.3); }
   }
 
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px 0;
+  }
+
   .navmenu { text-align: left; width: 100%; padding-left: 0; }
   .navmenu ul { list-style: none; padding-left: 0; }
   .navmenu li { text-align: left; margin-bottom: 0; }
@@ -873,11 +880,11 @@
         '</div>' +
       '</div>' +
       '<div class="col-lg-4">' +
-        '<div class="portfolio-info" data-aos="fade-up" data-aos-delay="200">' +
+        '<div class="portfolio-info">' +
           '<h3>Project information</h3>' +
           '<ul>' + buildInfoList(project.info) + '</ul>' +
         '</div>' +
-        '<div class="portfolio-description" data-aos="fade-up" data-aos-delay="300">' +
+        '<div class="portfolio-description">' +
           '<h2>' + project.title + '</h2>' +
           '<p>' + project.description + '</p>' +
         '</div>' +
@@ -896,9 +903,9 @@
       }
     });
 
-    // Init AOS after content is injected
+    // Refresh AOS so the container's fade-in is re-triggered
     if (typeof AOS !== 'undefined') {
-      AOS.init({ duration: 700, once: true });
+      AOS.refreshHard();
     }
 
     // GSAP entrance animations

@@ -108,7 +108,12 @@
       "title": "BCN MTP Mobile",
       "desc": "App made for BCN Montjuic Tourist Point Inc",
       "img": "assets/img/portfolio/app-1.png",
-      "tags": "Java,Android,Tourism"
+      "tags": "Java,Android,Tourism",
+      "detailImages": "assets/img/portfolio/app-1.png",
+      "detailDesc": "A mobile application designed for BCN Montjuic Tourist Point Inc., helping tourists navigate and access essential services. It enhances the travel experience with an intuitive and user-friendly interface.",
+      "detailInfo": "Category: Mobile App\nClient: BCN Montjuic Tourist Point\nProject date: September, 2021",
+      "youtubeUrl": "https://youtu.be/sCn9oxtT-mw",
+      "downloadUrl": "https://drive.google.com/file/d/1UoxvqTrGcKv2HlgPxDfiz-xcVizF1288/view"
     },
     {
       "id": "ecoeye-ai",
@@ -118,7 +123,12 @@
       "title": "EcoEye AI",
       "desc": "AI-powered ecological identifier",
       "img": "assets/img/portfolio/product-1.png",
-      "tags": "Python,AI,Web"
+      "tags": "Python,AI,Web",
+      "detailImages": "assets/img/portfolio/product-1.png,assets/img/portfolio/ecoeye2.png,assets/img/portfolio/ecoeye3.png",
+      "detailDesc": "An AI-powered web app that identifies plants and animals using image recognition. Perfect for nature enthusiasts, researchers, and students who want quick and accurate identification.",
+      "detailInfo": "Category: Web App\nProject date: November, 2024",
+      "youtubeUrl": "",
+      "downloadUrl": "https://v0-eco-eye-qmp1ffik4pi-uewuwm.vercel.app/"
     },
     {
       "id": "olfactory-machine",
@@ -128,7 +138,12 @@
       "title": "Olfactory UTI Detector",
       "desc": "IoT health device using Raspberry Pi and gas sensors",
       "img": "assets/img/portfolio/branding-1.png",
-      "tags": "Raspberry Pi,Python,IoT"
+      "tags": "Raspberry Pi,Python,IoT",
+      "detailImages": "assets/img/portfolio/branding-1.png,assets/img/portfolio/gas2.jpg,assets/img/portfolio/gas3.png,assets/img/portfolio/gas4.jpg,assets/img/portfolio/gas5.jpg",
+      "detailDesc": "A smart device that detects urinary tract infections (UTIs) using gas sensors and a Raspberry Pi. Designed to provide an early warning system for better health monitoring.",
+      "detailInfo": "Category: Micro-Controller, Python Programming, Data Analytics\nPurpose: Case Study\nProject date: April, 2022",
+      "youtubeUrl": "https://youtu.be/aTzg8ltQU7M",
+      "downloadUrl": ""
     },
     {
       "id": "super-mega-scatter",
@@ -138,7 +153,12 @@
       "title": "Super Mega Scatter",
       "desc": "Mobile gaming application",
       "img": "assets/img/portfolio/app-2.png",
-      "tags": "Java,Android"
+      "tags": "Java,Android",
+      "detailImages": "assets/img/portfolio/app-2.png",
+      "detailDesc": "A fun and engaging mobile game designed for casual entertainment. It features dynamic gameplay and vibrant visuals to keep players entertained.",
+      "detailInfo": "Category: Web App, Mobile App\nProject date: October, 2024",
+      "youtubeUrl": "",
+      "downloadUrl": "https://v0-super-mega-scatter-3bozojlggdy-yqryu7.vercel.app/"
     },
     {
       "id": "titan-trade",
@@ -148,7 +168,12 @@
       "title": "Titan Trade",
       "desc": "Trading web application",
       "img": "assets/img/portfolio/product-2.png",
-      "tags": "JavaScript,Web"
+      "tags": "JavaScript,Web",
+      "detailImages": "assets/img/portfolio/product-2.png,assets/img/portfolio/drop2.png,assets/img/portfolio/drop3.png",
+      "detailDesc": "A personal dropshipping website that automates product listing and order management. Ideal for entrepreneurs looking to start an online business with minimal hassle.",
+      "detailInfo": "Category: Web Design, Web App\nClient: Personal Use\nProject date: December, 2024",
+      "youtubeUrl": "",
+      "downloadUrl": "https://fwjs9ubxpkzkbbnym770vi0tzyvssc8o.vercel.app/"
     },
     {
       "id": "smart-dustbin",
@@ -158,7 +183,12 @@
       "title": "Smart Dustbin",
       "desc": "IoT smart waste management system",
       "img": "assets/img/portfolio/branding-2.png",
-      "tags": "Arduino,IoT,C++"
+      "tags": "Arduino,IoT,C++",
+      "detailImages": "assets/img/portfolio/branding-2.png",
+      "detailDesc": "An Arduino-powered smart dustbin that opens automatically when detecting movement. Helps promote hygiene and reduces contact with waste.",
+      "detailInfo": "Category: Micro-controller, Arduino\nPurpose: Project for Feedback and Controls\nProject date: March, 2020",
+      "youtubeUrl": "https://youtu.be/1AseMnCCzK0",
+      "downloadUrl": ""
     },
     {
       "id": "lotto-ai",
@@ -168,7 +198,12 @@
       "title": "Lotto AI",
       "desc": "AI-powered lottery prediction system",
       "img": "assets/img/portfolio/app-3.png",
-      "tags": "Python,AI,Android"
+      "tags": "Python,AI,Android",
+      "detailImages": "assets/img/portfolio/app-3.png,assets/img/portfolio/lotto2.png",
+      "detailDesc": "A lottery number generator that uses AI-based randomization techniques. Designed to help users generate unique number combinations for various lottery games.",
+      "detailInfo": "Category: Web App, Mobile App, Logic and Algorithms\nProject date: September, 2024",
+      "youtubeUrl": "",
+      "downloadUrl": "https://ihn10tvi5hmppp36ailtwpcokwxeqcvu.vercel.app/"
     },
     {
       "id": "djared-web-design",
@@ -178,7 +213,12 @@
       "title": "Djared Web Design",
       "desc": "Professional web design project",
       "img": "assets/img/portfolio/product-3.png",
-      "tags": "HTML,CSS,JavaScript"
+      "tags": "HTML,CSS,JavaScript",
+      "detailImages": "assets/img/portfolio/product-3.png,assets/img/portfolio/jared2.png,assets/img/portfolio/jared3.png",
+      "detailDesc": "A collaborative community web design project that showcases modern UI/UX trends. It serves as an example of responsive and visually appealing web development.",
+      "detailInfo": "Category: Web design\nClient: D'jared View Construction Corp.\nProject date: March, 2021",
+      "youtubeUrl": "",
+      "downloadUrl": "https://drive.google.com/drive/folders/1IC_zhnMOyJ_mSy1g6uA_JO_jZ_17UfOu"
     },
     {
       "id": "functions-in-python",
@@ -188,7 +228,12 @@
       "title": "Functions in Python",
       "desc": "Python utilities and functions library",
       "img": "assets/img/portfolio/branding-3.png",
-      "tags": "Python,Algorithms"
+      "tags": "Python,Algorithms",
+      "detailImages": "assets/img/portfolio/branding-3.png",
+      "detailDesc": "A powerful Python-based calculator designed to compute areas, volumes, and centroids. Ideal for students, engineers, and anyone needing precise mathematical calculations in an easy-to-use program.",
+      "detailInfo": "Category: Python Programming, Windows Console\nPurpose: Capstone Project\nProject date: November, 2019",
+      "youtubeUrl": "",
+      "downloadUrl": "https://drive.google.com/drive/folders/1cZqQAI4ZKlmZlwM1BvInSyER2uwX5JCX"
     }
   ],
   "skills": [
