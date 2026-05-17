@@ -818,84 +818,73 @@ body.hero-active .sidebar-hero-panel {
   color: #bfb09a;
   font-weight: 300;
   letter-spacing: 0.02em;
-  margin: 0;
+  margin: 0 0 0;
+  text-align: justify;
+  text-indent: 2em;
 }
 
-/* Competency grid — numbered editorial cells */
-.about-comp-label {
-  font-family: 'Raleway', sans-serif;
-  font-size: 0.55rem;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: var(--gn-gold);
-  opacity: 0.55;
-  text-align: center;
-  margin-bottom: 2rem;
-}
-.about-comp-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  max-width: 1100px;
-  margin: 0 auto;
-  border: 1px solid rgba(201,162,39,0.12);
-}
-@media (max-width: 600px) {
-  .about-comp-grid { grid-template-columns: 1fr; }
-}
-.ac-entry {
+/* Core Competencies list (under bio, left column) */
+.about-comp-section { margin-top: 2.5rem; }
+.about-comp-section .about-bio-eyebrow { margin-bottom: 0.2rem; }
+
+.comp-item {
   display: flex;
-  gap: 1.8rem;
-  align-items: flex-start;
-  padding: 2.4rem 2.8rem;
-  border-right: 1px solid rgba(201,162,39,0.12);
-  border-bottom: 1px solid rgba(201,162,39,0.12);
-  position: relative;
-  overflow: hidden;
-  transition: background 0.35s ease;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.9rem 0.65rem;
+  border-bottom: 1px solid rgba(201,162,39,0.08);
   cursor: default;
+  transition: background 0.25s ease, padding-left 0.25s ease;
 }
-.ac-entry:nth-child(even) { border-right: none; }
-.ac-entry:nth-child(3), .ac-entry:nth-child(4) { border-bottom: none; }
-.ac-entry::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0;
-  width: 0; height: 1px;
-  background: var(--gn-gold);
-  transition: width 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
-}
-.ac-entry:hover { background: rgba(201,162,39,0.04); }
-.ac-entry:hover::after { width: 100%; }
-.ace-num {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.5rem;
-  font-weight: 300;
-  color: rgba(201,162,39,0.15);
-  line-height: 1;
+.comp-item:first-child { border-top: 1px solid rgba(201,162,39,0.08); margin-top: 0.6rem; }
+.comp-item:last-child { border-bottom: none; }
+.comp-item:hover { background: rgba(201,162,39,0.05); padding-left: 1rem; }
+
+.comp-icon {
+  width: 34px; height: 34px;
   flex-shrink: 0;
-  transition: color 0.35s ease;
-  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(201,162,39,0.2);
+  color: rgba(201,162,39,0.6);
+  font-size: 0.9rem;
+  transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
 }
-.ac-entry:hover .ace-num { color: var(--gn-gold); }
-.ace-title {
+.comp-item:hover .comp-icon {
+  background: rgba(201,162,39,0.12);
+  border-color: var(--gn-gold);
+  color: var(--gn-gold);
+}
+.comp-title {
   display: block;
   font-family: 'Raleway', sans-serif;
-  font-size: 0.68rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--gn-ivory);
-  margin-bottom: 0.55rem;
-  transition: color 0.35s ease;
+  margin-bottom: 0.2rem;
+  transition: color 0.25s ease;
 }
-.ac-entry:hover .ace-title { color: var(--gn-gold); }
-.ace-stack {
-  font-size: 0.84rem;
+.comp-item:hover .comp-title { color: var(--gn-gold); }
+.comp-stack {
+  font-size: 0.78rem;
   color: var(--gn-muted);
-  line-height: 1.8;
-  display: block;
+  line-height: 1.55;
   letter-spacing: 0.02em;
 }
+
+/* Personal info — interactive hover states */
+.ap-name { cursor: default; transition: color 0.25s ease; }
+.ap-name:hover { color: #F0D060; }
+.ap-cell {
+  cursor: default;
+  transition: background 0.22s ease, padding-left 0.22s ease;
+}
+.ap-cell:hover { background: rgba(201,162,39,0.06); padding-left: 0.35rem; }
+.ap-cell:hover .ap-label { opacity: 1; }
+.ap-cell:hover .ap-val { color: #F0D060; }
 
 
 /* ── Skills ─────────────────────────────────────────────────── */
@@ -1167,7 +1156,7 @@ section.section, .section {
   overflow: hidden;
   z-index: 0;
 }
-.about-quote, .about-rule, .about-body, .about-comp-label, .about-comp-grid,
+.about-quote, .about-rule, .about-body,
 #about .section-title { position: relative; z-index: 1; }
 .as {
   position: absolute;
