@@ -1831,7 +1831,7 @@
           </p>
 
           <!-- Core Competencies (same column, below bio) -->
-          <div class="about-comp-section">
+          <div class="about-comp-section" id="about-highlights">
             <p class="about-bio-eyebrow">Core Competencies</p>
             <div class="comp-item">
               <div class="comp-icon"><i class="bi bi-braces"></i></div>
@@ -3765,11 +3765,37 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (cfg.highlights && cfg.highlights.length) {
       var hl = document.getElementById('about-highlights');
-      if (hl) hl.innerHTML = cfg.highlights.map(function(h, i) {
-        return '<div class="about-highlight" data-aos="fade-right" data-aos-delay="' + ((i+1)*100) + '">' +
-               '<span class="about-highlight-dot"></span>' +
-               '<span class="about-highlight-text">' + esc(h) + '</span></div>';
-      }).join('');
+      if (hl) {
+        /* Pick an icon based on keywords in the highlight text */
+        var pickIcon = function(text) {
+          var t = text.toLowerCase();
+          if (t.indexOf('backend') > -1 || t.indexOf('server') > -1 || t.indexOf('system') > -1) return 'bi-braces';
+          if (t.indexOf('frontend') > -1 || t.indexOf('ui') > -1 || t.indexOf('web') > -1) return 'bi-layers';
+          if (t.indexOf('database') > -1 || t.indexOf('sql') > -1 || t.indexOf('db') > -1) return 'bi-server';
+          if (t.indexOf('learn') > -1 || t.indexOf('expand') > -1 || t.indexOf('c#') > -1 || t.indexOf('.net') > -1) return 'bi-lightning-charge';
+          if (t.indexOf('mobile') > -1 || t.indexOf('android') > -1 || t.indexOf('ios') > -1) return 'bi-phone';
+          if (t.indexOf('cloud') > -1 || t.indexOf('devops') > -1) return 'bi-cloud';
+          if (t.indexOf('security') > -1) return 'bi-shield-check';
+          return 'bi-chevron-right';
+        };
+        /* Split "Title — Stack" on em dash or plain dash */
+        var splitHighlight = function(h) {
+          var sep = h.indexOf(' — ') > -1 ? ' — ' : (h.indexOf(' - ') > -1 ? ' - ' : null);
+          if (sep) { var p = h.split(sep); return { title: p[0], stack: p.slice(1).join(sep) }; }
+          return { title: h, stack: '' };
+        };
+        /* Rebuild the eyebrow heading then the comp items */
+        var eyebrow = hl.querySelector('.about-bio-eyebrow');
+        var eyebrowHTML = eyebrow ? eyebrow.outerHTML : '<p class="about-bio-eyebrow">Core Competencies</p>';
+        hl.innerHTML = eyebrowHTML + cfg.highlights.map(function(h) {
+          var parts = splitHighlight(h);
+          return '<div class="comp-item">' +
+                 '<div class="comp-icon"><i class="bi ' + pickIcon(h) + '"></i></div>' +
+                 '<div><strong class="comp-title">' + esc(parts.title) + '</strong>' +
+                 (parts.stack ? '<span class="comp-stack">' + esc(parts.stack) + '</span>' : '') +
+                 '</div></div>';
+        }).join('');
+      }
     }
 
     if (cfg.birthday || cfg.address || cfg.nationality) {
