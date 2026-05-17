@@ -5,7 +5,7 @@ const session = require('express-session');
 const multer  = require('multer');
 const path    = require('path');
 const fs      = require('fs');
-const https   = require('https');
+const nodemailer = require('nodemailer');
 
 const app        = express();
 const PORT       = process.env.PORT       || 8080;
@@ -131,63 +131,45 @@ app.delete('/api/upload/:filename', requireAuth, (req, res) => {
 });
 
 // ── API: Contact form ──────────────────────────────────────────────────
-app.post('/api/contact', (req, res) => {
+app.post('/api/contact', async (req, res) => {
   const { name, email, subject, message } = req.body || {};
   if (!name || !email || !subject || !message) {
     return res.status(400).json({ error: 'All fields are required.' });
   }
 
-  const serviceId   = process.env.EMAILJS_SERVICE_ID   || 'service_p7fxuq2';
-  const templateId  = process.env.EMAILJS_TEMPLATE_ID  || 'template_198p0dl';
-  const publicKey   = process.env.EMAILJS_PUBLIC_KEY   || 'V3-hIRVSWCVZWhKwC';
-  const accessToken = process.env.EMAILJS_ACCESS_TOKEN || '';
+  const gmailUser = process.env.GMAIL_USER;
+  const gmailPass = process.env.GMAIL_APP_PASSWORD;
 
-  const ejsBody = {
-    service_id:  serviceId,
-    template_id: templateId,
-    user_id:     publicKey,
-    template_params: {
-      from_name:  name,
-      from_email: email,
-      subject:    subject,
-      message:    message,
-      reply_to:   email
-    }
-  };
-  if (accessToken) ejsBody.accessToken = accessToken;
-
-  const payload = JSON.stringify(ejsBody);
-
-  const options = {
-    hostname: 'api.emailjs.com',
-    path:     '/api/v1.0/email/send',
-    method:   'POST',
-    headers:  {
-      'Content-Type':   'application/json',
-      'Content-Length': Buffer.byteLength(payload)
-    }
-  };
-
-  const ejsReq = https.request(options, ejsRes => {
-    let body = '';
-    ejsRes.on('data', chunk => { body += chunk; });
-    ejsRes.on('end', () => {
-      if (ejsRes.statusCode === 200) {
-        res.json({ ok: true });
-      } else {
-        console.error(`EmailJS ${ejsRes.statusCode}:`, body);
-        res.status(502).json({ error: `Email service responded with ${ejsRes.statusCode}: ${body}` });
-      }
+  if (!gmailUser || !gmailPass) {
+    return res.status(503).json({
+      error: 'Email not configured. Set GMAIL_USER and GMAIL_APP_PASSWORD in Railway environment variables.'
     });
+  }
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: { user: gmailUser, pass: gmailPass }
   });
 
-  ejsReq.on('error', err => {
-    console.error('Contact API network error:', err.message);
-    res.status(500).json({ error: 'Network error contacting email service.' });
-  });
-
-  ejsReq.write(payload);
-  ejsReq.end();
+  try {
+    await transporter.sendMail({
+      from:     `"Portfolio Contact" <${gmailUser}>`,
+      replyTo:  `"${name}" <${email}>`,
+      to:       gmailUser,
+      subject:  `[Portfolio] ${subject}`,
+      html: `<h3 style="color:#C9A227">New message from your portfolio</h3>
+             <p><strong>Name:</strong> ${name}</p>
+             <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+             <p><strong>Subject:</strong> ${subject}</p>
+             <hr style="border-color:#C9A227;opacity:.3">
+             <p>${message.replace(/\n/g, '<br>')}</p>`,
+      text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\n${message}`
+    });
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('Contact email error:', err.message);
+    res.status(500).json({ error: 'Failed to send: ' + err.message });
+  }
 });
 
 // ── Start ──────────────────────────────────────────────────────────────
