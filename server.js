@@ -5,6 +5,7 @@ const session = require('express-session');
 const multer  = require('multer');
 const path    = require('path');
 const fs      = require('fs');
+const https   = require('https');
 
 const app        = express();
 const PORT       = process.env.PORT       || 8080;
@@ -127,6 +128,62 @@ app.delete('/api/upload/:filename', requireAuth, (req, res) => {
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
+});
+
+// ── API: Contact form ──────────────────────────────────────────────────
+app.post('/api/contact', (req, res) => {
+  const { name, email, subject, message } = req.body || {};
+  if (!name || !email || !subject || !message) {
+    return res.status(400).json({ error: 'All fields are required.' });
+  }
+
+  const serviceId  = process.env.EMAILJS_SERVICE_ID  || 'service_p7fxuq2';
+  const templateId = process.env.EMAILJS_TEMPLATE_ID || 'template_198p0dl';
+  const publicKey  = process.env.EMAILJS_PUBLIC_KEY  || 'V3-hIRVSWCVZWhKwC';
+
+  const payload = JSON.stringify({
+    service_id:  serviceId,
+    template_id: templateId,
+    user_id:     publicKey,
+    template_params: {
+      from_name:  name,
+      from_email: email,
+      subject:    subject,
+      message:    message,
+      reply_to:   email
+    }
+  });
+
+  const options = {
+    hostname: 'api.emailjs.com',
+    path:     '/api/v1.0/email/send',
+    method:   'POST',
+    headers:  {
+      'Content-Type':   'application/json',
+      'Content-Length': Buffer.byteLength(payload)
+    }
+  };
+
+  const ejsReq = https.request(options, ejsRes => {
+    let body = '';
+    ejsRes.on('data', chunk => { body += chunk; });
+    ejsRes.on('end', () => {
+      if (ejsRes.statusCode === 200) {
+        res.json({ ok: true });
+      } else {
+        console.error(`EmailJS ${ejsRes.statusCode}:`, body);
+        res.status(502).json({ error: `Email service responded with ${ejsRes.statusCode}: ${body}` });
+      }
+    });
+  });
+
+  ejsReq.on('error', err => {
+    console.error('Contact API network error:', err.message);
+    res.status(500).json({ error: 'Network error contacting email service.' });
+  });
+
+  ejsReq.write(payload);
+  ejsReq.end();
 });
 
 // ── Start ──────────────────────────────────────────────────────────────

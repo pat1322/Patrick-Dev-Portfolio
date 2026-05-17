@@ -183,6 +183,7 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
       <div class="adm-nav-item" data-sec="resume"><i class="bi bi-briefcase"></i>Professional Journey</div>
       <div class="adm-nav-item" data-sec="portfolio"><i class="bi bi-images"></i>Portfolio</div>
       <div class="adm-nav-item" data-sec="skills"><i class="bi bi-bar-chart"></i>Skills</div>
+      <div class="adm-nav-item" data-sec="achievements"><i class="bi bi-trophy"></i>Achievements</div>
       <div class="adm-nav-group">Site Config</div>
       <div class="adm-nav-item" data-sec="contact"><i class="bi bi-envelope"></i>Contact</div>
       <div class="adm-nav-item" data-sec="links"><i class="bi bi-link-45deg"></i>Links</div>
@@ -358,6 +359,32 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
         <div class="adm-row-list" id="skill-list"></div>
         <button class="adm-add-btn" id="add-skill"><i class="bi bi-plus-lg"></i> Add Skill</button>
         <div class="adm-hint" style="margin-top:.6rem">Type a skill name — icon detects automatically. Try: Python, React, Docker, Git, Java…</div>
+      </div>
+    </section>
+
+    <!-- ══ ACHIEVEMENTS ══ -->
+    <section class="adm-section" id="sec-achievements">
+      <div class="adm-section-header">
+        <div class="adm-section-title">Achievements &amp; Milestones</div>
+        <div class="adm-section-desc">Edit stat numbers, certification/education cards, and key milestone cards</div>
+      </div>
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-123"></i> Stats Row</div>
+        <div class="adm-hint" style="margin-bottom:.6rem">The 4 big-number stat cards — left field is the number (e.g. <strong>3+</strong>), right is the label.</div>
+        <div class="adm-row-list" id="stat-list"></div>
+        <button class="adm-add-btn" id="add-stat"><i class="bi bi-plus-lg"></i> Add Stat</button>
+      </div>
+      <div class="adm-card" style="margin-top:1rem">
+        <div class="adm-card-title"><i class="bi bi-award"></i> Education &amp; Certifications</div>
+        <div class="adm-hint" style="margin-bottom:.6rem">Use Bootstrap Icon class names, e.g. <code>bi-mortarboard-fill</code>, <code>bi-globe2</code>, <code>bi-bank2</code>.</div>
+        <div id="cert-list"></div>
+        <button class="adm-add-btn" id="add-cert"><i class="bi bi-plus-lg"></i> Add Card</button>
+      </div>
+      <div class="adm-card" style="margin-top:1rem">
+        <div class="adm-card-title"><i class="bi bi-trophy"></i> Key Milestones</div>
+        <div class="adm-hint" style="margin-bottom:.6rem">Same icon format as above — <code>bi-cpu</code>, <code>bi-robot</code>, <code>bi-graph-up-arrow</code>, etc.</div>
+        <div id="milestone-list"></div>
+        <button class="adm-add-btn" id="add-milestone"><i class="bi bi-plus-lg"></i> Add Card</button>
       </div>
     </section>
 
@@ -753,11 +780,29 @@ var DEFAULT_SKILLS = [
   'HTML','CSS','JavaScript','C#','Visual Basic','Spring','Bootstrap'
 ];
 
+var DEFAULT_STAT_CARDS = [
+  { num:'3+', label:'Years Experience' },
+  { num:'9+', label:'Projects Built' },
+  { num:'2',  label:'Companies Worked' },
+  { num:'1',  label:'International Internship' }
+];
+var DEFAULT_CERTIFICATIONS = [
+  { icon:'bi-mortarboard-fill', title:'B.S. Computer Engineering',      sub:'Bulacan State University · 2022',        desc:'Graduated with focus on software development, algorithms, databases, and embedded systems engineering.' },
+  { icon:'bi-globe2',           title:'International Tech Internship',  sub:'BCN Montjuic, Barcelona · Aug 2021',     desc:'Selected for an international internship in Barcelona, Spain, building mobile and web applications.' },
+  { icon:'bi-bank2',            title:'Software Engineer — Banking', sub:'Asia United Bank · 2022 – Present', desc:'Joined as a Software Engineer building and maintaining mission-critical financial banking systems in C/C++.' }
+];
+var DEFAULT_MILESTONES = [
+  { icon:'bi-cpu',            title:'IoT Capstone Project',         sub:'Olfactory UTI Detector · 2022',     desc:'Developed a real-world IoT health device using Raspberry Pi and gas sensors as a university capstone project.' },
+  { icon:'bi-robot',          title:'AI-Powered Applications',      sub:'EcoEye AI & Lotto AI · 2023',       desc:'Built two independent AI-driven applications — an ecological identifier and a predictive lottery system.' },
+  { icon:'bi-graph-up-arrow', title:'Banking System Optimization',  sub:'Asia United Bank · 2023',           desc:'Resolved critical performance bottlenecks and overflow issues in production C/C++ financial applications.' }
+];
+
 /* ═══════════════════════════════════════════
    STATE
    ═══════════════════════════════════════════ */
 var state = {}, highlights = [], services = [], experience = [],
-    education = [], projects = [], skills = [];
+    education = [], projects = [], skills = [],
+    statCards = [], certifications = [], milestones = [];
 
 function loadState() {
   try {
@@ -768,8 +813,11 @@ function loadState() {
       services   = saved.services   || DEFAULT_SERVICES.slice();
       experience = saved.experience || DEFAULT_EXPERIENCE.slice();
       education  = saved.education  || DEFAULT_EDUCATION.slice();
-      projects   = saved.projects   || DEFAULT_PROJECTS.slice();
-      skills     = (saved.skills || DEFAULT_SKILLS).map(function(s){ return typeof s === 'string' ? s : (s.name || ''); }).filter(Boolean);
+      projects       = saved.projects       || DEFAULT_PROJECTS.slice();
+      skills         = (saved.skills || DEFAULT_SKILLS).map(function(s){ return typeof s === 'string' ? s : (s.name || ''); }).filter(Boolean);
+      statCards      = saved.statCards      || DEFAULT_STAT_CARDS.map(function(s){ return Object.assign({},s); });
+      certifications = saved.certifications || DEFAULT_CERTIFICATIONS.map(function(s){ return Object.assign({},s); });
+      milestones     = saved.milestones     || DEFAULT_MILESTONES.map(function(s){ return Object.assign({},s); });
     } else {
       resetToDefaults();
     }
@@ -782,8 +830,11 @@ function resetToDefaults() {
   services   = DEFAULT_SERVICES.slice();
   experience = DEFAULT_EXPERIENCE.slice();
   education  = DEFAULT_EDUCATION.slice();
-  projects   = DEFAULT_PROJECTS.map(function(p){ return Object.assign({}, p); });
-  skills     = DEFAULT_SKILLS.slice();
+  projects       = DEFAULT_PROJECTS.map(function(p){ return Object.assign({}, p); });
+  skills         = DEFAULT_SKILLS.slice();
+  statCards      = DEFAULT_STAT_CARDS.map(function(s){ return Object.assign({},s); });
+  certifications = DEFAULT_CERTIFICATIONS.map(function(s){ return Object.assign({},s); });
+  milestones     = DEFAULT_MILESTONES.map(function(s){ return Object.assign({},s); });
 }
 
 /* ═══════════════════════════════════════════
@@ -805,6 +856,9 @@ function populateForms() {
   renderEducation();
   renderProjects();
   renderSkills();
+  renderStatCards();
+  renderAchList('cert-list', certifications);
+  renderAchList('milestone-list', milestones);
   renderVisToggles();
 }
 
@@ -819,6 +873,9 @@ function readForms() {
   readEducation();
   readProjects();
   readSkills();
+  readStatCards();
+  certifications = readAchList('cert-list');
+  milestones     = readAchList('milestone-list');
 }
 
 /* Always sync from the live server config so admin shows current values */
@@ -846,6 +903,9 @@ function syncFromServer() {
       if (cfg.education  && cfg.education.length)   education  = cfg.education;
       if (cfg.projects   && cfg.projects.length)    projects   = cfg.projects;
       if (cfg.skills && cfg.skills.length) skills = cfg.skills.map(function(s){ return typeof s === 'string' ? s : (s.name || ''); }).filter(Boolean);
+      if (cfg.statCards      && cfg.statCards.length)      statCards      = cfg.statCards;
+      if (cfg.certifications && cfg.certifications.length) certifications = cfg.certifications;
+      if (cfg.milestones     && cfg.milestones.length)     milestones     = cfg.milestones;
       populateForms();
       toast('Loaded latest config from server');
     })
@@ -1250,6 +1310,89 @@ document.getElementById('add-skill').addEventListener('click', function() {
 });
 
 /* ═══════════════════════════════════════════
+   ACHIEVEMENTS & MILESTONES
+   ═══════════════════════════════════════════ */
+function renderStatCards() {
+  var list = document.getElementById('stat-list');
+  list.innerHTML = '';
+  statCards.forEach(function(sc, i) {
+    var row = document.createElement('div');
+    row.className = 'adm-row';
+    row.innerHTML =
+      '<input class="adm-row-input" style="max-width:76px;font-size:1.1rem;font-weight:700;text-align:center" type="text" placeholder="3+" value="' + esc(sc.num||'') + '">' +
+      '<input class="adm-row-input" type="text" placeholder="Label (e.g. Years Experience)" value="' + esc(sc.label||'') + '">' +
+      '<button class="adm-row-del" data-i="' + i + '"><i class="bi bi-x-lg"></i></button>';
+    row.querySelector('.adm-row-del').addEventListener('click', function() {
+      statCards.splice(+this.dataset.i, 1); renderStatCards();
+    });
+    list.appendChild(row);
+  });
+}
+function readStatCards() {
+  statCards = [];
+  document.querySelectorAll('#stat-list .adm-row').forEach(function(row) {
+    var inp = row.querySelectorAll('input');
+    var num = inp[0] ? inp[0].value.trim() : '';
+    var lbl = inp[1] ? inp[1].value.trim() : '';
+    if (num || lbl) statCards.push({ num: num, label: lbl });
+  });
+}
+function renderAchList(listId, arr) {
+  var list = document.getElementById(listId);
+  if (!list) return;
+  list.innerHTML = '';
+  arr.forEach(function(m, i) {
+    var wrap = document.createElement('div');
+    wrap.className = 'adm-card adm-ach-card';
+    wrap.style.cssText = 'margin-bottom:.75rem;padding:1rem 1.2rem';
+    var icon = m.icon || 'bi-circle';
+    wrap.innerHTML =
+      '<div style="display:flex;gap:.6rem;align-items:center;margin-bottom:.7rem">' +
+        '<i class="bi ' + esc(icon) + ' adm-ach-prev" style="font-size:1.5rem;color:#C9A227;min-width:1.8rem"></i>' +
+        '<input class="adm-row-input adm-ach-icon" type="text" placeholder="Icon class (e.g. bi-trophy)" style="max-width:210px" value="' + esc(icon) + '">' +
+        '<button class="adm-row-del adm-ach-del" data-i="' + i + '" style="margin-left:auto"><i class="bi bi-x-lg"></i></button>' +
+      '</div>' +
+      '<input class="adm-row-input adm-ach-title" type="text" placeholder="Title" value="' + esc(m.title||'') + '" style="margin-bottom:.4rem">' +
+      '<input class="adm-row-input adm-ach-sub"   type="text" placeholder="Subtitle  e.g.  Company · Year" value="' + esc(m.sub||'') + '" style="margin-bottom:.4rem">' +
+      '<textarea class="adm-row-input adm-ach-desc" rows="2" placeholder="Description" style="resize:vertical">' + esc(m.desc||'') + '</textarea>';
+    var iconInp = wrap.querySelector('.adm-ach-icon');
+    var iconPrv = wrap.querySelector('.adm-ach-prev');
+    iconInp.addEventListener('input', function() {
+      iconPrv.className = 'bi ' + (this.value.trim() || 'bi-circle') + ' adm-ach-prev';
+    });
+    wrap.querySelector('.adm-ach-del').addEventListener('click', function() {
+      arr.splice(+this.dataset.i, 1); renderAchList(listId, arr);
+    });
+    list.appendChild(wrap);
+  });
+}
+function readAchList(listId) {
+  var result = [];
+  document.querySelectorAll('#' + listId + ' .adm-ach-card').forEach(function(card) {
+    result.push({
+      icon:  (card.querySelector('.adm-ach-icon')  || {value:''}).value.trim(),
+      title: (card.querySelector('.adm-ach-title') || {value:''}).value.trim(),
+      sub:   (card.querySelector('.adm-ach-sub')   || {value:''}).value.trim(),
+      desc:  (card.querySelector('.adm-ach-desc')  || {value:''}).value.trim()
+    });
+  });
+  return result;
+}
+document.getElementById('add-stat').addEventListener('click', function() {
+  statCards.push({ num:'', label:'' }); renderStatCards();
+  var inp = document.querySelectorAll('#stat-list .adm-row input');
+  if (inp.length >= 2) inp[inp.length - 2].focus();
+});
+document.getElementById('add-cert').addEventListener('click', function() {
+  certifications.push({ icon:'bi-circle', title:'', sub:'', desc:'' });
+  renderAchList('cert-list', certifications);
+});
+document.getElementById('add-milestone').addEventListener('click', function() {
+  milestones.push({ icon:'bi-circle', title:'', sub:'', desc:'' });
+  renderAchList('milestone-list', milestones);
+});
+
+/* ═══════════════════════════════════════════
    VISIBILITY TOGGLES
    ═══════════════════════════════════════════ */
 var VIS_ITEMS = [
@@ -1332,7 +1475,10 @@ function buildConfig() {
     experience: experience,
     education: education,
     projects: projects,
-    skills: skills
+    skills: skills,
+    statCards: statCards,
+    certifications: certifications,
+    milestones: milestones
   };
 }
 

@@ -2401,7 +2401,7 @@
       </div>
 
       <!-- Stats Row -->
-      <div class="row gy-4 mt-2" data-aos="fade-up" data-aos-delay="100">
+      <div class="row gy-4 mt-2" id="stat-cards-row" data-aos="fade-up" data-aos-delay="100">
         <div class="col-6 col-lg-3">
           <div class="stat-card">
             <div class="stat-num">3+</div>
@@ -2435,7 +2435,7 @@
         <div class="ach-divider-line"></div>
       </div>
 
-      <div class="row gy-4" data-aos="fade-up" data-aos-delay="200">
+      <div class="row gy-4" id="certifications-row" data-aos="fade-up" data-aos-delay="200">
         <div class="col-lg-4 col-md-6">
           <div class="milestone-card">
             <div class="milestone-icon"><i class="bi bi-mortarboard-fill"></i></div>
@@ -2475,7 +2475,7 @@
         <div class="ach-divider-line"></div>
       </div>
 
-      <div class="row gy-4" data-aos="fade-up" data-aos-delay="300">
+      <div class="row gy-4" id="milestones-row" data-aos="fade-up" data-aos-delay="300">
         <div class="col-lg-4 col-md-6">
           <div class="milestone-card">
             <div class="milestone-icon"><i class="bi bi-cpu"></i></div>
@@ -2727,42 +2727,48 @@
 
 <!-- Combined JavaScript -->
 <script>
-// Initialize EmailJS
-emailjs.init("V3-hIRVSWCVZWhKwC"); // Replace with your actual EmailJS public key
-
-// Contact Form Submission
+// Contact Form — sends via server-side /api/contact (no client-side credentials)
 document.getElementById("contact-form").addEventListener("submit", function(event) {
-  event.preventDefault(); // Prevent page reload
+  event.preventDefault();
+  var form   = this;
+  var btn    = form.querySelector('.contact-submit-v2');
+  var status = document.getElementById("status-message");
 
-  // Get input values
-  const name = document.getElementById("name-field").value;
-  const email = document.getElementById("email-field").value;
-  const subject = document.getElementById("subject-field").value;
-  const message = document.getElementById("message-field").value;
+  var name    = (document.getElementById("name-field")    || {}).value.trim();
+  var email   = (document.getElementById("email-field")   || {}).value.trim();
+  var subject = (document.getElementById("subject-field") || {}).value.trim();
+  var message = (document.getElementById("message-field") || {}).value.trim();
 
-  // Validate fields (optional, but recommended)
   if (!name || !email || !subject || !message) {
-    document.getElementById("status-message").innerHTML = "<p style='color:red;'>⚠️ Please fill out all fields.</p>";
+    status.innerHTML = "<p style='color:#e74c3c'>⚠️ Please fill out all fields.</p>";
     return;
   }
 
-  // Send email via EmailJS
-  emailjs.send("service_p7fxuq2", "template_198p0dl", {
-    from_name: name,
-    from_email: email,
-    subject: subject,
-    message: message
-  }).then(
-    function(response) {
-      console.log("Email sent successfully:", response);
-      document.getElementById("status-message").innerHTML = "<p style='color:green;'>✅ Message sent successfully!</p>";
-      document.getElementById("contact-form").reset(); // Clear form
-    },
-    function(error) {
-      console.log("Email failed to send:", error);
-      document.getElementById("status-message").innerHTML = "<p style='color:red;'>❌ Failed to send message. Please try again.</p>";
+  btn.disabled = true;
+  btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Sending…';
+  status.innerHTML = '';
+
+  fetch('/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: name, email: email, subject: subject, message: message })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data.ok) {
+      status.innerHTML = "<p style='color:#27ae60'>✅ Message sent! I'll get back to you soon.</p>";
+      form.reset();
+    } else {
+      status.innerHTML = "<p style='color:#e74c3c'>❌ " + (data.error || 'Failed to send. Please try again.') + "</p>";
     }
-  );
+  })
+  .catch(function() {
+    status.innerHTML = "<p style='color:#e74c3c'>❌ Network error. Please try again.</p>";
+  })
+  .finally(function() {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-send"></i> Send Message';
+  });
 });
 
 // ── Hero: code matrix canvas ──────────────────────────────────
@@ -3908,6 +3914,36 @@ document.addEventListener("DOMContentLoaded", function() {
     if (cfg.gifPath)    { var gi = document.querySelector('.gif-overlay');   if (gi) gi.src = cfg.gifPath; }
 
     /* ── Summary of Work ── */
+    /* ── Achievements ── */
+    if (cfg.statCards && cfg.statCards.length) {
+      var scRow = document.getElementById('stat-cards-row');
+      if (scRow) scRow.innerHTML = cfg.statCards.map(function(sc) {
+        return '<div class="col-6 col-lg-3"><div class="stat-card">' +
+               '<div class="stat-num">'   + esc(sc.num||'')   + '</div>' +
+               '<div class="stat-label">' + esc(sc.label||'') + '</div>' +
+               '</div></div>';
+      }).join('');
+    }
+    function buildMilestoneCard(m) {
+      return '<div class="milestone-card">' +
+        '<div class="milestone-icon"><i class="bi ' + esc(m.icon||'bi-circle') + '"></i></div>' +
+        '<div><div class="milestone-title">' + esc(m.title||'') + '</div>' +
+        '<div class="milestone-sub">' + esc(m.sub||'') + '</div>' +
+        '<p class="milestone-desc">' + esc(m.desc||'') + '</p></div></div>';
+    }
+    if (cfg.certifications && cfg.certifications.length) {
+      var certRow = document.getElementById('certifications-row');
+      if (certRow) certRow.innerHTML = cfg.certifications.map(function(m) {
+        return '<div class="col-lg-4 col-md-6">' + buildMilestoneCard(m) + '</div>';
+      }).join('');
+    }
+    if (cfg.milestones && cfg.milestones.length) {
+      var msRow = document.getElementById('milestones-row');
+      if (msRow) msRow.innerHTML = cfg.milestones.map(function(m) {
+        return '<div class="col-lg-4 col-md-6">' + buildMilestoneCard(m) + '</div>';
+      }).join('');
+    }
+
     /* ── Skills carousel ── */
     if (cfg.skills && cfg.skills.length) {
       var allNames = cfg.skills.map(function(s){ return typeof s === 'string' ? s : (s.name||''); }).filter(Boolean);
