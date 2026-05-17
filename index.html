@@ -1579,6 +1579,14 @@
 <!-- ══════════════ SPLASH SCREEN ══════════════ -->
 <div id="splash-screen" onclick="dismissSplash()">
 
+  <!-- Staggered wipe exit panels (provide background + reveal effect) -->
+  <div class="sp-layer sp-layer-1 sp-left"></div>
+  <div class="sp-layer sp-layer-1 sp-right"></div>
+  <div class="sp-layer sp-layer-2 sp-left"></div>
+  <div class="sp-layer sp-layer-2 sp-right"></div>
+  <div class="sp-layer sp-layer-3 sp-left"></div>
+  <div class="sp-layer sp-layer-3 sp-right"></div>
+
   <div class="splash-content">
     <!-- Art Deco Developer Logo -->
     <div class="splash-logo">
@@ -1633,7 +1641,30 @@
       </svg>
     </div>
 
-    <h1 class="splash-name">Patrick Perez</h1>
+    <div class="splash-name-wrap" id="splashNameWrap">
+      <svg class="splash-name-svg" viewBox="0 0 800 110" role="img" aria-label="Patrick Perez">
+        <defs>
+          <linearGradient id="snGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%"   stop-color="rgba(255,255,255,0)"/>
+            <stop offset="25%"  stop-color="rgba(255,255,255,0)"/>
+            <stop offset="38%"  stop-color="#F0D060"/>
+            <stop offset="50%"  stop-color="#C9A227"/>
+            <stop offset="62%"  stop-color="#7A5A10"/>
+            <stop offset="75%"  stop-color="rgba(255,255,255,0)"/>
+            <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+          </linearGradient>
+          <clipPath id="snClip">
+            <text x="50%" y="82" text-anchor="middle"
+                  font-family="'Arial Black', Impact, sans-serif"
+                  font-weight="900" font-size="68" letter-spacing="8">PATRICK PEREZ</text>
+          </clipPath>
+        </defs>
+        <text class="sn-draw" x="50%" y="82" text-anchor="middle"
+              font-family="'Arial Black', Impact, sans-serif"
+              font-weight="900" font-size="68" letter-spacing="8">PATRICK PEREZ</text>
+        <rect class="sn-shimmer" y="0"/>
+      </svg>
+    </div>
     <div class="splash-divider"></div>
     <p class="splash-tagline" data-cfg="title">Software Engineer &amp; Developer</p>
   </div>
@@ -2665,19 +2696,28 @@
 
 <!-- Splash Screen JS -->
 <script>
+  /* SVG draw → fill → shimmer animation sequence */
+  document.addEventListener('DOMContentLoaded', function () {
+    var wrap = document.getElementById('splashNameWrap');
+    if (!wrap) return;
+    setTimeout(function () { wrap.classList.add('sn-filled'); }, 1800);
+    setTimeout(function () { wrap.classList.add('sn-reveal-shimmer'); }, 2200);
+    setTimeout(function () { wrap.classList.add('sn-run-shimmer'); }, 2300);
+  });
+
   function dismissSplash() {
     var s = document.getElementById('splash-screen');
-    if (!s || s.classList.contains('fade-out')) return;
-    s.classList.add('fade-out');
+    if (!s || s.classList.contains('wipe-out')) return;
+    s.classList.add('wipe-out');
     setTimeout(function () {
       s.style.display = 'none';
       startPuzzleReveal();
-    }, 950);
+    }, 1600);
   }
   window.addEventListener('load', function () {
     /* If gate is still showing, splash will be triggered by gate.js on dismiss */
     if (!window.pfGateActive) {
-      setTimeout(dismissSplash, 3200);
+      setTimeout(dismissSplash, 3800);
     }
   });
 </script>
