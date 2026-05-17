@@ -147,28 +147,43 @@ app.post('/api/contact', async (req, res) => {
   }
 
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user: gmailUser, pass: gmailPass }
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,             // STARTTLS — more reliable than port 465 on cloud hosts
+    auth: { user: gmailUser, pass: gmailPass },
+    connectionTimeout: 8000,   // 8 s to establish TCP connection
+    greetingTimeout:   5000,   // 5 s for SMTP greeting
+    socketTimeout:     8000    // 8 s of inactivity before giving up
   });
 
+  const mailOptions = {
+    from:    `"Portfolio Contact" <${gmailUser}>`,
+    replyTo: `"${name}" <${email}>`,
+    to:      gmailUser,
+    subject: `[Portfolio] ${subject}`,
+    html: `<h3 style="color:#C9A227;font-family:sans-serif">New message from your portfolio</h3>
+           <p><strong>Name:</strong> ${name}</p>
+           <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
+           <p><strong>Subject:</strong> ${subject}</p>
+           <hr style="border:none;border-top:1px solid #C9A227;opacity:.3">
+           <p style="white-space:pre-wrap">${message.replace(/</g,'&lt;')}</p>`,
+    text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\n${message}`
+  };
+
+  // Hard 15 s overall timeout — ensures server always replies so the client button resets
+  const timeoutPromise = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error(
+      'SMTP timed out after 15 s. Confirm GMAIL_APP_PASSWORD is a valid 16-char App Password ' +
+      'and that Railway can reach smtp.gmail.com:587.'
+    )), 15000)
+  );
+
   try {
-    await transporter.sendMail({
-      from:     `"Portfolio Contact" <${gmailUser}>`,
-      replyTo:  `"${name}" <${email}>`,
-      to:       gmailUser,
-      subject:  `[Portfolio] ${subject}`,
-      html: `<h3 style="color:#C9A227">New message from your portfolio</h3>
-             <p><strong>Name:</strong> ${name}</p>
-             <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
-             <p><strong>Subject:</strong> ${subject}</p>
-             <hr style="border-color:#C9A227;opacity:.3">
-             <p>${message.replace(/\n/g, '<br>')}</p>`,
-      text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\n${message}`
-    });
+    await Promise.race([transporter.sendMail(mailOptions), timeoutPromise]);
     res.json({ ok: true });
   } catch (err) {
     console.error('Contact email error:', err.message);
-    res.status(500).json({ error: 'Failed to send: ' + err.message });
+    res.status(500).json({ error: err.message });
   }
 });
 

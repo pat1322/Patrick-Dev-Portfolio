@@ -2801,6 +2801,15 @@ document.getElementById("contact-form").addEventListener("submit", function(even
   btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Sending…';
   status.innerHTML = '';
 
+  /* Safety net: always re-enable the button after 20 s regardless of server response */
+  var safetyTimer = setTimeout(function() {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-send"></i> Send Message';
+    if (!status.textContent) {
+      status.innerHTML = "<p style='color:#e74c3c'>❌ Request timed out — please try again.</p>";
+    }
+  }, 20000);
+
   fetch('/api/contact', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -2819,6 +2828,7 @@ document.getElementById("contact-form").addEventListener("submit", function(even
     status.innerHTML = "<p style='color:#e74c3c'>❌ Network error. Please try again.</p>";
   })
   .finally(function() {
+    clearTimeout(safetyTimer);
     btn.disabled = false;
     btn.innerHTML = '<i class="bi bi-send"></i> Send Message';
   });
