@@ -375,10 +375,10 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
         <button class="adm-add-btn" id="add-stat"><i class="bi bi-plus-lg"></i> Add Stat</button>
       </div>
       <div class="adm-card" style="margin-top:1rem">
-        <div class="adm-card-title"><i class="bi bi-award"></i> Education &amp; Certifications</div>
-        <div class="adm-hint" style="margin-bottom:.6rem">Use Bootstrap Icon class names, e.g. <code>bi-mortarboard-fill</code>, <code>bi-globe2</code>, <code>bi-bank2</code>.</div>
+        <div class="adm-card-title"><i class="bi bi-award"></i> Awards &amp; Certifications</div>
+        <div class="adm-hint" style="margin-bottom:.6rem">Each card supports an optional <strong>certificate image</strong> and a <strong>link</strong> (e.g. Coursera verification URL). Icon classes: <code>bi-award</code>, <code>bi-mortarboard-fill</code>, <code>bi-patch-check-fill</code>…</div>
         <div id="cert-list"></div>
-        <button class="adm-add-btn" id="add-cert"><i class="bi bi-plus-lg"></i> Add Card</button>
+        <button class="adm-add-btn" id="add-cert"><i class="bi bi-plus-lg"></i> Add Award / Certificate</button>
       </div>
       <div class="adm-card" style="margin-top:1rem">
         <div class="adm-card-title"><i class="bi bi-trophy"></i> Key Milestones</div>
@@ -787,9 +787,9 @@ var DEFAULT_STAT_CARDS = [
   { num:'1',  label:'International Internship' }
 ];
 var DEFAULT_CERTIFICATIONS = [
-  { icon:'bi-mortarboard-fill', title:'B.S. Computer Engineering',      sub:'Bulacan State University · 2022',        desc:'Graduated with focus on software development, algorithms, databases, and embedded systems engineering.' },
-  { icon:'bi-globe2',           title:'International Tech Internship',  sub:'BCN Montjuic, Barcelona · Aug 2021',     desc:'Selected for an international internship in Barcelona, Spain, building mobile and web applications.' },
-  { icon:'bi-bank2',            title:'Software Engineer — Banking', sub:'Asia United Bank · 2022 – Present', desc:'Joined as a Software Engineer building and maintaining mission-critical financial banking systems in C/C++.' }
+  { icon:'bi-mortarboard-fill', title:'B.S. Computer Engineering',     sub:'Bulacan State University · 2022',    desc:'Graduated with focus on software development, algorithms, databases, and embedded systems engineering.', img:'', link:'' },
+  { icon:'bi-globe2',           title:'International Tech Internship', sub:'BCN Montjuic, Barcelona · Aug 2021', desc:'Selected for an international internship in Barcelona, Spain, building mobile and web applications.',    img:'', link:'' },
+  { icon:'bi-bank2',            title:'Software Engineer — Banking',   sub:'Asia United Bank · 2022 – Present',  desc:'Joined as a Software Engineer building and maintaining mission-critical financial banking systems in C/C++.', img:'', link:'' }
 ];
 var DEFAULT_MILESTONES = [
   { icon:'bi-cpu',            title:'IoT Capstone Project',         sub:'Olfactory UTI Detector · 2022',     desc:'Developed a real-world IoT health device using Raspberry Pi and gas sensors as a university capstone project.' },
@@ -857,8 +857,8 @@ function populateForms() {
   renderProjects();
   renderSkills();
   renderStatCards();
-  renderAchList('cert-list', certifications);
-  renderAchList('milestone-list', milestones);
+  renderCertList();
+  renderMilestoneList();
   renderVisToggles();
 }
 
@@ -874,8 +874,8 @@ function readForms() {
   readProjects();
   readSkills();
   readStatCards();
-  certifications = readAchList('cert-list');
-  milestones     = readAchList('milestone-list');
+  readCertList();
+  readMilestoneList();
 }
 
 /* Always sync from the live server config so admin shows current values */
@@ -1337,59 +1337,144 @@ function readStatCards() {
     if (num || lbl) statCards.push({ num: num, label: lbl });
   });
 }
-function renderAchList(listId, arr) {
-  var list = document.getElementById(listId);
+/* Awards & Certifications — separate render with img + link + upload */
+function renderCertList() {
+  var list = document.getElementById('cert-list');
   if (!list) return;
   list.innerHTML = '';
-  arr.forEach(function(m, i) {
-    var wrap = document.createElement('div');
-    wrap.className = 'adm-card adm-ach-card';
-    wrap.style.cssText = 'margin-bottom:.75rem;padding:1rem 1.2rem';
-    var icon = m.icon || 'bi-circle';
-    wrap.innerHTML =
-      '<div style="display:flex;gap:.6rem;align-items:center;margin-bottom:.7rem">' +
-        '<i class="bi ' + esc(icon) + ' adm-ach-prev" style="font-size:1.5rem;color:#C9A227;min-width:1.8rem"></i>' +
-        '<input class="adm-row-input adm-ach-icon" type="text" placeholder="Icon class (e.g. bi-trophy)" style="max-width:210px" value="' + esc(icon) + '">' +
-        '<button class="adm-row-del adm-ach-del" data-i="' + i + '" style="margin-left:auto"><i class="bi bi-x-lg"></i></button>' +
+  certifications.forEach(function(m, i) {
+    var entry = document.createElement('div');
+    entry.className = 'adm-entry';
+    var icon = m.icon || 'bi-award';
+    var imgSrc = m.img || '';
+    entry.innerHTML =
+      '<div class="adm-entry-head">' +
+        '<span class="adm-entry-label"><i class="bi ' + esc(icon) + ' cert-icon-prev" style="margin-right:.35rem;font-size:1rem"></i>Award / Certificate ' + (i+1) + '</span>' +
+        '<button class="adm-entry-del cert-del" data-i="' + i + '"><i class="bi bi-x-lg"></i> Remove</button>' +
       '</div>' +
-      '<input class="adm-row-input adm-ach-title" type="text" placeholder="Title" value="' + esc(m.title||'') + '" style="margin-bottom:.4rem">' +
-      '<input class="adm-row-input adm-ach-sub"   type="text" placeholder="Subtitle  e.g.  Company · Year" value="' + esc(m.sub||'') + '" style="margin-bottom:.4rem">' +
-      '<textarea class="adm-row-input adm-ach-desc" rows="2" placeholder="Description" style="resize:vertical">' + esc(m.desc||'') + '</textarea>';
-    var iconInp = wrap.querySelector('.adm-ach-icon');
-    var iconPrv = wrap.querySelector('.adm-ach-prev');
+      '<div style="display:flex;gap:.5rem;margin-bottom:.45rem">' +
+        '<input class="adm-row-input cert-icon" type="text" placeholder="Icon (e.g. bi-award)" style="max-width:190px" value="' + esc(icon) + '">' +
+        '<input class="adm-row-input cert-title" type="text" placeholder="Title" value="' + esc(m.title||'') + '">' +
+      '</div>' +
+      '<input class="adm-row-input cert-sub" type="text" placeholder="Subtitle  e.g.  Google · 2024" value="' + esc(m.sub||'') + '" style="margin-bottom:.45rem;display:block">' +
+      '<textarea class="adm-row-input cert-desc" rows="2" placeholder="Description (optional)" style="resize:vertical;margin-bottom:.45rem;display:block">' + esc(m.desc||'') + '</textarea>' +
+      '<div class="adm-divider"></div>' +
+      '<div class="adm-hint" style="margin-bottom:.35rem">Certificate Image (optional)</div>' +
+      '<div style="display:flex;gap:.5rem;align-items:center;margin-bottom:.4rem">' +
+        '<input class="adm-row-input cert-img" type="text" placeholder="Image URL (paste or upload)" value="' + esc(imgSrc) + '">' +
+        '<button class="adm-upload-btn cert-upload-btn" type="button"><i class="bi bi-upload"></i> Upload</button>' +
+      '</div>' +
+      (imgSrc ? '<img src="' + esc(imgSrc) + '" class="cert-img-preview" style="max-height:72px;max-width:100%;object-fit:contain;border:1px solid rgba(201,162,39,.2);margin-bottom:.45rem;display:block">' :
+                '<img class="cert-img-preview" style="display:none;max-height:72px;max-width:100%;object-fit:contain;border:1px solid rgba(201,162,39,.2);margin-bottom:.45rem">') +
+      '<div class="adm-hint" style="margin-bottom:.35rem">Certificate Link (optional) — clicking the card opens this URL</div>' +
+      '<input class="adm-row-input cert-link" type="url" placeholder="https://coursera.org/verify/..." value="' + esc(m.link||'') + '" style="display:block">';
+
+    var iconInp = entry.querySelector('.cert-icon');
+    var iconPrv = entry.querySelector('.cert-icon-prev');
     iconInp.addEventListener('input', function() {
-      iconPrv.className = 'bi ' + (this.value.trim() || 'bi-circle') + ' adm-ach-prev';
+      iconPrv.className = 'bi ' + (this.value.trim() || 'bi-award') + ' cert-icon-prev';
+      iconPrv.style.cssText = 'margin-right:.35rem;font-size:1rem';
     });
-    wrap.querySelector('.adm-ach-del').addEventListener('click', function() {
-      arr.splice(+this.dataset.i, 1); renderAchList(listId, arr);
+    var imgInp = entry.querySelector('.cert-img');
+    var imgPrv = entry.querySelector('.cert-img-preview');
+    imgInp.addEventListener('input', function() {
+      imgPrv.src = this.value.trim();
+      imgPrv.style.display = this.value.trim() ? 'block' : 'none';
     });
-    list.appendChild(wrap);
+    entry.querySelector('.cert-upload-btn').addEventListener('click', function() {
+      var fi = document.createElement('input');
+      fi.type = 'file'; fi.accept = 'image/*';
+      fi.onchange = function() {
+        if (!fi.files[0]) return;
+        var fd = new FormData();
+        fd.append('image', fi.files[0]);
+        ensureApiAuth().then(function(ok) {
+          if (!ok) { toast('Not authenticated'); return; }
+          fetch('/api/upload', { method:'POST', body:fd })
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+              if (d.url) { imgInp.value = d.url; imgPrv.src = d.url; imgPrv.style.display = 'block'; toast('Uploaded!'); }
+            });
+        });
+      };
+      fi.click();
+    });
+    entry.querySelector('.cert-del').addEventListener('click', function() {
+      certifications.splice(+this.dataset.i, 1); renderCertList();
+    });
+    list.appendChild(entry);
   });
 }
-function readAchList(listId) {
-  var result = [];
-  document.querySelectorAll('#' + listId + ' .adm-ach-card').forEach(function(card) {
-    result.push({
-      icon:  (card.querySelector('.adm-ach-icon')  || {value:''}).value.trim(),
-      title: (card.querySelector('.adm-ach-title') || {value:''}).value.trim(),
-      sub:   (card.querySelector('.adm-ach-sub')   || {value:''}).value.trim(),
-      desc:  (card.querySelector('.adm-ach-desc')  || {value:''}).value.trim()
+function readCertList() {
+  certifications = [];
+  document.querySelectorAll('#cert-list .adm-entry').forEach(function(e) {
+    certifications.push({
+      icon:  (e.querySelector('.cert-icon')  || {value:'bi-award'}).value.trim() || 'bi-award',
+      title: (e.querySelector('.cert-title') || {value:''}).value.trim(),
+      sub:   (e.querySelector('.cert-sub')   || {value:''}).value.trim(),
+      desc:  (e.querySelector('.cert-desc')  || {value:''}).value.trim(),
+      img:   (e.querySelector('.cert-img')   || {value:''}).value.trim(),
+      link:  (e.querySelector('.cert-link')  || {value:''}).value.trim()
     });
   });
-  return result;
 }
+
+/* Key Milestones */
+function renderMilestoneList() {
+  var list = document.getElementById('milestone-list');
+  if (!list) return;
+  list.innerHTML = '';
+  milestones.forEach(function(m, i) {
+    var entry = document.createElement('div');
+    entry.className = 'adm-entry';
+    var icon = m.icon || 'bi-circle';
+    entry.innerHTML =
+      '<div class="adm-entry-head">' +
+        '<span class="adm-entry-label"><i class="bi ' + esc(icon) + ' ms-icon-prev" style="margin-right:.35rem;font-size:1rem"></i>Milestone ' + (i+1) + '</span>' +
+        '<button class="adm-entry-del ms-del" data-i="' + i + '"><i class="bi bi-x-lg"></i> Remove</button>' +
+      '</div>' +
+      '<div style="display:flex;gap:.5rem;margin-bottom:.45rem">' +
+        '<input class="adm-row-input ms-icon" type="text" placeholder="Icon (e.g. bi-trophy)" style="max-width:190px" value="' + esc(icon) + '">' +
+        '<input class="adm-row-input ms-title" type="text" placeholder="Title" value="' + esc(m.title||'') + '">' +
+      '</div>' +
+      '<input class="adm-row-input ms-sub" type="text" placeholder="Subtitle  e.g.  Company · Year" value="' + esc(m.sub||'') + '" style="margin-bottom:.45rem;display:block">' +
+      '<textarea class="adm-row-input ms-desc" rows="2" placeholder="Description" style="resize:vertical;display:block">' + esc(m.desc||'') + '</textarea>';
+    var iconInp = entry.querySelector('.ms-icon');
+    var iconPrv = entry.querySelector('.ms-icon-prev');
+    iconInp.addEventListener('input', function() {
+      iconPrv.className = 'bi ' + (this.value.trim() || 'bi-circle') + ' ms-icon-prev';
+      iconPrv.style.cssText = 'margin-right:.35rem;font-size:1rem';
+    });
+    entry.querySelector('.ms-del').addEventListener('click', function() {
+      milestones.splice(+this.dataset.i, 1); renderMilestoneList();
+    });
+    list.appendChild(entry);
+  });
+}
+function readMilestoneList() {
+  milestones = [];
+  document.querySelectorAll('#milestone-list .adm-entry').forEach(function(e) {
+    milestones.push({
+      icon:  (e.querySelector('.ms-icon')  || {value:'bi-circle'}).value.trim() || 'bi-circle',
+      title: (e.querySelector('.ms-title') || {value:''}).value.trim(),
+      sub:   (e.querySelector('.ms-sub')   || {value:''}).value.trim(),
+      desc:  (e.querySelector('.ms-desc')  || {value:''}).value.trim()
+    });
+  });
+}
+
 document.getElementById('add-stat').addEventListener('click', function() {
   statCards.push({ num:'', label:'' }); renderStatCards();
   var inp = document.querySelectorAll('#stat-list .adm-row input');
   if (inp.length >= 2) inp[inp.length - 2].focus();
 });
 document.getElementById('add-cert').addEventListener('click', function() {
-  certifications.push({ icon:'bi-circle', title:'', sub:'', desc:'' });
-  renderAchList('cert-list', certifications);
+  certifications.push({ icon:'bi-award', title:'', sub:'', desc:'', img:'', link:'' });
+  renderCertList();
 });
 document.getElementById('add-milestone').addEventListener('click', function() {
   milestones.push({ icon:'bi-circle', title:'', sub:'', desc:'' });
-  renderAchList('milestone-list', milestones);
+  renderMilestoneList();
 });
 
 /* ═══════════════════════════════════════════

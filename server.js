@@ -137,11 +137,12 @@ app.post('/api/contact', (req, res) => {
     return res.status(400).json({ error: 'All fields are required.' });
   }
 
-  const serviceId  = process.env.EMAILJS_SERVICE_ID  || 'service_p7fxuq2';
-  const templateId = process.env.EMAILJS_TEMPLATE_ID || 'template_198p0dl';
-  const publicKey  = process.env.EMAILJS_PUBLIC_KEY  || 'V3-hIRVSWCVZWhKwC';
+  const serviceId   = process.env.EMAILJS_SERVICE_ID   || 'service_p7fxuq2';
+  const templateId  = process.env.EMAILJS_TEMPLATE_ID  || 'template_198p0dl';
+  const publicKey   = process.env.EMAILJS_PUBLIC_KEY   || 'V3-hIRVSWCVZWhKwC';
+  const accessToken = process.env.EMAILJS_ACCESS_TOKEN || '';
 
-  const payload = JSON.stringify({
+  const ejsBody = {
     service_id:  serviceId,
     template_id: templateId,
     user_id:     publicKey,
@@ -152,7 +153,10 @@ app.post('/api/contact', (req, res) => {
       message:    message,
       reply_to:   email
     }
-  });
+  };
+  if (accessToken) ejsBody.accessToken = accessToken;
+
+  const payload = JSON.stringify(ejsBody);
 
   const options = {
     hostname: 'api.emailjs.com',

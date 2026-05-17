@@ -1122,6 +1122,59 @@
     margin: 0;
   }
 
+  /* ===== CERT CARD (Awards & Certifications — image + link support) ===== */
+  .cert-card {
+    display: block;
+    background: #141420;
+    border: 1px solid rgba(201,162,39,0.1);
+    overflow: hidden;
+    height: 100%;
+    position: relative;
+    transition: border-color 0.35s ease, transform 0.35s ease, box-shadow 0.35s ease;
+    text-decoration: none !important;
+    color: inherit;
+  }
+  .cert-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, #E8C547, #8B6914);
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  }
+  .cert-card:hover { border-color: rgba(201,162,39,0.4); transform: translateY(-4px); box-shadow: 0 14px 36px rgba(0,0,0,0.38); }
+  .cert-card:hover::before { transform: scaleY(1); }
+  .cert-card-img {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    display: block;
+    border-bottom: 1px solid rgba(201,162,39,0.12);
+  }
+  .cert-card-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    padding: 1.3rem 1.4rem;
+  }
+  .cert-card:hover .milestone-icon { background: var(--gn-gold) !important; color: #0e0c0a !important; box-shadow: 0 4px 20px rgba(201,162,39,0.5) !important; border-color: var(--gn-gold) !important; }
+  .cert-link-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gn-gold);
+    opacity: 0.75;
+    margin-top: 0.55rem;
+    transition: opacity 0.25s ease;
+  }
+  .cert-card:hover .cert-link-badge { opacity: 1; }
+
   /* ===== CONTACT V2 ===== */
   .contact-v2-chips {
     display: flex;
@@ -2431,7 +2484,7 @@
       <!-- Certifications divider -->
       <div class="ach-divider" data-aos="fade-up" data-aos-delay="150">
         <div class="ach-divider-line ach-divider-line-left"></div>
-        <div class="ach-divider-label"><i class="bi bi-award me-2"></i>Education &amp; Certifications</div>
+        <div class="ach-divider-label"><i class="bi bi-award me-2"></i>Awards &amp; Certifications</div>
         <div class="ach-divider-line"></div>
       </div>
 
@@ -3931,10 +3984,21 @@ document.addEventListener("DOMContentLoaded", function() {
         '<div class="milestone-sub">' + esc(m.sub||'') + '</div>' +
         '<p class="milestone-desc">' + esc(m.desc||'') + '</p></div></div>';
     }
+    function buildCertCard(m) {
+      var imgHTML = m.img ? '<img class="cert-card-img" src="' + esc(m.img) + '" alt="' + esc(m.title||'') + '" loading="lazy">' : '';
+      var badge   = m.link ? '<span class="cert-link-badge"><i class="bi bi-box-arrow-up-right"></i> View Certificate</span>' : '';
+      var body    = '<div class="cert-card-body">' +
+                    '<div class="milestone-icon"><i class="bi ' + esc(m.icon||'bi-award') + '"></i></div>' +
+                    '<div><div class="milestone-title">' + esc(m.title||'') + '</div>' +
+                    '<div class="milestone-sub">' + esc(m.sub||'') + '</div>' +
+                    '<p class="milestone-desc">' + esc(m.desc||'') + '</p>' + badge + '</div></div>';
+      if (m.link) return '<a class="cert-card" href="' + esc(m.link) + '" target="_blank" rel="noopener noreferrer">' + imgHTML + body + '</a>';
+      return '<div class="cert-card">' + imgHTML + body + '</div>';
+    }
     if (cfg.certifications && cfg.certifications.length) {
       var certRow = document.getElementById('certifications-row');
       if (certRow) certRow.innerHTML = cfg.certifications.map(function(m) {
-        return '<div class="col-lg-4 col-md-6">' + buildMilestoneCard(m) + '</div>';
+        return '<div class="col-lg-4 col-md-6">' + buildCertCard(m) + '</div>';
       }).join('');
     }
     if (cfg.milestones && cfg.milestones.length) {
