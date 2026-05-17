@@ -5,7 +5,7 @@ const session = require('express-session');
 const multer  = require('multer');
 const path    = require('path');
 const fs      = require('fs');
-const nodemailer = require('nodemailer');
+const https = require('https');
 
 const app        = express();
 const PORT       = process.env.PORT       || 8080;
@@ -130,61 +130,71 @@ app.delete('/api/upload/:filename', requireAuth, (req, res) => {
   }
 });
 
-// ── API: Contact form ──────────────────────────────────────────────────
-app.post('/api/contact', async (req, res) => {
+// ── API: Contact form (uses Resend HTTP API — no SMTP, works on Railway) ──────
+app.post('/api/contact', (req, res) => {
   const { name, email, subject, message } = req.body || {};
   if (!name || !email || !subject || !message) {
     return res.status(400).json({ error: 'All fields are required.' });
   }
 
-  const gmailUser = process.env.GMAIL_USER;
-  const gmailPass = process.env.GMAIL_APP_PASSWORD;
+  const apiKey  = process.env.RESEND_API_KEY;
+  const toEmail = process.env.CONTACT_EMAIL || 'patrickperez1322@gmail.com';
 
-  if (!gmailUser || !gmailPass) {
+  if (!apiKey) {
     return res.status(503).json({
-      error: 'Email not configured. Set GMAIL_USER and GMAIL_APP_PASSWORD in Railway environment variables.'
+      error: 'Contact form not configured. Add RESEND_API_KEY to Railway environment variables (get a free key at resend.com).'
     });
   }
 
-  const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,             // STARTTLS — more reliable than port 465 on cloud hosts
-    auth: { user: gmailUser, pass: gmailPass },
-    connectionTimeout: 8000,   // 8 s to establish TCP connection
-    greetingTimeout:   5000,   // 5 s for SMTP greeting
-    socketTimeout:     8000    // 8 s of inactivity before giving up
-  });
-
-  const mailOptions = {
-    from:    `"Portfolio Contact" <${gmailUser}>`,
-    replyTo: `"${name}" <${email}>`,
-    to:      gmailUser,
-    subject: `[Portfolio] ${subject}`,
+  const safeMsg = String(message).replace(/</g, '&lt;').replace(/\n/g, '<br>');
+  const payload = JSON.stringify({
+    from:     'Portfolio Contact <onboarding@resend.dev>',
+    to:       [toEmail],
+    reply_to: email,
+    subject:  `[Portfolio] ${subject}`,
     html: `<h3 style="color:#C9A227;font-family:sans-serif">New message from your portfolio</h3>
            <p><strong>Name:</strong> ${name}</p>
            <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
            <p><strong>Subject:</strong> ${subject}</p>
-           <hr style="border:none;border-top:1px solid #C9A227;opacity:.3">
-           <p style="white-space:pre-wrap">${message.replace(/</g,'&lt;')}</p>`,
+           <hr style="border:none;border-top:1px solid #ccc;margin:1rem 0">
+           <p>${safeMsg}</p>`,
     text: `Name: ${name}\nEmail: ${email}\nSubject: ${subject}\n\n${message}`
-  };
+  });
 
-  // Hard 15 s overall timeout — ensures server always replies so the client button resets
-  const timeoutPromise = new Promise((_, reject) =>
-    setTimeout(() => reject(new Error(
-      'SMTP timed out after 15 s. Confirm GMAIL_APP_PASSWORD is a valid 16-char App Password ' +
-      'and that Railway can reach smtp.gmail.com:587.'
-    )), 15000)
-  );
+  const apiReq = https.request({
+    hostname: 'api.resend.com',
+    path:     '/emails',
+    method:   'POST',
+    headers:  {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type':   'application/json',
+      'Content-Length': Buffer.byteLength(payload)
+    }
+  }, (apiRes) => {
+    let body = '';
+    apiRes.on('data', chunk => { body += chunk; });
+    apiRes.on('end', () => {
+      if (apiRes.statusCode >= 200 && apiRes.statusCode < 300) {
+        res.json({ ok: true });
+      } else {
+        let msg = body;
+        try { msg = JSON.parse(body).message || body; } catch (_) {}
+        console.error('Resend error', apiRes.statusCode, body);
+        res.status(502).json({ error: `Email service error (${apiRes.statusCode}): ${msg}` });
+      }
+    });
+  });
 
-  try {
-    await Promise.race([transporter.sendMail(mailOptions), timeoutPromise]);
-    res.json({ ok: true });
-  } catch (err) {
-    console.error('Contact email error:', err.message);
+  apiReq.setTimeout(15000, () => {
+    apiReq.destroy(new Error('Resend API request timed out after 15 s'));
+  });
+  apiReq.on('error', err => {
+    console.error('Contact API error:', err.message);
     res.status(500).json({ error: err.message });
-  }
+  });
+
+  apiReq.write(payload);
+  apiReq.end();
 });
 
 // ── Start ──────────────────────────────────────────────────────────────
