@@ -1916,7 +1916,7 @@
       
       <div class="skills-rows-container">
 	    <div style="margin-bottom: 10px;"></div> 
-        <div class="skills-row row-1">
+        <div class="skills-row row-1" id="skills-row-1">
           <div class="skill-item" style="background-color: #00599c;">
             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="">C
           </div>
@@ -1962,7 +1962,7 @@
           </div>
         </div>
         
-        <div class="skills-row row-2">
+        <div class="skills-row row-2" id="skills-row-2">
           <div class="skill-item" style="background-color: #e34c26;">
             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="">HTML
           </div>
@@ -3751,6 +3751,82 @@ document.addEventListener("DOMContentLoaded", function() {
       return (str || '').split(',').filter(Boolean)
         .map(function(t){ return '<span>' + esc(t.trim()) + '</span>'; }).join('');
     }
+    function getSkillMeta(name) {
+      var B = 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/';
+      var db = {
+        'c':{'p':'c/c-original.svg','bg':'#00599c'},
+        'c++':{'p':'cplusplus/cplusplus-original.svg','bg':'#004482'},
+        'python':{'p':'python/python-original.svg','bg':'#3572a5'},
+        'java':{'p':'java/java-original.svg','bg':'#e76f00'},
+        'javascript':{'p':'javascript/javascript-original.svg','bg':'#f7df1e','tc':'#000'},
+        'js':{'p':'javascript/javascript-original.svg','bg':'#f7df1e','tc':'#000'},
+        'typescript':{'p':'typescript/typescript-original.svg','bg':'#3178c6'},
+        'ts':{'p':'typescript/typescript-original.svg','bg':'#3178c6'},
+        'html':{'p':'html5/html5-original.svg','bg':'#e34c26'},
+        'html5':{'p':'html5/html5-original.svg','bg':'#e34c26'},
+        'html/css':{'p':'html5/html5-original.svg','bg':'#e34c26'},
+        'css':{'p':'css3/css3-original.svg','bg':'#264de4'},
+        'c#':{'p':'csharp/csharp-original.svg','bg':'#68217a'},
+        'csharp':{'p':'csharp/csharp-original.svg','bg':'#68217a'},
+        '.net':{'p':'dot-net/dot-net-original.svg','bg':'#5c2d91'},
+        'dotnet':{'p':'dot-net/dot-net-original.svg','bg':'#5c2d91'},
+        'sql':{'p':'mysql/mysql-original.svg','bg':'#00758f'},
+        'mysql':{'p':'mysql/mysql-original.svg','bg':'#00758f'},
+        'postgresql':{'p':'postgresql/postgresql-original.svg','bg':'#336791'},
+        'postgres':{'p':'postgresql/postgresql-original.svg','bg':'#336791'},
+        'mongodb':{'p':'mongodb/mongodb-original.svg','bg':'#13aa52'},
+        'docker':{'p':'docker/docker-original.svg','bg':'#2496ed'},
+        'git':{'p':'git/git-original.svg','bg':'#f34f29'},
+        'github':{'p':'github/github-original.svg','bg':'#24292e'},
+        'linux':{'p':'linux/linux-original.svg','bg':'#1a1a1a'},
+        'bash':{'p':'bash/bash-original.svg','bg':'#293138'},
+        'spring':{'p':'spring/spring-original.svg','bg':'#6db33f'},
+        'bootstrap':{'p':'bootstrap/bootstrap-original.svg','bg':'#563d7c'},
+        'react':{'p':'react/react-original.svg','bg':'#20232a'},
+        'nodejs':{'p':'nodejs/nodejs-original.svg','bg':'#215732'},
+        'node':{'p':'nodejs/nodejs-original.svg','bg':'#215732'},
+        'node.js':{'p':'nodejs/nodejs-original.svg','bg':'#215732'},
+        'php':{'p':'php/php-original.svg','bg':'#777bb3'},
+        'go':{'p':'go/go-original.svg','bg':'#00add8'},
+        'golang':{'p':'go/go-original.svg','bg':'#00add8'},
+        'kotlin':{'p':'kotlin/kotlin-original.svg','bg':'#7f52ff'},
+        'swift':{'p':'swift/swift-original.svg','bg':'#fa7343'},
+        'ruby':{'p':'ruby/ruby-original.svg','bg':'#cc342d'},
+        'rust':{'p':'rust/rust-plain.svg','bg':'#000000'},
+        'redis':{'p':'redis/redis-original.svg','bg':'#d82c20'},
+        'android':{'p':'android/android-original.svg','bg':'#a4c639','tc':'#000'},
+        'arduino':{'p':'arduino/arduino-original.svg','bg':'#00979d'},
+        'raspberry pi':{'p':'raspberrypi/raspberrypi-original.svg','bg':'#c51a4a'},
+        'raspberrypi':{'p':'raspberrypi/raspberrypi-original.svg','bg':'#c51a4a'},
+        'kubernetes':{'p':'kubernetes/kubernetes-plain.svg','bg':'#326de6'},
+        'k8s':{'p':'kubernetes/kubernetes-plain.svg','bg':'#326de6'},
+        'vue':{'p':'vuejs/vuejs-original.svg','bg':'#4fc08d'},
+        'vue.js':{'p':'vuejs/vuejs-original.svg','bg':'#4fc08d'},
+        'angular':{'p':'angularjs/angularjs-original.svg','bg':'#dd0031'},
+        'svelte':{'p':'svelte/svelte-original.svg','bg':'#ff3e00'},
+        'flutter':{'p':'flutter/flutter-original.svg','bg':'#54c5f8','tc':'#000'},
+        'dart':{'p':'dart/dart-original.svg','bg':'#0175c2'},
+        'figma':{'p':'figma/figma-original.svg','bg':'#1e1e2e'},
+        'firebase':{'p':'firebase/firebase-plain.svg','bg':'#ffca28','tc':'#000'},
+        'graphql':{'p':'graphql/graphql-plain.svg','bg':'#e10098'},
+        'tailwind':{'p':'tailwindcss/tailwindcss-plain.svg','bg':'#0ea5e9'},
+        'nginx':{'p':'nginx/nginx-original.svg','bg':'#009639'},
+        'aws':{'p':'amazonwebservices/amazonwebservices-original.svg','bg':'#232f3e'},
+        'scala':{'p':'scala/scala-original.svg','bg':'#dc322f'},
+        'visual basic':{'p':'dot-net/dot-net-original.svg','bg':'#5c2d91'},
+        'matlab':{'p':'matlab/matlab-original.svg','bg':'#0076a8'},
+        'informix':{'p':null,'bg':'#1a365d'},
+        'informix sql':{'p':null,'bg':'#1a365d'}
+      };
+      var m = db[(name||'').toLowerCase().trim()] || {};
+      return { icon: m.p ? B+m.p : null, bg: m.bg||'#2a2a2a', textColor: m.tc||'#fff' };
+    }
+    function buildSkillPill(name) {
+      var m = getSkillMeta(name);
+      var style = 'background-color:' + m.bg + ';' + (m.textColor !== '#fff' ? 'color:' + m.textColor + ';' : '');
+      var img = m.icon ? '<img src="' + m.icon + '" alt="" onerror="this.style.display=\'none\'">' : '';
+      return '<div class="skill-item" style="' + style + '">' + img + esc(name) + '</div>';
+    }
 
     /* ── Hero / Sidebar ── */
     setText('[data-cfg="name"]',      cfg.name);
@@ -3832,6 +3908,23 @@ document.addEventListener("DOMContentLoaded", function() {
     if (cfg.gifPath)    { var gi = document.querySelector('.gif-overlay');   if (gi) gi.src = cfg.gifPath; }
 
     /* ── Summary of Work ── */
+    /* ── Skills carousel ── */
+    if (cfg.skills && cfg.skills.length) {
+      var allNames = cfg.skills.map(function(s){ return typeof s === 'string' ? s : (s.name||''); }).filter(Boolean);
+      var mid = Math.ceil(allNames.length / 2);
+      var g1 = allNames.slice(0, mid);
+      var g2 = allNames.slice(mid);
+      if (!g2.length) g2 = g1.slice(); /* fallback: mirror row 1 if only a few skills */
+      var buildRow = function(names) {
+        var html = names.map(buildSkillPill).join('');
+        return html + html; /* duplicate for seamless infinite loop */
+      };
+      var r1 = document.getElementById('skills-row-1');
+      var r2 = document.getElementById('skills-row-2');
+      if (r1) r1.innerHTML = buildRow(g1);
+      if (r2) r2.innerHTML = buildRow(g2);
+    }
+
     if (cfg.services && cfg.services.length) {
       var sc = document.getElementById('services-container');
       if (sc) sc.innerHTML = cfg.services.map(function(s, i) {

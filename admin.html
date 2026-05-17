@@ -351,13 +351,13 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
     <section class="adm-section" id="sec-skills">
       <div class="adm-section-header">
         <div class="adm-section-title">Skills</div>
-        <div class="adm-section-desc">Edit, reorder, or add skills with proficiency percentage</div>
+        <div class="adm-section-desc">Add or remove skills shown in the scrolling carousel. Icons are auto-assigned by name.</div>
       </div>
       <div class="adm-card">
-        <div class="adm-card-title"><i class="bi bi-bar-chart-steps"></i> Skills List</div>
+        <div class="adm-card-title"><i class="bi bi-bar-chart-steps"></i> Skills Carousel</div>
         <div class="adm-row-list" id="skill-list"></div>
         <button class="adm-add-btn" id="add-skill"><i class="bi bi-plus-lg"></i> Add Skill</button>
-        <div class="adm-hint" style="margin-top:.6rem">Percentage 0–100. Save changes to persist.</div>
+        <div class="adm-hint" style="margin-top:.6rem">Type a skill name — icon detects automatically. Try: Python, React, Docker, Git, Java…</div>
       </div>
     </section>
 
@@ -674,10 +674,83 @@ var DEFAULT_PROJECTS = [
     detailImages:'branding-3.png', detailDesc:'A powerful Python-based calculator designed to compute areas, volumes, and centroids. Ideal for students, engineers, and anyone needing precise mathematical calculations.', detailInfo:'Category: Python Programming, Windows Console\nPurpose: Capstone Project\nProject date: November, 2019', youtubeUrl:'', downloadUrl:'https://drive.google.com/drive/folders/1cZqQAI4ZKlmZlwM1BvInSyER2uwX5JCX' }
 ];
 
+/* ── Skill icon / colour database ─────────────────────────────── */
+function getSkillMeta(name) {
+  var B = 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/';
+  var db = {
+    'c':            { p:'c/c-original.svg',                                     bg:'#00599c' },
+    'c++':          { p:'cplusplus/cplusplus-original.svg',                     bg:'#004482' },
+    'python':       { p:'python/python-original.svg',                           bg:'#3572a5' },
+    'java':         { p:'java/java-original.svg',                               bg:'#e76f00' },
+    'javascript':   { p:'javascript/javascript-original.svg',                   bg:'#f7df1e', tc:'#000' },
+    'js':           { p:'javascript/javascript-original.svg',                   bg:'#f7df1e', tc:'#000' },
+    'typescript':   { p:'typescript/typescript-original.svg',                   bg:'#3178c6' },
+    'ts':           { p:'typescript/typescript-original.svg',                   bg:'#3178c6' },
+    'html':         { p:'html5/html5-original.svg',                             bg:'#e34c26' },
+    'html5':        { p:'html5/html5-original.svg',                             bg:'#e34c26' },
+    'html/css':     { p:'html5/html5-original.svg',                             bg:'#e34c26' },
+    'css':          { p:'css3/css3-original.svg',                               bg:'#264de4' },
+    'css3':         { p:'css3/css3-original.svg',                               bg:'#264de4' },
+    'c#':           { p:'csharp/csharp-original.svg',                           bg:'#68217a' },
+    'csharp':       { p:'csharp/csharp-original.svg',                           bg:'#68217a' },
+    '.net':         { p:'dot-net/dot-net-original.svg',                         bg:'#5c2d91' },
+    'dotnet':       { p:'dot-net/dot-net-original.svg',                         bg:'#5c2d91' },
+    'sql':          { p:'mysql/mysql-original.svg',                             bg:'#00758f' },
+    'mysql':        { p:'mysql/mysql-original.svg',                             bg:'#00758f' },
+    'postgresql':   { p:'postgresql/postgresql-original.svg',                   bg:'#336791' },
+    'postgres':     { p:'postgresql/postgresql-original.svg',                   bg:'#336791' },
+    'mongodb':      { p:'mongodb/mongodb-original.svg',                         bg:'#13aa52' },
+    'docker':       { p:'docker/docker-original.svg',                           bg:'#2496ed' },
+    'git':          { p:'git/git-original.svg',                                 bg:'#f34f29' },
+    'github':       { p:'github/github-original.svg',                           bg:'#24292e' },
+    'linux':        { p:'linux/linux-original.svg',                             bg:'#1a1a1a' },
+    'bash':         { p:'bash/bash-original.svg',                               bg:'#293138' },
+    'spring':       { p:'spring/spring-original.svg',                           bg:'#6db33f' },
+    'bootstrap':    { p:'bootstrap/bootstrap-original.svg',                     bg:'#563d7c' },
+    'react':        { p:'react/react-original.svg',                             bg:'#20232a' },
+    'nodejs':       { p:'nodejs/nodejs-original.svg',                           bg:'#215732' },
+    'node':         { p:'nodejs/nodejs-original.svg',                           bg:'#215732' },
+    'node.js':      { p:'nodejs/nodejs-original.svg',                           bg:'#215732' },
+    'php':          { p:'php/php-original.svg',                                 bg:'#777bb3' },
+    'go':           { p:'go/go-original.svg',                                   bg:'#00add8' },
+    'golang':       { p:'go/go-original.svg',                                   bg:'#00add8' },
+    'kotlin':       { p:'kotlin/kotlin-original.svg',                           bg:'#7f52ff' },
+    'swift':        { p:'swift/swift-original.svg',                             bg:'#fa7343' },
+    'ruby':         { p:'ruby/ruby-original.svg',                               bg:'#cc342d' },
+    'rust':         { p:'rust/rust-plain.svg',                                  bg:'#000000' },
+    'redis':        { p:'redis/redis-original.svg',                             bg:'#d82c20' },
+    'android':      { p:'android/android-original.svg',                         bg:'#a4c639', tc:'#000' },
+    'arduino':      { p:'arduino/arduino-original.svg',                         bg:'#00979d' },
+    'raspberry pi': { p:'raspberrypi/raspberrypi-original.svg',                 bg:'#c51a4a' },
+    'raspberrypi':  { p:'raspberrypi/raspberrypi-original.svg',                 bg:'#c51a4a' },
+    'kubernetes':   { p:'kubernetes/kubernetes-plain.svg',                      bg:'#326de6' },
+    'k8s':          { p:'kubernetes/kubernetes-plain.svg',                      bg:'#326de6' },
+    'vue':          { p:'vuejs/vuejs-original.svg',                             bg:'#4fc08d' },
+    'vue.js':       { p:'vuejs/vuejs-original.svg',                             bg:'#4fc08d' },
+    'angular':      { p:'angularjs/angularjs-original.svg',                     bg:'#dd0031' },
+    'svelte':       { p:'svelte/svelte-original.svg',                           bg:'#ff3e00' },
+    'flutter':      { p:'flutter/flutter-original.svg',                         bg:'#54c5f8', tc:'#000' },
+    'dart':         { p:'dart/dart-original.svg',                               bg:'#0175c2' },
+    'figma':        { p:'figma/figma-original.svg',                             bg:'#1e1e2e' },
+    'firebase':     { p:'firebase/firebase-plain.svg',                          bg:'#ffca28', tc:'#000' },
+    'graphql':      { p:'graphql/graphql-plain.svg',                            bg:'#e10098' },
+    'tailwind':     { p:'tailwindcss/tailwindcss-plain.svg',                    bg:'#0ea5e9' },
+    'nginx':        { p:'nginx/nginx-original.svg',                             bg:'#009639' },
+    'aws':          { p:'amazonwebservices/amazonwebservices-original.svg',      bg:'#232f3e' },
+    'scala':        { p:'scala/scala-original.svg',                             bg:'#dc322f' },
+    'visual basic': { p:'dot-net/dot-net-original.svg',                         bg:'#5c2d91' },
+    'informix':     { p:null,                                                   bg:'#1a365d' },
+    'informix sql': { p:null,                                                   bg:'#1a365d' },
+    'matlab':       { p:'matlab/matlab-original.svg',                           bg:'#0076a8' },
+  };
+  var k = (name || '').toLowerCase().trim();
+  var m = db[k] || {};
+  return { icon: m.p ? B + m.p : null, bg: m.bg || '#2a2a2a', textColor: m.tc || '#fff' };
+}
+
 var DEFAULT_SKILLS = [
-  {name:'Java',pct:85},{name:'Python',pct:80},{name:'JavaScript',pct:78},
-  {name:'Android',pct:82},{name:'HTML/CSS',pct:88},{name:'SQL',pct:75},
-  {name:'Raspberry Pi',pct:70},{name:'Arduino',pct:65},{name:'Git',pct:80}
+  'C','C++','Python','SQL','Java','Docker','Git',
+  'HTML','CSS','JavaScript','C#','Visual Basic','Spring','Bootstrap'
 ];
 
 /* ═══════════════════════════════════════════
@@ -696,7 +769,7 @@ function loadState() {
       experience = saved.experience || DEFAULT_EXPERIENCE.slice();
       education  = saved.education  || DEFAULT_EDUCATION.slice();
       projects   = saved.projects   || DEFAULT_PROJECTS.slice();
-      skills     = saved.skills     || DEFAULT_SKILLS.slice();
+      skills     = (saved.skills || DEFAULT_SKILLS).map(function(s){ return typeof s === 'string' ? s : (s.name || ''); }).filter(Boolean);
     } else {
       resetToDefaults();
     }
@@ -772,7 +845,7 @@ function syncFromServer() {
       if (cfg.experience && cfg.experience.length)  experience = cfg.experience;
       if (cfg.education  && cfg.education.length)   education  = cfg.education;
       if (cfg.projects   && cfg.projects.length)    projects   = cfg.projects;
-      if (cfg.skills     && cfg.skills.length)      skills     = cfg.skills;
+      if (cfg.skills && cfg.skills.length) skills = cfg.skills.map(function(s){ return typeof s === 'string' ? s : (s.name || ''); }).filter(Boolean);
       populateForms();
       toast('Loaded latest config from server');
     })
@@ -1126,29 +1199,54 @@ function renderSkills() {
   var list = document.getElementById('skill-list');
   list.innerHTML = '';
   skills.forEach(function(sk, i) {
+    var name = typeof sk === 'string' ? sk : (sk.name || '');
+    var meta = getSkillMeta(name);
     var row = document.createElement('div');
     row.className = 'adm-row';
-    row.innerHTML =
-      '<input class="adm-row-input" type="text" placeholder="Skill name" value="' + esc(sk.name) + '">' +
-      '<input class="adm-row-num" type="number" min="0" max="100" placeholder="%" value="' + sk.pct + '">' +
-      '<button class="adm-row-del" data-i="' + i + '"><i class="bi bi-x-lg"></i></button>';
-    row.querySelector('.adm-row-del').addEventListener('click', function() {
-      skills.splice(+this.dataset.i, 1); renderSkills();
+    row.style.cssText = 'align-items:center;gap:.6rem';
+
+    /* Live icon preview chip */
+    var chip = document.createElement('div');
+    chip.style.cssText = 'width:36px;height:36px;border-radius:6px;flex-shrink:0;display:flex;' +
+      'align-items:center;justify-content:center;overflow:hidden;background:' + meta.bg + ';transition:background .2s';
+    if (meta.icon) chip.innerHTML = '<img src="' + meta.icon + '" style="width:22px;height:22px;object-fit:contain" onerror="this.style.display=\'none\'">';
+
+    var input = document.createElement('input');
+    input.className = 'adm-row-input';
+    input.type = 'text';
+    input.placeholder = 'Skill name (e.g. Python)';
+    input.value = name;
+    input.addEventListener('input', function() {
+      var m = getSkillMeta(this.value);
+      chip.style.background = m.bg;
+      chip.innerHTML = m.icon
+        ? '<img src="' + m.icon + '" style="width:22px;height:22px;object-fit:contain" onerror="this.style.display=\'none\'">'
+        : '';
     });
+
+    var del = document.createElement('button');
+    del.className = 'adm-row-del';
+    del.dataset.i = i;
+    del.innerHTML = '<i class="bi bi-x-lg"></i>';
+    del.addEventListener('click', function() { skills.splice(+this.dataset.i, 1); renderSkills(); });
+
+    row.appendChild(chip);
+    row.appendChild(input);
+    row.appendChild(del);
     list.appendChild(row);
   });
 }
 function readSkills() {
   skills = [];
-  document.querySelectorAll('#skill-list .adm-row').forEach(function(row) {
-    var n = row.querySelector('.adm-row-input').value.trim();
-    var p = parseInt(row.querySelector('.adm-row-num').value) || 0;
-    if (n) skills.push({ name: n, pct: p });
+  document.querySelectorAll('#skill-list .adm-row-input').forEach(function(el) {
+    var n = el.value.trim();
+    if (n) skills.push(n);
   });
 }
 document.getElementById('add-skill').addEventListener('click', function() {
-  skills.push({ name: '', pct: 80 }); renderSkills();
-  document.querySelectorAll('#skill-list .adm-row-input').forEach(function(el,i,a){ if(i===a.length-1) el.focus(); });
+  skills.push(''); renderSkills();
+  var inputs = document.querySelectorAll('#skill-list .adm-row-input');
+  if (inputs.length) inputs[inputs.length - 1].focus();
 });
 
 /* ═══════════════════════════════════════════
