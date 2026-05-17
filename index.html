@@ -1002,70 +1002,6 @@
     transform: translateX(-50%);
   }
 
-  /* ===== ABOUT — PERSONAL INFO CARD ===== */
-  .about-info-card {
-    margin-top: 2.8rem;
-    border: 1px solid rgba(201,162,39,0.18);
-    background: rgba(201,162,39,0.03);
-    overflow: hidden;
-    text-align: left;
-    width: 100%;
-  }
-  .about-info-card-header {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-    padding: 0.85rem 1.4rem;
-    border-bottom: 1px solid rgba(201,162,39,0.15);
-    background: rgba(201,162,39,0.06);
-  }
-  .about-info-card-header i {
-    color: #C9A227;
-    font-size: 1rem;
-  }
-  .about-info-card-header span {
-    font-family: 'Raleway', sans-serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: #C9A227;
-  }
-  .about-info-grid {
-    padding: 1.2rem 1.4rem 1.4rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
-  .about-info-row {
-    display: flex;
-    flex-wrap: wrap;
-    border-bottom: 1px solid rgba(201,162,39,0.07);
-  }
-  .about-info-row:last-child { border-bottom: none; }
-  .about-info-item {
-    flex: 1 1 45%;
-    padding: 0.7rem 0.6rem;
-    min-width: 0;
-  }
-  .about-info-item--wide { flex: 1 1 100%; }
-  .about-info-label {
-    display: block;
-    font-size: 0.56rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #8a7a60;
-    margin-bottom: 0.28rem;
-    font-family: 'Raleway', sans-serif;
-  }
-  .about-info-value {
-    display: block;
-    font-size: 0.86rem;
-    color: #F0E6CC;
-    line-height: 1.5;
-    font-family: 'Raleway', sans-serif;
-  }
-
-  /* port-card styles replaced by pf-* system above */
 
   /* ===== ACHIEVEMENTS SECTION ===== */
   .achievements.section {
@@ -1860,7 +1796,6 @@
 
   <!-- About Section -->
   <section id="about" class="about section">
-    <!-- Floating background shapes (mirrors sidebar style) -->
     <div class="about-shapes" aria-hidden="true">
       <div class="as as-1"></div>
       <div class="as as-2"></div>
@@ -1873,96 +1808,81 @@
         <h2>About</h2>
       </div>
 
-      <div class="about-wrapper">
+      <p class="about-quote" data-cfg="quote" data-aos="fade-up" data-aos-delay="100">
+        "Building systems that last — solving problems that matter."
+      </p>
 
-        <!-- Italic signature quote -->
-        <p class="about-quote" data-cfg="quote" data-aos="fade-up" data-aos-delay="100">
-          "Building systems that last — solving problems that matter."
-        </p>
+      <div class="about-rule" data-aos="zoom-in" data-aos-delay="150"></div>
 
-        <!-- Gold rule -->
-        <div class="about-rule" data-aos="zoom-in" data-aos-delay="200"></div>
+      <div class="about-grid">
 
-        <!-- Bio -->
-        <p class="about-bio" data-cfg="bio" data-aos="fade-up" data-aos-delay="300">
-          I am a results-driven Software Engineer with expertise in backend development
-          and a strong foundation in C, C++, Python, and Java, as well as frontend
-          technologies including JavaScript, HTML, and CSS. I specialize in building
-          efficient, scalable, and high-performance applications, with experience in
-          databases, system optimization, and problem-solving. I am currently focused
-          on mastering C# to expand my skill set and take on new challenges in
-          software development.
-        </p>
-
-        <!-- Competency list -->
-        <div class="about-highlights" id="about-highlights">
-          <div class="about-highlight" data-aos="fade-right" data-aos-delay="100">
-            <span class="about-highlight-dot"></span>
-            <span class="about-highlight-text">Backend Engineering &mdash; C &middot; C++ &middot; Python &middot; Java</span>
-          </div>
-          <div class="about-highlight" data-aos="fade-right" data-aos-delay="200">
-            <span class="about-highlight-dot"></span>
-            <span class="about-highlight-text">Frontend Development &mdash; JavaScript &middot; HTML &middot; CSS</span>
-          </div>
-          <div class="about-highlight" data-aos="fade-right" data-aos-delay="300">
-            <span class="about-highlight-dot"></span>
-            <span class="about-highlight-text">Database Management &mdash; Informix SQL &middot; MySQL &middot; PostgreSQL</span>
-          </div>
-          <div class="about-highlight" data-aos="fade-right" data-aos-delay="400">
-            <span class="about-highlight-dot"></span>
-            <span class="about-highlight-text">Currently Expanding &mdash; C# &amp; .NET Ecosystem</span>
-          </div>
-        </div>
-
-        <!-- Personal Information Card -->
-        <div class="about-info-card sensitive" data-aos="fade-up" data-aos-delay="200">
-          <div class="about-info-card-header">
-            <i class="bi bi-person-vcard"></i>
-            <span>Personal Information</span>
-          </div>
-          <div class="about-info-grid" id="about-info-grid">
-            <div class="about-info-row">
-              <div class="about-info-item">
-                <span class="about-info-label">Full Name</span>
-                <span class="about-info-value">Patrick Flores Perez</span>
-              </div>
-              <div class="about-info-item">
-                <span class="about-info-label">Birthday</span>
-                <span class="about-info-value">January 13, 2000</span>
-              </div>
+        <!-- Left: bio + competencies -->
+        <div class="about-left" data-aos="fade-right" data-aos-delay="200">
+          <p class="about-bio" data-cfg="bio">
+            I am a results-driven Software Engineer with expertise in backend development
+            and a strong foundation in C, C++, Python, and Java, as well as frontend
+            technologies including JavaScript, HTML, and CSS. I specialize in building
+            efficient, scalable, and high-performance applications, with experience in
+            databases, system optimization, and problem-solving. I am currently focused
+            on mastering C# to expand my skill set and take on new challenges in
+            software development.
+          </p>
+          <div class="about-highlights" id="about-highlights">
+            <div class="about-highlight">
+              <span class="about-highlight-dot"></span>
+              <span class="about-highlight-text">Backend Engineering &mdash; C &middot; C++ &middot; Python &middot; Java</span>
             </div>
-            <div class="about-info-row">
-              <div class="about-info-item about-info-item--wide">
-                <span class="about-info-label">Address</span>
-                <span class="about-info-value">97B Purok Masagana, Pinagbarilan, Baliuag, Bulacan, Philippines</span>
-              </div>
+            <div class="about-highlight">
+              <span class="about-highlight-dot"></span>
+              <span class="about-highlight-text">Frontend Development &mdash; JavaScript &middot; HTML &middot; CSS</span>
             </div>
-            <div class="about-info-row">
-              <div class="about-info-item">
-                <span class="about-info-label">Nationality</span>
-                <span class="about-info-value">Filipino</span>
-              </div>
-              <div class="about-info-item">
-                <span class="about-info-label">Religion</span>
-                <span class="about-info-value">Catholic</span>
-              </div>
+            <div class="about-highlight">
+              <span class="about-highlight-dot"></span>
+              <span class="about-highlight-text">Database Management &mdash; Informix SQL &middot; MySQL &middot; PostgreSQL</span>
             </div>
-            <div class="about-info-row">
-              <div class="about-info-item">
-                <span class="about-info-label">Languages</span>
-                <span class="about-info-value">English &amp; Filipino</span>
-              </div>
-              <div class="about-info-item">
-                <span class="about-info-label">Hobbies</span>
-                <span class="about-info-value">Reading &middot; Playing Guitar &middot; Coding</span>
-              </div>
+            <div class="about-highlight">
+              <span class="about-highlight-dot"></span>
+              <span class="about-highlight-text">Currently Expanding &mdash; C# &amp; .NET Ecosystem</span>
             </div>
           </div>
         </div>
 
-      </div><!-- .about-wrapper -->
+        <!-- Right: personal details -->
+        <div class="about-right sensitive" data-aos="fade-left" data-aos-delay="300">
+          <div class="about-details" id="about-info-grid">
+            <div class="abt-detail">
+              <span class="abt-label">Full Name</span>
+              <span class="abt-value">Patrick Flores Perez</span>
+            </div>
+            <div class="abt-detail">
+              <span class="abt-label">Birthday</span>
+              <span class="abt-value">January 13, 2000</span>
+            </div>
+            <div class="abt-detail">
+              <span class="abt-label">Address</span>
+              <span class="abt-value">97B Purok Masagana, Pinagbarilan, Baliuag, Bulacan, Philippines</span>
+            </div>
+            <div class="abt-detail">
+              <span class="abt-label">Nationality</span>
+              <span class="abt-value">Filipino</span>
+            </div>
+            <div class="abt-detail">
+              <span class="abt-label">Religion</span>
+              <span class="abt-value">Catholic</span>
+            </div>
+            <div class="abt-detail">
+              <span class="abt-label">Languages</span>
+              <span class="abt-value">English &amp; Filipino</span>
+            </div>
+            <div class="abt-detail">
+              <span class="abt-label">Hobbies</span>
+              <span class="abt-value">Reading &middot; Playing Guitar &middot; Coding</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- .about-grid -->
     </div><!-- .container -->
-
   </section>
 
   <!-- Skills Section -->
@@ -3810,26 +3730,19 @@ document.addEventListener("DOMContentLoaded", function() {
     if (cfg.fullname || cfg.birthday || cfg.address || cfg.nationality) {
       var grid = document.getElementById('about-info-grid');
       if (grid) {
-        var rows = [];
-        if (cfg.fullname || cfg.birthday) rows.push(
-          '<div class="about-info-row">' +
-          (cfg.fullname ? '<div class="about-info-item"><span class="about-info-label">Full Name</span><span class="about-info-value">' + esc(cfg.fullname) + '</span></div>' : '') +
-          (cfg.birthday ? '<div class="about-info-item"><span class="about-info-label">Birthday</span><span class="about-info-value">'  + esc(cfg.birthday) + '</span></div>' : '') +
-          '</div>');
-        if (cfg.address) rows.push(
-          '<div class="about-info-row"><div class="about-info-item about-info-item--wide">' +
-          '<span class="about-info-label">Address</span><span class="about-info-value">' + esc(cfg.address) + '</span></div></div>');
-        if (cfg.nationality || cfg.religion) rows.push(
-          '<div class="about-info-row">' +
-          (cfg.nationality ? '<div class="about-info-item"><span class="about-info-label">Nationality</span><span class="about-info-value">' + esc(cfg.nationality) + '</span></div>' : '') +
-          (cfg.religion    ? '<div class="about-info-item"><span class="about-info-label">Religion</span><span class="about-info-value">'    + esc(cfg.religion)    + '</span></div>' : '') +
-          '</div>');
-        if (cfg.languages || cfg.hobbies) rows.push(
-          '<div class="about-info-row">' +
-          (cfg.languages ? '<div class="about-info-item"><span class="about-info-label">Languages</span><span class="about-info-value">' + esc(cfg.languages) + '</span></div>' : '') +
-          (cfg.hobbies   ? '<div class="about-info-item"><span class="about-info-label">Hobbies</span><span class="about-info-value">'   + esc(cfg.hobbies)   + '</span></div>' : '') +
-          '</div>');
-        grid.innerHTML = rows.join('');
+        var mkD = function(label, val) {
+          return '<div class="abt-detail"><span class="abt-label">' + label +
+                 '</span><span class="abt-value">' + esc(val) + '</span></div>';
+        };
+        var items = [];
+        if (cfg.fullname)    items.push(mkD('Full Name',    cfg.fullname));
+        if (cfg.birthday)    items.push(mkD('Birthday',     cfg.birthday));
+        if (cfg.address)     items.push(mkD('Address',      cfg.address));
+        if (cfg.nationality) items.push(mkD('Nationality',  cfg.nationality));
+        if (cfg.religion)    items.push(mkD('Religion',     cfg.religion));
+        if (cfg.languages)   items.push(mkD('Languages',    cfg.languages));
+        if (cfg.hobbies)     items.push(mkD('Hobbies',      cfg.hobbies));
+        grid.innerHTML = items.join('');
       }
     }
 
