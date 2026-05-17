@@ -1814,10 +1814,10 @@
 
       <div class="about-rule" data-aos="zoom-in" data-aos-delay="150"></div>
 
-      <div class="about-grid">
+      <!-- Bio + personal info -->
+      <div class="about-main">
 
-        <!-- Left: bio + competencies -->
-        <div class="about-left" data-aos="fade-right" data-aos-delay="200">
+        <div class="about-bio-col" data-aos="fade-right" data-aos-delay="200">
           <p class="about-bio" data-cfg="bio">
             I am a results-driven Software Engineer with expertise in backend development
             and a strong foundation in C, C++, Python, and Java, as well as frontend
@@ -1827,28 +1827,14 @@
             on mastering C# to expand my skill set and take on new challenges in
             software development.
           </p>
-          <div class="about-highlights" id="about-highlights">
-            <div class="about-highlight">
-              <span class="about-highlight-dot"></span>
-              <span class="about-highlight-text">Backend Engineering &mdash; C &middot; C++ &middot; Python &middot; Java</span>
-            </div>
-            <div class="about-highlight">
-              <span class="about-highlight-dot"></span>
-              <span class="about-highlight-text">Frontend Development &mdash; JavaScript &middot; HTML &middot; CSS</span>
-            </div>
-            <div class="about-highlight">
-              <span class="about-highlight-dot"></span>
-              <span class="about-highlight-text">Database Management &mdash; Informix SQL &middot; MySQL &middot; PostgreSQL</span>
-            </div>
-            <div class="about-highlight">
-              <span class="about-highlight-dot"></span>
-              <span class="about-highlight-text">Currently Expanding &mdash; C# &amp; .NET Ecosystem</span>
-            </div>
-          </div>
         </div>
 
-        <!-- Right: personal details -->
-        <div class="about-right sensitive" data-aos="fade-left" data-aos-delay="300">
+        <div class="about-info-col sensitive" data-aos="fade-left" data-aos-delay="300">
+          <div class="abt-col-head">
+            <span class="abt-col-line"></span>
+            <span class="abt-col-label">Profile</span>
+            <span class="abt-col-line"></span>
+          </div>
           <div class="about-details" id="about-info-grid">
             <div class="abt-detail">
               <span class="abt-label">Full Name</span>
@@ -1881,7 +1867,34 @@
           </div>
         </div>
 
-      </div><!-- .about-grid -->
+      </div><!-- .about-main -->
+
+      <!-- Competency separator -->
+      <div class="about-sep" data-aos="zoom-in" data-aos-delay="50"></div>
+
+      <!-- Competency cards -->
+      <div class="about-skills-grid" id="about-highlights">
+        <div class="abt-skill-card" data-aos="fade-up" data-aos-delay="100">
+          <i class="bi bi-code-slash asc-icon"></i>
+          <h4 class="asc-title">Backend Engineering</h4>
+          <p class="asc-stack">C &middot; C++ &middot; Python &middot; Java</p>
+        </div>
+        <div class="abt-skill-card" data-aos="fade-up" data-aos-delay="200">
+          <i class="bi bi-layers asc-icon"></i>
+          <h4 class="asc-title">Frontend Development</h4>
+          <p class="asc-stack">JavaScript &middot; HTML &middot; CSS</p>
+        </div>
+        <div class="abt-skill-card" data-aos="fade-up" data-aos-delay="300">
+          <i class="bi bi-database asc-icon"></i>
+          <h4 class="asc-title">Database Management</h4>
+          <p class="asc-stack">Informix SQL &middot; MySQL &middot; PostgreSQL</p>
+        </div>
+        <div class="abt-skill-card" data-aos="fade-up" data-aos-delay="400">
+          <i class="bi bi-lightning-charge asc-icon"></i>
+          <h4 class="asc-title">Currently Expanding</h4>
+          <p class="asc-stack">C# &amp; .NET Ecosystem</p>
+        </div>
+      </div>
     </div><!-- .container -->
   </section>
 
@@ -2616,16 +2629,35 @@
 
 <!-- Splash Screen JS -->
 <script>
-  /* SVG draw → fill → shimmer animation sequence */
-  document.addEventListener('DOMContentLoaded', function () {
+  var _splashAnimDone = false;
+
+  function startSplashNameAnim() {
+    if (_splashAnimDone) return;
+    _splashAnimDone = true;
+    var draw = document.querySelector('.sn-draw');
+    if (draw) {
+      void draw.getBoundingClientRect(); /* force reflow before animation */
+      draw.classList.add('sn-animating');
+    }
     var wrap = document.getElementById('splashNameWrap');
     if (!wrap) return;
     setTimeout(function () { wrap.classList.add('sn-filled'); }, 1800);
     setTimeout(function () { wrap.classList.add('sn-reveal-shimmer'); }, 2200);
     setTimeout(function () { wrap.classList.add('sn-run-shimmer'); }, 2300);
+  }
+
+  /* No gate: start animation immediately on DOM ready */
+  document.addEventListener('DOMContentLoaded', function () {
+    if (!window.pfGateActive) startSplashNameAnim();
   });
 
   function dismissSplash() {
+    /* First call after gate dismissal: start animation, then schedule real wipe */
+    if (!_splashAnimDone) {
+      startSplashNameAnim();
+      setTimeout(dismissSplash, 3800);
+      return;
+    }
     var s = document.getElementById('splash-screen');
     if (!s || s.classList.contains('wipe-out')) return;
     s.classList.add('wipe-out');
@@ -2634,8 +2666,8 @@
       startPuzzleReveal();
     }, 1600);
   }
+
   window.addEventListener('load', function () {
-    /* If gate is still showing, splash will be triggered by gate.js on dismiss */
     if (!window.pfGateActive) {
       setTimeout(dismissSplash, 3800);
     }
