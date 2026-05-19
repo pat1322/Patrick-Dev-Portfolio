@@ -351,10 +351,8 @@
     margin-bottom: 0;
   }
 
-  /* ===== PROJECT PREVIEW (YouTube embed) ===== */
-  .project-preview-section {
-    margin-top: 2rem;
-  }
+  /* ===== PROJECT PREVIEW (YouTube thumbnail → iframe on click) ===== */
+  .project-preview-section { margin-top: 2rem; }
   .preview-eyebrow {
     font-family: 'Raleway', sans-serif;
     font-size: 0.58rem;
@@ -368,9 +366,43 @@
     background: rgba(201,162,39,0.18);
     margin-bottom: 1.2rem;
   }
+  /* Thumbnail (initial state) */
+  .preview-thumb-wrap {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    border: 1px solid rgba(201,162,39,0.14);
+    background: #06060a;
+  }
+  .preview-thumb-wrap img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: filter 0.35s ease;
+  }
+  .preview-thumb-wrap:hover img { filter: brightness(0.6); }
+  .preview-play-btn {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px; height: 64px;
+    background: rgba(201,162,39,0.88);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: #0a0907;
+    font-size: 1.7rem;
+    transition: transform 0.3s ease, background 0.3s ease;
+    pointer-events: none;
+  }
+  .preview-thumb-wrap:hover .preview-play-btn {
+    transform: translate(-50%, -50%) scale(1.12);
+    background: #C9A227;
+  }
+  /* Iframe (after click) */
   .preview-iframe-wrap {
     position: relative;
-    padding-top: 56.25%;  /* 16:9 */
+    padding-top: 56.25%;
     overflow: hidden;
     border: 1px solid rgba(201,162,39,0.14);
     background: #06060a;
@@ -381,6 +413,21 @@
     width: 100%; height: 100%;
     border: none;
   }
+  /* Fallback link */
+  .preview-yt-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.63rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(201,162,39,0.6);
+    text-decoration: none;
+    margin-top: 0.7rem;
+    transition: color 0.3s ease;
+  }
+  .preview-yt-link:hover { color: #C9A227; text-decoration: none; }
 
   /* ===== NOT FOUND STATE ===== */
   .project-not-found {
@@ -808,27 +855,46 @@
     return new URLSearchParams(window.location.search).get('project');
   }
 
-  function getYouTubeEmbedUrl(url) {
+  function getYouTubeId(url) {
     if (!url) return '';
     var m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([A-Za-z0-9_-]{11})/);
-    return m ? 'https://www.youtube.com/embed/' + m[1] : '';
+    return m ? m[1] : '';
   }
 
   function buildYouTubeSection(url) {
-    var embedUrl = getYouTubeEmbedUrl(url);
-    if (!embedUrl) return '';
+    var id = getYouTubeId(url);
+    if (!id) return '';
+    var thumbMax  = 'https://img.youtube.com/vi/' + id + '/maxresdefault.jpg';
+    var thumbFb   = 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
+    var watchUrl  = 'https://www.youtube.com/watch?v=' + id;
     return '<div class="project-preview-section">' +
       '<p class="preview-eyebrow">Project Preview</p>' +
       '<div class="preview-rule"></div>' +
-      '<div class="preview-iframe-wrap">' +
-        '<iframe src="' + embedUrl + '" ' +
-          'title="Project Preview" frameborder="0" ' +
-          'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
-          'allowfullscreen>' +
-        '</iframe>' +
+      '<div class="preview-thumb-wrap" data-yt-id="' + id + '">' +
+        '<img src="' + thumbMax + '" alt="Project Preview" ' +
+             'onerror="this.onerror=null;this.src=\'' + thumbFb + '\'">' +
+        '<div class="preview-play-btn"><i class="bi bi-play-fill"></i></div>' +
       '</div>' +
+      '<a class="preview-yt-link" href="' + watchUrl + '" target="_blank" rel="noopener">' +
+        '<i class="bi bi-youtube"></i> Watch on YouTube' +
+      '</a>' +
     '</div>';
   }
+
+  /* Click-to-play: replace thumbnail with iframe on demand */
+  document.addEventListener('click', function(e) {
+    var thumb = e.target.closest('.preview-thumb-wrap');
+    if (!thumb) return;
+    var id = thumb.dataset.ytId;
+    if (!id) return;
+    var wrap = document.createElement('div');
+    wrap.className = 'preview-iframe-wrap';
+    wrap.innerHTML = '<iframe src="https://www.youtube.com/embed/' + id +
+      '?autoplay=1&rel=0" title="Project Preview" frameborder="0" ' +
+      'allow="accelerometer; autoplay; clipboard-write; encrypted-media; ' +
+      'gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>';
+    thumb.parentNode.replaceChild(wrap, thumb);
+  });
 
   function buildSlides(images) {
     return images.map(function (img) {
