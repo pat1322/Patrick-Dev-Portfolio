@@ -615,6 +615,14 @@
     s.textContent = 'body.role-guest .sensitive{filter:blur(6px);-webkit-filter:blur(6px);user-select:none;pointer-events:none;}body.role-guest .sensitive-hide{display:none!important;}';
     document.head.appendChild(s);
   }
+  // Anti-scraping (mirrors gate.js)
+  document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+  document.addEventListener('copy',        function(e) { e.preventDefault(); });
+  document.addEventListener('cut',         function(e) { e.preventDefault(); });
+  document.addEventListener('dragstart',   function(e) { e.preventDefault(); });
+  document.addEventListener('selectstart', function(e) {
+    if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') e.preventDefault();
+  });
 })();
 </script>
 
@@ -948,7 +956,8 @@
       });
       /* If admin left info blank, use the hardcoded fallback */
       if (!infoItems.length) infoItems = (fallback.info || []).slice();
-      /* Auto-append download link if set in config */
+      /* Auto-append project/download links if set in config */
+      if (p.projectUrl) infoItems.push({ label: 'Project URL', value: '<a href="' + p.projectUrl + '" target="_blank">Open Link</a>' });
       if (p.downloadUrl) infoItems.push({ label: 'Download', value: '<a href="' + p.downloadUrl + '" target="_blank">Open Link</a>' });
       var description = p.detailDesc || fallback.description || p.description || '';
       return {
