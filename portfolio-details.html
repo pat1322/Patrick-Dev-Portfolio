@@ -351,6 +351,37 @@
     margin-bottom: 0;
   }
 
+  /* ===== PROJECT PREVIEW (YouTube embed) ===== */
+  .project-preview-section {
+    margin-top: 2rem;
+  }
+  .preview-eyebrow {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.58rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: #C9A227;
+    margin-bottom: 0.55rem;
+  }
+  .preview-rule {
+    height: 1px;
+    background: rgba(201,162,39,0.18);
+    margin-bottom: 1.2rem;
+  }
+  .preview-iframe-wrap {
+    position: relative;
+    padding-top: 56.25%;  /* 16:9 */
+    overflow: hidden;
+    border: 1px solid rgba(201,162,39,0.14);
+    background: #06060a;
+  }
+  .preview-iframe-wrap iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+
   /* ===== NOT FOUND STATE ===== */
   .project-not-found {
     text-align: center;
@@ -677,12 +708,12 @@
     'bcn-mtp': {
       title: 'BCN Montjuic Tourist Point Mobile',
       images: ['app-1.png'],
+      youtubeUrl: 'https://youtu.be/sCn9oxtT-mw',
       info: [
         { label: 'Category',     value: 'Mobile App' },
         { label: 'Client',       value: 'BCN Montjuic Tourist Point' },
         { label: 'Project date', value: 'September, 2021' },
-        { label: 'Project URL',  value: '<a href="https://drive.google.com/file/d/1UoxvqTrGcKv2HlgPxDfiz-xcVizF1288/view?usp=drive_link">Google Drive</a>' },
-        { label: 'App Preview',  value: '<a href="https://youtu.be/sCn9oxtT-mw">Youtube</a>' }
+        { label: 'Project URL',  value: '<a href="https://drive.google.com/file/d/1UoxvqTrGcKv2HlgPxDfiz-xcVizF1288/view?usp=drive_link">Google Drive</a>' }
       ],
       description: 'A mobile application designed for BCN Montjuic Tourist Point Inc., helping tourists navigate and access essential services. It enhances the travel experience with an intuitive and user-friendly interface.'
     },
@@ -731,22 +762,22 @@
     'olfactory-machine': {
       title: 'Olfactory Machine for UTI Detection',
       images: ['branding-1.png', 'gas2.jpg', 'gas3.png', 'gas4.jpg', 'gas5.jpg'],
+      youtubeUrl: 'https://youtu.be/aTzg8ltQU7M',
       info: [
-        { label: 'Category',        value: 'Micro-Controller, Python Programming, Data Analytics' },
-        { label: 'Purpose',         value: 'Case Study' },
-        { label: 'Project date',    value: 'April, 2022' },
-        { label: 'Project Preview', value: '<a href="https://youtu.be/aTzg8ltQU7M">Youtube</a>' }
+        { label: 'Category',     value: 'Micro-Controller, Python Programming, Data Analytics' },
+        { label: 'Purpose',      value: 'Case Study' },
+        { label: 'Project date', value: 'April, 2022' }
       ],
       description: 'A smart device that detects urinary tract infections (UTIs) using gas sensors and a Raspberry Pi. Designed to provide an early warning system for better health monitoring.'
     },
     'smart-dustbin': {
       title: 'Smart Dustbin',
       images: ['branding-2.png'],
+      youtubeUrl: 'https://youtu.be/1AseMnCCzK0',
       info: [
-        { label: 'Category',        value: 'Micro-controller, Arduino' },
-        { label: 'Purpose',         value: 'Project for Feedback and Controls' },
-        { label: 'Project date',    value: 'March, 2020' },
-        { label: 'Project Preview', value: '<a href="https://youtu.be/1AseMnCCzK0">Youtube</a>' }
+        { label: 'Category',     value: 'Micro-controller, Arduino' },
+        { label: 'Purpose',      value: 'Project for Feedback and Controls' },
+        { label: 'Project date', value: 'March, 2020' }
       ],
       description: 'An Arduino-powered smart dustbin that opens automatically when detecting movement. Helps promote hygiene and reduces contact with waste.'
     },
@@ -775,6 +806,28 @@
 
   function getProjectId() {
     return new URLSearchParams(window.location.search).get('project');
+  }
+
+  function getYouTubeEmbedUrl(url) {
+    if (!url) return '';
+    var m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([A-Za-z0-9_-]{11})/);
+    return m ? 'https://www.youtube.com/embed/' + m[1] : '';
+  }
+
+  function buildYouTubeSection(url) {
+    var embedUrl = getYouTubeEmbedUrl(url);
+    if (!embedUrl) return '';
+    return '<div class="project-preview-section">' +
+      '<p class="preview-eyebrow">Project Preview</p>' +
+      '<div class="preview-rule"></div>' +
+      '<div class="preview-iframe-wrap">' +
+        '<iframe src="' + embedUrl + '" ' +
+          'title="Project Preview" frameborder="0" ' +
+          'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
+          'allowfullscreen>' +
+        '</iframe>' +
+      '</div>' +
+    '</div>';
   }
 
   function buildSlides(images) {
@@ -829,15 +882,15 @@
       });
       /* If admin left info blank, use the hardcoded fallback */
       if (!infoItems.length) infoItems = (fallback.info || []).slice();
-      /* Auto-append YouTube/download links if set in config */
-      if (p.youtubeUrl) infoItems.push({ label: 'Preview', value: '<a href="' + p.youtubeUrl + '" target="_blank">Watch on YouTube</a>' });
+      /* Auto-append download link if set in config */
       if (p.downloadUrl) infoItems.push({ label: 'Download', value: '<a href="' + p.downloadUrl + '" target="_blank">Open Link</a>' });
       var description = p.detailDesc || fallback.description || p.description || '';
       return {
         title: p.title || p.id,
         images: imgs,
         info: infoItems,
-        description: description
+        description: description,
+        youtubeUrl: p.youtubeUrl || fallback.youtubeUrl || ''
       };
     }
 
@@ -878,6 +931,7 @@
           '</div>' +
           '<div class="swiper-pagination"></div>' +
         '</div>' +
+        buildYouTubeSection(project.youtubeUrl) +
       '</div>' +
       '<div class="col-lg-4">' +
         '<div class="portfolio-info">' +
