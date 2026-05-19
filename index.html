@@ -538,26 +538,12 @@
     border-radius: 5px;
   }
   
-  .resume-download-btn {
-    padding: 12px 30px;
-    font-weight: 500;
-    border-radius: 50px;
-    background: linear-gradient(135deg, #3498db, #2980b9);
-    border: none;
-    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
-    transition: all 0.3s ease;
-    margin-top: 20px; /* Reduced from 5 */
-  }
-  
-  .resume-download-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
-  }
+  /* .resume-download-btn — styled in golden-noir.css */
   
   /* ===== PORTFOLIO SHOWCASE — CINEMATIC DARK GRID ===== */
   section#portfolio {
     background: #0A0907 !important;
-    padding: 90px 0 110px;
+    padding: 90px 0 50px;
     position: relative;
   }
   section#portfolio::before {
@@ -610,23 +596,95 @@
     pointer-events: none;
   }
 
-  /* --- Grid --- */
-  .pf-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.35rem;
+  /* --- Carousel outer (full-width, outside container) --- */
+  .pf-carousel-outer {
+    position: relative;
+    margin-top: 0.5rem;
   }
-  @media (max-width: 991px) { .pf-grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 575px) { .pf-grid { grid-template-columns: 1fr; } }
-
-  /* Card wrapper for filter transitions */
-  .pf-wrap {
-    transition: opacity 0.32s ease, transform 0.36s cubic-bezier(0.34,1.2,0.64,1);
-  }
-  .pf-wrap.pf-exit {
-    opacity: 0;
-    transform: scale(0.88) translateY(14px);
+  .pf-carousel-outer::before, .pf-carousel-outer::after {
+    content: '';
+    position: absolute;
+    top: 0; bottom: 2.5rem;
+    width: 130px;
+    z-index: 5;
     pointer-events: none;
+  }
+  .pf-carousel-outer::before {
+    left: 0;
+    background: linear-gradient(to right, #0A0907 0%, rgba(10,9,7,0) 100%);
+  }
+  .pf-carousel-outer::after {
+    right: 0;
+    background: linear-gradient(to left, #0A0907 0%, rgba(10,9,7,0) 100%);
+  }
+
+  /* --- Swiper coverflow container --- */
+  .pf-swiper {
+    width: 100%;
+    padding: 3rem 0 3.5rem !important;
+    overflow: visible !important;
+  }
+  /* Match slide shadows to dark background */
+  .pf-swiper .swiper-slide-shadow-left,
+  .pf-swiper .swiper-slide-shadow-right {
+    background-image: linear-gradient(to left, rgba(10,9,7,0.9), transparent) !important;
+    border-radius: 2px;
+  }
+
+  /* Card wrapper = Swiper slide */
+  .pf-wrap {
+    width: 300px !important;
+    height: auto !important;
+    position: relative;
+  }
+
+  /* --- Nav buttons --- */
+  .pf-nav-btn {
+    position: absolute;
+    top: calc(50% - 1.4rem);
+    transform: translateY(-50%);
+    z-index: 10;
+    background: rgba(10,9,7,0.85);
+    border: 1px solid rgba(201,162,39,0.2);
+    color: rgba(201,162,39,0.6);
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+  .pf-nav-prev { left: 1.4rem; }
+  .pf-nav-next { right: 1.4rem; }
+  .pf-nav-btn:hover {
+    background: rgba(201,162,39,0.11);
+    border-color: rgba(201,162,39,0.45);
+    color: #C9A227;
+    box-shadow: 0 0 20px rgba(201,162,39,0.12);
+  }
+  .pf-nav-btn.pf-nav-disabled {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* --- Scroll progress bar --- */
+  .pf-scroll-bar {
+    height: 1px;
+    background: rgba(201,162,39,0.07);
+    margin: 0 7rem;
+    position: relative;
+  }
+  .pf-scroll-fill {
+    position: absolute;
+    top: -1px; left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(to right, rgba(201,162,39,0.3), #C9A227, rgba(201,162,39,0.3));
+    box-shadow: 0 0 8px rgba(201,162,39,0.4);
+    border-radius: 2px;
+    transition: width 0.1s linear;
   }
 
   /* --- Card --- */
@@ -669,7 +727,7 @@
   /* Image */
   .pf-img {
     position: relative;
-    height: 195px;
+    height: 182px;
     overflow: hidden;
   }
   .pf-img img {
@@ -2143,9 +2201,10 @@
   <section id="resume" class="resume section">
     <div class="container">
 
-      <div class="section-title text-center" data-aos="fade-up">
-        <h2>Professional Journey</h2>
-        <p>A timeline of my education and professional experience in software engineering</p>
+      <div class="text-center mb-2" data-aos="fade-up">
+        <p style="font-size:0.58rem;letter-spacing:0.35em;text-transform:uppercase;color:#C9A227;margin-bottom:0.8rem;">Career Path</p>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;color:#F0E6CC;letter-spacing:0.04em;margin-bottom:0.5rem;">Professional Journey</h2>
+        <p style="font-size:0.8rem;color:#4a4030;max-width:480px;margin:0 auto 2rem;">A timeline of my education and experience in software engineering</p>
       </div>
 
       <!-- Tab switcher -->
@@ -2162,7 +2221,7 @@
       <div class="pj-panel active" id="pj-exp">
         <div class="pj-line-wrap" id="exp-container">
 
-          <div class="pj-entry" data-aos="fade-up" data-aos-delay="100">
+          <div class="pj-entry">
             <div class="pj-badge">2022<br><span>Now</span></div>
             <div class="pj-dot-col">
               <div class="pj-dot-ring"><div class="pj-dot-inner"></div></div>
@@ -2183,7 +2242,7 @@
             </div>
           </div>
 
-          <div class="pj-entry" data-aos="fade-up" data-aos-delay="200">
+          <div class="pj-entry">
             <div class="pj-badge">Aug<br><span>2021</span></div>
             <div class="pj-dot-col">
               <div class="pj-dot-ring"><div class="pj-dot-inner"></div></div>
@@ -2209,7 +2268,7 @@
       <div class="pj-panel" id="pj-edu">
         <div class="pj-line-wrap" id="edu-container">
 
-          <div class="pj-entry" data-aos="fade-up" data-aos-delay="100">
+          <div class="pj-entry">
             <div class="pj-badge">2018<br><span>2022</span></div>
             <div class="pj-dot-col">
               <div class="pj-dot-ring"><div class="pj-dot-inner"></div></div>
@@ -2225,7 +2284,7 @@
             </div>
           </div>
 
-          <div class="pj-entry" data-aos="fade-up" data-aos-delay="200">
+          <div class="pj-entry">
             <div class="pj-badge">2016<br><span>2018</span></div>
             <div class="pj-dot-col">
               <div class="pj-dot-ring"><div class="pj-dot-inner"></div></div>
@@ -2255,7 +2314,7 @@
 
   <!-- Portfolio Section -->
   <section id="portfolio" class="portfolio section">
-    <div class="container" data-aos="fade-up">
+    <div class="container">
 
       <!-- Section header -->
       <div class="text-center mb-2" data-aos="fade-up">
@@ -2275,8 +2334,14 @@
         </div>
       </div>
 
-      <!-- Grid -->
-      <div class="pf-grid" id="portfolio-grid">
+    </div><!-- /container -->
+
+    <!-- Horizontal carousel — full section width -->
+    <div class="pf-carousel-outer" data-aos="fade-up" data-aos-delay="100">
+      <button class="pf-nav-btn pf-nav-prev" aria-label="Previous">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <div class="pf-track" id="portfolio-grid">
 
         <div class="pf-wrap filter-mobapp" data-aos="fade-up" data-aos-delay="0">
           <a href="portfolio-details.html?project=bcn-mtp" class="pf-card">
@@ -2440,8 +2505,15 @@
           </a>
         </div>
 
-      </div>
-    </div>
+      </div><!-- /pf-track -->
+      <button class="pf-nav-btn pf-nav-next" aria-label="Next">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div><!-- /pf-carousel-outer -->
+
+    <!-- Scroll progress -->
+    <div class="pf-scroll-bar"><div class="pf-scroll-fill"></div></div>
+
   </section>
 
   <!-- Achievements & Milestones Section -->
@@ -3703,18 +3775,90 @@ document.addEventListener("DOMContentLoaded", function() {
   navHighlighter();
 });
 
-// Portfolio: filter + 3D tilt + spotlight
-document.addEventListener("DOMContentLoaded", function() {
-  const pfBtns = document.querySelectorAll('.pf-filter-btn');
-  const pfLine = document.querySelector('.pf-filter-line');
+// Portfolio: Swiper coverflow + filter tabs
+document.addEventListener('DOMContentLoaded', function() {
+  const pfBtns    = document.querySelectorAll('.pf-filter-btn');
+  const pfLine    = document.querySelector('.pf-filter-line');
+  const pfWrapper = document.getElementById('portfolio-grid'); // the slides wrapper
+  const pfPrev    = document.querySelector('.pf-nav-prev');
+  const pfNext    = document.querySelector('.pf-nav-next');
+  const pfFill    = document.querySelector('.pf-scroll-fill');
+  let pfSwiper    = null;
+  let pfAllWraps  = [];
 
   function moveLine(btn) {
     if (!pfLine || !btn) return;
-    const parent = btn.closest('.pf-filters-inner');
-    const pr = parent.getBoundingClientRect();
+    const pr = btn.closest('.pf-filters-inner').getBoundingClientRect();
     const br = btn.getBoundingClientRect();
     pfLine.style.left  = (br.left - pr.left) + 'px';
     pfLine.style.width = br.width + 'px';
+  }
+
+  function pfBuildSwiper() {
+    if (!pfWrapper) return;
+    if (pfSwiper) { pfSwiper.destroy(true, true); pfSwiper = null; }
+
+    // One-time: promote .pf-track → swiper-wrapper and wrap in .pf-swiper container
+    if (!pfWrapper.classList.contains('swiper-wrapper')) {
+      pfWrapper.classList.add('swiper-wrapper');
+      const swiperEl = document.createElement('div');
+      swiperEl.className = 'swiper pf-swiper';
+      pfWrapper.parentNode.insertBefore(swiperEl, pfWrapper);
+      swiperEl.appendChild(pfWrapper);
+    }
+
+    // Add swiper-slide to every .pf-wrap and cache all of them
+    pfAllWraps = Array.from(pfWrapper.querySelectorAll('.pf-wrap'));
+    pfAllWraps.forEach(w => w.classList.add('swiper-slide'));
+
+    pfSwiper = new Swiper('.pf-swiper', {
+      effect:          'coverflow',
+      grabCursor:      true,
+      centeredSlides:  true,
+      slidesPerView:   'auto',
+      slideToClickedSlide: true,
+      coverflowEffect: {
+        rotate:       45,   // side cards rotate 45° away
+        stretch:      0,
+        depth:        120,  // side cards pushed 120px back
+        modifier:     1,
+        slideShadows: true,
+      },
+      navigation: {
+        prevEl:          pfPrev,
+        nextEl:          pfNext,
+        disabledClass:   'pf-nav-disabled',
+      },
+      keyboard:    { enabled: true },
+      mousewheel:  { forceToAxis: true },
+      on: {
+        progress: function(swiper, p) {
+          if (pfFill) pfFill.style.width = (Math.max(0, Math.min(1, p)) * 100) + '%';
+        },
+      },
+    });
+
+    // Prevent link navigation when clicking a non-active slide
+    pfWrapper.addEventListener('click', function(e) {
+      const slide = e.target.closest('.swiper-slide');
+      if (slide && !slide.classList.contains('swiper-slide-active')) {
+        e.preventDefault();
+      }
+    }, true);
+  }
+  window.pfUpdateCarousel = pfBuildSwiper;
+
+  // Filter buttons
+  function pfFilterSlides(filter) {
+    if (!pfSwiper) return;
+    const matching = filter === '*'
+      ? pfAllWraps
+      : pfAllWraps.filter(w => w.classList.contains(filter));
+    // Repopulate wrapper with only matching slides
+    while (pfWrapper.firstChild) pfWrapper.removeChild(pfWrapper.firstChild);
+    matching.forEach(s => pfWrapper.appendChild(s));
+    pfSwiper.update();
+    pfSwiper.slideTo(0, 300);
   }
 
   pfBtns.forEach(btn => {
@@ -3722,63 +3866,144 @@ document.addEventListener("DOMContentLoaded", function() {
       pfBtns.forEach(b => b.classList.remove('pf-active'));
       this.classList.add('pf-active');
       moveLine(this);
-      const f = this.dataset.filter;
-      // Live query — works for both hardcoded and dynamically rendered cards
-      document.querySelectorAll('.pf-wrap').forEach(w => {
-        const show = f === '*' || w.classList.contains(f);
-        if (show) {
-          w.style.display = '';
-          requestAnimationFrame(() => w.classList.remove('pf-exit'));
-        } else {
-          w.classList.add('pf-exit');
-          setTimeout(() => { if (w.classList.contains('pf-exit')) w.style.display = 'none'; }, 370);
-        }
-      });
+      pfFilterSlides(this.dataset.filter);
     });
   });
 
-  // Init indicator position
   requestAnimationFrame(() => moveLine(document.querySelector('.pf-filter-btn.pf-active')));
 
-  // 3D tilt + spotlight
-  // Delegated tilt — works for both hardcoded and dynamically rendered cards
-  const pfGrid = document.getElementById('portfolio-grid');
-  if (pfGrid) {
-    pfGrid.addEventListener('mousemove', e => {
-      const card = e.target.closest('.pf-card');
-      if (!card) return;
-      const spot = card.querySelector('.pf-spot');
-      const r = card.getBoundingClientRect();
-      const x = (e.clientX - r.left) / r.width;
-      const y = (e.clientY - r.top)  / r.height;
-      card.style.transform = `perspective(800px) rotateX(${((y-0.5)*-12).toFixed(2)}deg) rotateY(${((x-0.5)*12).toFixed(2)}deg) translateZ(6px)`;
-      if (spot) { spot.style.setProperty('--mx', (x*100)+'%'); spot.style.setProperty('--my', (y*100)+'%'); }
+  // ── Professional Journey — animations ──────────────────────────
+  var pjObserver = null;
+  var pjSpineHandler = null;
+
+  // Segment-based spine: crawls toward each dot as you scroll,
+  // reverses smoothly when scrolling back up.
+  function pjUpdateSpine(wrap, progress) {
+    var entries = Array.from(wrap.querySelectorAll('.pj-entry'));
+    if (!entries.length) return;
+    var wrapAbsTop = wrap.getBoundingClientRect().top + window.scrollY;
+    var wrapH = wrap.offsetHeight;
+    var sy = window.scrollY;
+    var vh = window.innerHeight;
+
+    // Collect dot absolute positions and their "reach" scroll values
+    var dots = [];
+    entries.forEach(function(entry) {
+      var dot = entry.querySelector('.pj-dot-ring');
+      if (!dot) return;
+      var absY = dot.getBoundingClientRect().top + window.scrollY + dot.offsetHeight / 2;
+      dots.push({ relY: absY - wrapAbsTop, fillEnd: absY - (vh - 80) });
     });
-    pfGrid.addEventListener('mouseleave', e => {
-      const card = e.target.closest('.pf-card');
-      if (card) card.style.transform = '';
-    }, true);
+    if (!dots.length) return;
+
+    // Walk segments: spine fills toward next dot, reverses when scrolling back
+    var prevRelY = 0;
+    var prevFillEnd = Math.max(wrapAbsTop - vh, dots[0].fillEnd - vh * 0.7);
+    var targetPx = 0;
+
+    for (var i = 0; i < dots.length; i++) {
+      var d = dots[i];
+      if (sy >= d.fillEnd) {
+        // Segment fully complete — move on
+        targetPx  = d.relY;
+        prevRelY  = d.relY;
+        prevFillEnd = d.fillEnd;
+      } else {
+        // Partially complete (or scrolling back through this segment)
+        var t = (sy - prevFillEnd) / Math.max(1, d.fillEnd - prevFillEnd);
+        t = Math.max(0, Math.min(1, t));
+        targetPx = prevRelY + t * (d.relY - prevRelY);
+        break;
+      }
+    }
+
+    progress.style.height = Math.max(0, Math.min(100, (targetPx / wrapH) * 100)) + '%';
   }
 
-  // Professional Journey tab switcher
+  function pjSetupSpineScroll() {
+    if (pjSpineHandler) window.removeEventListener('scroll', pjSpineHandler);
+    pjSpineHandler = function() {
+      document.querySelectorAll('.pj-panel.active .pj-line-wrap').forEach(function(wrap) {
+        var progress = wrap.querySelector('.pj-spine-progress');
+        if (progress) pjUpdateSpine(wrap, progress);
+      });
+    };
+    window.addEventListener('scroll', pjSpineHandler, { passive: true });
+    pjSpineHandler(); // seed on init
+  }
+
+  function pjInitObserver() {
+    if (pjObserver) return;
+    pjObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('pj-in');
+          pjObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -20px 0px' });
+  }
+
+  function pjInitSpine(wrap) {
+    var progress = wrap.querySelector('.pj-spine-progress');
+    if (!progress) {
+      progress = document.createElement('div');
+      progress.className = 'pj-spine-progress';
+      wrap.insertBefore(progress, wrap.firstChild);
+    }
+    progress.style.height = '0';
+  }
+
+  function pjRefresh() {
+    pjInitObserver();
+    document.querySelectorAll('.pj-panel.active .pj-line-wrap').forEach(pjInitSpine);
+    pjSetupSpineScroll();
+    document.querySelectorAll('.pj-entry').forEach(function(el) {
+      if (!el.classList.contains('pj-in')) pjObserver.observe(el);
+    });
+  }
+  window.pjRefresh = pjRefresh;
+
+  // Tab switcher with panel cross-fade + re-animate
   document.querySelectorAll('.pj-tab-btn').forEach(function(btn) {
     btn.addEventListener('click', function() {
+      if (this.classList.contains('active')) return;
       document.querySelectorAll('.pj-tab-btn').forEach(function(b) { b.classList.remove('active'); });
       document.querySelectorAll('.pj-panel').forEach(function(p) { p.classList.remove('active'); });
       this.classList.add('active');
       var panel = document.getElementById(this.getAttribute('data-panel'));
-      if (panel) panel.classList.add('active');
+      if (panel) {
+        panel.style.animation = 'none';
+        void panel.offsetWidth;
+        panel.style.animation = '';
+        panel.classList.add('active');
+        panel.querySelectorAll('.pj-entry').forEach(function(el) { el.classList.remove('pj-in'); });
+        var wrap = panel.querySelector('.pj-line-wrap');
+        if (wrap) pjInitSpine(wrap);
+        pjSetupSpineScroll();
+        setTimeout(function() {
+          if (pjObserver) {
+            panel.querySelectorAll('.pj-entry').forEach(function(el) { pjObserver.observe(el); });
+          }
+        }, 60);
+      }
     });
   });
-  
+
   // Animate on scroll — deferred until gate is dismissed
   function initAos() {
     AOS.init({ duration: 800, easing: 'ease-in-out', once: true, mirror: false });
   }
+  function initPJ() { pjRefresh(); }
+  function initPF() { if (window.pfUpdateCarousel) window.pfUpdateCarousel(); }
   if (window.pfGateActive) {
-    document.addEventListener('gateDismissed', function () { setTimeout(initAos, 750); });
+    document.addEventListener('gateDismissed', function () {
+      setTimeout(function() { initAos(); initPJ(); initPF(); }, 750);
+    });
   } else {
     initAos();
+    initPJ();
+    initPF();
   }
 });
 </script>
@@ -4062,7 +4287,7 @@ document.addEventListener("DOMContentLoaded", function() {
         '</ul>';
       var desc = isEdu && e.desc ? '<p class="pj-text">' + esc(e.desc) + '</p>' : '';
       var company = isEdu ? e.school : e.company;
-      return '<div class="pj-entry" data-aos="fade-up" data-aos-delay="' + ((i+1)*100) + '">' +
+      return '<div class="pj-entry">' +
              '<div class="pj-badge">' + badge + '</div>' +
              '<div class="pj-dot-col"><div class="pj-dot-ring"><div class="pj-dot-inner"></div></div>' +
              (i < total-1 ? '<div class="pj-connector"></div>' : '') + '</div>' +
@@ -4076,11 +4301,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (cfg.experience && cfg.experience.length) {
       var ec = document.getElementById('exp-container');
-      if (ec) ec.innerHTML = cfg.experience.map(function(e,i){ return buildEntry(e,i,cfg.experience.length,false); }).join('');
+      if (ec) {
+        ec.innerHTML = cfg.experience.map(function(e,i){ return buildEntry(e,i,cfg.experience.length,false); }).join('');
+        window.pjRefresh && window.pjRefresh();
+      }
     }
     if (cfg.education && cfg.education.length) {
       var dc = document.getElementById('edu-container');
-      if (dc) dc.innerHTML = cfg.education.map(function(e,i){ return buildEntry(e,i,cfg.education.length,true); }).join('');
+      if (dc) {
+        dc.innerHTML = cfg.education.map(function(e,i){ return buildEntry(e,i,cfg.education.length,true); }).join('');
+        window.pjRefresh && window.pjRefresh();
+      }
     }
 
     /* ── Portfolio ── */
@@ -4113,6 +4344,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
         /* Re-trigger AOS on newly inserted elements */
         if (window.AOS) AOS.refreshHard();
+        window.pfUpdateCarousel && window.pfUpdateCarousel();
       }
     }
   }
