@@ -65,6 +65,9 @@ app.use(session({
   cookie: { maxAge: 8 * 60 * 60 * 1000, secure: false }
 }));
 
+// Redirect /index.html → / to keep the URL clean
+app.get('/index.html', (req, res) => res.redirect(301, '/'));
+
 // Static files — serve the whole project root (including data/uploads/ from volume)
 app.use(express.static(ROOT));
 

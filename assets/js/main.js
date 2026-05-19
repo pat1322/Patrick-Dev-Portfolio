@@ -25,12 +25,22 @@
    * Hide mobile nav on same-page/hash links
    */
   document.querySelectorAll('#navmenu a').forEach(navmenu => {
-    navmenu.addEventListener('click', () => {
+    navmenu.addEventListener('click', (e) => {
       if (document.querySelector('.header-show')) {
         headerToggle();
       }
+      // Scroll to section without writing the hash to the URL
+      const hash = navmenu.getAttribute('href');
+      if (hash && hash.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(hash);
+        if (target) {
+          const scrollMarginTop = parseInt(getComputedStyle(target).scrollMarginTop) || 0;
+          window.scrollTo({ top: target.offsetTop - scrollMarginTop, behavior: 'smooth' });
+          history.replaceState(null, '', '/');
+        }
+      }
     });
-
   });
 
   /**
@@ -221,16 +231,15 @@
    */
   window.addEventListener('load', function(e) {
     if (window.location.hash) {
-      if (document.querySelector(window.location.hash)) {
+      const target = document.querySelector(window.location.hash);
+      if (target) {
         setTimeout(() => {
-          let section = document.querySelector(window.location.hash);
-          let scrollMarginTop = getComputedStyle(section).scrollMarginTop;
-          window.scrollTo({
-            top: section.offsetTop - parseInt(scrollMarginTop),
-            behavior: 'smooth'
-          });
+          const scrollMarginTop = parseInt(getComputedStyle(target).scrollMarginTop) || 0;
+          window.scrollTo({ top: target.offsetTop - scrollMarginTop, behavior: 'smooth' });
         }, 100);
       }
+      // Remove the hash from the URL regardless
+      history.replaceState(null, '', '/');
     }
   });
 
