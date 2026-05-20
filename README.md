@@ -1,6 +1,6 @@
 # Patrick Perez — Developer Portfolio
 
-A personal developer portfolio built with pure HTML, CSS, and vanilla JavaScript — no build step, no framework. Features a golden-noir art-deco aesthetic, a security gate with role-based access, a browser-based admin CMS, and a Node.js/Express server that persists content to a Railway Volume so edits go live instantly without any git push.
+A personal developer portfolio built with pure HTML, CSS, and vanilla JavaScript — no build step, no framework. Features a golden-noir art-deco aesthetic, a security gate with role-based access, a browser-based admin CMS, a floating music player, and a Node.js/Express server that persists content to a Railway Volume so edits go live instantly without any git push.
 
 **Live site: [patrickdev.work](https://patrickdev.work)**
 
@@ -9,7 +9,8 @@ A personal developer portfolio built with pure HTML, CSS, and vanilla JavaScript
 ## Features
 
 - **Security gate** — visitors choose Guest, Recruiter (4-digit PIN), or Admin before entering; sensitive content is blurred for guests
-- **Browser-based admin CMS** — edit every section (bio, skills, resume, projects, services, contact, images) via `admin.html`; changes save to the server in one click, no git push needed
+- **Browser-based admin CMS** — edit every section (bio, skills, resume, projects, services, contact, images, music) via `admin.html`; changes save to the server in one click, no git push needed
+- **Floating music player** — golden-noir widget plays YouTube audio (audio-only, no video) in the background; collapses to a pill or expands to a full card with waveform visualizer, progress bar, prev/next, and volume control; auto-plays after gate dismissal if enabled
 - **Direct image uploads** — upload profile photos and portfolio card images from the admin panel; files stored on the Railway Volume
 - **Config-driven content** — `data/config.json` (on the Volume) drives all dynamic sections; hardcoded values in `index.html` are fallbacks
 - **Scroll progress bar** — gold gradient bar at the top of the viewport tracks scroll depth
@@ -21,7 +22,6 @@ A personal developer portfolio built with pure HTML, CSS, and vanilla JavaScript
 - **Timeline resume** — tabbed Education / Experience view
 - **Filterable portfolio grid** — filter by Mobile App, Web App, Hardware/IoT
 - **Single project detail template** — `portfolio-details.html` serves all projects via `?project=<id>`; no duplicate pages
-- **EmailJS contact form** — messages sent without extra infrastructure
 - **AOS scroll animations** — entrance animations throughout, deferred until after the splash screen
 - **Responsive sidebar layout** — collapses to hamburger on mobile
 
@@ -35,13 +35,16 @@ pat-portfolio/
 ├── portfolio-details.html      # Shared project detail template (driven via ?project=id)
 ├── admin.html                  # Browser-based admin CMS (password-protected)
 ├── server.js                   # Node.js/Express server — API + static file serving
-├── package.json                # Node dependencies (express, express-session, multer)
+├── package.json                # Node dependencies
+├── .env                        # Local dev secrets — gitignored, never commit
+├── .env.example                # Template for .env (safe to commit)
 ├── data/
 │   └── config.json             # Live site config (persisted to Railway Volume)
+├── data-seed/
+│   └── config.json             # Default config seeded on first boot
 ├── Dockerfile                  # node:20-alpine image for Railway
 ├── docker-entrypoint.sh        # Injects Railway credentials into gate.js, starts Node server
 ├── railway.json                # Railway build config (Dockerfile builder)
-├── nginx.conf                  # Legacy config (no longer active — kept for reference)
 ├── assets/
 │   ├── css/
 │   │   ├── main.css            # Vendor/base styles
@@ -52,7 +55,12 @@ pat-portfolio/
 │   ├── img/
 │   │   ├── portfolio/          # Project card images
 │   │   └── ...                 # Profile photo, hero background, about GIF, favicon
-│   └── vendor/                 # Third-party libraries (Bootstrap, AOS, Swiper, Isotope, GSAP)
+│   └── vendor/                 # Third-party libraries (Bootstrap, AOS, Swiper, GSAP)
+├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   │   ├── bug_report.md
+│   │   └── suggestion.md
+│   └── PULL_REQUEST_TEMPLATE.md
 ├── .gitignore
 ├── .dockerignore
 ├── CLAUDE.md
@@ -77,10 +85,12 @@ All site content is managed through the admin panel at `/admin.html` (requires a
 | Summary of Work | Service cards (icon, title, description, tags) |
 | Professional Journey | Work experience and education timeline entries |
 | Portfolio | Project cards (title, category, image upload, tags, link) |
-| Skills | Skill names and proficiency percentages |
+| Skills | Skill names displayed in the animated carousel |
+| Achievements | Stat cards, certifications, and milestone cards |
 | Contact | Phone, email, location, social links |
 | Links | Resume URL, YouTube video ID |
 | Images | Upload profile photo, hero background, about GIF directly |
+| Music Player | Enable/disable widget, autoplay toggle, volume, YouTube playlist |
 | Guest Blurring | Toggle which elements are blurred for guest visitors |
 | Publish | One-click save to server — live instantly, no deploy needed |
 | Export / Backup | Download `config.json` as a local backup |
@@ -99,6 +109,14 @@ All site content is managed through the admin panel at `/admin.html` (requires a
 4. Click **Save & Publish to Server** — done, no git push needed
 
 > For project *detail* pages (screenshots gallery, full description): add an entry to the `projects` object in `portfolio-details.html` and push to git.
+
+### Setting up the music player
+
+1. Admin panel → **Music Player**
+2. Check **Enable Music Player**
+3. Paste YouTube video URLs into the playlist (one per line in the add-track fields)
+4. Set volume and autoplay preference
+5. Save & Publish — the widget will appear on the live site after visitors pass the gate
 
 ---
 
@@ -141,13 +159,42 @@ If either variable is unset, that access mode is disabled (fails safely).
 | Structure | HTML5 |
 | Styling | CSS3, Bootstrap 5, custom golden-noir theme |
 | Icons | Bootstrap Icons, devicons (CDN) |
-| JavaScript | Vanilla JS, AOS, Swiper, Isotope, GSAP + ScrollTrigger, Three.js, EmailJS |
+| JavaScript | Vanilla JS, AOS, Swiper, GSAP + ScrollTrigger, Three.js, YouTube IFrame API |
 | Fonts | Google Fonts (Cormorant Garamond, Raleway) |
-| Server | Node.js 20, Express, express-session, multer |
+| Server | Node.js 20, Express, express-session, multer, dotenv |
 | Hosting | Railway (Docker + node:20-alpine) |
 | Persistent storage | Railway Volume mounted at `/app/data` |
 | Domain | patrickdev.work |
 | CI/CD | Railway auto-deploy on `git push main` |
+
+---
+
+## Local Development
+
+```bash
+git clone https://github.com/pat1322/Patrick-Dev-Portfolio.git
+cd Patrick-Dev-Portfolio
+npm install
+cp .env.example .env   # then edit .env with your values
+node server.js
+# open http://localhost:8080
+```
+
+The server reads credentials from `.env` automatically via `dotenv`. The `.env` file is gitignored and will never be committed.
+
+> The server is required — opening `index.html` directly via `file://` will not work correctly.
+
+### Docker testing
+
+```bash
+docker build -t portfolio .
+docker run -p 8080:8080 \
+  -e RECRUITER_CODE=1234 \
+  -e ADMIN_PASS=secret \
+  -e SESSION_SECRET=dev \
+  portfolio
+# open http://localhost:8080
+```
 
 ---
 
@@ -179,33 +226,6 @@ After the first deploy, configure the Volume and environment variables:
 | `PORT` | Injected automatically by Railway — do not set manually |
 
 3. **Trigger a redeploy** after adding the Volume and variables
-
-### Local development
-
-```bash
-git clone https://github.com/pat1322/Patrick-Dev-Portfolio.git
-cd Patrick-Dev-Portfolio
-npm install
-ADMIN_PASS=secret RECRUITER_CODE=1234 SESSION_SECRET=dev node server.js
-# open http://localhost:8080
-```
-
-On Windows (PowerShell):
-```powershell
-$env:ADMIN_PASS="secret"; $env:RECRUITER_CODE="1234"; $env:SESSION_SECRET="dev"; node server.js
-```
-
-### Local Docker testing
-
-```bash
-docker build -t portfolio .
-docker run -p 8080:8080 \
-  -e RECRUITER_CODE=1234 \
-  -e ADMIN_PASS=secret \
-  -e SESSION_SECRET=dev \
-  portfolio
-# open http://localhost:8080
-```
 
 ---
 

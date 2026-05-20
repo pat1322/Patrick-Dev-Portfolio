@@ -19,20 +19,21 @@ Please **do not** open PRs that change personal content (bio, resume entries, pr
    git clone https://github.com/your-username/Patrick-Dev-Portfolio.git
    cd Patrick-Dev-Portfolio
    ```
-3. Install dependencies and start the dev server:
+3. Install dependencies:
    ```bash
    npm install
    ```
-   On Linux / macOS:
+4. Set up local environment variables:
    ```bash
-   ADMIN_PASS=secret RECRUITER_CODE=1234 SESSION_SECRET=dev node server.js
+   cp .env.example .env
+   # Edit .env — set ADMIN_PASS, RECRUITER_CODE, SESSION_SECRET to any values you like
    ```
-   On Windows (PowerShell):
-   ```powershell
-   $env:ADMIN_PASS="secret"; $env:RECRUITER_CODE="1234"; $env:SESSION_SECRET="dev"; node server.js
+5. Start the dev server:
+   ```bash
+   node server.js
    ```
-4. Open `http://localhost:8080`
-5. Make your changes and test in at least one modern browser
+6. Open `http://localhost:8080`
+7. Make your changes and test in at least one modern browser
 
 > The server is required — `data/config.json` and uploaded images are served through it. Opening `index.html` directly via `file://` will not work correctly.
 
@@ -45,6 +46,8 @@ Please **do not** open PRs that change personal content (bio, resume entries, pr
 | `assets/css/golden-noir.css` | Golden-noir theme (hero, sidebar panel, glitch animation) |
 | `assets/js/gate.js` | Security gate — touch carefully |
 | `data/config.json` | Live content config — do not edit personal data here |
+| `.env` | Local dev secrets — **never commit this file** |
+| `.env.example` | Safe template for `.env` — commit changes here instead |
 
 The security gate (`gate.js`) uses `RECRUITER_CODE_PLACEHOLDER` and `ADMIN_PASS_PLACEHOLDER` as placeholder strings that get replaced by Railway environment variables at deploy time. Do not replace them with real values in any committed file.
 
@@ -55,6 +58,8 @@ The security gate (`gate.js`) uses `RECRUITER_CODE_PLACEHOLDER` and `ADMIN_PASS_
 - If fixing a visual bug, include a before/after screenshot
 - Do not commit `data/config.json` changes — that file is managed by the site owner via the admin panel
 - Do not commit anything inside `data/uploads/` — that directory is managed at runtime on the Railway Volume
+- Do not commit `.env` — it is gitignored for a reason; update `.env.example` if new variables are added
+- Do not touch `RECRUITER_CODE_PLACEHOLDER` or `ADMIN_PASS_PLACEHOLDER` in `gate.js`
 
 ## Reporting issues
 

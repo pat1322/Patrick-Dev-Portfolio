@@ -14,7 +14,9 @@ Personal developer portfolio — pure HTML/CSS/JS frontend served by a Node.js/E
 | `portfolio-details.html` | Single template for all project detail pages, driven by `?project=<id>` query param |
 | `admin.html` | Browser-based admin CMS — edits all sections, publishes via `/api/config`, uploads images via `/api/upload` |
 | `server.js` | Node.js/Express server — static file serving, session auth, config API, image upload |
-| `package.json` | Node dependencies: express, express-session, multer |
+| `package.json` | Node dependencies: express, express-session, multer, dotenv |
+| `.env` | Local dev secrets — gitignored, never commit |
+| `.env.example` | Safe template for `.env` — commit this instead |
 | `data/config.json` | Live site config on the Railway Volume — overrides all hardcoded content in index.html |
 | `assets/css/main.css` | Vendor/base styles (Bootstrap, AOS, Swiper) |
 | `assets/css/golden-noir.css` | Custom golden-noir theme — hero section, sidebar hero panel, glitch animation |
@@ -91,6 +93,7 @@ The config loader in `index.html` applies these fields from `data/config.json`:
 - **Contact**: `phone`, `email`, `location`, `linkedin`, `github`, `facebook`
 - **Links**: `resumeUrl`, `youtubeId`
 - **Images**: `profileImg`, `heroBg`, `gifPath`
+- **Music Player**: `musicPlayerEnabled`, `musicAutoplay`, `musicVolume`, `musicPlaylist[]`
 
 ## Adding a Project
 
@@ -108,10 +111,12 @@ Manually (for project detail page data):
 
 ```bash
 npm install
-# Set env vars (PowerShell)
-$env:ADMIN_PASS="secret"; $env:RECRUITER_CODE="1234"; $env:SESSION_SECRET="dev"; node server.js
+cp .env.example .env   # edit values — ADMIN_PASS, RECRUITER_CODE, SESSION_SECRET
+node server.js
 # open http://localhost:8080
 ```
+
+`dotenv` loads `.env` automatically — no need to prefix env vars manually. `.env` is gitignored and will never be committed; `.env.example` is the safe template to update.
 
 The server creates `data/` and `data/uploads/` locally if they don't exist and seeds `data/config.json` from `data-seed/config.json`.
 
