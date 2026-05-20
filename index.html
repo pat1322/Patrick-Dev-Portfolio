@@ -575,7 +575,7 @@
     font-size: 0.62rem;
     letter-spacing: 0.26em;
     text-transform: uppercase;
-    color: #3e3427;
+    color: #6a5a46;
     cursor: pointer;
     transition: color 0.3s ease;
     white-space: nowrap;
@@ -604,7 +604,7 @@
   .pf-carousel-outer::before, .pf-carousel-outer::after {
     content: '';
     position: absolute;
-    top: 0; bottom: 2.5rem;
+    top: 0; bottom: 0;
     width: 130px;
     z-index: 5;
     pointer-events: none;
@@ -627,7 +627,7 @@
   /* Match slide shadows to dark background */
   .pf-swiper .swiper-slide-shadow-left,
   .pf-swiper .swiper-slide-shadow-right {
-    background-image: linear-gradient(to left, rgba(10,9,7,0.9), transparent) !important;
+    background-image: linear-gradient(to left, rgba(10,9,7,0.55), transparent) !important;
     border-radius: 2px;
   }
 
@@ -692,8 +692,8 @@
     position: relative;
     display: block;
     text-decoration: none;
-    background: #0f0d0b;
-    border: 1px solid rgba(201,162,39,0.1);
+    background: #111009;
+    border: 1px solid rgba(201,162,39,0.22);
     border-radius: 2px;
     overflow: hidden;
     cursor: pointer;
@@ -733,19 +733,19 @@
   .pf-img img {
     width: 100%; height: 100%;
     object-fit: cover;
-    filter: brightness(0.78) saturate(0.95);
+    filter: brightness(0.9) saturate(0.98);
     transition: transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.5s ease;
     display: block;
   }
   .pf-card:hover .pf-img img {
     transform: scale(1.09);
-    filter: brightness(0.45) saturate(0.75);
+    filter: brightness(0.5) saturate(0.8);
   }
   .pf-img-fade {
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    height: 55%;
-    background: linear-gradient(to bottom, transparent, #0f0d0b);
+    height: 45%;
+    background: linear-gradient(to bottom, transparent, #111009);
     pointer-events: none;
   }
 
@@ -1979,10 +1979,10 @@
     <ul>
       <li><a href="#hero" class="active"><i class="bi bi-house navicon"></i>Home</a></li>
       <li><a href="#about"><i class="bi bi-person navicon"></i> About</a></li>
+      <li><a href="#portfolio"><i class="bi bi-images navicon"></i> Portfolio Showcase</a></li>
       <li><a href="#skills"><i class="bi bi-stars navicon"></i> Skills</a></li>
       <li><a href="#services"><i class="bi bi-hdd-stack navicon"></i> Summary of Work</a></li>
       <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i> Professional Journey</a></li>
-      <li><a href="#portfolio"><i class="bi bi-images navicon"></i> Portfolio Showcase</a></li>
       <li><a href="#achievements"><i class="bi bi-trophy navicon"></i> Achievements</a></li>
       <li><a href="#contact"><i class="bi bi-envelope navicon"></i> Get In Touch</a></li>
     </ul>
@@ -2216,6 +2216,210 @@
       </div><!-- .about-body -->
 
     </div><!-- .container -->
+  </section>
+
+  <!-- Portfolio Section -->
+  <section id="portfolio" class="portfolio section">
+    <div class="container">
+
+      <!-- Section header -->
+      <div class="text-center mb-2" data-aos="fade-up">
+        <p style="font-size:0.58rem;letter-spacing:0.35em;text-transform:uppercase;color:#C9A227;margin-bottom:0.8rem;">Selected Work</p>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;color:#F0E6CC;letter-spacing:0.04em;margin-bottom:0.5rem;">Portfolio Showcase</h2>
+        <p style="font-size:0.8rem;color:#7a6a52;max-width:480px;margin:0 auto 0;">A collection of my best work across mobile, web, and embedded systems</p>
+      </div>
+
+      <!-- Filter bar -->
+      <div class="pf-filters" data-aos="fade-up" data-aos-delay="80">
+        <div class="pf-filters-inner">
+          <button class="pf-filter-btn pf-active" data-filter="*">All<sup>9</sup></button>
+          <button class="pf-filter-btn" data-filter="filter-mobapp">Mobile<sup>3</sup></button>
+          <button class="pf-filter-btn" data-filter="filter-webapp">Web<sup>3</sup></button>
+          <button class="pf-filter-btn" data-filter="filter-windows">Hardware<sup>3</sup></button>
+          <div class="pf-filter-line"></div>
+        </div>
+      </div>
+
+    </div><!-- /container -->
+
+    <!-- Horizontal carousel — full section width -->
+    <div class="pf-carousel-outer" data-aos="fade-up" data-aos-delay="100">
+      <button class="pf-nav-btn pf-nav-prev" aria-label="Previous">
+        <i class="bi bi-chevron-left"></i>
+      </button>
+      <div class="pf-track" id="portfolio-grid">
+
+        <div class="pf-wrap filter-mobapp" data-aos="fade-up" data-aos-delay="0">
+          <a href="portfolio-details.html?project=bcn-mtp" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/app-1.png" alt="BCN MTP Mobile">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">01</span>
+              <div class="pf-cat">Mobile App</div>
+              <h4 class="pf-title">BCN MTP Mobile</h4>
+              <p class="pf-desc">App made for BCN Montjuic Tourist Point Inc</p>
+              <div class="pf-tags"><span>Java</span><span>Android</span><span>Tourism</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-webapp" data-aos="fade-up" data-aos-delay="60">
+          <a href="portfolio-details.html?project=ecoeye-ai" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/product-1.png" alt="EcoEye AI">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">02</span>
+              <div class="pf-cat">Web App</div>
+              <h4 class="pf-title">EcoEye AI</h4>
+              <p class="pf-desc">Identify plants and animals with AI</p>
+              <div class="pf-tags"><span>Python</span><span>AI</span><span>Web App</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-windows" data-aos="fade-up" data-aos-delay="120">
+          <a href="portfolio-details.html?project=olfactory-machine" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/branding-1.png" alt="Olfactory UTI Detector">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">03</span>
+              <div class="pf-cat">IoT &middot; Microcontroller</div>
+              <h4 class="pf-title">Olfactory UTI Detector</h4>
+              <p class="pf-desc">Gas sensors &amp; Raspberry Pi health device</p>
+              <div class="pf-tags"><span>Python</span><span>Raspberry Pi</span><span>IoT</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-mobapp" data-aos="fade-up" data-aos-delay="60">
+          <a href="portfolio-details.html?project=super-mega-scatter" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/app-2.png" alt="Super Mega Scatter">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">04</span>
+              <div class="pf-cat">Mobile App</div>
+              <h4 class="pf-title">Super Mega Scatter</h4>
+              <p class="pf-desc">A fun Android game built from scratch</p>
+              <div class="pf-tags"><span>Java</span><span>Android</span><span>Game</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-webapp" data-aos="fade-up" data-aos-delay="120">
+          <a href="portfolio-details.html?project=titan-trade" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/product-2.png" alt="Titan Trade">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">05</span>
+              <div class="pf-cat">Web App</div>
+              <h4 class="pf-title">Titan Trade</h4>
+              <p class="pf-desc">Personal dropshipping e-commerce website</p>
+              <div class="pf-tags"><span>HTML/CSS</span><span>JavaScript</span><span>E-commerce</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-windows" data-aos="fade-up" data-aos-delay="180">
+          <a href="portfolio-details.html?project=smart-dustbin" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/branding-2.png" alt="Smart Dustbin">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">06</span>
+              <div class="pf-cat">IoT &middot; Arduino</div>
+              <h4 class="pf-title">Smart Dustbin</h4>
+              <p class="pf-desc">Automated bin system powered by Arduino</p>
+              <div class="pf-tags"><span>Arduino</span><span>C++</span><span>IoT</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-mobapp" data-aos="fade-up" data-aos-delay="120">
+          <a href="portfolio-details.html?project=lotto-ai" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/app-3.png" alt="Lotto AI">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">07</span>
+              <div class="pf-cat">Mobile App</div>
+              <h4 class="pf-title">Lotto AI</h4>
+              <p class="pf-desc">AI-powered lottery number generator</p>
+              <div class="pf-tags"><span>Python</span><span>AI</span><span>Mobile</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-webapp" data-aos="fade-up" data-aos-delay="180">
+          <a href="portfolio-details.html?project=djared-web-design" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/product-3.png" alt="Djared Web Design">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">08</span>
+              <div class="pf-cat">Web App</div>
+              <h4 class="pf-title">Djared Web Design</h4>
+              <p class="pf-desc">A collaborative community project</p>
+              <div class="pf-tags"><span>HTML/CSS</span><span>JavaScript</span><span>Community</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="pf-wrap filter-windows" data-aos="fade-up" data-aos-delay="240">
+          <a href="portfolio-details.html?project=functions-in-python" class="pf-card">
+            <div class="pf-spot"></div>
+            <div class="pf-img">
+              <img src="assets/img/portfolio/branding-3.png" alt="Functions in Python">
+              <div class="pf-img-fade"></div>
+            </div>
+            <div class="pf-body">
+              <span class="pf-num">09</span>
+              <div class="pf-cat">Console &middot; Algorithms</div>
+              <h4 class="pf-title">Functions in Python</h4>
+              <p class="pf-desc">Algorithm-focused console program in Python</p>
+              <div class="pf-tags"><span>Python</span><span>Console</span><span>Algorithms</span></div>
+              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
+            </div>
+          </a>
+        </div>
+
+      </div><!-- /pf-track -->
+      <button class="pf-nav-btn pf-nav-next" aria-label="Next">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div><!-- /pf-carousel-outer -->
+
+    <!-- Scroll progress -->
+    <div class="pf-scroll-bar"><div class="pf-scroll-fill"></div></div>
+
   </section>
 
   <!-- Skills Section -->
@@ -2516,210 +2720,6 @@
       </div>
 
     </div>
-  </section>
-
-  <!-- Portfolio Section -->
-  <section id="portfolio" class="portfolio section">
-    <div class="container">
-
-      <!-- Section header -->
-      <div class="text-center mb-2" data-aos="fade-up">
-        <p style="font-size:0.58rem;letter-spacing:0.35em;text-transform:uppercase;color:#C9A227;margin-bottom:0.8rem;">Selected Work</p>
-        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,3rem);font-weight:300;color:#F0E6CC;letter-spacing:0.04em;margin-bottom:0.5rem;">Portfolio Showcase</h2>
-        <p style="font-size:0.8rem;color:#4a4030;max-width:480px;margin:0 auto 0;">A collection of my best work across mobile, web, and embedded systems</p>
-      </div>
-
-      <!-- Filter bar -->
-      <div class="pf-filters" data-aos="fade-up" data-aos-delay="80">
-        <div class="pf-filters-inner">
-          <button class="pf-filter-btn pf-active" data-filter="*">All<sup>9</sup></button>
-          <button class="pf-filter-btn" data-filter="filter-mobapp">Mobile<sup>3</sup></button>
-          <button class="pf-filter-btn" data-filter="filter-webapp">Web<sup>3</sup></button>
-          <button class="pf-filter-btn" data-filter="filter-windows">Hardware<sup>3</sup></button>
-          <div class="pf-filter-line"></div>
-        </div>
-      </div>
-
-    </div><!-- /container -->
-
-    <!-- Horizontal carousel — full section width -->
-    <div class="pf-carousel-outer" data-aos="fade-up" data-aos-delay="100">
-      <button class="pf-nav-btn pf-nav-prev" aria-label="Previous">
-        <i class="bi bi-chevron-left"></i>
-      </button>
-      <div class="pf-track" id="portfolio-grid">
-
-        <div class="pf-wrap filter-mobapp" data-aos="fade-up" data-aos-delay="0">
-          <a href="portfolio-details.html?project=bcn-mtp" class="pf-card">
-            <div class="pf-spot"></div>
-            <div class="pf-img">
-              <img src="assets/img/portfolio/app-1.png" alt="BCN MTP Mobile">
-              <div class="pf-img-fade"></div>
-            </div>
-            <div class="pf-body">
-              <span class="pf-num">01</span>
-              <div class="pf-cat">Mobile App</div>
-              <h4 class="pf-title">BCN MTP Mobile</h4>
-              <p class="pf-desc">App made for BCN Montjuic Tourist Point Inc</p>
-              <div class="pf-tags"><span>Java</span><span>Android</span><span>Tourism</span></div>
-              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
-            </div>
-          </a>
-        </div>
-
-        <div class="pf-wrap filter-webapp" data-aos="fade-up" data-aos-delay="60">
-          <a href="portfolio-details.html?project=ecoeye-ai" class="pf-card">
-            <div class="pf-spot"></div>
-            <div class="pf-img">
-              <img src="assets/img/portfolio/product-1.png" alt="EcoEye AI">
-              <div class="pf-img-fade"></div>
-            </div>
-            <div class="pf-body">
-              <span class="pf-num">02</span>
-              <div class="pf-cat">Web App</div>
-              <h4 class="pf-title">EcoEye AI</h4>
-              <p class="pf-desc">Identify plants and animals with AI</p>
-              <div class="pf-tags"><span>Python</span><span>AI</span><span>Web App</span></div>
-              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
-            </div>
-          </a>
-        </div>
-
-        <div class="pf-wrap filter-windows" data-aos="fade-up" data-aos-delay="120">
-          <a href="portfolio-details.html?project=olfactory-machine" class="pf-card">
-            <div class="pf-spot"></div>
-            <div class="pf-img">
-              <img src="assets/img/portfolio/branding-1.png" alt="Olfactory UTI Detector">
-              <div class="pf-img-fade"></div>
-            </div>
-            <div class="pf-body">
-              <span class="pf-num">03</span>
-              <div class="pf-cat">IoT &middot; Microcontroller</div>
-              <h4 class="pf-title">Olfactory UTI Detector</h4>
-              <p class="pf-desc">Gas sensors &amp; Raspberry Pi health device</p>
-              <div class="pf-tags"><span>Python</span><span>Raspberry Pi</span><span>IoT</span></div>
-              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
-            </div>
-          </a>
-        </div>
-
-        <div class="pf-wrap filter-mobapp" data-aos="fade-up" data-aos-delay="60">
-          <a href="portfolio-details.html?project=super-mega-scatter" class="pf-card">
-            <div class="pf-spot"></div>
-            <div class="pf-img">
-              <img src="assets/img/portfolio/app-2.png" alt="Super Mega Scatter">
-              <div class="pf-img-fade"></div>
-            </div>
-            <div class="pf-body">
-              <span class="pf-num">04</span>
-              <div class="pf-cat">Mobile App</div>
-              <h4 class="pf-title">Super Mega Scatter</h4>
-              <p class="pf-desc">A fun Android game built from scratch</p>
-              <div class="pf-tags"><span>Java</span><span>Android</span><span>Game</span></div>
-              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
-            </div>
-          </a>
-        </div>
-
-        <div class="pf-wrap filter-webapp" data-aos="fade-up" data-aos-delay="120">
-          <a href="portfolio-details.html?project=titan-trade" class="pf-card">
-            <div class="pf-spot"></div>
-            <div class="pf-img">
-              <img src="assets/img/portfolio/product-2.png" alt="Titan Trade">
-              <div class="pf-img-fade"></div>
-            </div>
-            <div class="pf-body">
-              <span class="pf-num">05</span>
-              <div class="pf-cat">Web App</div>
-              <h4 class="pf-title">Titan Trade</h4>
-              <p class="pf-desc">Personal dropshipping e-commerce website</p>
-              <div class="pf-tags"><span>HTML/CSS</span><span>JavaScript</span><span>E-commerce</span></div>
-              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
-            </div>
-          </a>
-        </div>
-
-        <div class="pf-wrap filter-windows" data-aos="fade-up" data-aos-delay="180">
-          <a href="portfolio-details.html?project=smart-dustbin" class="pf-card">
-            <div class="pf-spot"></div>
-            <div class="pf-img">
-              <img src="assets/img/portfolio/branding-2.png" alt="Smart Dustbin">
-              <div class="pf-img-fade"></div>
-            </div>
-            <div class="pf-body">
-              <span class="pf-num">06</span>
-              <div class="pf-cat">IoT &middot; Arduino</div>
-              <h4 class="pf-title">Smart Dustbin</h4>
-              <p class="pf-desc">Automated bin system powered by Arduino</p>
-              <div class="pf-tags"><span>Arduino</span><span>C++</span><span>IoT</span></div>
-              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
-            </div>
-          </a>
-        </div>
-
-        <div class="pf-wrap filter-mobapp" data-aos="fade-up" data-aos-delay="120">
-          <a href="portfolio-details.html?project=lotto-ai" class="pf-card">
-            <div class="pf-spot"></div>
-            <div class="pf-img">
-              <img src="assets/img/portfolio/app-3.png" alt="Lotto AI">
-              <div class="pf-img-fade"></div>
-            </div>
-            <div class="pf-body">
-              <span class="pf-num">07</span>
-              <div class="pf-cat">Mobile App</div>
-              <h4 class="pf-title">Lotto AI</h4>
-              <p class="pf-desc">AI-powered lottery number generator</p>
-              <div class="pf-tags"><span>Python</span><span>AI</span><span>Mobile</span></div>
-              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
-            </div>
-          </a>
-        </div>
-
-        <div class="pf-wrap filter-webapp" data-aos="fade-up" data-aos-delay="180">
-          <a href="portfolio-details.html?project=djared-web-design" class="pf-card">
-            <div class="pf-spot"></div>
-            <div class="pf-img">
-              <img src="assets/img/portfolio/product-3.png" alt="Djared Web Design">
-              <div class="pf-img-fade"></div>
-            </div>
-            <div class="pf-body">
-              <span class="pf-num">08</span>
-              <div class="pf-cat">Web App</div>
-              <h4 class="pf-title">Djared Web Design</h4>
-              <p class="pf-desc">A collaborative community project</p>
-              <div class="pf-tags"><span>HTML/CSS</span><span>JavaScript</span><span>Community</span></div>
-              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
-            </div>
-          </a>
-        </div>
-
-        <div class="pf-wrap filter-windows" data-aos="fade-up" data-aos-delay="240">
-          <a href="portfolio-details.html?project=functions-in-python" class="pf-card">
-            <div class="pf-spot"></div>
-            <div class="pf-img">
-              <img src="assets/img/portfolio/branding-3.png" alt="Functions in Python">
-              <div class="pf-img-fade"></div>
-            </div>
-            <div class="pf-body">
-              <span class="pf-num">09</span>
-              <div class="pf-cat">Console &middot; Algorithms</div>
-              <h4 class="pf-title">Functions in Python</h4>
-              <p class="pf-desc">Algorithm-focused console program in Python</p>
-              <div class="pf-tags"><span>Python</span><span>Console</span><span>Algorithms</span></div>
-              <span class="pf-cta"><span class="pf-cta-line"></span>View Project</span>
-            </div>
-          </a>
-        </div>
-
-      </div><!-- /pf-track -->
-      <button class="pf-nav-btn pf-nav-next" aria-label="Next">
-        <i class="bi bi-chevron-right"></i>
-      </button>
-    </div><!-- /pf-carousel-outer -->
-
-    <!-- Scroll progress -->
-    <div class="pf-scroll-bar"><div class="pf-scroll-fill"></div></div>
-
   </section>
 
   <!-- Achievements & Milestones Section -->
