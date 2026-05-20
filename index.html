@@ -611,11 +611,11 @@
   }
   .pf-carousel-outer::before {
     left: 0;
-    background: linear-gradient(to right, #0A0907 0%, rgba(10,9,7,0) 100%);
+    background: none;
   }
   .pf-carousel-outer::after {
     right: 0;
-    background: linear-gradient(to left, #0A0907 0%, rgba(10,9,7,0) 100%);
+    background: none;
   }
 
   /* --- Swiper coverflow container --- */
@@ -733,13 +733,13 @@
   .pf-img img {
     width: 100%; height: 100%;
     object-fit: cover;
-    filter: brightness(0.78) saturate(0.95);
+    filter: brightness(0.92) saturate(0.97);
     transition: transform 0.9s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.5s ease;
     display: block;
   }
   .pf-card:hover .pf-img img {
     transform: scale(1.09);
-    filter: brightness(0.45) saturate(0.75);
+    filter: brightness(0.55) saturate(0.8);
   }
   .pf-img-fade {
     position: absolute;
@@ -1620,7 +1620,9 @@
     right: 1.5rem;
     z-index: 9990;
     font-family: 'Raleway', sans-serif;
+    user-select: none;
   }
+  body.role-guest #mp-widget { bottom: 5rem; }
   .mp-pill {
     display: flex;
     align-items: center;
@@ -1632,9 +1634,10 @@
     padding: 0.5rem 0.85rem 0.5rem 0.65rem;
     border-radius: 50px;
     box-shadow: 0 4px 28px rgba(0,0,0,0.65), 0 0 14px rgba(201,162,39,0.08);
-    cursor: default;
+    cursor: grab;
     transition: border-color 0.3s, box-shadow 0.3s;
   }
+  .mp-pill:active { cursor: grabbing; }
   .mp-pill:hover { border-color: rgba(201,162,39,0.55); box-shadow: 0 4px 28px rgba(0,0,0,0.65), 0 0 20px rgba(201,162,39,0.14); }
   .mp-wave-mini {
     display: flex;
@@ -1694,7 +1697,9 @@
     justify-content: space-between;
     padding: 0.9rem 0.85rem 0.6rem;
     border-bottom: 1px solid rgba(201,162,39,0.1);
+    cursor: grab;
   }
+  .mp-header:active { cursor: grabbing; }
   .mp-now-label { font-size: 0.42rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gn-gold); opacity: 0.85; }
   .mp-header-btns { display: flex; gap: 0.35rem; }
   .mp-icon-btn {
@@ -4024,9 +4029,9 @@ document.addEventListener('DOMContentLoaded', function() {
       slidesPerView:   'auto',
       slideToClickedSlide: true,
       coverflowEffect: {
-        rotate:       45,   // side cards rotate 45° away
+        rotate:       18,
         stretch:      0,
-        depth:        120,  // side cards pushed 120px back
+        depth:        55,
         modifier:     1,
         slideShadows: true,
       },
@@ -5035,6 +5040,88 @@ document.addEventListener('DOMContentLoaded', function() {
       revealAndPlay(autoplay);
     }
   };
+})();
+</script>
+
+<script>
+/* ── Music Player — drag to reposition ── */
+(function() {
+  var el = document.getElementById('mp-widget');
+  if (!el) return;
+
+  var dragging = false;
+  var dragOffX = 0, dragOffY = 0;
+
+  function isInteractive(target) {
+    return target.closest('button, input, .mp-bar-track, .mp-vol-slider');
+  }
+
+  function snapToViewport() {
+    var r = el.getBoundingClientRect();
+    var maxX = window.innerWidth  - r.width;
+    var maxY = window.innerHeight - r.height;
+    var x = Math.max(0, Math.min(maxX, parseFloat(el.style.left) || 0));
+    var y = Math.max(0, Math.min(maxY, parseFloat(el.style.top)  || 0));
+    el.style.left = x + 'px';
+    el.style.top  = y + 'px';
+  }
+
+  function initDrag(clientX, clientY) {
+    /* Switch from bottom/right anchor to top/left so we can move freely */
+    if (el.style.left === '' || el.style.left === 'auto') {
+      var r = el.getBoundingClientRect();
+      el.style.right  = 'auto';
+      el.style.bottom = 'auto';
+      el.style.left   = r.left + 'px';
+      el.style.top    = r.top  + 'px';
+    }
+    dragOffX = clientX - parseFloat(el.style.left);
+    dragOffY = clientY - parseFloat(el.style.top);
+    dragging = true;
+    document.body.style.userSelect = 'none';
+  }
+
+  function onMouseDown(e) {
+    if (isInteractive(e.target)) return;
+    initDrag(e.clientX, e.clientY);
+    e.preventDefault();
+  }
+
+  function onTouchStart(e) {
+    if (isInteractive(e.target)) return;
+    initDrag(e.touches[0].clientX, e.touches[0].clientY);
+  }
+
+  function onMouseMove(e) {
+    if (!dragging) return;
+    var x = e.clientX - dragOffX;
+    var y = e.clientY - dragOffY;
+    el.style.left = x + 'px';
+    el.style.top  = y + 'px';
+  }
+
+  function onTouchMove(e) {
+    if (!dragging) return;
+    e.preventDefault();
+    var x = e.touches[0].clientX - dragOffX;
+    var y = e.touches[0].clientY - dragOffY;
+    el.style.left = x + 'px';
+    el.style.top  = y + 'px';
+  }
+
+  function onEnd() {
+    if (!dragging) return;
+    dragging = false;
+    document.body.style.userSelect = '';
+    snapToViewport();
+  }
+
+  el.addEventListener('mousedown',  onMouseDown);
+  el.addEventListener('touchstart', onTouchStart, { passive: true });
+  document.addEventListener('mousemove', onMouseMove);
+  document.addEventListener('touchmove', onTouchMove, { passive: false });
+  document.addEventListener('mouseup',   onEnd);
+  document.addEventListener('touchend',  onEnd);
 })();
 </script>
 </body>
