@@ -188,6 +188,7 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
       <div class="adm-nav-item" data-sec="contact"><i class="bi bi-envelope"></i>Contact</div>
       <div class="adm-nav-item" data-sec="links"><i class="bi bi-link-45deg"></i>Links</div>
       <div class="adm-nav-item" data-sec="images"><i class="bi bi-image"></i>Images</div>
+      <div class="adm-nav-item" data-sec="music"><i class="bi bi-music-note-list"></i>Music Player</div>
       <div class="adm-nav-group">Access</div>
       <div class="adm-nav-item" data-sec="visibility"><i class="bi bi-eye-slash"></i>Guest Blurring</div>
       <div class="adm-nav-item" data-sec="security"><i class="bi bi-shield-lock"></i>Security</div>
@@ -509,6 +510,47 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
       </div>
     </section>
 
+    <!-- ══ MUSIC PLAYER ══ -->
+    <section class="adm-section" id="sec-music">
+      <div class="adm-section-header">
+        <div class="adm-section-title">Music Player</div>
+        <div class="adm-section-desc">Floating background music widget — plays YouTube audio on your portfolio</div>
+      </div>
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-toggles"></i> Player Settings</div>
+        <div class="adm-grid">
+          <div class="adm-field">
+            <label class="adm-label" style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
+              <input type="checkbox" id="f-musicenabled" style="accent-color:#C9A227;width:15px;height:15px">
+              Enable Music Player
+            </label>
+            <div class="adm-hint">Show the floating music widget on your portfolio. Visitors can expand, collapse, or close it.</div>
+          </div>
+          <div class="adm-field">
+            <label class="adm-label" style="display:flex;align-items:center;gap:.5rem;cursor:pointer">
+              <input type="checkbox" id="f-musicautoplay" checked style="accent-color:#C9A227;width:15px;height:15px">
+              Auto-play after security gate
+            </label>
+            <div class="adm-hint">Start playing automatically once a visitor passes the gate.</div>
+          </div>
+        </div>
+        <div class="adm-field" style="margin-top:.6rem">
+          <label class="adm-label">Default Volume (0 – 100)</label>
+          <div style="display:flex;align-items:center;gap:.75rem">
+            <input type="range" id="f-musicvolume" min="0" max="100" value="70"
+              style="-webkit-appearance:none;appearance:none;flex:1;height:3px;background:rgba(201,162,39,.2);border-radius:2px;outline:none;cursor:pointer;accent-color:#C9A227">
+            <span id="mp-vol-display" style="font-size:.7rem;color:#C9A227;min-width:30px;text-align:right">70</span>
+          </div>
+        </div>
+      </div>
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-list-ul"></i> Playlist (YouTube URLs)</div>
+        <div class="adm-hint" style="margin-bottom:.9rem">Add YouTube video links. Only the audio plays — the video is hidden. Tracks loop automatically.</div>
+        <div class="adm-row-list" id="music-playlist-list"></div>
+        <button class="adm-add-btn" id="add-music-track"><i class="bi bi-plus-lg"></i> Add Track</button>
+      </div>
+    </section>
+
     <!-- ══ GUEST BLURRING ══ -->
     <section class="adm-section" id="sec-visibility">
       <div class="adm-section-header">
@@ -802,7 +844,8 @@ var DEFAULT_MILESTONES = [
    ═══════════════════════════════════════════ */
 var state = {}, highlights = [], services = [], experience = [],
     education = [], projects = [], skills = [],
-    statCards = [], certifications = [], milestones = [];
+    statCards = [], certifications = [], milestones = [],
+    musicPlaylist = [];
 
 function loadState() {
   try {
@@ -818,6 +861,7 @@ function loadState() {
       statCards      = saved.statCards      || DEFAULT_STAT_CARDS.map(function(s){ return Object.assign({},s); });
       certifications = saved.certifications || DEFAULT_CERTIFICATIONS.map(function(s){ return Object.assign({},s); });
       milestones     = saved.milestones     || DEFAULT_MILESTONES.map(function(s){ return Object.assign({},s); });
+      musicPlaylist  = saved.musicPlaylist  || [];
     } else {
       resetToDefaults();
     }
@@ -835,6 +879,7 @@ function resetToDefaults() {
   statCards      = DEFAULT_STAT_CARDS.map(function(s){ return Object.assign({},s); });
   certifications = DEFAULT_CERTIFICATIONS.map(function(s){ return Object.assign({},s); });
   milestones     = DEFAULT_MILESTONES.map(function(s){ return Object.assign({},s); });
+  musicPlaylist  = [];
 }
 
 /* ═══════════════════════════════════════════
@@ -843,13 +888,23 @@ function resetToDefaults() {
 var SCALAR_FIELDS = ['name','title','rolelabel','glitchphrases','quote','bio',
   'fullname','birthday','address','nationality','religion','languages','hobbies',
   'phone','email','location','linkedin','github','facebook','resume','ytid',
-  'profileimg','herobg','gif','rcode'];
+  'profileimg','herobg','gif','rcode','musicvolume'];
 
 function populateForms() {
   SCALAR_FIELDS.forEach(function(id) {
     var el = document.getElementById('f-' + id);
     if (el && state[id] !== undefined) el.value = state[id];
   });
+  /* Music checkboxes */
+  var enEl = document.getElementById('f-musicenabled');
+  var apEl = document.getElementById('f-musicautoplay');
+  var vvEl = document.getElementById('mp-vol-display');
+  var vRng = document.getElementById('f-musicvolume');
+  if (enEl) enEl.checked = !!state.musicEnabled;
+  if (apEl) apEl.checked = state.musicAutoplay !== false;
+  if (vvEl && state.musicvolume !== undefined) vvEl.textContent = state.musicvolume;
+  if (vRng && state.musicvolume !== undefined) vRng.value = state.musicvolume;
+  renderMusicPlaylist();
   renderHighlights();
   renderServices();
   renderExperience();
@@ -867,6 +922,12 @@ function readForms() {
     var el = document.getElementById('f-' + id);
     if (el) state[id] = el.value.trim();
   });
+  /* Music checkboxes */
+  var enEl = document.getElementById('f-musicenabled');
+  var apEl = document.getElementById('f-musicautoplay');
+  if (enEl) state.musicEnabled = enEl.checked;
+  if (apEl) state.musicAutoplay = apEl.checked;
+  readMusicPlaylist();
   readHighlights();
   readServices();
   readExperience();
@@ -877,6 +938,46 @@ function readForms() {
   readCertList();
   readMilestoneList();
 }
+
+/* ═══════════════════════════════════════════
+   MUSIC PLAYER PLAYLIST
+   ═══════════════════════════════════════════ */
+function renderMusicPlaylist() {
+  var list = document.getElementById('music-playlist-list');
+  if (!list) return;
+  list.innerHTML = '';
+  musicPlaylist.forEach(function(url, i) {
+    var row = document.createElement('div');
+    row.className = 'adm-row';
+    row.innerHTML =
+      '<span style="font-size:.55rem;color:#C9A227;min-width:1.2rem;text-align:right;flex-shrink:0">' + (i+1) + '</span>' +
+      '<input class="adm-row-input" type="url" placeholder="https://www.youtube.com/watch?v=..." value="' + esc(url) + '">' +
+      '<button class="adm-row-del" data-i="' + i + '"><i class="bi bi-x-lg"></i></button>';
+    row.querySelector('.adm-row-del').addEventListener('click', function() {
+      musicPlaylist.splice(+this.dataset.i, 1); renderMusicPlaylist();
+    });
+    list.appendChild(row);
+  });
+}
+function readMusicPlaylist() {
+  musicPlaylist = [];
+  document.querySelectorAll('#music-playlist-list .adm-row-input').forEach(function(el) {
+    var v = el.value.trim();
+    if (v) musicPlaylist.push(v);
+  });
+}
+document.getElementById('add-music-track').addEventListener('click', function() {
+  musicPlaylist.push(''); renderMusicPlaylist();
+  var inputs = document.querySelectorAll('#music-playlist-list .adm-row-input');
+  if (inputs.length) inputs[inputs.length - 1].focus();
+});
+
+/* Volume slider display */
+(function() {
+  var rng = document.getElementById('f-musicvolume');
+  var disp = document.getElementById('mp-vol-display');
+  if (rng && disp) rng.addEventListener('input', function() { disp.textContent = this.value; });
+})();
 
 /* Always sync from the live server config so admin shows current values */
 function syncFromServer() {
@@ -906,6 +1007,10 @@ function syncFromServer() {
       if (cfg.statCards      && cfg.statCards.length)      statCards      = cfg.statCards;
       if (cfg.certifications && cfg.certifications.length) certifications = cfg.certifications;
       if (cfg.milestones     && cfg.milestones.length)     milestones     = cfg.milestones;
+      if (cfg.musicPlayerEnabled !== undefined) state.musicEnabled = cfg.musicPlayerEnabled;
+      if (cfg.musicAutoplay     !== undefined) state.musicAutoplay = cfg.musicAutoplay;
+      if (cfg.musicVolume       !== undefined) state.musicvolume   = cfg.musicVolume;
+      if (cfg.musicPlaylist     && cfg.musicPlaylist.length) musicPlaylist = cfg.musicPlaylist;
       populateForms();
       toast('Loaded latest config from server');
     })
@@ -1566,7 +1671,11 @@ function buildConfig() {
     skills: skills,
     statCards: statCards,
     certifications: certifications,
-    milestones: milestones
+    milestones: milestones,
+    musicPlayerEnabled: !!state.musicEnabled,
+    musicAutoplay: state.musicAutoplay !== false,
+    musicVolume: +(state.musicvolume || 70),
+    musicPlaylist: musicPlaylist
   };
 }
 
@@ -1601,6 +1710,7 @@ document.getElementById('adm-save-all').addEventListener('click', function() {
   state.guestVis = guestVis;
   var snapshot = { state: state, highlights: highlights, services: services,
     experience: experience, education: education, projects: projects, skills: skills,
+    musicPlaylist: musicPlaylist,
   };
   localStorage.setItem('pfAdminState', JSON.stringify(snapshot));
   var cfg = buildConfig();
@@ -1722,7 +1832,8 @@ document.getElementById('publish-btn').addEventListener('click', function() {
       localStorage.setItem('pfConfig', JSON.stringify(cfg));
       localStorage.setItem('pfAdminState', JSON.stringify({
         state: state, highlights: highlights, services: services,
-        experience: experience, education: education, projects: projects, skills: skills
+        experience: experience, education: education, projects: projects, skills: skills,
+        musicPlaylist: musicPlaylist
       }));
       status.style.color = '#C9A227';
       status.textContent = '✓ Published — changes are live';

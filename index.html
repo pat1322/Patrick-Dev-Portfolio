@@ -1613,6 +1613,212 @@
     .craft-panel { width:clamp(220px,82vw,320px); }
   }
 
+  /* ===== MUSIC PLAYER WIDGET ===== */
+  #mp-widget {
+    position: fixed;
+    bottom: 2rem;
+    right: 1.5rem;
+    z-index: 9990;
+    font-family: 'Raleway', sans-serif;
+  }
+  .mp-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: rgba(8,8,14,0.94);
+    border: 1px solid rgba(201,162,39,0.32);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    padding: 0.5rem 0.85rem 0.5rem 0.65rem;
+    border-radius: 50px;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.65), 0 0 14px rgba(201,162,39,0.08);
+    cursor: default;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  .mp-pill:hover { border-color: rgba(201,162,39,0.55); box-shadow: 0 4px 28px rgba(0,0,0,0.65), 0 0 20px rgba(201,162,39,0.14); }
+  .mp-wave-mini {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 18px;
+  }
+  .mp-wave-mini span {
+    display: block;
+    width: 3px;
+    background: var(--gn-gold);
+    border-radius: 2px;
+    animation: mp-bar 1s ease-in-out infinite;
+    opacity: 0.75;
+  }
+  .mp-wave-mini span:nth-child(1) { height: 6px;  animation-delay: 0s;    animation-duration: 1.0s; }
+  .mp-wave-mini span:nth-child(2) { height: 14px; animation-delay: 0.2s;  animation-duration: 0.85s; }
+  .mp-wave-mini span:nth-child(3) { height: 10px; animation-delay: 0.1s;  animation-duration: 1.1s; }
+  .mp-wave-mini span:nth-child(4) { height: 16px; animation-delay: 0.35s; animation-duration: 0.9s; }
+  @keyframes mp-bar {
+    0%,100% { transform: scaleY(1); opacity: 0.75; }
+    50%      { transform: scaleY(1.7); opacity: 1; }
+  }
+  #mp-widget.mp-paused .mp-wave-mini span,
+  #mp-widget.mp-paused .mp-wave span { animation-play-state: paused; opacity: 0.35; }
+  .mp-ctrl-mini {
+    background: none;
+    border: none;
+    color: rgba(240,230,204,0.7);
+    font-size: 1rem;
+    padding: 0.1rem 0.2rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+  }
+  .mp-ctrl-mini:hover { color: var(--gn-gold); }
+  .mp-card {
+    width: 280px;
+    background: rgba(8,8,14,0.96);
+    border: 1px solid rgba(201,162,39,0.28);
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    box-shadow: 0 12px 48px rgba(0,0,0,0.78), inset 0 1px 0 rgba(201,162,39,0.06);
+    overflow: hidden;
+    transform-origin: bottom right;
+    animation: mp-card-in 0.38s cubic-bezier(0.34,1.56,0.64,1) forwards;
+  }
+  @keyframes mp-card-in {
+    from { opacity:0; transform: scale(0.88) translateY(12px); }
+    to   { opacity:1; transform: scale(1) translateY(0); }
+  }
+  .mp-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 0.85rem 0.6rem;
+    border-bottom: 1px solid rgba(201,162,39,0.1);
+  }
+  .mp-now-label { font-size: 0.42rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gn-gold); opacity: 0.85; }
+  .mp-header-btns { display: flex; gap: 0.35rem; }
+  .mp-icon-btn {
+    background: none;
+    border: 1px solid rgba(201,162,39,0.18);
+    color: rgba(240,230,204,0.45);
+    font-size: 0.7rem;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1;
+  }
+  .mp-icon-btn:hover { border-color: rgba(201,162,39,0.45); color: var(--gn-gold); }
+  .mp-track-area { padding: 0.85rem 0.85rem 0.4rem; text-align: center; }
+  .mp-track-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--gn-ivory);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 240px;
+    margin: 0 auto 0.2rem;
+  }
+  .mp-track-sub { font-size: 0.4rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gn-muted); }
+  .mp-wave {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 3px;
+    height: 28px;
+    padding: 0.3rem 0.85rem;
+  }
+  .mp-wave span {
+    display: block;
+    width: 3px;
+    background: linear-gradient(to top, var(--gn-gold-dark), var(--gn-gold-light));
+    border-radius: 2px;
+    animation: mp-bar 1s ease-in-out infinite;
+    opacity: 0.65;
+  }
+  .mp-wave span:nth-child(1)  { height: 8px;  animation-delay: 0s;    animation-duration: 1.0s; }
+  .mp-wave span:nth-child(2)  { height: 18px; animation-delay: 0.15s; animation-duration: 0.8s; }
+  .mp-wave span:nth-child(3)  { height: 12px; animation-delay: 0.05s; animation-duration: 1.1s; }
+  .mp-wave span:nth-child(4)  { height: 22px; animation-delay: 0.3s;  animation-duration: 0.9s; }
+  .mp-wave span:nth-child(5)  { height: 14px; animation-delay: 0.1s;  animation-duration: 0.95s; }
+  .mp-wave span:nth-child(6)  { height: 20px; animation-delay: 0.25s; animation-duration: 0.85s; }
+  .mp-wave span:nth-child(7)  { height: 10px; animation-delay: 0.4s;  animation-duration: 1.05s; }
+  .mp-wave span:nth-child(8)  { height: 16px; animation-delay: 0.2s;  animation-duration: 0.88s; }
+  .mp-wave span:nth-child(9)  { height: 6px;  animation-delay: 0.35s; animation-duration: 1.0s; }
+  .mp-wave span:nth-child(10) { height: 24px; animation-delay: 0.45s; animation-duration: 0.9s; }
+  .mp-progress-area { display: flex; align-items: center; gap: 0.5rem; padding: 0.2rem 0.85rem 0.45rem; }
+  .mp-time-lbl { font-size: 0.45rem; color: var(--gn-muted); letter-spacing: 0.06em; min-width: 28px; flex-shrink: 0; }
+  .mp-bar-track { flex: 1; height: 3px; background: rgba(201,162,39,0.15); border-radius: 2px; cursor: pointer; position: relative; }
+  .mp-bar-track:hover .mp-bar-thumb { opacity: 1; }
+  .mp-bar-fill { height: 100%; background: linear-gradient(to right, var(--gn-gold-dark), var(--gn-gold)); border-radius: 2px; width: 0%; pointer-events: none; }
+  .mp-bar-thumb {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background: var(--gn-gold);
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    box-shadow: 0 0 6px rgba(201,162,39,0.5);
+  }
+  .mp-controls { display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 0.35rem 0.85rem 0.45rem; }
+  .mp-ctrl {
+    background: none;
+    border: 1px solid rgba(201,162,39,0.2);
+    color: rgba(240,230,204,0.6);
+    font-size: 1rem;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.25s;
+    line-height: 1;
+  }
+  .mp-ctrl:hover { border-color: rgba(201,162,39,0.5); color: var(--gn-gold); background: rgba(201,162,39,0.06); }
+  .mp-ctrl-play { width: 44px; height: 44px; font-size: 1.2rem; border-color: rgba(201,162,39,0.4); color: var(--gn-gold); background: rgba(201,162,39,0.08); }
+  .mp-ctrl-play:hover { background: rgba(201,162,39,0.18); box-shadow: 0 0 16px rgba(201,162,39,0.2); }
+  .mp-volume-row { display: flex; align-items: center; gap: 0.5rem; padding: 0.1rem 0.85rem 0.85rem; }
+  .mp-vol-ico { font-size: 0.85rem; color: var(--gn-muted); flex-shrink: 0; cursor: pointer; }
+  .mp-vol-slider {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 3px;
+    background: rgba(201,162,39,0.15);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+  .mp-vol-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: var(--gn-gold);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.15s;
+  }
+  .mp-vol-slider::-webkit-slider-thumb:hover { transform: scale(1.25); }
+  .mp-vol-slider::-moz-range-thumb { width: 12px; height: 12px; background: var(--gn-gold); border-radius: 50%; border: none; cursor: pointer; }
+  @media (max-width: 480px) {
+    #mp-widget { bottom: 1.2rem; right: 1rem; }
+    .mp-card { width: 250px; }
+  }
+
 </style>
 </head>
 
@@ -4347,6 +4553,9 @@ document.addEventListener('DOMContentLoaded', function() {
         window.pfUpdateCarousel && window.pfUpdateCarousel();
       }
     }
+
+    /* ── Music Player ── */
+    if (window.pfInitMusicPlayer) window.pfInitMusicPlayer(cfg);
   }
 })();
 </script>
@@ -4535,6 +4744,297 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   window.addEventListener('load', initGlobalBg);
+})();
+</script>
+
+<!-- YouTube IFrame API target — lives outside widget so it's never inside display:none -->
+<div id="mp-yt-holder" style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;overflow:hidden;pointer-events:none;visibility:hidden"></div>
+
+<!-- ── Music Player Widget ── -->
+<div id="mp-widget" style="display:none">
+
+  <!-- Collapsed pill -->
+  <div id="mp-pill" class="mp-pill">
+    <div class="mp-wave-mini">
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <button class="mp-ctrl-mini" id="mp-play-mini" aria-label="Play / Pause">
+      <i class="bi bi-play-fill" id="mp-play-icon-mini"></i>
+    </button>
+    <button class="mp-ctrl-mini" id="mp-expand" aria-label="Expand player" title="Expand player">
+      <i class="bi bi-chevron-up"></i>
+    </button>
+  </div>
+
+  <!-- Expanded card -->
+  <div id="mp-card" class="mp-card" style="display:none">
+    <div class="mp-header">
+      <span class="mp-now-label"><i class="bi bi-music-note-beamed" style="margin-right:.35rem;font-size:.65rem"></i>Now Playing</span>
+      <div class="mp-header-btns">
+        <button class="mp-icon-btn" id="mp-minimize" title="Minimize"><i class="bi bi-dash-lg"></i></button>
+        <button class="mp-icon-btn" id="mp-close"    title="Close"><i class="bi bi-x-lg"></i></button>
+      </div>
+    </div>
+    <div class="mp-track-area">
+      <div class="mp-track-title" id="mp-title">Loading...</div>
+      <div class="mp-track-sub"   id="mp-track-sub">Track 1 of 1</div>
+    </div>
+    <div class="mp-wave" id="mp-wave">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <div class="mp-progress-area">
+      <span class="mp-time-lbl" id="mp-cur">0:00</span>
+      <div class="mp-bar-track" id="mp-bar-track">
+        <div class="mp-bar-fill"  id="mp-bar-fill"></div>
+        <div class="mp-bar-thumb" id="mp-bar-thumb"></div>
+      </div>
+      <span class="mp-time-lbl" id="mp-dur">0:00</span>
+    </div>
+    <div class="mp-controls">
+      <button class="mp-ctrl"            id="mp-prev"  title="Previous"><i class="bi bi-skip-start-fill"></i></button>
+      <button class="mp-ctrl mp-ctrl-play" id="mp-play" title="Play / Pause">
+        <i class="bi bi-play-fill" id="mp-play-icon"></i>
+      </button>
+      <button class="mp-ctrl"            id="mp-next"  title="Next"><i class="bi bi-skip-end-fill"></i></button>
+    </div>
+    <div class="mp-volume-row">
+      <i class="bi bi-volume-off-fill mp-vol-ico" id="mp-mute-toggle" title="Mute / Unmute"></i>
+      <input type="range" class="mp-vol-slider" id="mp-vol" min="0" max="100" value="70">
+      <i class="bi bi-volume-up-fill mp-vol-ico"></i>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── Music Player — golden-noir floating widget ── */
+(function() {
+  var playlist    = [];
+  var curIdx      = 0;
+  var ytPlayer    = null;
+  var ytApiReady  = false;
+  var ytLoaded    = false;
+  var progTimer   = null;
+  var isPlaying   = false;
+  var vol         = 70;
+  var mutedVol    = 0;
+  var isMuted     = false;
+
+  var widget   = document.getElementById('mp-widget');
+  var pill     = document.getElementById('mp-pill');
+  var card     = document.getElementById('mp-card');
+
+  function extractId(url) {
+    if (!url) return null;
+    var m = url.match(/[?&]v=([^&#]+)/) ||
+            url.match(/youtu\.be\/([^?&#]+)/) ||
+            url.match(/embed\/([^?&#]+)/);
+    return m ? m[1] : null;
+  }
+
+  function fmt(sec) {
+    if (!sec || isNaN(sec)) return '0:00';
+    var m = Math.floor(sec / 60), s = Math.floor(sec % 60);
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function setIcon(playing) {
+    isPlaying = playing;
+    var ic = playing ? 'bi-pause-fill' : 'bi-play-fill';
+    var e1 = document.getElementById('mp-play-icon');
+    var e2 = document.getElementById('mp-play-icon-mini');
+    if (e1) e1.className = 'bi ' + ic;
+    if (e2) e2.className = 'bi ' + ic;
+    if (widget) widget.classList.toggle('mp-paused', !playing);
+  }
+
+  function updateInfo() {
+    var sub = document.getElementById('mp-track-sub');
+    if (sub) sub.textContent = 'Track ' + (curIdx + 1) + ' of ' + playlist.length;
+    if (!ytPlayer || !ytPlayer.getVideoData) return;
+    try {
+      var d = ytPlayer.getVideoData();
+      var t = document.getElementById('mp-title');
+      if (t && d && d.title) t.textContent = d.title;
+    } catch(e) {}
+  }
+
+  function updateProg() {
+    if (!ytPlayer || !ytPlayer.getCurrentTime) return;
+    try {
+      var cur = ytPlayer.getCurrentTime() || 0;
+      var dur = ytPlayer.getDuration()    || 0;
+      var pct = dur > 0 ? (cur / dur) * 100 : 0;
+      var fill  = document.getElementById('mp-bar-fill');
+      var thumb = document.getElementById('mp-bar-thumb');
+      var curEl = document.getElementById('mp-cur');
+      var durEl = document.getElementById('mp-dur');
+      if (fill)  fill.style.width  = pct + '%';
+      if (thumb) thumb.style.left  = pct + '%';
+      if (curEl) curEl.textContent = fmt(cur);
+      if (durEl) durEl.textContent = fmt(dur);
+    } catch(e) {}
+  }
+
+  function startTimer() { clearInterval(progTimer); progTimer = setInterval(updateProg, 1000); }
+  function stopTimer()  { clearInterval(progTimer); }
+
+  function loadTrack(idx) {
+    if (!playlist.length) return;
+    curIdx = ((idx % playlist.length) + playlist.length) % playlist.length;
+    var id = extractId(playlist[curIdx]);
+    if (!id) { loadTrack(curIdx + 1); return; }
+    if (ytPlayer && ytApiReady) {
+      try { ytPlayer.loadVideoById(id); } catch(e) {}
+    }
+    updateInfo();
+  }
+
+  function togglePlay() {
+    if (!ytPlayer || !ytApiReady) return;
+    try {
+      if (ytPlayer.getPlayerState() === 1) ytPlayer.pauseVideo();
+      else                                 ytPlayer.playVideo();
+    } catch(e) {}
+  }
+
+  /* Progress bar seek */
+  var barTrack = document.getElementById('mp-bar-track');
+  if (barTrack) barTrack.addEventListener('click', function(e) {
+    if (!ytPlayer || !ytApiReady) return;
+    try {
+      var r = barTrack.getBoundingClientRect();
+      var pct = (e.clientX - r.left) / r.width;
+      var dur = ytPlayer.getDuration() || 0;
+      if (dur > 0) ytPlayer.seekTo(pct * dur, true);
+    } catch(e2) {}
+  });
+
+  /* Volume */
+  var volSlider = document.getElementById('mp-vol');
+  if (volSlider) volSlider.addEventListener('input', function() {
+    vol = +this.value;
+    isMuted = false;
+    if (ytPlayer && ytApiReady) try { ytPlayer.setVolume(vol); ytPlayer.unMute(); } catch(e) {}
+  });
+
+  var muteBtn = document.getElementById('mp-mute-toggle');
+  if (muteBtn) muteBtn.addEventListener('click', function() {
+    if (!ytPlayer || !ytApiReady) return;
+    try {
+      isMuted = !isMuted;
+      if (isMuted) {
+        mutedVol = vol;
+        ytPlayer.setVolume(0);
+        muteBtn.className = 'bi bi-volume-mute-fill mp-vol-ico';
+      } else {
+        ytPlayer.setVolume(mutedVol || vol);
+        muteBtn.className = 'bi bi-volume-off-fill mp-vol-ico';
+      }
+    } catch(e) {}
+  });
+
+  /* Expand / collapse */
+  function showCard() {
+    if (pill) pill.style.display = 'none';
+    if (card) { card.style.display = 'block'; card.style.animation = 'none'; void card.offsetWidth; card.style.animation = ''; }
+    updateInfo(); updateProg();
+  }
+  function showPill() {
+    if (card) card.style.display = 'none';
+    if (pill) pill.style.display = 'flex';
+  }
+
+  var expandBtn = document.getElementById('mp-expand');
+  if (expandBtn) expandBtn.addEventListener('click', showCard);
+
+  var minBtn = document.getElementById('mp-minimize');
+  if (minBtn) minBtn.addEventListener('click', showPill);
+
+  var closeBtn = document.getElementById('mp-close');
+  if (closeBtn) closeBtn.addEventListener('click', function() {
+    if (ytPlayer) try { ytPlayer.pauseVideo(); } catch(e) {}
+    if (widget) widget.style.display = 'none';
+  });
+
+  /* Controls */
+  var playBtn  = document.getElementById('mp-play');
+  var playMini = document.getElementById('mp-play-mini');
+  var prevBtn  = document.getElementById('mp-prev');
+  var nextBtn  = document.getElementById('mp-next');
+  if (playBtn)  playBtn.addEventListener('click', togglePlay);
+  if (playMini) playMini.addEventListener('click', function(e) { e.stopPropagation(); togglePlay(); });
+  if (prevBtn)  prevBtn.addEventListener('click', function() { loadTrack(curIdx - 1); });
+  if (nextBtn)  nextBtn.addEventListener('click', function() { loadTrack(curIdx + 1); });
+
+  /* YouTube IFrame API */
+  window.onYouTubeIframeAPIReady = function() {
+    if (!playlist.length) return;
+    var firstId = extractId(playlist[0]) || '';
+    ytPlayer = new YT.Player('mp-yt-holder', {
+      width: '1', height: '1',
+      videoId: firstId,
+      playerVars: { autoplay:0, controls:0, disablekb:1, modestbranding:1, rel:0, origin: window.location.origin },
+      events: {
+        onReady: function(e) {
+          ytApiReady = true;
+          e.target.setVolume(vol);
+          updateInfo();
+          if (window._mpAutoplay) {
+            window._mpAutoplay = false;
+            try { e.target.playVideo(); } catch(ex) {}
+          }
+        },
+        onStateChange: function(e) {
+          var YT_S = { PLAYING:1, PAUSED:2, ENDED:0, BUFFERING:3 };
+          if (e.data === YT_S.PLAYING)   { setIcon(true);  startTimer(); updateInfo(); }
+          else if (e.data === YT_S.PAUSED)  { setIcon(false); stopTimer(); }
+          else if (e.data === YT_S.ENDED)   { setIcon(false); stopTimer(); loadTrack(curIdx + 1); }
+        },
+        onError: function() { loadTrack(curIdx + 1); }
+      }
+    });
+  };
+
+  function loadYtApi() {
+    if (ytLoaded) return;
+    ytLoaded = true;
+    var tag = document.createElement('script');
+    tag.src = 'https://www.youtube.com/iframe_api';
+    document.head.appendChild(tag);
+  }
+
+  /* Called by config loader after cfg is applied */
+  window.pfInitMusicPlayer = function(cfg) {
+    if (!cfg.musicPlayerEnabled) return;
+    var list = (cfg.musicPlaylist || []).filter(function(u) { return u && u.trim(); });
+    if (!list.length) return;
+    playlist = list;
+    vol = typeof cfg.musicVolume === 'number' ? cfg.musicVolume : 70;
+    var vs = document.getElementById('mp-vol');
+    if (vs) vs.value = vol;
+
+    function revealAndPlay(autoplay) {
+      if (widget) widget.style.display = 'block';
+      showPill();
+      setIcon(false);
+      if (autoplay) window._mpAutoplay = true;
+      loadYtApi();
+      if (autoplay && ytApiReady && ytPlayer) {
+        window._mpAutoplay = false;
+        try { ytPlayer.setVolume(vol); ytPlayer.playVideo(); } catch(ex) {}
+      }
+    }
+
+    var autoplay = cfg.musicAutoplay !== false;
+    if (window.pfGateActive) {
+      document.addEventListener('gateDismissed', function() {
+        revealAndPlay(autoplay);
+      }, { once: true });
+    } else {
+      revealAndPlay(autoplay);
+    }
+  };
 })();
 </script>
 </body>
