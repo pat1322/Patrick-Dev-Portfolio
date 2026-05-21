@@ -33,57 +33,6 @@
 <!-- Grouped CSS Styles - Same as original but removing the floating-stats-container display in gaming mode -->
 <style>
   /* ===== MOBILE HERO PANEL ===== */
-  .hero-mobile-panel {
-    display: none; /* hidden on desktop — sidebar shows instead */
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    z-index: 10;
-    padding: 2.4rem 1.8rem 3rem;
-    background: linear-gradient(to top, rgba(4,3,2,0.88) 0%, rgba(4,3,2,0.55) 55%, transparent 100%);
-    text-align: center;
-    pointer-events: none;
-  }
-  .hmp-role {
-    font-family: 'Raleway', sans-serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.36em;
-    text-transform: uppercase;
-    color: var(--gn-gold, #C9A227);
-    margin-bottom: 0.75rem;
-  }
-  .hmp-name {
-    display: flex;
-    flex-direction: column;
-    line-height: 0.95;
-    margin-bottom: 0.85rem;
-  }
-  .hmp-first {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    color: #F0E6CC;
-    font-size: clamp(2.4rem, 10vw, 3.4rem);
-    letter-spacing: 0.03em;
-  }
-  .hmp-last {
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 300;
-    color: var(--gn-gold, #C9A227);
-    font-size: clamp(2.4rem, 10vw, 3.4rem);
-    letter-spacing: 0.03em;
-  }
-  .hmp-tagline {
-    font-family: 'Raleway', sans-serif;
-    font-size: 0.62rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: rgba(240,230,204,0.5);
-  }
-
-  /* Show on mobile where sidebar is off-screen */
-  @media (max-width: 1199px) {
-    .hero-mobile-panel { display: block; opacity: 0; }
-  }
-
   /* ===== HEADER STYLES ===== */
   .profile-img-container {
     display: flex;
@@ -1558,9 +1507,8 @@
     .cw-pos-3{ display:none; }
   }
   @media(max-width:575px){
-    #hero-cw-overlay{ align-items:center;justify-content:center;padding:0; }
-    .cw-pos-1{ display:none; }
-    .cw-2{ width:clamp(200px,78vw,280px);font-size:.6rem; }
+    /* Hide floating windows on phones — hero is short, they block the subtitles */
+    #hero-cw-overlay{ display:none !important; }
   }
 
   /* ══════════════════════════════════════════
@@ -1622,7 +1570,11 @@
   }
   .craft-build-dot { width:5px;height:5px;border-radius:50%;background:#28c840;flex-shrink:0; }
   @media(max-width:768px){
-    .craft-panel { width:clamp(220px,82vw,320px); }
+    .craft-panel { width:clamp(200px,72vw,300px); }
+  }
+  @media(max-width:575px){
+    /* Hide craft panel on phones — hero is short, panel blocks the subtitles */
+    #hero-infra { display:none !important; }
   }
 
   /* ===== MUSIC PLAYER WIDGET ===== */
@@ -2114,16 +2066,6 @@
           BUILD PASSING &middot; DEPLOYED
         </div>
       </div>
-    </div>
-
-    <!-- Mobile-only hero text overlay (sidebar is off-screen on mobile) -->
-    <div class="hero-mobile-panel">
-      <div class="hmp-role" data-cfg="rolelabel">Full-Stack Engineer</div>
-      <div class="hmp-name">
-        <span class="hmp-first">Patrick</span>
-        <span class="hmp-last">Perez</span>
-      </div>
-      <div class="hmp-tagline">Backend · Systems · AI Applications</div>
     </div>
 
   </section>
@@ -3297,25 +3239,11 @@ function startPuzzleReveal() {
               onComplete: function() { flare.remove(); }
             });
 
-            /* Show mobile panel once bg2 is becoming visible */
-            if (window.innerWidth < 1200) {
-              var _mp = document.querySelector('.hero-mobile-panel');
-              if (_mp) gsap.to(_mp, { opacity: 1, duration: 0.9, delay: 1.8, ease: 'power2.out' });
-            }
-
             /* Hold bg2 for 4.5s then start motion */
             setTimeout(initHeroMotion, 4500);
           }, 1000); /* ← 1 second clean display of hero-bg before any transition */
 
         } else {
-          /* No bg2 — show mobile panel on the base hero image */
-          if (window.innerWidth < 1200) {
-            var _mp2 = document.querySelector('.hero-mobile-panel');
-            if (_mp2) {
-              if (window.gsap) gsap.to(_mp2, { opacity: 1, duration: 0.9, ease: 'power2.out' });
-              else _mp2.style.opacity = '1';
-            }
-          }
           setTimeout(initHeroMotion, 4500);
         }
       }, 420);
@@ -3331,25 +3259,11 @@ function startPuzzleReveal() {
 
 // ── Hero cinematic loop ────────────────────────────────────────
 function initHeroMotion() {
-  /* Hide mobile panel before acts — even if THREE.js fails to load */
-  var mobilePanel = document.querySelector('.hero-mobile-panel');
-  if (mobilePanel) {
-    if (window.gsap) gsap.to(mobilePanel, { opacity: 0, duration: 0.4, ease: 'power2.in', overwrite: 'auto' });
-    else mobilePanel.style.opacity = '0';
-  }
-
   var root    = document.getElementById('hero-motion');
   var canvas  = document.getElementById('hero-3d');
   var overlay = document.getElementById('hero-overlay');
   var sceneBg = document.getElementById('hero-scene-bg');
   if (!root || !canvas || !window.gsap || !window.THREE) return;
-
-  function hideMobileHero() {
-    if (mobilePanel) gsap.to(mobilePanel, { opacity: 0, duration: 0.3, ease: 'power2.in', overwrite: true });
-  }
-  function showMobileHero() {
-    if (mobilePanel) gsap.to(mobilePanel, { opacity: 1, duration: 0.55, delay: 0.3, ease: 'power2.out', overwrite: true });
-  }
 
   var T = THREE;
   var heroEl = document.getElementById('hero');
@@ -3584,22 +3498,29 @@ function initHeroMotion() {
     'radial-gradient(ellipse 85% 80% at 55% 50%, #040a14 0%, #020408 100%)',
   ];
 
+  var isMobile = W < 576;
   var ACTS = [
     { grp:a1, bg:bgs[0], glow:1, entry:entryImplode,  exit:exitExplode,
       label:'Core Expertise',
       line1:'BACKEND ENGINEER', cls1:'', animFn1:fadeUpIn,
       line2:'C++ · PYTHON · JAVA · SQL', cls2:'outline sm', animFn2:fadeUpIn,
-      frameStyle:'align-items:flex-start;justify-content:flex-end;text-align:left;padding:0 0 clamp(3rem,7vh,5.5rem) clamp(2.5rem,9vw,8rem);' },
+      frameStyle: isMobile
+        ? 'align-items:center;justify-content:center;text-align:center;padding:0 1rem;'
+        : 'align-items:flex-start;justify-content:flex-end;text-align:left;padding:0 0 clamp(3rem,7vh,5.5rem) clamp(2.5rem,9vw,8rem);' },
     { grp:a2, bg:bgs[1], glow:2, entry:entryRise,     exit:exitSink,
       label:'Full-Stack Builder',
       line1:'FRONT TO BACK', cls1:'', animFn1:fadeUpIn,
       line2:'WEB · API · DB',  cls2:'gold sm', animFn2:fadeUpIn,
-      frameStyle:'align-items:flex-end;justify-content:center;text-align:right;padding:0 clamp(2.5rem,9vw,8rem) clamp(1rem,3vh,2rem) 0;' },
+      frameStyle: isMobile
+        ? 'align-items:center;justify-content:center;text-align:center;padding:0 1rem;'
+        : 'align-items:flex-end;justify-content:center;text-align:right;padding:0 clamp(2.5rem,9vw,8rem) clamp(1rem,3vh,2rem) 0;' },
     { grp:a3, bg:bgs[2], glow:3, entry:entryCameraRush,exit:exitPinhole,
       label:'Engineering Craft',
       line1:'SCALABLE · FAST', cls1:'', animFn1:fadeUpIn,
       line2:'BUILT TO LAST',   cls2:'outline sm', animFn2:fadeUpIn,
-      frameStyle:'align-items:center;justify-content:flex-start;text-align:center;padding:clamp(3rem,9vh,7rem) 0 0;' },
+      frameStyle: isMobile
+        ? 'align-items:center;justify-content:center;text-align:center;padding:0 1rem;'
+        : 'align-items:center;justify-content:flex-start;text-align:center;padding:clamp(3rem,9vh,7rem) 0 0;' },
   ];
 
   var frames = ACTS.map(function(act) {
@@ -3814,7 +3735,7 @@ function initHeroMotion() {
       curIdx = -1;
 
       /* Wipe out to reveal photo, then arm hover/tap to replay */
-      wipeOut(function() { showMobileHero(); armHoverReplay(); });
+      wipeOut(function() { armHoverReplay(); });
     });
   }
 
@@ -3822,7 +3743,6 @@ function initHeroMotion() {
     function replay() {
       heroEl.removeEventListener('mouseenter', replay);
       heroEl.removeEventListener('touchstart', replay);
-      hideMobileHero();
       wipeIn(function() {
         gsap.set(overlay, { opacity: 0.78 });
         setupAct(0);
