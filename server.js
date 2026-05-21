@@ -71,7 +71,19 @@ app.use(session({
 app.get('/index.html', (req, res) => res.redirect(301, '/'));
 
 // Static files — serve the whole project root (including data/uploads/ from volume)
-app.use(express.static(ROOT));
+// setHeaders ensures browsers never serve stale HTML/JS/CSS after a deploy
+app.use(express.static(ROOT, {
+  setHeaders(res, filePath) {
+    if (filePath.endsWith('.html')) {
+      // Never cache HTML — always fetch fresh so deploys are instant
+      res.setHeader('Cache-Control', 'no-store');
+    } else if (/\.(js|css)$/.test(filePath)) {
+      // JS/CSS: revalidate every request; 304 if unchanged, fresh download if updated
+      res.setHeader('Cache-Control', 'no-cache');
+    }
+    // Images, fonts, vendor files keep ETag-based caching (efficient, rarely change)
+  }
+}));
 
 // ── Auth middleware ────────────────────────────────────────────────────
 function requireAuth(req, res, next) {
@@ -102,6 +114,7 @@ app.post('/api/logout', (req, res) => {
 
 // ── API: Config ────────────────────────────────────────────────────────
 app.get('/api/config', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
   try {
     res.type('json').send(fs.readFileSync(CONFIG_FILE, 'utf8'));
   } catch {
