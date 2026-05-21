@@ -4412,7 +4412,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     /* ── Images ── */
     if (cfg.profileImg) document.querySelectorAll('.static-img').forEach(function(el){ el.src = cfg.profileImg; });
-    if (cfg.heroBg)     { var bi = document.querySelector('#hero .hero-bg'); if (bi) bi.src = cfg.heroBg; }
+    if (cfg.heroBg)     { var bi = document.querySelector('#hero .hero-bg'); if (bi) { bi.src = cfg.heroBg; bi.addEventListener('load', function(){ if (window.pfFitHero) window.pfFitHero(); }, { once: true }); } }
     if (cfg.gifPath)    { var gi = document.querySelector('.gif-overlay');   if (gi) gi.src = cfg.gifPath; }
 
     /* ── Summary of Work ── */
@@ -5080,6 +5080,41 @@ document.addEventListener('DOMContentLoaded', function() {
       revealAndPlay(autoplay);
     }
   };
+})();
+</script>
+
+<script>
+/* ── Hero: fit full image on mobile (proportional to width, no cropping) ── */
+(function() {
+  var heroEl = document.getElementById('hero');
+  if (!heroEl) return;
+
+  function fitHero() {
+    if (window.innerWidth >= 1200) {
+      heroEl.style.height = '';   // desktop: CSS 100svh takes over
+      return;
+    }
+    /* Prefer bg2 (revealed image); fall back to bg */
+    var img = document.querySelector('#hero .hero-bg2') ||
+              document.querySelector('#hero .hero-bg');
+    if (!img || !img.naturalWidth || !img.naturalHeight) return;
+    var ratio = img.naturalWidth / img.naturalHeight;
+    heroEl.style.height = Math.round(window.innerWidth / ratio) + 'px';
+  }
+
+  /* Run immediately in case images are already cached */
+  fitHero();
+
+  /* Re-run whenever either bg image finishes loading / src changes */
+  document.querySelectorAll('#hero .hero-bg, #hero .hero-bg2').forEach(function(img) {
+    img.addEventListener('load', fitHero);
+  });
+
+  /* Re-run on viewport resize / orientation change */
+  window.addEventListener('resize', fitHero);
+
+  /* Expose so the config loader can call it after swapping image src */
+  window.pfFitHero = fitHero;
 })();
 </script>
 </body>
