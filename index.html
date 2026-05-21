@@ -630,6 +630,9 @@
     background-image: linear-gradient(to left, rgba(10,9,7,0.9), transparent) !important;
     border-radius: 2px;
   }
+  /* Force all portfolio slides to full opacity */
+  .pf-swiper .swiper-slide,
+  .pf-swiper .pf-wrap { opacity: 1 !important; }
 
   /* Card wrapper = Swiper slide */
   .pf-wrap {
@@ -1621,6 +1624,8 @@
     z-index: 9990;
     font-family: 'Raleway', sans-serif;
   }
+  /* In guest mode the upgrade badge sits at bottom-right — push player above it */
+  body.role-guest #mp-widget { bottom: 4.8rem; }
   .mp-pill {
     display: flex;
     align-items: center;
@@ -1632,9 +1637,10 @@
     padding: 0.5rem 0.85rem 0.5rem 0.65rem;
     border-radius: 50px;
     box-shadow: 0 4px 28px rgba(0,0,0,0.65), 0 0 14px rgba(201,162,39,0.08);
-    cursor: default;
+    cursor: grab;
     transition: border-color 0.3s, box-shadow 0.3s;
   }
+  .mp-pill:active { cursor: grabbing; }
   .mp-pill:hover { border-color: rgba(201,162,39,0.55); box-shadow: 0 4px 28px rgba(0,0,0,0.65), 0 0 20px rgba(201,162,39,0.14); }
   .mp-wave-mini {
     display: flex;
@@ -1694,7 +1700,9 @@
     justify-content: space-between;
     padding: 0.9rem 0.85rem 0.6rem;
     border-bottom: 1px solid rgba(201,162,39,0.1);
+    cursor: grab;
   }
+  .mp-header:active { cursor: grabbing; }
   .mp-now-label { font-size: 0.42rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gn-gold); opacity: 0.85; }
   .mp-header-btns { display: flex; gap: 0.35rem; }
   .mp-icon-btn {
@@ -4956,6 +4964,43 @@ document.addEventListener('DOMContentLoaded', function() {
     if (ytPlayer) try { ytPlayer.pauseVideo(); } catch(e) {}
     if (widget) widget.style.display = 'none';
   });
+
+  /* Drag to move */
+  (function() {
+    var dragging = false, dragStartX, dragStartY, widgetStartLeft, widgetStartTop;
+
+    function beginDrag(e) {
+      if (e.target.closest('button') || e.target.closest('input')) return;
+      dragging = true;
+      var rect = widget.getBoundingClientRect();
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      widgetStartLeft = rect.left;
+      widgetStartTop  = rect.top;
+      widget.style.right  = 'auto';
+      widget.style.bottom = 'auto';
+      widget.style.left   = widgetStartLeft + 'px';
+      widget.style.top    = widgetStartTop  + 'px';
+      document.body.style.userSelect = 'none';
+      e.preventDefault();
+    }
+
+    document.addEventListener('mousemove', function(e) {
+      if (!dragging) return;
+      var newLeft = Math.max(0, Math.min(window.innerWidth  - widget.offsetWidth,  widgetStartLeft + (e.clientX - dragStartX)));
+      var newTop  = Math.max(0, Math.min(window.innerHeight - widget.offsetHeight, widgetStartTop  + (e.clientY - dragStartY)));
+      widget.style.left = newLeft + 'px';
+      widget.style.top  = newTop  + 'px';
+    });
+
+    document.addEventListener('mouseup', function() {
+      if (dragging) { dragging = false; document.body.style.userSelect = ''; }
+    });
+
+    if (pill)    pill.addEventListener('mousedown', beginDrag);
+    var header = document.querySelector('#mp-card .mp-header');
+    if (header) header.addEventListener('mousedown', beginDrag);
+  })();
 
   /* Controls */
   var playBtn  = document.getElementById('mp-play');
