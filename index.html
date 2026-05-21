@@ -1442,6 +1442,15 @@
     transform-origin:center center;
   }
 
+  /* ── Mobile hero: proportional to width, full image visible (no cropping) ── */
+  @media (max-width: 1199px) {
+    #hero.hero {
+      height: auto !important;
+      min-height: unset !important;
+      aspect-ratio: var(--hero-ratio, 4/3);
+    }
+  }
+
   /* ── Mobile nav toggle — standalone so iOS fixed-position quirks don't clip it ── */
   .header-toggle {
     color:#0e0c0a !important;
@@ -5084,37 +5093,30 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script>
-/* ── Hero: fit full image on mobile (proportional to width, no cropping) ── */
+/* ── Hero aspect-ratio: set --hero-ratio CSS var from actual image dimensions ── */
 (function() {
-  var heroEl = document.getElementById('hero');
-  if (!heroEl) return;
-
-  function fitHero() {
-    if (window.innerWidth >= 1200) {
-      heroEl.style.height = '';   // desktop: CSS 100svh takes over
-      return;
-    }
-    /* Prefer bg2 (revealed image); fall back to bg */
-    var img = document.querySelector('#hero .hero-bg2') ||
-              document.querySelector('#hero .hero-bg');
+  function applyRatio(img) {
     if (!img || !img.naturalWidth || !img.naturalHeight) return;
-    var ratio = img.naturalWidth / img.naturalHeight;
-    heroEl.style.height = Math.round(window.innerWidth / ratio) + 'px';
+    document.documentElement.style.setProperty(
+      '--hero-ratio', img.naturalWidth + ' / ' + img.naturalHeight
+    );
   }
 
-  /* Run immediately in case images are already cached */
-  fitHero();
+  function trySet() {
+    /* Prefer bg2 (post-reveal image), fall back to bg */
+    var img2 = document.querySelector('#hero .hero-bg2');
+    if (img2 && img2.complete && img2.naturalWidth) { applyRatio(img2); return; }
+    var img  = document.querySelector('#hero .hero-bg');
+    if (img  && img.complete  && img.naturalWidth)  { applyRatio(img);  return; }
+  }
 
-  /* Re-run whenever either bg image finishes loading / src changes */
+  trySet();
+
   document.querySelectorAll('#hero .hero-bg, #hero .hero-bg2').forEach(function(img) {
-    img.addEventListener('load', fitHero);
+    img.addEventListener('load', function() { applyRatio(img); });
   });
 
-  /* Re-run on viewport resize / orientation change */
-  window.addEventListener('resize', fitHero);
-
-  /* Expose so the config loader can call it after swapping image src */
-  window.pfFitHero = fitHero;
+  window.pfFitHero = trySet;
 })();
 </script>
 </body>
