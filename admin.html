@@ -255,7 +255,20 @@ code{background:rgba(201,162,39,.08);padding:.1rem .3rem;font-family:'Courier Ne
     <section class="adm-section" id="sec-about">
       <div class="adm-section-header">
         <div class="adm-section-title">About</div>
-        <div class="adm-section-desc">Quote, bio paragraph, competency highlights, and personal information card</div>
+        <div class="adm-section-desc">Portrait photo, quote, bio paragraph, competency highlights, and personal information card</div>
+      </div>
+      <div class="adm-card">
+        <div class="adm-card-title"><i class="bi bi-person-bounding-box"></i> Portrait Photo</div>
+        <div class="adm-hint" style="margin-bottom:.75rem">Displayed in the animated frame in the About section and the hero sidebar.</div>
+        <div style="display:flex;align-items:center;gap:1.2rem;flex-wrap:wrap">
+          <img id="portrait-about-preview" src="assets/img/my-profile-img.jpg"
+               class="adm-img-thumb" alt="Portrait" style="width:70px;height:88px;object-fit:cover;object-position:top center">
+          <label class="adm-upload-btn">
+            <i class="bi bi-upload"></i> Upload Portrait
+            <input type="file" accept="image/*" style="display:none"
+                   data-target="f-profileimg" data-preview="portrait-about-preview">
+          </label>
+        </div>
       </div>
       <div class="adm-card">
         <div class="adm-card-title"><i class="bi bi-chat-quote"></i> Quote & Bio</div>
@@ -895,6 +908,13 @@ function populateForms() {
     var el = document.getElementById('f-' + id);
     if (el && state[id] !== undefined) el.value = state[id];
   });
+  /* Sync portrait preview in About section */
+  if (state.profileimg) {
+    var paPreview = document.getElementById('portrait-about-preview');
+    if (paPreview) paPreview.src = state.profileimg;
+    var pPreview = document.getElementById('profile-preview');
+    if (pPreview) pPreview.src = state.profileimg;
+  }
   /* Music checkboxes */
   var enEl = document.getElementById('f-musicenabled');
   var apEl = document.getElementById('f-musicautoplay');
@@ -1746,7 +1766,10 @@ document.getElementById('adm-logout').addEventListener('click', function() {
    PROFILE IMAGE PREVIEW (path input)
    ═══════════════════════════════════════════ */
 document.getElementById('f-profileimg').addEventListener('input', function() {
-  document.getElementById('profile-preview').src = this.value || 'assets/img/my-profile-img.jpg';
+  var src = this.value || 'assets/img/my-profile-img.jpg';
+  document.getElementById('profile-preview').src = src;
+  var paPreview = document.getElementById('portrait-about-preview');
+  if (paPreview) paPreview.src = src;
 });
 
 /* ═══════════════════════════════════════════

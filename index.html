@@ -2090,24 +2090,75 @@
 
       <div class="about-rule" data-aos="zoom-in" data-aos-delay="150"></div>
 
-      <!-- Left: bio + competencies  |  Right: personal info -->
+      <!-- Left: portrait + personal info  |  Right: bio + competencies -->
       <div class="about-body">
 
-        <!-- LEFT column -->
-        <div data-aos="fade-right" data-aos-delay="200">
-          <p class="about-bio-eyebrow">Biography</p>
-          <p class="about-bio" data-cfg="bio">
-            I am a results-driven Software Engineer with expertise in backend development
-            and a strong foundation in C, C++, Python, and Java, as well as frontend
-            technologies including JavaScript, HTML, and CSS. I specialize in building
-            efficient, scalable, and high-performance applications, with experience in
-            databases, system optimization, and problem-solving. I am currently focused
-            on mastering C# to expand my skill set and take on new challenges in
-            software development.
-          </p>
+        <!-- LEFT column: portrait frame + personal info -->
+        <div class="about-left">
 
-          <!-- Core Competencies (same column, below bio) -->
-          <div class="about-comp-section" id="about-highlights">
+          <!-- Animated portrait frame -->
+          <div class="portrait-frame" data-aos="fade-right" data-aos-delay="200">
+            <div class="portrait-corner portrait-corner--tl"></div>
+            <div class="portrait-corner portrait-corner--tr"></div>
+            <div class="portrait-corner portrait-corner--bl"></div>
+            <div class="portrait-corner portrait-corner--br"></div>
+            <img src="assets/img/my-profile-img.jpg" class="static-img portrait-img" alt="Portrait">
+            <div class="portrait-scan" aria-hidden="true"></div>
+          </div>
+
+          <!-- Personal information card -->
+          <div class="sensitive" data-aos="fade-right" data-aos-delay="320">
+            <p class="about-bio-eyebrow">Personal Information</p>
+            <p class="ap-name" data-cfg="fullname">Patrick Flores Perez</p>
+            <div class="ap-grid" id="about-info-grid">
+              <div class="ap-cell">
+                <span class="ap-label">Birthday</span>
+                <span class="ap-val">January 13, 2000</span>
+              </div>
+              <div class="ap-cell">
+                <span class="ap-label">Nationality</span>
+                <span class="ap-val">Filipino</span>
+              </div>
+              <div class="ap-cell">
+                <span class="ap-label">Religion</span>
+                <span class="ap-val">Catholic</span>
+              </div>
+              <div class="ap-cell">
+                <span class="ap-label">Languages</span>
+                <span class="ap-val">English &amp; Filipino</span>
+              </div>
+              <div class="ap-cell ap-cell--wide">
+                <span class="ap-label">Address</span>
+                <span class="ap-val">97B Purok Masagana, Pinagbarilan, Baliuag, Bulacan, Philippines</span>
+              </div>
+              <div class="ap-cell ap-cell--wide">
+                <span class="ap-label">Hobbies</span>
+                <span class="ap-val">Reading &middot; Playing Guitar &middot; Coding</span>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- .about-left -->
+
+        <!-- RIGHT column: biography + core competencies -->
+        <div class="about-right">
+
+          <!-- Biography -->
+          <div data-aos="fade-left" data-aos-delay="200">
+            <p class="about-bio-eyebrow">Biography</p>
+            <p class="about-bio" data-cfg="bio">
+              I am a results-driven Software Engineer with expertise in backend development
+              and a strong foundation in C, C++, Python, and Java, as well as frontend
+              technologies including JavaScript, HTML, and CSS. I specialize in building
+              efficient, scalable, and high-performance applications, with experience in
+              databases, system optimization, and problem-solving. I am currently focused
+              on mastering C# to expand my skill set and take on new challenges in
+              software development.
+            </p>
+          </div>
+
+          <!-- Core Competencies -->
+          <div class="about-comp-section" id="about-highlights" data-aos="fade-left" data-aos-delay="320">
             <p class="about-bio-eyebrow">Core Competencies</p>
             <div class="comp-item">
               <div class="comp-icon"><i class="bi bi-braces"></i></div>
@@ -2138,39 +2189,8 @@
               </div>
             </div>
           </div>
-        </div>
 
-        <!-- RIGHT column: personal information -->
-        <div class="sensitive" data-aos="fade-left" data-aos-delay="250">
-          <p class="about-bio-eyebrow">Personal Information</p>
-          <p class="ap-name" data-cfg="fullname">Patrick Flores Perez</p>
-          <div class="ap-grid" id="about-info-grid">
-            <div class="ap-cell">
-              <span class="ap-label">Birthday</span>
-              <span class="ap-val">January 13, 2000</span>
-            </div>
-            <div class="ap-cell">
-              <span class="ap-label">Nationality</span>
-              <span class="ap-val">Filipino</span>
-            </div>
-            <div class="ap-cell">
-              <span class="ap-label">Religion</span>
-              <span class="ap-val">Catholic</span>
-            </div>
-            <div class="ap-cell">
-              <span class="ap-label">Languages</span>
-              <span class="ap-val">English &amp; Filipino</span>
-            </div>
-            <div class="ap-cell ap-cell--wide">
-              <span class="ap-label">Address</span>
-              <span class="ap-val">97B Purok Masagana, Pinagbarilan, Baliuag, Bulacan, Philippines</span>
-            </div>
-            <div class="ap-cell ap-cell--wide">
-              <span class="ap-label">Hobbies</span>
-              <span class="ap-val">Reading &middot; Playing Guitar &middot; Coding</span>
-            </div>
-          </div>
-        </div>
+        </div><!-- .about-right -->
 
       </div><!-- .about-body -->
 
