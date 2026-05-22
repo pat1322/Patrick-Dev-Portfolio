@@ -964,22 +964,9 @@ body.hero-active .sidebar-hero-panel {
 .ap-cell:hover .ap-val { color: #F0D060; }
 
 
-/* ── Skills ─────────────────────────────────────────────────── */
-.skills-section {
-  background-color: #1d1b17 !important;
-}
-.skills-header h2 { color: var(--gn-ivory) !important; }
-.skills-header p  { color: var(--gn-muted) !important; }
-.skill-item {
-  background: linear-gradient(135deg, #26200E, #2E2810) !important;
-  border: 1px solid rgba(201,162,39,0.35) !important;
-  color: var(--gn-ivory) !important;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.35) !important;
-}
-.skill-item:hover {
-  border-color: var(--gn-gold) !important;
-  box-shadow: 0 6px 22px rgba(201,162,39,0.28) !important;
-}
+/* ── Skill Constellation ─────────────────────────────────────── */
+#skills.sc-section .section-title h2 { color: var(--gn-ivory) !important; }
+#skills.sc-section .section-title p  { color: var(--gn-muted) !important; }
 
 /* ── Services ───────────────────────────────────────────────── */
 #services.section { background-color: var(--gn-surface) !important; }
@@ -1281,92 +1268,8 @@ section.section, .section {
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   SKILLS — premium section-title + category labels
+   SKILL CONSTELLATION — section-title overrides
    ═══════════════════════════════════════════════════════════════ */
-#skills.skills-section {
-  background-color: #1d1b17 !important;
-  position: relative;
-  padding: 60px 0;
-}
-.skills-categories {
-  text-align: center;
-  margin-bottom: 2.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.8rem;
-  flex-wrap: wrap;
-}
-.skills-cat-label {
-  font-family: 'Raleway', sans-serif;
-  font-size: 0.62rem;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--gn-muted);
-  padding: 0.3rem 1rem;
-  border: 1px solid rgba(201,162,39,0.2);
-  background: rgba(201,162,39,0.04);
-}
-.skills-cat-sep {
-  color: rgba(201,162,39,0.3);
-  font-size: 0.8rem;
-}
-
-/* ── Skills — animated background filter ─────────────────────── */
-
-/* Moving grid lines drawn as background-image (sits under the container) */
-#skills.skills-section {
-  overflow: hidden;
-  background-image:
-    linear-gradient(rgba(201,162,39,0.028) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201,162,39,0.028) 1px, transparent 1px);
-  background-size: 64px 64px;
-  animation: skillsGrid 22s linear infinite;
-}
-@keyframes skillsGrid {
-  from { background-position: 0 0; }
-  to   { background-position: 64px 64px; }
-}
-
-/* Orb 1 — gold, upper-left drift */
-#skills.skills-section::before {
-  content: '';
-  position: absolute;
-  width: 700px; height: 520px;
-  border-radius: 50%;
-  top: -140px; left: -160px;
-  background: radial-gradient(ellipse, rgba(201,162,39,0.14) 0%, rgba(201,162,39,0.05) 45%, transparent 70%);
-  filter: blur(64px);
-  pointer-events: none;
-  z-index: 0;
-  animation: skillsOrb1 16s ease-in-out infinite alternate;
-}
-@keyframes skillsOrb1 {
-  0%   { transform: translate(0,   0)   scale(1);    opacity: 0.65; }
-  33%  { transform: translate(130px, 70px) scale(1.12); opacity: 1;    }
-  66%  { transform: translate(60px, -50px) scale(0.92); opacity: 0.75; }
-  100% { transform: translate(200px, 40px) scale(1.18); opacity: 0.55; }
-}
-
-/* Orb 2 — amber, lower-right drift */
-#skills.skills-section::after {
-  content: '';
-  position: absolute;
-  width: 620px; height: 460px;
-  border-radius: 50%;
-  bottom: -100px; right: -140px;
-  background: radial-gradient(ellipse, rgba(201,162,39,0.11) 0%, rgba(110,75,18,0.06) 45%, transparent 70%);
-  filter: blur(56px);
-  pointer-events: none;
-  z-index: 0;
-  animation: skillsOrb2 20s ease-in-out infinite alternate;
-}
-@keyframes skillsOrb2 {
-  0%   { transform: translate(0,    0)    scale(1);    opacity: 0.55; }
-  33%  { transform: translate(-90px, -70px) scale(1.2);  opacity: 0.9;  }
-  66%  { transform: translate(-40px,  60px) scale(0.88); opacity: 1;    }
-  100% { transform: translate(-150px, -25px) scale(1.08); opacity: 0.65; }
-}
 
 /* ═══════════════════════════════════════════════════════════════
    SUMMARY OF WORK — premium numbered cards
@@ -1878,14 +1781,6 @@ section.section, .section {
   color: var(--gn-gold) !important;
 }
 #status-message p { margin: 0 0 12px; font-size: 0.85rem; }
-
-/* ── Skills section dark override ─────────────────────────── */
-#skills.skills-section,
-.skills-section {
-  background-color: var(--gn-bg) !important;
-}
-#skills .skills-header h2 { color: var(--gn-ivory) !important; }
-#skills .skills-header p  { color: var(--gn-muted) !important; }
 
 /* ── Portfolio section override (ensure dark bg) ──────────── */
 #portfolio.portfolio.section {

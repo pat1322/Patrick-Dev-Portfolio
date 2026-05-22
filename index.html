@@ -234,97 +234,227 @@
     padding-bottom: 20px; /* Reduced padding */
   }
 
-  /* ===== SKILLS SECTION STYLES ===== */
-  .skills-section {
-    padding: 60px 0;
-    background-color: #0f0f13;
+  /* ===== SKILL CONSTELLATION SECTION ===== */
+  .sc-section {
+    position: relative;
+    padding: 70px 0 30px;
+    background: radial-gradient(ellipse at 50% 25%, #100e14 0%, #07060a 100%);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 780px;
   }
-  
-  .skills-container {
-    max-width: 1200px;
-    margin: 0 auto;
+  .sc-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 12% 10%, rgba(201,162,39,0.2), transparent),
+      radial-gradient(1px 1px at 38% 22%, rgba(255,255,255,0.07), transparent),
+      radial-gradient(1px 1px at 62%  8%, rgba(201,162,39,0.14), transparent),
+      radial-gradient(1px 1px at 80% 18%, rgba(255,255,255,0.06), transparent),
+      radial-gradient(1px 1px at 92% 35%, rgba(201,162,39,0.12), transparent),
+      radial-gradient(1px 1px at 08% 55%, rgba(255,255,255,0.05), transparent),
+      radial-gradient(1px 1px at 50% 60%, rgba(201,162,39,0.09), transparent),
+      radial-gradient(1px 1px at 75% 50%, rgba(255,255,255,0.07), transparent),
+      radial-gradient(1px 1px at 28% 78%, rgba(201,162,39,0.08), transparent),
+      radial-gradient(1px 1px at 88% 72%, rgba(255,255,255,0.05), transparent),
+      radial-gradient(1.5px 1.5px at 5% 90%, rgba(201,162,39,0.1), transparent),
+      radial-gradient(1px 1px at 55% 88%, rgba(255,255,255,0.06), transparent);
+    background-size: 320px 320px;
+    animation: sc-stars 130s linear infinite;
+    pointer-events: none;
+    z-index: 0;
   }
-  
-  .skills-header {
-    text-align: center;
-    margin-bottom: 2rem;
+  @keyframes sc-stars {
+    0%   { transform: translateY(0)      translateX(0);   }
+    100% { transform: translateY(-320px) translateX(-50px); }
   }
-  
-  .skills-header h2 {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 0.75rem;
+  .sc-mouse-glow {
+    position: fixed;
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,162,39,0.045) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 1;
+    transform: translate(-50%,-50%);
+    transition: left 0.4s ease, top 0.4s ease;
+    opacity: 0;
+  }
+  .sc-filter-bar {
+    display: flex; gap: 0.45rem; flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 0 1.2rem;
+    position: relative; z-index: 5;
+    padding: 0 1rem;
+  }
+  .sc-filter {
+    padding: 0.28rem 0.9rem;
+    border-radius: 50px;
+    border: 1px solid rgba(201,162,39,0.18);
+    background: rgba(201,162,39,0.03);
+    color: #7a6e5e;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.5rem; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.22s ease;
+  }
+  .sc-filter:hover {
+    border-color: rgba(201,162,39,0.45);
+    color: #F0E6CC;
+    background: rgba(201,162,39,0.07);
+  }
+  .sc-filter.sc-active {
+    background: rgba(201,162,39,0.14);
+    border-color: #C9A227;
+    color: #C9A227;
+    box-shadow: 0 0 10px rgba(201,162,39,0.14);
+  }
+  .sc-canvas-wrap {
+    position: relative;
+    width: 100%; max-width: 1140px;
+    height: 580px;
+    z-index: 5;
+  }
+  #sc-canvas {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+  }
+  .sc-node {
+    position: absolute;
+    width: 46px; height: 46px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transform: translate(-50%,-50%);
+    transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1),
+                box-shadow 0.3s ease;
+    z-index: 10;
+  }
+  .sc-node::before {
+    content: '';
+    position: absolute; inset: -5px;
+    border-radius: 50%;
+    background: inherit;
+    opacity: 0.22;
+    filter: blur(10px);
+    transition: opacity 0.3s ease, filter 0.3s ease;
+  }
+  .sc-node:hover, .sc-node.sc-active {
+    transform: translate(-50%,-50%) scale(1.45);
+  }
+  .sc-node:hover::before, .sc-node.sc-active::before {
+    opacity: 0.7; filter: blur(18px);
+  }
+  .sc-node img {
+    width: 22px; height: 22px;
+    object-fit: contain;
+    filter: brightness(1.1) drop-shadow(0 0 2px rgba(0,0,0,0.7));
+    z-index: 2; position: relative;
+  }
+  .sc-node-fb {
+    font-size: 0.48rem; font-weight: 700;
+    font-family: 'Raleway', sans-serif;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    color: #fff; z-index: 2; position: relative;
+    text-align: center; max-width: 42px; line-height: 1.2;
+  }
+  .sc-label {
+    position: absolute; bottom: -20px;
+    left: 50%; transform: translateX(-50%);
+    font-size: 0.48rem;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; white-space: nowrap;
+    opacity: 0.6; pointer-events: none;
+    transition: opacity 0.25s ease;
     color: #F0E6CC;
   }
-
-  .skills-header p {
-    color: #8a7a60;
-    max-width: 600px;
-    margin: 0 auto;
+  .sc-node:hover .sc-label, .sc-node.sc-active .sc-label { opacity: 1; }
+  .sc-panel {
+    position: fixed; top: 50%; right: 26px;
+    transform: translateY(-50%) translateX(360px);
+    width: 290px;
+    background: rgba(10,9,7,0.97);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(201,162,39,0.2);
+    padding: 1.4rem;
+    z-index: 300;
+    opacity: 0;
+    transition: transform 0.42s cubic-bezier(0.22,1,0.36,1), opacity 0.28s ease;
+    box-shadow: 0 18px 60px rgba(0,0,0,0.65), 0 0 0 1px rgba(201,162,39,0.05);
   }
-  
-  .skills-rows-container {
-    position: relative;
-    overflow: hidden;
+  .sc-panel.sc-open {
+    transform: translateY(-50%) translateX(0);
+    opacity: 1;
   }
-  
-  .skills-rows-container:hover .skills-row {
-    animation-play-state: paused;
+  .sc-panel-close {
+    position: absolute; top: 11px; right: 11px;
+    width: 24px; height: 24px; border-radius: 50%;
+    border: 1px solid rgba(201,162,39,0.18);
+    background: rgba(201,162,39,0.05);
+    color: #7a6e5e; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem;
+    transition: all 0.2s ease;
   }
-  
-  .skills-row {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-    white-space: nowrap;
+  .sc-panel-close:hover { border-color: #C9A227; color: #C9A227; background: rgba(201,162,39,0.1); }
+  .sc-panel-hdr {
+    display: flex; align-items: center; gap: 0.85rem;
+    margin-bottom: 0.9rem; padding-right: 1.4rem;
   }
-  
-  .row-1 {
-    animation: scroll-left 25s linear infinite;
+  .sc-panel-ico {
+    width: 42px; height: 42px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; overflow: hidden;
   }
-  
-  .row-2 {
-    animation: scroll-right 25s linear infinite;
+  .sc-panel-ico img { width: 26px; height: 26px; object-fit: contain; }
+  .sc-panel-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem; font-weight: 600;
+    color: #F0E6CC; margin-bottom: 0.12rem;
   }
-  
-  .skill-item {
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1.25rem;
-    border-radius: 50px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    font-weight: 600;
-    color: white;
-    transition: transform 0.2s ease;
+  .sc-panel-cat {
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.48rem; letter-spacing: 0.28em;
+    text-transform: uppercase; color: #C9A227; opacity: 0.65;
   }
-  
-  .skill-item:hover {
-    transform: scale(1.05);
+  .sc-panel-desc {
+    font-size: 0.8rem; line-height: 1.72;
+    color: #9a8a6e;
+    border-top: 1px solid rgba(201,162,39,0.1);
+    padding-top: 0.8rem;
   }
-  
-  .skill-item img {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-right: 0.5rem;
+  .sc-legend {
+    display: flex; gap: 1.2rem; flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 0.6rem;
+    position: relative; z-index: 5;
+    padding: 0 1rem;
   }
-  
-  @keyframes scroll-left {
-    from {
-      transform: translateX(0);
+  .sc-legend-item {
+    display: flex; align-items: center; gap: 0.38rem;
+    font-family: 'Raleway', sans-serif;
+    font-size: 0.46rem; letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(201,162,39,0.45);
+  }
+  .sc-legend-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  @media (max-width: 768px) {
+    .sc-section { min-height: 640px; }
+    .sc-canvas-wrap { height: 420px; }
+    .sc-panel {
+      right: 50%; top: auto; bottom: 16px;
+      transform: translateX(50%) translateY(60px);
+      width: calc(100% - 32px); max-width: 340px;
+      opacity: 0;
     }
-    to {
-      transform: translateX(-50%);
-    }
+    .sc-panel.sc-open { transform: translateX(50%) translateY(0); opacity: 1; }
+    .sc-legend { display: none; }
   }
-  
-  @keyframes scroll-right {
-    from {
-      transform: translateX(-50%);
-    }
-    to {
-      transform: translateX(0);
-    }
-  }
+  @media (max-width: 480px) { .sc-canvas-wrap { height: 360px; } }
   
   /* ===== SERVICES SECTION STYLES ===== */
   #services {
@@ -2187,115 +2317,443 @@
     </div><!-- .container -->
   </section>
 
-  <!-- Skills Section -->
-  <section id="skills" class="skills-section">
-    <div class="skills-container">
+  <!-- Skill Constellation Section -->
+  <section id="skills" class="sc-section">
+    <div class="sc-mouse-glow" id="sc-mouse-glow"></div>
+
+    <div style="position:relative;z-index:5;width:100%;max-width:1140px;padding:0 1rem">
       <div class="section-title text-center" data-aos="fade-up">
-        <h2>Skills</h2>
-        <p>A showcase of my professional and technical expertise.</p>
-      </div>
-      <div class="skills-categories" data-aos="fade-up" data-aos-delay="100">
-        <span class="skills-cat-label">Backend &amp; Systems</span>
-        <span class="skills-cat-sep">·</span>
-        <span class="skills-cat-label">Frontend &amp; Frameworks</span>
-      </div>
-      
-      <div class="skills-rows-container">
-	    <div style="margin-bottom: 10px;"></div> 
-        <div class="skills-row row-1" id="skills-row-1">
-          <div class="skill-item" style="background-color: #00599c;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="">C
-          </div>
-          <div class="skill-item" style="background-color: #004482;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="">C++
-          </div>
-          <div class="skill-item" style="background-color: #306998;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="">Python
-          </div>
-          <div class="skill-item" style="background-color: #00758f;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="">SQL
-          </div>
-          <div class="skill-item" style="background-color: #f89820;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="">Java
-          </div>
-          <div class="skill-item" style="background-color: #2496ed;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="">Docker
-          </div>
-          <div class="skill-item" style="background-color: #f34f29;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="">Git
-          </div>
-          <!-- Duplicate items for seamless loop -->
-          <div class="skill-item" style="background-color: #00599c;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" alt="">C
-          </div>
-          <div class="skill-item" style="background-color: #004482;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="">C++
-          </div>
-          <div class="skill-item" style="background-color: #306998;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="">Python
-          </div>
-          <div class="skill-item" style="background-color: #00758f;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="">SQL
-          </div>
-          <div class="skill-item" style="background-color: #f89820;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="">Java
-          </div>
-          <div class="skill-item" style="background-color: #2496ed;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="">Docker
-          </div>
-          <div class="skill-item" style="background-color: #f34f29;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="">Git
-          </div>
-        </div>
-        
-        <div class="skills-row row-2" id="skills-row-2">
-          <div class="skill-item" style="background-color: #e34c26;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="">HTML
-          </div>
-          <div class="skill-item" style="background-color: #264de4;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="">CSS
-          </div>
-          <div class="skill-item" style="background-color: #f7df1e; color: black;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="">JavaScript
-          </div>
-          <div class="skill-item" style="background-color: #68217a;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="">C#
-          </div>
-          <div class="skill-item" style="background-color: #5c2d91;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original.svg" alt="">Visual Basic
-          </div>
-          <div class="skill-item" style="background-color: #6db33f;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" alt="">Spring
-          </div>
-          <div class="skill-item" style="background-color: #563d7c;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="">Bootstrap
-          </div>
-          <!-- Duplicate items for seamless loop -->
-          <div class="skill-item" style="background-color: #e34c26;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="">HTML
-          </div>
-          <div class="skill-item" style="background-color: #264de4;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="">CSS
-          </div>
-          <div class="skill-item" style="background-color: #f7df1e; color: black;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="">JavaScript
-          </div>
-          <div class="skill-item" style="background-color: #68217a;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="">C#
-          </div>
-          <div class="skill-item" style="background-color: #5c2d91;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original.svg" alt="">Visual Basic
-          </div>
-          <div class="skill-item" style="background-color: #6db33f;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" alt="">Spring
-          </div>
-          <div class="skill-item" style="background-color: #563d7c;">
-            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/bootstrap/bootstrap-original.svg" alt="">Bootstrap
-          </div>
-        </div>
+        <h2>Skill Constellation</h2>
+        <p>Explore my technical universe — hover to discover, click to learn more</p>
       </div>
     </div>
+
+    <!-- Category filters -->
+    <div class="sc-filter-bar" id="sc-filter-bar">
+      <button class="sc-filter sc-active" data-cat="all">All</button>
+      <button class="sc-filter" data-cat="systems">Systems</button>
+      <button class="sc-filter" data-cat="web">Web</button>
+      <button class="sc-filter" data-cat="database">Database</button>
+      <button class="sc-filter" data-cat="devops">DevOps</button>
+      <button class="sc-filter" data-cat="other">Other</button>
+    </div>
+
+    <!-- Constellation -->
+    <div class="sc-canvas-wrap" id="sc-canvas-wrap">
+      <canvas id="sc-canvas"></canvas>
+      <div id="sc-nodes"></div>
+    </div>
+
+    <!-- Legend -->
+    <div class="sc-legend">
+      <div class="sc-legend-item"><span class="sc-legend-dot" style="background:#C9A227"></span>Systems</div>
+      <div class="sc-legend-item"><span class="sc-legend-dot" style="background:#4f9dc7"></span>Web</div>
+      <div class="sc-legend-item"><span class="sc-legend-dot" style="background:#4a9e6a"></span>Database</div>
+      <div class="sc-legend-item"><span class="sc-legend-dot" style="background:#c47a3a"></span>DevOps</div>
+      <div class="sc-legend-item"><span class="sc-legend-dot" style="background:#8a7abd"></span>Other</div>
+    </div>
   </section>
+
+  <!-- Skill detail panel (fixed, outside section) -->
+  <div id="sc-panel" class="sc-panel">
+    <button id="sc-panel-close" class="sc-panel-close"><i class="bi bi-x-lg"></i></button>
+    <div class="sc-panel-hdr">
+      <div id="sc-panel-ico" class="sc-panel-ico"></div>
+      <div>
+        <div id="sc-panel-name" class="sc-panel-name"></div>
+        <div id="sc-panel-cat"  class="sc-panel-cat"></div>
+      </div>
+    </div>
+    <div id="sc-panel-desc" class="sc-panel-desc"></div>
+  </div>
+
+<script>
+/* ── Skill Constellation ── */
+(function() {
+  var CAT_MAP = {
+    'c':'systems','c++':'systems','python':'systems','java':'systems',
+    'kotlin':'systems','swift':'systems','go':'systems','golang':'systems',
+    'rust':'systems','scala':'systems','ruby':'systems','matlab':'systems',
+    'dart':'systems','r':'systems',
+    'javascript':'web','js':'web','typescript':'web','ts':'web',
+    'html':'web','html5':'web','html/css':'web','css':'web',
+    'bootstrap':'web','tailwind':'web','react':'web','vue':'web',
+    'vue.js':'web','angular':'web','svelte':'web','php':'web',
+    'next.js':'web','node':'web','node.js':'web','nodejs':'web',
+    'spring':'web','flutter':'web',
+    'sql':'database','mysql':'database','postgresql':'database',
+    'postgres':'database','mongodb':'database','redis':'database',
+    'firebase':'database','graphql':'database',
+    'informix':'database','informix sql':'database',
+    'docker':'devops','git':'devops','github':'devops','linux':'devops',
+    'bash':'devops','kubernetes':'devops','k8s':'devops','aws':'devops',
+    'nginx':'devops','arduino':'devops',
+    'raspberry pi':'devops','raspberrypi':'devops',
+    'c#':'other','csharp':'other','.net':'other','dotnet':'other',
+    'visual basic':'other','android':'other','figma':'other'
+  };
+  var CAT_COLORS = {
+    systems:'#C9A227', web:'#4f9dc7', database:'#4a9e6a', devops:'#c47a3a', other:'#8a7abd'
+  };
+  var CAT_LABELS = {
+    systems:'Systems / Backend', web:'Web / Frontend',
+    database:'Database', devops:'DevOps & Tools', other:'Other'
+  };
+  var CLUSTERS = {
+    systems: {cx:0.20, cy:0.40, spread:0.14},
+    web:     {cx:0.72, cy:0.27, spread:0.13},
+    database:{cx:0.74, cy:0.70, spread:0.11},
+    devops:  {cx:0.44, cy:0.76, spread:0.11},
+    other:   {cx:0.20, cy:0.72, spread:0.09}
+  };
+  var DESC = {
+    'c':'Low-level systems language offering fine-grained control over memory and hardware resources.',
+    'c++':'High-performance OOP extension of C, essential for systems programming and embedded applications.',
+    'python':'Versatile high-level language powering backend services, automation, and data pipelines.',
+    'java':'Enterprise-grade OOP language for scalable, cross-platform backend and desktop applications.',
+    'kotlin':'Modern JVM language with concise syntax for Android and server-side development.',
+    'swift':"Apple's fast, safe language for building iOS and macOS applications.",
+    'go':'Statically typed language from Google, ideal for high-performance concurrent services.',
+    'golang':'Statically typed language from Google, ideal for high-performance concurrent services.',
+    'rust':'Memory-safe systems language with zero-cost abstractions and fearless concurrency.',
+    'scala':'JVM language combining OOP and functional programming for distributed systems.',
+    'ruby':'Expressive, developer-friendly language popular for rapid web development.',
+    'matlab':'Numeric computing environment for mathematical modelling and simulation.',
+    'dart':"Google's typed language powering Flutter for cross-platform UI development.",
+    'javascript':'Dynamic scripting language powering interactive web applications on client and server.',
+    'js':'Dynamic scripting language powering interactive web applications on client and server.',
+    'typescript':'Typed superset of JavaScript enabling safer, more maintainable large-scale codebases.',
+    'ts':'Typed superset of JavaScript enabling safer, more maintainable large-scale codebases.',
+    'html':'Markup language defining the semantic structure and content of web pages.',
+    'html5':'Markup language defining the semantic structure and content of web pages.',
+    'html/css':'Foundation duo of web development — structure and visual presentation of web pages.',
+    'css':'Stylesheet language controlling layout, typography, and visual design of web documents.',
+    'bootstrap':'CSS framework for building responsive, mobile-first interfaces with pre-built components.',
+    'tailwind':'Utility-first CSS framework for rapidly building custom designs without leaving HTML.',
+    'react':'Component-based JavaScript library for building declarative, efficient user interfaces.',
+    'vue':'Progressive JavaScript framework for building approachable and versatile web UIs.',
+    'vue.js':'Progressive JavaScript framework for building approachable and versatile web UIs.',
+    'angular':"Google's TypeScript framework for building structured enterprise web apps.",
+    'svelte':'Compile-time UI framework that ships minimal JavaScript for blazing-fast performance.',
+    'php':'Server-side scripting language widely used for dynamic web content and CMS platforms.',
+    'next.js':'React framework with SSR, static generation, and full-stack capabilities.',
+    'node':'JavaScript runtime enabling server-side scripting, APIs, and real-time applications.',
+    'node.js':'JavaScript runtime enabling server-side scripting, APIs, and real-time applications.',
+    'nodejs':'JavaScript runtime enabling server-side scripting, APIs, and real-time applications.',
+    'spring':'Comprehensive Java framework for building enterprise-grade backend services.',
+    'flutter':"Google's UI toolkit for natively compiled apps across mobile, web, and desktop.",
+    'sql':'Declarative language for querying and managing relational database systems.',
+    'mysql':'Open-source relational DBMS for web applications and transactional workloads.',
+    'postgresql':'Advanced open-source RDBMS with full ACID compliance and rich extensibility.',
+    'postgres':'Advanced open-source RDBMS with full ACID compliance and rich extensibility.',
+    'mongodb':'Document-oriented NoSQL database with flexible schema for modern applications.',
+    'redis':'In-memory data store used for caching, session management, and pub/sub messaging.',
+    'firebase':"Google's platform for real-time databases, authentication, and serverless backends.",
+    'graphql':'API query language enabling clients to request exactly the data they need.',
+    'informix':"IBM's enterprise RDBMS optimised for high-performance OLTP workloads.",
+    'informix sql':"IBM's enterprise RDBMS optimised for high-performance OLTP workloads.",
+    'docker':'Containerisation platform ensuring consistent, reproducible deployment across environments.',
+    'git':'Distributed version control system for tracking code changes and team collaboration.',
+    'github':'Web platform for hosting Git repos, code review, and CI/CD workflows.',
+    'linux':'Open-source OS kernel forming the foundation of most server and cloud infrastructure.',
+    'bash':'Unix shell scripting for automating system tasks, pipelines, and DevOps workflows.',
+    'kubernetes':'Container orchestration for automated deployment, scaling, and workload management.',
+    'k8s':'Container orchestration for automated deployment, scaling, and workload management.',
+    'aws':"Amazon's cloud platform for compute, storage, and managed infrastructure services.",
+    'nginx':'High-performance web server and reverse proxy for load-balancing web traffic.',
+    'arduino':'Open-source microcontroller platform for embedded electronics and IoT prototyping.',
+    'raspberry pi':'Credit-card-sized SBC for embedded computing, IoT projects, and Linux learning.',
+    'raspberrypi':'Credit-card-sized SBC for embedded computing, IoT projects, and Linux learning.',
+    'c#':"Microsoft's modern OOP language for .NET, Unity game scripting, and enterprise apps.",
+    'csharp':"Microsoft's modern OOP language for .NET, Unity game scripting, and enterprise apps.",
+    '.net':"Microsoft's cross-platform framework for high-performance web and cloud applications.",
+    'dotnet':"Microsoft's cross-platform framework for high-performance web and cloud applications.",
+    'visual basic':"Microsoft's event-driven language for rapid desktop application development.",
+    'android':'Mobile platform by Google; development involves Java, Kotlin, and the Android SDK.',
+    'figma':'Collaborative UI/UX design tool for prototyping, design systems, and developer handoff.'
+  };
+  var BRIDGES = [
+    ['C','C++'],['C','Python'],['C++','Python'],
+    ['Python','SQL'],['Python','MySQL'],['Python','PostgreSQL'],['Python','MongoDB'],
+    ['Java','SQL'],['Java','MySQL'],['Java','Spring'],
+    ['JavaScript','HTML'],['JavaScript','CSS'],['HTML','CSS'],
+    ['JavaScript','Bootstrap'],['JavaScript','Tailwind'],
+    ['C#','.NET'],['C#','Visual Basic'],
+    ['Python','Docker'],['Java','Docker'],['JavaScript','Docker'],
+    ['Python','Git'],['Java','Git'],['C','Git'],['C++','Git'],['JavaScript','Git'],
+    ['Git','GitHub'],['Git','Linux'],['Docker','Linux'],['Docker','Kubernetes'],
+    ['MySQL','SQL'],['PostgreSQL','SQL'],['MongoDB','Redis'],
+    ['Firebase','JavaScript'],['GraphQL','JavaScript'],
+    ['Node.js','JavaScript'],['Node','JavaScript'],['Spring','Java'],
+    ['Bootstrap','HTML'],['Bootstrap','CSS'],
+    ['Arduino','C'],['Arduino','C++'],
+    ['Python','Bash'],['Linux','Bash'],
+    ['Dart','Flutter'],['Kotlin','Android'],
+    ['TypeScript','JavaScript'],['TypeScript','React'],
+    ['React','JavaScript'],['Vue','JavaScript'],['Angular','TypeScript'],
+    ['Next.js','React'],['Node.js','SQL'],['Node.js','MongoDB'],['Node.js','Redis'],
+    ['Informix SQL','SQL'],['Informix','SQL'],['Informix SQL','Java'],['Informix','Java']
+  ];
+
+  var wrap   = document.getElementById('sc-canvas-wrap');
+  var canvas = document.getElementById('sc-canvas');
+  var nodesEl = document.getElementById('sc-nodes');
+  var panel  = document.getElementById('sc-panel');
+  var pClose = document.getElementById('sc-panel-close');
+  var mGlow  = document.getElementById('sc-mouse-glow');
+  if (!wrap || !canvas) return;
+  var ctx = canvas.getContext('2d');
+
+  var skills=[], conns=[], activeFilter='all', activeName=null, skillEls=[];
+  var animId, t=0, wRect={}, mX=0, mY=0;
+
+  function getDevicon(n) {
+    var B='https://cdn.jsdelivr.net/gh/devicons/devicon/icons/';
+    var db={
+      'c':'c/c-original.svg','c++':'cplusplus/cplusplus-original.svg',
+      'python':'python/python-original.svg','java':'java/java-original.svg',
+      'javascript':'javascript/javascript-original.svg','js':'javascript/javascript-original.svg',
+      'typescript':'typescript/typescript-original.svg','ts':'typescript/typescript-original.svg',
+      'html':'html5/html5-original.svg','html5':'html5/html5-original.svg',
+      'html/css':'html5/html5-original.svg',
+      'css':'css3/css3-original.svg','c#':'csharp/csharp-original.svg',
+      'csharp':'csharp/csharp-original.svg',
+      '.net':'dot-net/dot-net-original.svg','dotnet':'dot-net/dot-net-original.svg',
+      'sql':'mysql/mysql-original.svg','mysql':'mysql/mysql-original.svg',
+      'postgresql':'postgresql/postgresql-original.svg','postgres':'postgresql/postgresql-original.svg',
+      'mongodb':'mongodb/mongodb-original.svg','docker':'docker/docker-original.svg',
+      'git':'git/git-original.svg','github':'github/github-original.svg',
+      'linux':'linux/linux-original.svg','bash':'bash/bash-original.svg',
+      'spring':'spring/spring-original.svg','bootstrap':'bootstrap/bootstrap-original.svg',
+      'react':'react/react-original.svg','nodejs':'nodejs/nodejs-original.svg',
+      'node':'nodejs/nodejs-original.svg','node.js':'nodejs/nodejs-original.svg',
+      'php':'php/php-original.svg','go':'go/go-original.svg','golang':'go/go-original.svg',
+      'kotlin':'kotlin/kotlin-original.svg','swift':'swift/swift-original.svg',
+      'ruby':'ruby/ruby-original.svg','rust':'rust/rust-plain.svg',
+      'redis':'redis/redis-original.svg','android':'android/android-original.svg',
+      'arduino':'arduino/arduino-original.svg',
+      'kubernetes':'kubernetes/kubernetes-plain.svg','k8s':'kubernetes/kubernetes-plain.svg',
+      'aws':'amazonwebservices/amazonwebservices-original.svg',
+      'vue':'vuejs/vuejs-original.svg','vue.js':'vuejs/vuejs-original.svg',
+      'angular':'angularjs/angularjs-original.svg','svelte':'svelte/svelte-original.svg',
+      'flutter':'flutter/flutter-original.svg','dart':'dart/dart-original.svg',
+      'firebase':'firebase/firebase-plain.svg','graphql':'graphql/graphql-plain.svg',
+      'tailwind':'tailwindcss/tailwindcss-plain.svg',
+      'nginx':'nginx/nginx-original.svg','figma':'figma/figma-original.svg',
+      'visual basic':'dot-net/dot-net-original.svg',
+      'raspberry pi':'raspberrypi/raspberrypi-original.svg',
+      'raspberrypi':'raspberrypi/raspberrypi-original.svg',
+      'scala':'scala/scala-original.svg','matlab':'matlab/matlab-original.svg'
+    };
+    var k=(n||'').toLowerCase().trim();
+    return db[k]?B+db[k]:null;
+  }
+  function getNodeBg(n) {
+    var db={
+      'c':'#00599c','c++':'#004482','python':'#3572a5','java':'#e76f00',
+      'javascript':'#b8960a','js':'#b8960a','typescript':'#3178c6','ts':'#3178c6',
+      'html':'#e34c26','html5':'#e34c26','html/css':'#c73e1d','css':'#264de4',
+      'c#':'#68217a','csharp':'#68217a','.net':'#5c2d91','dotnet':'#5c2d91',
+      'sql':'#00758f','mysql':'#00758f','postgresql':'#336791','postgres':'#336791',
+      'mongodb':'#13aa52','docker':'#2496ed','git':'#e84d31','github':'#24292e',
+      'linux':'#3a3a3a','bash':'#363f42','spring':'#6db33f','bootstrap':'#563d7c',
+      'react':'#2c3e50','nodejs':'#2d6a3f','node':'#2d6a3f','node.js':'#2d6a3f',
+      'php':'#777bb3','go':'#00add8','golang':'#00add8','kotlin':'#7f52ff',
+      'swift':'#fa7343','ruby':'#cc342d','rust':'#3a3a3a','redis':'#d82c20',
+      'android':'#3aac72','arduino':'#00979d','kubernetes':'#326de6','k8s':'#326de6',
+      'aws':'#3a4e6e','vue':'#4fc08d','vue.js':'#4fc08d','angular':'#dd0031',
+      'svelte':'#d43526','flutter':'#0d47a1','dart':'#0175c2',
+      'firebase':'#b87800','graphql':'#c40082','tailwind':'#0b7285',
+      'nginx':'#009639','figma':'#2a2a3a','visual basic':'#5c2d91',
+      'raspberry pi':'#c51a4a','raspberrypi':'#c51a4a','scala':'#dc322f',
+      'matlab':'#0076a8','informix':'#1a365d','informix sql':'#1a365d'
+    };
+    return db[(n||'').toLowerCase().trim()]||'#2e2a24';
+  }
+  function getCat(n){ return CAT_MAP[(n||'').toLowerCase().trim()]||'other'; }
+  function getDesc(n){
+    var d=DESC[(n||'').toLowerCase().trim()];
+    if(d) return d;
+    var cat=getCat(n);
+    var fallback={systems:'a systems programming language',web:'a web development technology',
+      database:'a database technology',devops:'a DevOps or tooling technology',other:'a specialized technology'};
+    return n+' is '+(fallback[cat]||'a technology')+' used in modern software development.';
+  }
+
+  function resize(){
+    wRect=wrap.getBoundingClientRect();
+    var dpr=window.devicePixelRatio||1;
+    canvas.width=wRect.width*dpr; canvas.height=wRect.height*dpr;
+    canvas.style.width=wRect.width+'px'; canvas.style.height=wRect.height+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    posSkills();
+  }
+  function posSkills(){
+    var w=wRect.width, h=wRect.height;
+    var grp={};
+    skills.forEach(function(sk){ if(!grp[sk.cat])grp[sk.cat]=[]; grp[sk.cat].push(sk); });
+    var vis=activeFilter==='all'?skills:skills.filter(function(s){return s.cat===activeFilter;});
+    vis.forEach(function(sk){
+      var g=grp[sk.cat], cl=CLUSTERS[sk.cat]||CLUSTERS.other;
+      var idx=g.indexOf(sk), cnt=g.length;
+      var ang=cnt>1?(idx/cnt)*Math.PI*2-Math.PI/2:0;
+      var rad=cl.spread*Math.max(w,h)*0.55;
+      sk.baseX=cl.cx*w+(cnt>1?Math.cos(ang)*rad:0);
+      sk.baseY=cl.cy*h+(cnt>1?Math.sin(ang)*rad:0);
+      sk.x=sk.baseX; sk.y=sk.baseY;
+    });
+  }
+  function buildConns(){
+    conns=[];
+    var nameIdx={};
+    skills.forEach(function(sk,i){nameIdx[sk.name.toLowerCase()]=i;});
+    var grp={};
+    skills.forEach(function(sk,i){if(!grp[sk.cat])grp[sk.cat]=[];grp[sk.cat].push(i);});
+    Object.keys(grp).forEach(function(cat){
+      var g=grp[cat];
+      for(var i=0;i<g.length;i++) conns.push([g[i],g[(i+1)%g.length]]);
+    });
+    BRIDGES.forEach(function(pair){
+      var ia=nameIdx[pair[0].toLowerCase()],ib=nameIdx[pair[1].toLowerCase()];
+      if(ia!==undefined&&ib!==undefined){
+        var dup=conns.some(function(c){return(c[0]===ia&&c[1]===ib)||(c[0]===ib&&c[1]===ia);});
+        if(!dup) conns.push([ia,ib]);
+      }
+    });
+  }
+  function renderNodes(){
+    nodesEl.innerHTML=''; skillEls=[];
+    var vis=activeFilter==='all'?skills:skills.filter(function(s){return s.cat===activeFilter;});
+    vis.forEach(function(sk){
+      var nd=document.createElement('div');
+      nd.className='sc-node'; nd.dataset.name=sk.name;
+      nd.style.background='radial-gradient(circle at 35% 35%,'+sk.bg+'ee,'+sk.bg+'77)';
+      nd.style.boxShadow='0 0 16px '+sk.bg+'44,inset 0 1px 0 rgba(255,255,255,0.15)';
+      var inner='';
+      if(sk.icon){
+        inner='<img src="'+sk.icon+'" alt="'+sk.name+'" onerror="this.style.display=\'none\';this.nextSibling.style.display=\'block\'">'
+          +'<span class="sc-node-fb" style="display:none">'+sk.name.substring(0,4)+'</span>';
+      } else {
+        inner='<span class="sc-node-fb">'+sk.name.substring(0,4)+'</span>';
+      }
+      inner+='<span class="sc-label">'+sk.name+'</span>';
+      nd.innerHTML=inner;
+      nd.addEventListener('click',function(e){
+        e.stopPropagation();
+        if(activeName===sk.name) closePanel(); else openPanel(sk);
+      });
+      nodesEl.appendChild(nd);
+      skillEls.push({el:nd,sk:sk});
+    });
+  }
+  function hexA(v){return Math.round(v*255).toString(16).padStart(2,'0');}
+  function drawCanvas(){
+    var w=wRect.width,h=wRect.height;
+    ctx.clearRect(0,0,w,h);
+    var vis=new Set();
+    (activeFilter==='all'?skills:skills.filter(function(s){return s.cat===activeFilter;}))
+      .forEach(function(sk){vis.add(skills.indexOf(sk));});
+    conns.forEach(function(pair){
+      var a=skills[pair[0]],b=skills[pair[1]];
+      if(!a||!b||!vis.has(pair[0])||!vis.has(pair[1])) return;
+      var act=activeName&&(a.name===activeName||b.name===activeName);
+      var op=act?0.52:0.10, lw=act?1.5:0.75;
+      ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
+      var g=ctx.createLinearGradient(a.x,a.y,b.x,b.y);
+      g.addColorStop(0,a.bg+hexA(op)); g.addColorStop(1,b.bg+hexA(op));
+      ctx.strokeStyle=g; ctx.lineWidth=lw;
+      if(act){ctx.setLineDash([]);}
+      else{ctx.setLineDash([3,7]);ctx.lineDashOffset=-t*16;}
+      ctx.stroke(); ctx.setLineDash([]);
+    });
+    if(activeName){
+      var actSk=skills.find(function(s){return s.name===activeName;});
+      if(actSk){
+        conns.forEach(function(pair){
+          var a=skills[pair[0]],b=skills[pair[1]]; if(!a||!b) return;
+          var other=a.name===activeName?b:(b.name===activeName?a:null);
+          if(!other||!vis.has(skills.indexOf(other))) return;
+          var ph=(t*1.6)%1;
+          var px=actSk.x+(other.x-actSk.x)*ph,py=actSk.y+(other.y-actSk.y)*ph;
+          ctx.beginPath(); ctx.arc(px,py,2.5,0,Math.PI*2);
+          ctx.fillStyle=actSk.bg+'bb'; ctx.fill();
+          ctx.beginPath(); ctx.arc(px,py,6,0,Math.PI*2);
+          ctx.fillStyle=actSk.bg+'2a'; ctx.fill();
+        });
+      }
+    }
+  }
+  function animate(){
+    t+=0.016;
+    var vis=activeFilter==='all'?skills:skills.filter(function(s){return s.cat===activeFilter;});
+    vis.forEach(function(sk){
+      var fx=Math.sin(t*sk.fs+sk.ph)*sk.fr, fy=Math.cos(t*sk.fs*0.7+sk.ph)*sk.fr;
+      var dx=mX-sk.baseX,dy=mY-sk.baseY,dist=Math.sqrt(dx*dx+dy*dy);
+      var par=Math.max(0,1-dist/380)*7;
+      sk.x=sk.baseX+fx+dx*par*0.01; sk.y=sk.baseY+fy+dy*par*0.01;
+    });
+    drawCanvas();
+    skillEls.forEach(function(it){it.el.style.left=it.sk.x+'px';it.el.style.top=it.sk.y+'px';});
+    animId=requestAnimationFrame(animate);
+  }
+  function openPanel(sk){
+    activeName=sk.name;
+    document.querySelectorAll('.sc-node').forEach(function(n){n.classList.toggle('sc-active',n.dataset.name===sk.name);});
+    var ico=document.getElementById('sc-panel-ico');
+    ico.style.background=sk.bg+'2a'; ico.style.border='1px solid '+sk.bg+'55';
+    ico.innerHTML=sk.icon
+      ? '<img src="'+sk.icon+'" alt="'+sk.name+'" onerror="this.outerHTML=\'<span style=font-size:.6rem;color:#fff;font-family:Raleway,sans-serif;font-weight:700;text-transform:uppercase>'+sk.name.substring(0,3)+'</span>\'">'
+      : '<span style="font-size:.6rem;color:#fff;font-family:Raleway,sans-serif;font-weight:700;text-transform:uppercase">'+sk.name.substring(0,3)+'</span>';
+    var col=CAT_COLORS[sk.cat]||'#C9A227';
+    document.getElementById('sc-panel-name').textContent=sk.name;
+    document.getElementById('sc-panel-name').style.color=col;
+    document.getElementById('sc-panel-cat').textContent=CAT_LABELS[sk.cat]||sk.cat;
+    document.getElementById('sc-panel-cat').style.color=col;
+    document.getElementById('sc-panel-desc').textContent=getDesc(sk.name);
+    panel.classList.add('sc-open');
+  }
+  function closePanel(){
+    activeName=null;
+    panel.classList.remove('sc-open');
+    document.querySelectorAll('.sc-node').forEach(function(n){n.classList.remove('sc-active');});
+  }
+  if(pClose) pClose.addEventListener('click',closePanel);
+  document.addEventListener('click',function(e){
+    if(panel&&!panel.contains(e.target)&&!e.target.closest('.sc-node')) closePanel();
+  });
+  document.querySelectorAll('.sc-filter').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      document.querySelectorAll('.sc-filter').forEach(function(b){b.classList.remove('sc-active');});
+      btn.classList.add('sc-active');
+      activeFilter=btn.dataset.cat;
+      closePanel(); resize(); renderNodes();
+    });
+  });
+  wrap.addEventListener('mousemove',function(e){
+    var r=wrap.getBoundingClientRect(); mX=e.clientX-r.left; mY=e.clientY-r.top;
+    if(mGlow){mGlow.style.left=e.clientX+'px';mGlow.style.top=e.clientY+'px';}
+  });
+  wrap.addEventListener('mouseenter',function(){if(mGlow)mGlow.style.opacity='1';});
+  wrap.addEventListener('mouseleave',function(){if(mGlow)mGlow.style.opacity='0';});
+  window.addEventListener('resize',function(){resize();renderNodes();});
+
+  window.pfInitSkillConstellation = function(names){
+    if(animId) cancelAnimationFrame(animId);
+    skills=names.map(function(n){
+      return {name:n,cat:getCat(n),bg:getNodeBg(n),icon:getDevicon(n),
+              x:0,y:0,baseX:0,baseY:0,
+              ph:Math.random()*Math.PI*2,
+              fs:0.25+Math.random()*0.35,
+              fr:3+Math.random()*5};
+    });
+    buildConns(); resize(); renderNodes(); animate();
+  };
+
+  var DEFAULT=['C','C++','Python','SQL','Java','Docker','Git',
+               'HTML','CSS','JavaScript','C#','Visual Basic','Spring','Bootstrap'];
+  window.pfInitSkillConstellation(DEFAULT);
+})();
+</script>
 
   <!-- Services Section -->
   <section id="services" class="services section">
@@ -4396,21 +4854,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }).join('');
     }
 
-    /* ── Skills carousel ── */
+    /* ── Skill Constellation ── */
     if (cfg.skills && cfg.skills.length) {
-      var allNames = cfg.skills.map(function(s){ return typeof s === 'string' ? s : (s.name||''); }).filter(Boolean);
-      var mid = Math.ceil(allNames.length / 2);
-      var g1 = allNames.slice(0, mid);
-      var g2 = allNames.slice(mid);
-      if (!g2.length) g2 = g1.slice(); /* fallback: mirror row 1 if only a few skills */
-      var buildRow = function(names) {
-        var html = names.map(buildSkillPill).join('');
-        return html + html; /* duplicate for seamless infinite loop */
-      };
-      var r1 = document.getElementById('skills-row-1');
-      var r2 = document.getElementById('skills-row-2');
-      if (r1) r1.innerHTML = buildRow(g1);
-      if (r2) r2.innerHTML = buildRow(g2);
+      var scNames = cfg.skills.map(function(s){ return typeof s === 'string' ? s : (s.name||''); }).filter(Boolean);
+      if (window.pfInitSkillConstellation) window.pfInitSkillConstellation(scNames);
     }
 
     if (cfg.services && cfg.services.length) {
