@@ -781,24 +781,17 @@ body.hero-active .sidebar-hero-panel {
 }
 .about-rule.aos-animate { width: 320px; }
 
-/* 4-div layout: left (portrait + info) | right (bio + competencies) */
+/* 2×2 grid: portrait | personal-info / bio | competencies */
 .about-body {
   display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 4rem;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem 4.5rem;
   max-width: 1100px;
   margin: 0 auto 5rem;
   align-items: start;
 }
 @media (max-width: 960px) {
   .about-body { grid-template-columns: 1fr; gap: 2.5rem; margin-bottom: 3.5rem; }
-}
-
-.about-left,
-.about-right {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
 }
 
 .about-bio-eyebrow {
