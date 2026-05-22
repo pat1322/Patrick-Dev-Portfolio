@@ -4502,7 +4502,11 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     /* ── Music Player ── */
-    if (window.pfInitMusicPlayer) window.pfInitMusicPlayer(cfg);
+    /* Defer one tick so the player script is always evaluated first,
+       even on the synchronous localStorage path. */
+    (function(c) {
+      setTimeout(function() { if (window.pfInitMusicPlayer) window.pfInitMusicPlayer(c); }, 0);
+    })(cfg);
   }
 })();
 </script>

@@ -775,7 +775,7 @@ body.hero-active .sidebar-hero-panel {
   width: 0;
   height: 1px;
   background: linear-gradient(90deg, transparent, var(--gn-gold), transparent);
-  margin: 0 auto 2rem;
+  margin: 0 auto 3.5rem;
   box-shadow: 0 0 8px rgba(201,162,39,0.35);
   transition: width 0.8s cubic-bezier(0.16,1,0.3,1);
 }
