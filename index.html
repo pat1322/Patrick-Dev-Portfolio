@@ -272,14 +272,14 @@
     100% { transform: translateY(-320px) translateX(-50px); }
   }
   .sc-mouse-glow {
-    position: fixed;
+    position: absolute;
     width: 420px; height: 420px;
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(201,162,39,0.045) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(201,162,39,0.05) 0%, transparent 70%);
     pointer-events: none;
     z-index: 1;
     transform: translate(-50%,-50%);
-    transition: left 0.4s ease, top 0.4s ease;
+    transition: left 0.08s linear, top 0.08s linear;
     opacity: 0;
   }
   .sc-filter-bar {
@@ -2078,7 +2078,7 @@
     <ul>
       <li><a href="#hero" class="active"><i class="bi bi-house navicon"></i>Home</a></li>
       <li><a href="#about"><i class="bi bi-person navicon"></i> About</a></li>
-      <li><a href="#skills"><i class="bi bi-stars navicon"></i> Skills</a></li>
+      <li><a href="#skills"><i class="bi bi-stars navicon"></i> Skill Constellation</a></li>
       <li><a href="#services"><i class="bi bi-hdd-stack navicon"></i> Summary of Work</a></li>
       <li><a href="#resume"><i class="bi bi-file-earmark-text navicon"></i> Professional Journey</a></li>
       <li><a href="#portfolio"><i class="bi bi-images navicon"></i> Portfolio Showcase</a></li>
@@ -2319,7 +2319,6 @@
 
   <!-- Skill Constellation Section -->
   <section id="skills" class="sc-section">
-    <div class="sc-mouse-glow" id="sc-mouse-glow"></div>
 
     <div style="position:relative;z-index:5;width:100%;max-width:1140px;padding:0 1rem">
       <div class="section-title text-center" data-aos="fade-up">
@@ -2340,6 +2339,7 @@
 
     <!-- Constellation -->
     <div class="sc-canvas-wrap" id="sc-canvas-wrap">
+      <div class="sc-mouse-glow" id="sc-mouse-glow"></div>
       <canvas id="sc-canvas"></canvas>
       <div id="sc-nodes"></div>
     </div>
@@ -2587,6 +2587,7 @@
     canvas.style.width=wRect.width+'px'; canvas.style.height=wRect.height+'px';
     ctx.setTransform(dpr,0,0,dpr,0,0);
     posSkills();
+    avoidOverlaps();
   }
   function posSkills(){
     var w=wRect.width, h=wRect.height;
@@ -2600,6 +2601,34 @@
       var rad=cl.spread*Math.max(w,h)*0.55;
       sk.baseX=cl.cx*w+(cnt>1?Math.cos(ang)*rad:0);
       sk.baseY=cl.cy*h+(cnt>1?Math.sin(ang)*rad:0);
+      sk.x=sk.baseX; sk.y=sk.baseY;
+    });
+  }
+  /* Push overlapping nodes apart until all are >= minDist apart */
+  function avoidOverlaps(){
+    var minDist=90; /* 46px node + ~44px breathing room */
+    var margin=58;
+    var w=wRect.width, h=wRect.height;
+    var vis=activeFilter==='all'?skills:skills.filter(function(s){return s.cat===activeFilter;});
+    for(var iter=0;iter<8;iter++){
+      for(var i=0;i<vis.length;i++){
+        for(var j=i+1;j<vis.length;j++){
+          var a=vis[i],b=vis[j];
+          var dx=b.baseX-a.baseX, dy=b.baseY-a.baseY;
+          var dist=Math.sqrt(dx*dx+dy*dy);
+          if(dist<minDist&&dist>0.5){
+            var push=(minDist-dist)*0.5;
+            var nx=dx/dist, ny=dy/dist;
+            a.baseX-=nx*push; a.baseY-=ny*push;
+            b.baseX+=nx*push; b.baseY+=ny*push;
+          }
+        }
+      }
+    }
+    /* Clamp to canvas bounds */
+    vis.forEach(function(sk){
+      sk.baseX=Math.max(margin,Math.min(w-margin,sk.baseX));
+      sk.baseY=Math.max(margin,Math.min(h-margin,sk.baseY));
       sk.x=sk.baseX; sk.y=sk.baseY;
     });
   }
@@ -2731,7 +2760,7 @@
   });
   wrap.addEventListener('mousemove',function(e){
     var r=wrap.getBoundingClientRect(); mX=e.clientX-r.left; mY=e.clientY-r.top;
-    if(mGlow){mGlow.style.left=e.clientX+'px';mGlow.style.top=e.clientY+'px';}
+    if(mGlow){mGlow.style.left=mX+'px';mGlow.style.top=mY+'px';}
   });
   wrap.addEventListener('mouseenter',function(){if(mGlow)mGlow.style.opacity='1';});
   wrap.addEventListener('mouseleave',function(){if(mGlow)mGlow.style.opacity='0';});
