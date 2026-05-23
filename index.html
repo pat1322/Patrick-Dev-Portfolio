@@ -2787,77 +2787,179 @@
   <!-- Services Section -->
   <section id="services" class="services section">
     <div class="container">
-
       <div class="section-title text-center" data-aos="fade-up">
         <h2>Summary of Work</h2>
         <p>High-quality software development and technical solutions — specializing in backend engineering, database management, and scalable web systems.</p>
       </div>
-
-      <div class="row gy-4 mt-2" id="services-container">
-
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-          <div class="sow-card">
-            <span class="sow-num">01</span>
-            <div class="sow-icon"><i class="bi bi-code-slash"></i></div>
-            <h4 class="sow-title">Backend Development</h4>
-            <p class="sow-desc">Building efficient, scalable, and high-performance backend systems using C, C++, Python, and SQL databases.</p>
-            <div class="sow-tags"><span>C</span><span>C++</span><span>Python</span><span>SQL</span></div>
+    </div>
+    <div class="sow-orbit-wrap">
+      <div class="sow-orbit-system" id="sowOrbitSystem">
+        <div class="sow-center-hub" id="sowCenterHub">
+          <div id="sowDefaultContent" class="sow-hub-inner">
+            <div class="sow-hub-idle">
+              <i class="bi bi-diagram-3 sow-idle-icon"></i>
+              <p class="sow-idle-text">Hover a domain<br>to explore</p>
+            </div>
           </div>
+          <div id="sowActiveContent" class="sow-hub-inner sow-hidden"></div>
         </div>
-
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
-          <div class="sow-card">
-            <span class="sow-num">02</span>
-            <div class="sow-icon"><i class="bi bi-database"></i></div>
-            <h4 class="sow-title">Database Optimization</h4>
-            <p class="sow-desc">Designing and optimizing database structures, improving query performance, and ensuring data integrity across platforms.</p>
-            <div class="sow-tags"><span>Informix SQL</span><span>MySQL</span><span>PostgreSQL</span></div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
-          <div class="sow-card">
-            <span class="sow-num">03</span>
-            <div class="sow-icon"><i class="bi bi-globe"></i></div>
-            <h4 class="sow-title">Web Development</h4>
-            <p class="sow-desc">Creating responsive and dynamic websites with modern frontend technologies and robust backend integrations.</p>
-            <div class="sow-tags"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Bootstrap</span></div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
-          <div class="sow-card">
-            <span class="sow-num">04</span>
-            <div class="sow-icon"><i class="bi bi-file-code"></i></div>
-            <h4 class="sow-title">Debugging &amp; Optimization</h4>
-            <p class="sow-desc">Identifying and resolving software bugs, memory leaks, and performance bottlenecks to enhance stability and speed.</p>
-            <div class="sow-tags"><span>C</span><span>C++</span><span>Java</span><span>Profiling</span></div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
-          <div class="sow-card">
-            <span class="sow-num">05</span>
-            <div class="sow-icon"><i class="bi bi-diagram-3"></i></div>
-            <h4 class="sow-title">System Integration</h4>
-            <p class="sow-desc">Integrating APIs, third-party services, and legacy systems into modern applications to improve functionality and data flow.</p>
-            <div class="sow-tags"><span>REST APIs</span><span>Legacy Systems</span><span>Middleware</span></div>
-          </div>
-        </div>
-
-        <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
-          <div class="sow-card">
-            <span class="sow-num">06</span>
-            <div class="sow-icon"><i class="bi bi-graph-up"></i></div>
-            <h4 class="sow-title">Algorithms &amp; Data Structures</h4>
-            <p class="sow-desc">Providing optimized solutions for complex problems using efficient algorithms to enhance software performance.</p>
-            <div class="sow-tags"><span>Algorithms</span><span>DSA</span><span>Performance</span></div>
-          </div>
-        </div>
-
+        <div class="sow-orbit-path" id="sowOrbitPath"></div>
+        <div class="sow-conn-line" id="sowConnLine"></div>
+        <div id="sowNodesContainer"></div>
       </div>
     </div>
   </section><!-- /Services Section -->
+
+<script>
+(function() {
+  var SOW_COLORS = ['#C9A227','#E8C547','#d4a853','#a8863e','#e0c060','#b8902d'];
+
+  function pfInitSowOrbit(services) {
+    var system   = document.getElementById('sowOrbitSystem');
+    var hub      = document.getElementById('sowCenterHub');
+    var defCont  = document.getElementById('sowDefaultContent');
+    var actCont  = document.getElementById('sowActiveContent');
+    var connLine = document.getElementById('sowConnLine');
+    var orbitPath= document.getElementById('sowOrbitPath');
+    var nodesWrap= document.getElementById('sowNodesContainer');
+
+    if (!system || !services || !services.length) return;
+
+    if (hub._sowLeave) hub.removeEventListener('mouseleave', hub._sowLeave);
+    if (window._sowResize) window.removeEventListener('resize', window._sowResize);
+
+    var activeId = null;
+
+    /* ── helpers ─────────────────────────────────────────── */
+    function showDefault() {
+      defCont.classList.remove('sow-hidden');
+      actCont.classList.add('sow-hidden');
+      actCont.innerHTML = '';
+    }
+
+    function showActive() {
+      defCont.classList.add('sow-hidden');
+      actCont.classList.remove('sow-hidden');
+    }
+
+    /* ── layout ──────────────────────────────────────────── */
+    function buildNodes() {
+      nodesWrap.innerHTML = '';
+      var w = system.offsetWidth  || system.getBoundingClientRect().width;
+      var h = system.offsetHeight || system.getBoundingClientRect().height;
+      var cx = w / 2, cy = h / 2;
+      var hubR   = hub.offsetWidth / 2;
+      var nodeR  = 42;
+      var orbitR = Math.max(hubR + nodeR + 34, Math.min(w, h) * 0.42);
+      var n = services.length;
+
+      orbitPath.style.width  = (orbitR * 2) + 'px';
+      orbitPath.style.height = (orbitR * 2) + 'px';
+
+      services.forEach(function(svc, i) {
+        var angle   = (Math.PI * 2 / n) * i - Math.PI / 2;
+        var nx      = cx + Math.cos(angle) * orbitR;
+        var ny      = cy + Math.sin(angle) * orbitR;
+        var color   = SOW_COLORS[i % SOW_COLORS.length];
+        var floatKf = 'sowFloat' + ((i % 3) + 1);
+        var floatDur= (3.2 + i * 0.5) + 's';
+
+        var node = document.createElement('div');
+        node.className = 'sow-orbit-node';
+        node.style.left = nx + 'px';
+        node.style.top  = ny + 'px';
+        node.style.animation = floatKf + ' ' + floatDur + ' ease-in-out infinite';
+        node.style.animationDelay = '-' + (i * 0.75) + 's';
+
+        var iconCls  = (svc.icon || 'bi-star');
+        var shortLbl = (svc.title || '').split(' ')[0];
+
+        node.innerHTML =
+          '<i class="bi ' + iconCls + ' sow-node-icon"></i>' +
+          '<span class="sow-node-label">' + shortLbl + '</span>';
+
+        (function(s, el, x, y) {
+          el.addEventListener('mouseenter', function() { activate(s, el, x, y, cx, cy, color); });
+          el.addEventListener('mouseleave', function() { if (!hub.matches(':hover')) deactivate(); });
+        })(svc, node, nx, ny);
+
+        nodesWrap.appendChild(node);
+      });
+    }
+
+    /* ── interactions ────────────────────────────────────── */
+    function activate(svc, nodeEl, nx, ny, cx, cy, color) {
+      var key = svc.title || svc.id || String(nx);
+      if (activeId === key) return;
+      activeId = key;
+
+      document.querySelectorAll('.sow-orbit-node').forEach(function(n){ n.classList.remove('sow-node-active'); });
+      nodeEl.classList.add('sow-node-active');
+      hub.classList.add('hub-active');
+
+      var angle = Math.atan2(ny - cy, nx - cx);
+      var len   = Math.sqrt(Math.pow(nx - cx, 2) + Math.pow(ny - cy, 2));
+      connLine.style.width     = Math.max(0, len - 46) + 'px';
+      connLine.style.transform = 'rotate(' + angle + 'rad) translateY(-50%)';
+      connLine.style.opacity   = '1';
+
+      populateHub(svc, color);
+      showActive();
+    }
+
+    function populateHub(svc, color) {
+      var tagsList = (svc.tags || '').split(',').map(function(t){ return t.trim(); }).filter(Boolean);
+      var tagsHTML = tagsList.map(function(t, i) {
+        return '<span class="sow-hub-tag" style="transition-delay:' + (i * 45) + 'ms">' + t + '</span>';
+      }).join('');
+
+      actCont.innerHTML =
+        '<i class="bi ' + (svc.icon || 'bi-star') + ' sow-hub-icon" style="color:' + color + '"></i>' +
+        '<div class="sow-hub-title" style="color:' + color + '">' + (svc.title || '') + '</div>' +
+        '<div class="sow-hub-desc">' + (svc.desc || '') + '</div>' +
+        '<div class="sow-hub-tags">' + tagsHTML + '</div>';
+
+      setTimeout(function() {
+        actCont.querySelectorAll('.sow-hub-tag').forEach(function(t){ t.classList.add('tag-show'); });
+      }, 30);
+    }
+
+    function deactivate() {
+      if (!activeId) return;
+      activeId = null;
+      document.querySelectorAll('.sow-orbit-node').forEach(function(n){ n.classList.remove('sow-node-active'); });
+      hub.classList.remove('hub-active');
+      connLine.style.opacity = '0';
+      showDefault();
+    }
+
+    hub._sowLeave = deactivate;
+    hub.addEventListener('mouseleave', hub._sowLeave);
+
+    window._sowResize = function() {
+      activeId = null;
+      hub.classList.remove('hub-active');
+      connLine.style.opacity = '0';
+      showDefault();
+      buildNodes();
+    };
+    window.addEventListener('resize', window._sowResize);
+
+    buildNodes();
+  }
+
+  window.pfInitSowOrbit = pfInitSowOrbit;
+
+  pfInitSowOrbit([
+    { icon:'bi-code-slash', title:'Backend Development',       desc:'Building efficient, scalable, and high-performance backend systems using C, C++, Python, and SQL databases.',         tags:'C,C++,Python,SQL' },
+    { icon:'bi-database',   title:'Database Optimization',     desc:'Designing and optimizing database structures, improving query performance, and ensuring data integrity across platforms.', tags:'Informix SQL,MySQL,PostgreSQL' },
+    { icon:'bi-globe',      title:'Web Development',           desc:'Creating responsive and dynamic websites with modern frontend technologies and robust backend integrations.',          tags:'HTML,CSS,JavaScript,Bootstrap' },
+    { icon:'bi-file-code',  title:'Debugging & Optimization',  desc:'Identifying and resolving software bugs, memory leaks, and performance bottlenecks to enhance stability and speed.',  tags:'C,C++,Java,Profiling' },
+    { icon:'bi-diagram-3',  title:'System Integration',        desc:'Integrating APIs, third-party services, and legacy systems into modern applications to improve functionality and data flow.', tags:'REST APIs,Legacy Systems,Middleware' },
+    { icon:'bi-graph-up',   title:'Algorithms & DSA',          desc:'Providing optimized solutions for complex problems using efficient algorithms to enhance software performance.',        tags:'Algorithms,DSA,Performance' }
+  ]);
+})();
+</script>
 
   <!-- Resume Section -->
   <section id="resume" class="resume section">
@@ -4890,17 +4992,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     if (cfg.services && cfg.services.length) {
-      var sc = document.getElementById('services-container');
-      if (sc) sc.innerHTML = cfg.services.map(function(s, i) {
-        return '<div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="' + ((i+1)*100) + '">' +
-               '<div class="sow-card">' +
-               '<span class="sow-num">' + String(i+1).padStart(2,'0') + '</span>' +
-               '<div class="sow-icon"><i class="bi ' + esc(s.icon||'bi-star') + '"></i></div>' +
-               '<h4 class="sow-title">' + esc(s.title) + '</h4>' +
-               '<p class="sow-desc">' + esc(s.desc) + '</p>' +
-               '<div class="sow-tags">' + tags(s.tags) + '</div>' +
-               '</div></div>';
-      }).join('');
+      if (window.pfInitSowOrbit) window.pfInitSowOrbit(cfg.services);
     }
 
     /* ── Professional Journey ── */
